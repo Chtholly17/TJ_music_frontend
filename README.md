@@ -1,3 +1,6 @@
 # Tj_music_work
 
-## run changed
+## update log
+- append uniform result class for all api
+- create User entity
+- add Dao, Service, Controller for User
