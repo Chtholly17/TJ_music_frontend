@@ -22,7 +22,7 @@
                 <el-input v-model="form.check_pass" show-password></el-input>
             </el-form-item>
         </el-form>
-        <el-button class=RegisterButton type="primary" @click="submitForm">注 册</el-button>
+        <el-button class=RegisterButton type="primary" @click="submitForm"> 注 册 </el-button>
     </div>
 </template>
 

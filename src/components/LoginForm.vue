@@ -12,7 +12,7 @@
                           prefix-icon="Lock"></el-input>
             </el-form-item>
         </el-form>
-        <el-button class=LoginButton type="primary">登 录</el-button>
+        <el-button class=LoginButton type="primary"> 登 录 </el-button>
     </div>
 </template>
 
