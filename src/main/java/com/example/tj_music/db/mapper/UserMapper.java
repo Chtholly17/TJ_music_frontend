@@ -14,4 +14,7 @@ public interface UserMapper {
     // register
     @Insert("insert into user(user_student_number,user_nickname,user_password) values(#{user_student_number},#{user_nickname},#{user_password})")
     public int register(String user_student_number, String user_nickname, String user_password);
+
+    @Select("select * from user where user_student_number=#{user_student_number}")
+    User getUserByStudentNumber(String user_student_number);
 }

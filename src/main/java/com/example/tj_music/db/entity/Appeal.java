@@ -17,13 +17,8 @@ public class Appeal {
     private String appealContent;
     private Integer appealOwner;
 
-    public Appeal() {
-    }
+    private String appealStatus;
 
-    public Appeal(Integer appealId, Date createTime, String appealContent, Integer appealOwner) {
-        this.appealId = appealId;
-        this.createTime = createTime;
-        this.appealContent = appealContent;
-        this.appealOwner = appealOwner;
-    }
+    private String appealRejectReason;
+
 }

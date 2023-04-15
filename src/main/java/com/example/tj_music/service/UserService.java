@@ -23,4 +23,23 @@ public class UserService {
     public int register(String user_student_number, String user_nickname, String user_password){
         return userMapper.register(user_student_number, user_nickname, user_password);
     }
+
+    public boolean login(String user_student_number, String user_password) {
+        // check whether the password is correct
+        User user = userMapper.getUserByStudentNumber(user_student_number);
+        if(user == null){
+            System.out.println("用户不存在");
+            return false;
+        }else{
+            if(user.getUserPassword().equals(user_password)){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
+
+    public User getUserByStudentNumber(String user_student_number){
+        return userMapper.getUserByStudentNumber(user_student_number);
+    }
 }

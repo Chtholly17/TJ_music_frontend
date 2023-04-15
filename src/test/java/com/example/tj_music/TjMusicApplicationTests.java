@@ -79,5 +79,27 @@ class TjMusicApplicationTests {
         int result = userService.register("2053635","rkr","123");
         System.out.println(result);
     }
+
+    // test login
+    @ Test
+    public void testLogin() {
+        System.out.println("----- Login ------");
+        System.out.println("test1:successful login");
+        boolean result = userService.login("20170101","test1");
+        assert result==true;
+        System.out.println("passed");
+
+        System.out.println("test2:no such user");
+        result = userService.login("123","test1");
+        assert result==false;
+        System.out.println("passed");
+
+        System.out.println("test3:wrong password");
+        result = userService.login("20170102","666");
+        assert result==false;
+        System.out.println("passed");
+
+
+    }
 }
 
