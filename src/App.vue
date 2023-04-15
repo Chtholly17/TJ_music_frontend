@@ -29,16 +29,6 @@
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
 }
-nav {
-  padding: 30px;
-}
-a{
-    text-decoration: none;
-    color: #000;
-}
-.router-link-active {
-    color: red;
-}
 .login_register_button{
     margin-top: 10px;
 }
