@@ -19,29 +19,27 @@ public class UserController{
     // user service
     @Autowired // auto-inject
     private UserService userService;
-    @PostMapping("/login")  // @PostMapping = @RequestMapping + method = RequestMethod.POST
-    public Result login(String id, String passwd) {
-        Integer idInt = Integer.parseInt(id);
-        if (userService.login(idInt, passwd)) {
-            return Result.success();
-        }
-        else return Result.fail("Wrong id or password");
-    }
 
+    /**
+     * 用户注册
+     * 通过这个API实现用户的注册功能
+     * @param user_student_number 用户学号
+     * @param user_nickname 用户昵称
+     * @param user_password 用户密码
+     * @return
+     */
     @PostMapping("/register")
-    public Result register(String id, String passwd,String confirmedPasswd, String name, String greet) {
-        if (!passwd.equals(confirmedPasswd)) {
-            return Result.fail("Password not match");
-        }
-        if(passwd.length() < 6) {
-            return Result.fail("Password too short");
-        }
+    public Result register(@RequestParam("user_student_number") String user_student_number,
+                           @RequestParam("user_nickname") String user_nickname,
+                           @RequestParam("user_password") String user_password){
 
-        Integer idInt = Integer.parseInt(id);
-        String res = userService.register(idInt, passwd, name, greet);
-        if (res.equals("Register successfully")) {
+        try{
+            userService.register(user_student_number,user_nickname,user_password);
             return Result.success();
+        }catch (Exception e){
+            log.error(e.getMessage());
+            return Result.fail(e.getMessage());
         }
-        else return Result.fail(res);
     }
+
 }
