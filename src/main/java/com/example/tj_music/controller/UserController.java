@@ -28,6 +28,15 @@ public class UserController{
         else return Result.fail("Wrong id or password");
     }
 
+    /**
+     *
+     * @param id    用户id
+     * @param passwd    用户密码
+     * @param confirmedPasswd   确认密码
+     * @param name  用户名
+     * @param greet   提示
+     * @return
+     */
     @PostMapping("/register")
     public Result register(String id, String passwd,String confirmedPasswd, String name, String greet) {
         if (!passwd.equals(confirmedPasswd)) {
