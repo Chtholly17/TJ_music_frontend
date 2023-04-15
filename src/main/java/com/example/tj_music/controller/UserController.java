@@ -29,7 +29,8 @@ public class UserController{
     }
 
     /**
-     *
+     * 注册用户
+     * 通过该API注册用户
      * @param id    用户id
      * @param passwd    用户密码
      * @param confirmedPasswd   确认密码
