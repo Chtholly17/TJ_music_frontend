@@ -17,6 +17,9 @@ public class Origin {
     private String originName;
     private String originAuthor;
 
+    // Create a constructor without parameters
+    public Origin() {
+    }
     // Create a constructor with parameters
     public Origin(int originId, String originName, String originAuthor) {
         this.originId = originId;

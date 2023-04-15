@@ -5,13 +5,16 @@ import com.example.tj_music.db.mapper.WorkMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class WorkService {
     @Autowired
     private WorkMapper workMapper;
-    // get work by id
-    public Work getWorkById(int work_id){
+    // get all work
 
-        return workMapper.getWorkById(work_id);
+    public List<Work> getAll(){
+
+        return workMapper.getAllWork();
     }
 }

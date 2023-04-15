@@ -5,17 +5,16 @@
  */
 package com.example.tj_music.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import org.apache.log4j.Logger;
-import com.example.tj_music.Result.Result;
 import com.example.tj_music.service.UserService;
+import com.example.tj_music.utils.Result;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+
 @RestController // @RestController = @Controller + @ResponseBody (return json)
 public class UserController{
 

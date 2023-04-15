@@ -11,9 +11,9 @@ import java.util.List;
 public class FollowService {
     @Autowired
     private FollowMapper followMapper;
-    // get follow by id
-    public List<Follow> getFollowById(Integer follow_id){
-        return followMapper.getAll();
-    }
 
+    // get all follow
+    public List<Follow> getAll(){
+        return followMapper.getAllFollow();
+    }
 }

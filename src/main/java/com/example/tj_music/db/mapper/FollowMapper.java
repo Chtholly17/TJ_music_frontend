@@ -8,7 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface FollowMapper {
-    // get follow by id
-    @Select("SELECT * FROM follow")
-    public List<Follow> getAll();
+    // get all follow
+    @Select("select * from follow")
+    public List<Follow> getAllFollow();
 }

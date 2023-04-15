@@ -8,7 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface OriginMapper {
-    @Select("SELECT * FROM origin")
-    public List<Origin> getAll();
-
+    // Select all origins
+    @Select("select * from origin")
+    public List<Origin> getAllOrigin();
 }

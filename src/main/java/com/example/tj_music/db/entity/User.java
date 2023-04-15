@@ -12,15 +12,25 @@ import java.time.LocalDateTime;
 @Data
 public class User {
     private Integer userId;
-
     private Date createTime;
+    private String userStudentNumber;
+    private String userNickname;
+    private String userPassword;
+    private String userSignature;
+    private String userStatus;
+    private String userProfileImageFilename;
 
-    private String user_student_number;
+    public User() {
+    }
 
-    private String user_nickname;
-    private String user_password;
-    private String user_signature;
-    private String user_status;
-    private String user_profile_image_filename;
-
+    public User(Integer userId, Date createTime, String userStudentNumber, String userNickname, String userPassword, String userSignature, String userStatus, String userProfileImageFilename) {
+        this.userId = userId;
+        this.createTime = createTime;
+        this.userStudentNumber = userStudentNumber;
+        this.userNickname = userNickname;
+        this.userPassword = userPassword;
+        this.userSignature = userSignature;
+        this.userStatus = userStatus;
+        this.userProfileImageFilename = userProfileImageFilename;
+    }
 }

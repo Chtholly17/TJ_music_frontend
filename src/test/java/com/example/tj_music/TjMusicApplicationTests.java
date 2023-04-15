@@ -1,16 +1,13 @@
 package com.example.tj_music;
 
-import com.example.tj_music.db.entity.Follow;
-import com.example.tj_music.db.entity.Origin;
-import com.example.tj_music.db.entity.Work;
-import com.example.tj_music.db.mapper.FollowMapper;
-import com.example.tj_music.db.mapper.OriginMapper;
-import com.example.tj_music.db.mapper.UserMapper;
-import com.example.tj_music.db.mapper.WorkMapper;
+import com.example.tj_music.db.entity.*;
+import com.example.tj_music.db.mapper.*;
+import com.example.tj_music.service.UserService;
+import com.example.tj_music.service.WorkService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import com.example.tj_music.db.entity.User;
+
 import java.util.List;
 
 
@@ -25,92 +22,62 @@ class TjMusicApplicationTests {
      * Test for UserMapper
      */
     @Autowired
+    private AppealMapper appealMapper;
+    @Autowired
+    private FollowMapper followMapper;
+    @Autowired
+    private OriginMapper originMapper;
+    @Autowired
+    private PostCommentMapper postCommentMapper;
+    @Autowired
+    private PostMapper postMapper;
+    @Autowired
     private UserMapper userMapper;
     @Autowired
     private WorkMapper workMapper;
-
     @Autowired
-    private FollowMapper followMapper;
-
-    @Autowired
-    private OriginMapper originMapper;
+    private UserService userService;
 
     @ Test
     public void testSelectAll() {
         System.out.println(("----- selectAll method test ------"));
-        List<User> userList = userMapper.getAll();
+        //Appeal
+        System.out.println("----- Appeal ------");
+        List<Appeal> appealList = appealMapper.getAllAppeal();
+        appealList.forEach(System.out::println);
+        //Follow
+        System.out.println("----- Follow ------");
+        List<Follow> followList = followMapper.getAllFollow();
+        followList.forEach(System.out::println);
+        //Origin
+        System.out.println("----- Origin ------");
+        List<Origin> originList = originMapper.getAllOrigin();
+        originList.forEach(System.out::println);
+        //PostComment
+        System.out.println("----- PostComment ------");
+        List<PostComment> postCommentList = postCommentMapper.getAllPostComment();
+        postCommentList.forEach(System.out::println);
+        //Post
+        System.out.println("----- Post ------");
+        List<Post> postList = postMapper.getAllPost();
+        postList.forEach(System.out::println);
+        //User
+        System.out.println("----- User ------");
+        List<User> userList = userMapper.getAllUser();
         userList.forEach(System.out::println);
+        //Work
+        System.out.println("----- Work ------");
+        List<Work> workList = workMapper.getAllWork();
+        workList.forEach(System.out::println);
     }
 
-    /**
-     * Test for register user
-     */
     @ Test
     public void testRegister() {
-        System.out.println(("----- register method test ------"));
-        userMapper.register("77777","test","123456");
-    }
-
-    /**
-     * Test get user by student number
-     */
-    @ Test
-    public void testGetUserByStudentNumber() {
-        System.out.println(("----- getUserByStudentNumber method test ------"));
-        User user = userMapper.getUserByStudentNumber("2053195");
-        if(user==null){
-            System.out.println("null object");
-        }else {
-            System.out.println(user);
-        }
-    }
-
-    /**
-     * Test get user by id
-     */
-    @Test
-    public void testGetUserById() {
-        System.out.println(("----- getUserByID method test ------"));
-        User user = userMapper.getUserById(1);
-        if(user==null){
-            System.out.println("null object");
-        }else{
-            System.out.println(user);
-        }
-    }
-
-    /**
-     * Test get work by id
-     */
-    @Test
-    public void testGetWorkById(){
-        System.out.println(("----- getWorkById method test ------"));
-        Work work = workMapper.getWorkById(1);
-        if(work==null){
-            System.out.println("null object");
-        }else{
-            System.out.println(work);
-        }
-    }
-
-    /**
-     * Test get follow
-     */
-    @Test
-    public void testGetFollow(){
-        System.out.println(("----- getFollow method test ------"));
-        List<Follow> followList = followMapper.getAll();
-        followList.forEach(System.out::println);
-    }
-
-    /**
-     * Test get origin
-     */
-    @Test
-    public void testGetOrigin(){
-        System.out.println(("----- getOrigin method test ------"));
-        List<Origin> workList = originMapper.getAll();
-        workList.forEach(System.out::println);
+        //register
+        //user_student_number,user_nickname,user_password
+        System.out.println("----- Register ------");
+        int result = userService.register("2053635","rkr","123");
+        System.out.println(result);
     }
 }
 

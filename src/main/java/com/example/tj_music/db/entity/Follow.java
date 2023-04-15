@@ -16,4 +16,10 @@ public class Follow {
     private Integer followTarget;
     public Follow() {
     }
+
+    public Follow(Integer id, Integer followOwner, Integer followTarget) {
+        this.id = id;
+        this.followOwner = followOwner;
+        this.followTarget = followTarget;
+    }
 }

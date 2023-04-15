@@ -13,10 +13,27 @@ public class Work {
     // Declare the fields of the entity class
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer work_id;
-    private String work_name;
-    private String work_content;
-    private String work_image_filename;
-    private Integer work_like;
+    private Integer workId;
+    private Date createTime;
+    private String workName;
+    private String workContent;
+    private Integer workOwner;
+    private Integer workOriginVersion;
+    private Integer workLike;
+
+    // Create a constructor with no parameters
+    public Work() {
+    }
+
+    // Create a constructor with parameters
+    public Work(Integer workId, Date createTime, String workName, String workContent, Integer workOwner, Integer workOriginVersion, Integer workLike) {
+        this.workId = workId;
+        this.createTime = createTime;
+        this.workName = workName;
+        this.workContent = workContent;
+        this.workOwner = workOwner;
+        this.workOriginVersion = workOriginVersion;
+        this.workLike = workLike;
+    }
 
 }
