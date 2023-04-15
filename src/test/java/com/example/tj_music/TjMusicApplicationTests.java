@@ -1,6 +1,10 @@
 package com.example.tj_music;
 
+import com.example.tj_music.db.entity.Follow;
+import com.example.tj_music.db.entity.Origin;
 import com.example.tj_music.db.entity.Work;
+import com.example.tj_music.db.mapper.FollowMapper;
+import com.example.tj_music.db.mapper.OriginMapper;
 import com.example.tj_music.db.mapper.UserMapper;
 import com.example.tj_music.db.mapper.WorkMapper;
 import org.junit.jupiter.api.Test;
@@ -24,6 +28,12 @@ class TjMusicApplicationTests {
     private UserMapper userMapper;
     @Autowired
     private WorkMapper workMapper;
+
+    @Autowired
+    private FollowMapper followMapper;
+
+    @Autowired
+    private OriginMapper originMapper;
 
     @ Test
     public void testSelectAll() {
@@ -61,7 +71,7 @@ class TjMusicApplicationTests {
     @Test
     public void testGetUserById() {
         System.out.println(("----- getUserByID method test ------"));
-        User user = userMapper.getUserById(2);
+        User user = userMapper.getUserById(1);
         if(user==null){
             System.out.println("null object");
         }else{
@@ -82,4 +92,25 @@ class TjMusicApplicationTests {
             System.out.println(work);
         }
     }
+
+    /**
+     * Test get follow
+     */
+    @Test
+    public void testGetFollow(){
+        System.out.println(("----- getFollow method test ------"));
+        List<Follow> followList = followMapper.getAll();
+        followList.forEach(System.out::println);
+    }
+
+    /**
+     * Test get origin
+     */
+    @Test
+    public void testGetOrigin(){
+        System.out.println(("----- getOrigin method test ------"));
+        List<Origin> workList = originMapper.getAll();
+        workList.forEach(System.out::println);
+    }
 }
+
