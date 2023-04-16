@@ -4,7 +4,8 @@ const base = {
     postTest: '/test_return_string',
     getTest: '/get_hello_world',
     login: '/login',
-    register: '/register'
+    register: '/registerCheck',
+    retrieve: '/retrieve',
 }
 
 export default base;

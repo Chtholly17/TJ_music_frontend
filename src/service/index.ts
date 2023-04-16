@@ -20,6 +20,10 @@ const api = {
     },
     postRegister(registerForm: any) {
         return axios.post(path.baseUrl + path.register, registerForm)
+    },
+    postRetrieve(retrieveForm: any)
+    {
+        return axios.post(path.baseUrl + path.retrieve, retrieveForm)
     }
 }
 

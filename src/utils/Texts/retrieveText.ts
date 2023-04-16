@@ -1,18 +1,18 @@
-// 包含Register表单所需的数据类型form，约束rules以及处理函数commit
+// 包含Retrieve表单所需的数据类型form，约束rules以及处理函数commit
 import {reactive, ref, unref} from "vue";
 import {FormInstance} from "element-plus";
 import api from "@/service";
 
 export const baseForm = ref<FormInstance>();
-export const registerData = reactive({
-    registerForm: {
+export const retrieveData = reactive({
+    retrieveForm: {
         username: "",
         password: "",
-        check_pass: "",
-        verification_code: ""
+        checkPassword: "",
+        verificationCode: ""
     }
 })
-export const registerRules = reactive ({
+export const retrieveRules = reactive ({
     username: [
         {
             required: true,
@@ -24,17 +24,17 @@ export const registerRules = reactive ({
         {
             required: true,
             trigger: 'blur',
-            message: '请输入密码'
+            message: '请输入新密码'
         }
     ],
-    check_pass: [
+    checkPassword: [
         {
             required: true,
             trigger: 'blur',
             message: '请确认密码'
         }
     ],
-    verification_code: [
+    verificationCode: [
         {
             required: true,
             trigger: 'blur',
@@ -47,14 +47,14 @@ export const registerRules = reactive ({
         }
     ]
 })
-export const commitRegister = async () => {
+export const commitRetrieve = async () => {
     const submitForm = unref(baseForm)
     if (!submitForm)
         return
     await submitForm.validate( async (valid: any) => {
         if (valid) {
             try {
-                const response = await api.postLogin(registerData.registerForm); // 不能传入submitForm！
+                const response = await api.postRetrieve(retrieveData.retrieveForm); // 不能传入submitForm！
                 console.log(response.data);
             } catch (error) {
                 console.error(error);
