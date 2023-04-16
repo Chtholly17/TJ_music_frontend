@@ -18,7 +18,12 @@ public class informationController {
     @Autowired // auto-inject
     private informationService informationService;
 
-    // desplay the information of the user
+    /**
+     * 获取用户信息
+     * 用这个API可以获取用户的信息
+     * @param user_id: 用户的ID
+     * @return: list of objects: [user_id, user_name, user_signature, user_profile_image]
+     */
     @GetMapping("/userInformation")
     public Result UserInformation(@RequestParam("user_id") int user_id) {
         User user = informationService.getInformationById(user_id);
@@ -28,7 +33,13 @@ public class informationController {
         return Result.success(user);
     }
 
-    // update the information of the user
+    /**
+     * 更新用户信息
+     * 用这个API可以更新用户的信息
+     * @param user_id: 用户的ID
+     * @param new_name: 用户的新名字
+     * @return: list of objects: [user_id, user_name, user_signature, user_profile_image]
+     */
     @PostMapping("/updateUserName")
     public Result updateUserName(@RequestParam("user_id") int user_id, @RequestParam("new_name") String new_name) {
         User user = informationService.getInformationById(user_id);
@@ -39,7 +50,13 @@ public class informationController {
         return Result.success();
     }
 
-    // update the information of the user
+    /**
+     * 更新用户信息
+     * 用这个API可以更新用户的信息
+     * @param user_id: 用户的ID
+     * @param new_password: 用户的新密码
+     * @return: list of objects: [user_id, user_name, user_signature, user_profile_image]
+     */
     @PostMapping("/updateUserPassword")
     public Result updateUserPassword(@RequestParam("user_id") int user_id, @RequestParam("new_password") String new_password) {
         User user = informationService.getInformationById(user_id);
@@ -50,7 +67,13 @@ public class informationController {
         return Result.success();
     }
 
-    // update the information of the user
+    /**
+     * 更新用户信息
+     * 用这个API可以更新用户的信息
+     * @param user_id: 用户的ID
+     * @param new_signature: 用户的新签名
+     * @return: list of objects: [user_id, user_name, user_signature, user_profile_image]
+     */
     @PostMapping("/updateUserSignature")
     public Result updateUserSignature(@RequestParam("user_id") int user_id, @RequestParam("new_signature") String new_signature) {
         User user = informationService.getInformationById(user_id);
@@ -61,7 +84,13 @@ public class informationController {
         return Result.success();
     }
 
-    // update the information of the user
+    /**
+     * 更新用户信息
+     * 用这个API可以更新用户的信息
+     * @param user_id: 用户的ID
+     * @param new_profile_image: 用户的新头像
+     * @return: list of objects: [user_id, user_name, user_signature, user_profile_image]
+     */
     @PostMapping("/updateUserProfileImage")
     public Result updateUserProfileImage(@RequestParam("user_id") int user_id, @RequestParam("new_profile_image") String new_profile_image) {
         User user = informationService.getInformationById(user_id);
