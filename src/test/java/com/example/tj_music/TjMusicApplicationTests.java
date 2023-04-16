@@ -2,8 +2,6 @@ package com.example.tj_music;
 
 import com.example.tj_music.db.entity.*;
 import com.example.tj_music.db.mapper.*;
-import com.example.tj_music.service.UserService;
-import com.example.tj_music.service.WorkService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,8 +33,6 @@ class TjMusicApplicationTests {
     private UserMapper userMapper;
     @Autowired
     private WorkMapper workMapper;
-    @Autowired
-    private UserService userService;
 
     @ Test
     public void testSelectAll() {

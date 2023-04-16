@@ -2,7 +2,6 @@ package com.example.tj_music;
 
 import com.example.tj_music.db.entity.User;
 import com.example.tj_music.db.mapper.*;
-import com.example.tj_music.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,8 +22,6 @@ public class TjMusicUserTests {
     private UserMapper userMapper;
     @Autowired
     private WorkMapper workMapper;
-    @Autowired
-    private UserService userService;
 
     @Test
     public void testSelectUserByStudentNumber() {
