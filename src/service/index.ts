@@ -1,3 +1,4 @@
+// 本文件封装了一系列api请求
 import axios from "@/utils/request";
 import path from "@/service/path";
 

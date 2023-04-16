@@ -1,12 +1,12 @@
 <template>
     <div class="register-form">
-        <el-form ref="baseForm" :model="registerForm" :rules="registerRules" label-width="80px">
+        <el-form ref="baseForm" :model="registerData.registerForm" :rules="registerRules" label-width="80px">
             <el-form-item label="学号" prop="username">
-                <el-input v-model="registerForm.username"></el-input>
+                <el-input v-model="registerData.registerForm.username"></el-input>
             </el-form-item>
             <el-form-item label="验证码" prop="verification_code">
                 <el-col :span="12">
-                    <el-input v-model="registerForm.verification_code"></el-input>
+                    <el-input v-model="registerData.registerForm.verification_code"></el-input>
                 </el-col>
                 <el-col :span="10">
                     <el-button>发送验证码</el-button>
@@ -20,10 +20,10 @@
                 </el-col>
             </el-form-item>
             <el-form-item label="密码" prop="password">
-                <el-input v-model="registerForm.password" show-password></el-input>
+                <el-input v-model="registerData.registerForm.password" show-password></el-input>
             </el-form-item>
             <el-form-item label="确认密码" prop="check_pass">
-                <el-input v-model="registerForm.check_pass" show-password></el-input>
+                <el-input v-model="registerData.registerForm.check_pass" show-password></el-input>
             </el-form-item>
         </el-form>
         <el-button class=RegisterButton type="primary" @click="commitRegister"> 注 册 </el-button>
@@ -32,87 +32,21 @@
 
 <script lang="ts">
 import { QuestionFilled } from "@element-plus/icons";
-import { FormInstance } from "element-plus";
-import api from "@/service";
-import { reactive, ref} from "vue";
+import {registerData, registerRules, baseForm, commitRegister} from "@/utils/registerText";
+import {defineComponent} from "vue";
 
-// TODO：尝试将form, rules和处理函数封装到单独的文件
-const registerForm = reactive({
-    username: "",
-    email: "",
-    password: "",
-    check_pass: "",
-    verification_code: ""
-})
-const registerRules = ref ({
-    username: [
-        {
-            required: true,
-            message: '请输入用户名',
-            trigger: 'blur'
-        }
-    ],
-    password: [
-        {
-            required: true,
-            message: '请输入密码',
-            trigger: 'blur'
-        }
-    ],
-    check_pass: [
-        {
-            required: true,
-            message: '请确认密码',
-            trigger: 'blur'
-        }
-    ],
-    verification_code: [
-        {
-            required: true,
-            message: '请输入验证码',
-            trigger: 'blur'
-        },
-        {
-            type: 'number',
-            message: '验证码格式错误',
-            trigger: 'blur',
-            transform: (value: string) => Number(value)
-            // TODO: 考虑到可能有以0开头的验证码，此处需要添加验证函数而不是用number检验
-        }
-    ]
-})
-
-const baseForm = ref<FormInstance>();
-const commitRegister = async () => {
-    if (!baseForm.value)
-        return
-    await baseForm.value.validate( async (valid: any) => {
-        if (valid) {
-            try {
-                // const response = await api.getTest();
-                const response = await api.postLogin(baseForm);
-                console.log(response.data);
-            } catch (error) {
-                console.error(error);
-            }
-        } else {
-            console.log("验证失败");
-        }
-    })
-}
-
-export default {
+export default defineComponent({
     name: "RegisterForm",
     components: {QuestionFilled},
     setup() {
         return {
-            registerForm,
+            registerData,
             registerRules,
             baseForm,
             commitRegister
         }
     }
-}
+})
 </script>
 
 <style scoped>
