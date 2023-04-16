@@ -1,72 +1,36 @@
 package com.example.tj_music.db.entity;
 
 import lombok.Data;
+import lombok.ToString;
 
-import javax.annotation.sql.DataSourceDefinition;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import java.sql.Date;
+import java.time.LocalDateTime;
 
-/* @author chtholly
- * @date 2018/1/2
- * @description: user entity class for database table user, table user have four columns:
- * id, passwd, name, banned,greet, id is the primary key
- */
 @Data
 public class User {
-    private Integer id;
-    private String passwd;
-    private String name;
-    private boolean banned;
-    private String greet;
+    private Integer userId;
+    private Date createTime;
+    private String userStudentNumber;
+    private String userNickname;
+    private String userPassword;
+    private String userSignature;
+    private String userStatus;
+    private String userProfileImageFilename;
 
     public User() {
     }
 
-    public User(Integer id, String passwd, String name, boolean banned, String greet) {
-        this.id = id;
-        this.passwd = passwd;
-        this.name = name;
-        this.banned = banned;
-        this.greet = greet;
-    }
-
-    // setters
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public void setPasswd(String passwd) {
-        this.passwd = passwd;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setBanned(boolean banned) {
-        this.banned = banned;
-    }
-
-    public void setGreet(String greet) {
-        this.greet = greet;
-    }
-
-    // getters
-    public Integer getId() {
-        return id;
-    }
-
-    public String getPasswd() {
-        return passwd;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public boolean getBanned() {
-        return banned;
-    }
-
-    public String getGreet() {
-        return greet;
+    public User(Integer userId, Date createTime, String userStudentNumber, String userNickname, String userPassword, String userSignature, String userStatus, String userProfileImageFilename) {
+        this.userId = userId;
+        this.createTime = createTime;
+        this.userStudentNumber = userStudentNumber;
+        this.userNickname = userNickname;
+        this.userPassword = userPassword;
+        this.userSignature = userSignature;
+        this.userStatus = userStatus;
+        this.userProfileImageFilename = userProfileImageFilename;
     }
 }
