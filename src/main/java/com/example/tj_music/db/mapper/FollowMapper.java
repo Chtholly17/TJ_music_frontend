@@ -8,7 +8,22 @@ import java.util.List;
 
 @Mapper
 public interface FollowMapper {
-    // get all follow
-    @Select("select * from follow")
-    public List<Follow> getAllFollow();
+
+    // insert follow
+    @Select("insert into follow(follow_owner, follow_target) values(#{followOwner}, #{followTarget})")
+    public void insertFollow(Integer followOwner, Integer followTarget);
+
+    // delete follow by id
+    @Select("delete from follow where id = #{id}")
+    public void deleteFollowById(Integer id);
+
+    // select follow by owner
+    @Select("select * from follow where follow_owner = #{followOwner}")
+    public List<Follow> selectFollowByOwner(Integer followOwner);
+
+    // select follow by target
+    @Select("select * from follow where follow_target = #{followTarget}")
+    public List<Follow> selectFollowByTarget(Integer followTarget);
+
+
 }
