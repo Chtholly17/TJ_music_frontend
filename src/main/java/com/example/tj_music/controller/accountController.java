@@ -20,70 +20,94 @@ public class accountController {
     @Autowired // auto-inject
     private accountService accountService;
 
-    /* login
-    @param userNumber
-    @param password
-    @return Result
+    /**
+     * login
+     * code:0 represents user does not exist.
+     * code:1 represents login succeeded.
+     * code:2 represents login failed.
+     * @param userNumber
+     * @param password
+     * @return Result
      */
     @PostMapping("/login")
     public Result login(@RequestParam("userNumber") String userNumber, @RequestParam("password") String password) {
         return accountService.loginCheck(userNumber, password);
     }
 
-    /* register send verification code
-    @param userNumber
-    @param password
-    @return Result
+    /**
+     * register send verification code.
+     * code:1 represents sending verification code succeeded.
+     * code:0 represents register failed. The account has been existed.
+     * @param userNumber
+     * @param password
+     * @return Result
      */
     @PostMapping("/register")
     public Result registerSendVerificationCode(@RequestParam("userNumber") String userNumber, @RequestParam("password") String password) throws MessagingException {
         return accountService.registerSendVerificationCode(userNumber);
     }
 
-    /* register check verification code
-    @param userNumber
-    @param password
-    @param verificationCode
-    @return Result
+    /**
+     * register check verification code.
+     * code:1 represents register succeeded.
+     * code:0 represents register failed. The verification code is wrong.
+     * @param userNumber
+     * @param password
+     * @param verificationCode
+     * @return Result
      */
     @PostMapping("/registerCheck")
     public Result registerCheckVerificationCode(@RequestParam("userNumber") String userNumber, @RequestParam("password") String password, @RequestParam("verificationCode") String verificationCode) {
         return accountService.registerCheckVerificationCode(userNumber, password, verificationCode);
     }
 
-    /* forget password, send verification code
-    @param userNumber
-    @return Result
+    /**
+     * forget password send verification code.
+     * code:1 represents sending verification code successfully.
+     * code:0 represents sending password failed. The account does not exist.
+     * @param userNumber
+     * @return Result
      */
     @PostMapping("/forgetPassword")
     public Result forgetPasswordSendVerificationCode(@RequestParam("userNumber") String userNumber) throws MessagingException {
         return accountService.forgetPasswordSendVerificationCode(userNumber);
     }
 
-    /* forget password, check verification code
-    @param userNumber
-    @param verificationCode
-    @return Result
+    /**
+     * forget password check verification code.
+     * code:1 represents checking verification code successfully.
+     * code:0 represents the verification code is wrong.
+     * @param userNumber
+     * @param verificationCode
+     * @return Result
      */
     @PostMapping("/forgetPasswordCheck")
     public Result forgetPasswordCheckVerificationCode(@RequestParam("userNumber") String userNumber, @RequestParam("verificationCode") String verificationCode) {
         return accountService.forgetPasswordCheckVerificationCode(userNumber, verificationCode);
     }
 
-    /* update password
-    @param userNumber
-    @param password
-    @return Result
+    /**
+     * update password.
+     * code:1 represents updating password successfully.
+     * code:0 represents updating password failed. The account does not exist.
+     * @param userNumber
+     * @param password
+     * @return Result
      */
     @PostMapping("/updatePassword")
     public Result updatePassword(@RequestParam("userNumber") String userNumber, @RequestParam("password") String password) {
         return accountService.updatePassword(userNumber, password);
     }
 
-    /* appeal for account
-    @param userNumber
-    @param appealContent
-    @return Result
+    /**
+     * appeal account.
+     * code:3 represents appealing account failed. The account does not exist.
+     * code:2 represents appealing account succeeded.
+     * code:1 represents appealing account failed. The account has been appealed.
+     * code:0 represents appealing account failed. The account is valid.
+     * @param userNumber
+     * @param appealContent
+     * @return Result
      */
     @PostMapping("/appeal")
     public Result appealForAccount(@RequestParam("userNumber") String userNumber, @RequestParam("appealContent") String appealContent) {
