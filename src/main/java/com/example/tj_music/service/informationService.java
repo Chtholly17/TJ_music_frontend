@@ -5,6 +5,10 @@ import com.example.tj_music.db.mapper.FollowMapper;
 import com.example.tj_music.db.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+<<<<<<< HEAD
+=======
+import com.example.tj_music.db.entity.User;
+>>>>>>> rkr_dev
 
 import java.util.List;
 
@@ -13,7 +17,37 @@ public class informationService {
     @Autowired
     private FollowMapper followMapper;
     @Autowired
+<<<<<<< HEAD
     private UserMapper  userMapper;
 
 
 }
+=======
+    private UserMapper userMapper;
+
+    //getInformationById
+    public User getInformationById(int studentId) {
+        return userMapper.selectUserById(studentId);
+    }
+
+    //updateUserName
+    public void updateUserName(String studentNum, String userName) {
+        userMapper.updateUserNameByStudentNumber(studentNum, userName);
+    }
+
+    //updateUserPassword
+    public void updateUserPassword(String studentNum, String userPassword) {
+        userMapper.updateUserPasswordByStudentNumber(studentNum, userPassword);
+    }
+
+    //updateUserSignature
+    public void updateUserSignature(String studentNum, String userSignature) {
+        userMapper.updateUserSignatureByStudentNumber(studentNum, userSignature);
+    }
+
+    //updateUserProfileImageByStudentNumber
+    public void updateUserProfileImageByStudentNumber(String studentNum, String userProfileImage) {
+        userMapper.updateUserProfileImageByStudentNumber(studentNum, userProfileImage);
+    }
+}
+>>>>>>> rkr_dev

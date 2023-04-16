@@ -25,5 +25,9 @@ public interface FollowMapper {
     @Select("select * from follow where follow_target = #{followTarget}")
     public List<Follow> selectFollowByTarget(Integer followTarget);
 
+    // select follow by owner and target
+    @Select("select * from follow where follow_owner = #{followOwner} and follow_target = #{followTarget}")
+    public Follow selectFollowByOwnerAndTarget(Integer followOwner, Integer followTarget);
+
 
 }
