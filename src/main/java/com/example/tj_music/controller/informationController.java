@@ -2,13 +2,22 @@ package com.example.tj_music.controller;
 
 import com.example.tj_music.db.entity.User;
 import com.example.tj_music.service.informationService;
+import com.example.tj_music.utils.HttpUtils;
 import com.example.tj_music.utils.Result;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+
 
 @RestController // @RestController = @Controller + @ResponseBody (return json)
 public class informationController {
@@ -18,14 +27,17 @@ public class informationController {
     @Autowired // auto-inject
     private informationService informationService;
 
-    /**
-     * 获取用户信息
-     * 用这个API可以获取用户的信息
-     * @param user_id: 用户的ID
-     * @return: list of objects: [user_id, user_name, user_signature, user_profile_image]
-     */
-    @GetMapping("/userInformation")
-    public Result UserInformation(@RequestParam("user_id") int user_id) {
+    @GetMapping("/getUserImage")
+    public Result getUserImage(HttpServletResponse resp){
+        String url = "http://localhost:8080/test.jpg";
+        // 获取输入流
+        InputStream inputStream = HttpUtils.getInputStream(url);
+        // 将输入流写入到response的输出流中
+        HttpUtils.writeFile(resp, inputStream);
+        return Result.success();
+    }
+    @GetMapping("/getuserInformation")
+    public Result getUserInformation(@RequestParam("user_id") int user_id) {
         User user = informationService.getInformationById(user_id);
         if (user == null) {
             return Result.fail("user not found");
@@ -88,16 +100,25 @@ public class informationController {
      * 更新用户信息
      * 用这个API可以更新用户的信息
      * @param user_id: 用户的ID
-     * @param new_profile_image: 用户的新头像
+     * @param new_ProfileImage: 用户的新文件名
      * @return: list of objects: [user_id, user_name, user_signature, user_profile_image]
      */
     @PostMapping("/updateUserProfileImage")
-    public Result updateUserProfileImage(@RequestParam("user_id") int user_id, @RequestParam("new_profile_image") String new_profile_image) {
+    public Result updateUserProfileImage(@RequestParam("user_id") int user_id, @RequestParam("new_ProfileImage") String new_ProfileImage,@RequestParam("file") MultipartFile file) {
         User user = informationService.getInformationById(user_id);
         if (user == null) {
             return Result.fail("user not found");
         }
-        informationService.updateUserProfileImageByStudentNumber(user.getUserStudentNumber(), new_profile_image);
-        return Result.success();
+        informationService.updateUserProfileImageByStudentNumber(user.getUserStudentNumber(), new_ProfileImage);
+        String fileName = file.getOriginalFilename();
+        String filePath = "./src/main/resources/static/images/";
+        File dest = new File(filePath + fileName);
+        try {
+            file.transferTo(dest);
+            return Result.success();
+        } catch (IOException e) {
+            System.out.println(e.toString());
+        }
+        return Result.fail("upload failed");
     }
 }
