@@ -21,6 +21,8 @@ public class Work {
     private Integer workOriginVersion;
     private Integer workLike;
 
+    private String workVoiceFilename;
+
     // Create a constructor with no parameters
     public Work() {
     }

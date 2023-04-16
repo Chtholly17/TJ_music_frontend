@@ -17,6 +17,10 @@ public class Origin {
     private String originName;
     private String originAuthor;
 
+    private String originBgmusicFilename;
+
+    private String originVoiceFilename;
+
     // Create a constructor without parameters
     public Origin() {
     }
