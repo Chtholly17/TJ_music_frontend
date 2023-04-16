@@ -13,6 +13,10 @@ public interface AppealMapper {
     @Select("select * from appeal where appeal_owner = #{appealOwner}")
     public List<Appeal> selectAppealByOwner(Integer appealOwner);
 
+    // select appeal_owner by id
+    @Select("select appeal_owner from appeal where appeal_id = #{appealId}")
+    public List<Integer> selectAppealOwnerById(Integer appealId);
+
     // insert appeal, with status processing as default
     @Select("insert into appeal(appeal_owner, appeal_content) values( #{appealOwner}, #{appealContent})")
     public void insertAppeal(Integer appealOwner, String appealContent);
