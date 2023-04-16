@@ -90,16 +90,21 @@ public class accountService {
 
     /**
      * register check verification code.
+     * code:2 represents register failed. The password is not the same.
      * code:1 represents register succeeded.
      * code:0 represents register failed. The verification code is wrong.
      * @param userNumber
      * @param password
+     * @param checkPassword
      * @param verificationCode
      * @return Result
      */
-    public Result registerCheckVerificationCode(String userNumber, String password, String verificationCode) {
+    public Result registerCheckVerificationCode(String userNumber, String password, String verificationCode, String checkPassword) {
         User user = userMapper.selectUserByStudentNumber(userNumber);
         if (Objects.equals(verificationCode, "12345")) {
+            if (!Objects.equals(password, checkPassword))
+                return new Result(2, "Register failed. The password is not the same", null);
+
             userMapper.insertUser(userNumber, password, "user", "user", "user");
             return new Result(1, "Register succeeded", null);
         } else

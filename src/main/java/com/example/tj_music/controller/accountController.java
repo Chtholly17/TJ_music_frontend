@@ -49,17 +49,22 @@ public class accountController {
 
     /**
      * register check verification code.
+     * code:2 represents register failed. The password is not the same.
      * code:1 represents register succeeded.
      * code:0 represents register failed. The verification code is wrong.
+     *
      * @param userNumber
      * @param password
+     * @param checkPassword
      * @param verificationCode
      * @return Result
      */
     @PostMapping("/registerCheck")
-    public Result registerCheckVerificationCode(@RequestParam("userNumber") String userNumber, @RequestParam("password") String password, @RequestParam("verificationCode") String verificationCode) {
-        return accountService.registerCheckVerificationCode(userNumber, password, verificationCode);
+    public Result registerCheckVerificationCode(@RequestParam("userNumber") String userNumber, @RequestParam("password") String password, @RequestParam("verificationCode") String verificationCode, @RequestParam("checkPassword") String checkPassword) {
+        return accountService.registerCheckVerificationCode(userNumber, password, verificationCode, checkPassword);
     }
+
+
 
     /**
      * forget password send verification code.
