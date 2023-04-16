@@ -1,13 +1,13 @@
 <template>
     <div class="login-form" >
-        <el-form ref="baseForm" :model="loginForm" :rules="loginRules">
+        <el-form ref="baseForm" :model="loginData.loginForm" :rules="loginRules">
             <el-form-item prop="username">
-                <el-input v-model="loginForm.username"
+                <el-input v-model="loginData.loginForm.username"
                           placeholder="用户名 / 邮箱地址"
                           prefix-icon="User"></el-input>
             </el-form-item>
             <el-form-item prop="password">
-                <el-input v-model="loginForm.password"
+                <el-input v-model="loginData.loginForm.password"
                           placeholder="密码"
                           prefix-icon="Lock"
                           show-password></el-input>
@@ -19,16 +19,26 @@
 
 <script lang="ts">
 import { User, Lock } from "@element-plus/icons-vue";
-import {defineComponent, reactive, ref} from "vue";
+import {defineComponent, reactive, ref, unref} from "vue";
 import api from '@/service/index'
 import { FormInstance } from "element-plus";
 
-// TODO：尝试将form, rules和处理函数封装到单独的文件
-const loginForm = reactive({
-    username: "",
-    password: ""
+// TODO：尝试将form, rules和处理函数等封装到单独的文件
+// interface loginFormat {
+//     username: string
+//     password: string
+// }
+// const loginForm = ref<loginFormat>({
+//     username: "",
+//     password: ""
+// })
+const loginData = reactive({
+    loginForm: {
+        username: "",
+        password: ""
+    }
 })
-const loginRules = ref ({
+const loginRules = reactive ({
     username: [
         {
             required: true,
@@ -46,13 +56,13 @@ const loginRules = ref ({
 })
 const baseForm = ref<FormInstance>();
 const commitLogin = async () => {
-    if (!baseForm.value)
+    const submitForm = unref(baseForm)
+    if (!submitForm)
         return
-    await baseForm.value.validate( async (valid: any) => {
+    await submitForm.validate( async (valid: any) => {
         if (valid) {
             try {
-                // const response = await api.getTest();
-                const response = await api.postLogin(baseForm);
+                const response = await api.postLogin(loginData.loginForm); // 不能传入submitForm！
                 console.log(response.data);
             } catch (error) {
                 console.error(error);
@@ -69,7 +79,8 @@ export default defineComponent({
         return {
             User,
             Lock,
-            loginForm,
+            // loginForm,
+            loginData,
             loginRules,
             baseForm,
             commitLogin
