@@ -7,6 +7,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'home',
     component: HomeView
   },
+  {
+    path:'/user',
+    name:'user',
+    component:()=>import('../views/user/UserManagementView.vue')
+  }
   // {
   //   path: '/Login',
   //   name: 'Login',
