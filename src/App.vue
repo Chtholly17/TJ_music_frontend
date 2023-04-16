@@ -12,19 +12,30 @@
         <register-form> </register-form>
         <el-button class="login_register_button"
                    @click="LoginFormVisible=true; RegisterFormVisible=false"
-                   text>已有账号，去登录</el-button>
+                   type="text">已有账号，去登录</el-button>
     </el-dialog>
     <el-dialog class="log_reg_dialog" v-model="LoginFormVisible" title="登 录 账 号" width="30%">
         <login-form> </login-form>
-        <el-button class="login_register_button"
-                   @click="LoginFormVisible=false; RegisterFormVisible=true"
-                   text>没有账号，去注册</el-button>
+        <el-row>
+            <el-col :span="10">
+                <el-button class="login_register_button"
+                           @click="LoginFormVisible=false; RegisterFormVisible=true"
+                           type="text">没有账号，去注册</el-button>
+            </el-col>
+            <el-col :span="4">
+            </el-col>
+            <el-col :span="10">
+                <el-button class="login_register_button"
+                           @click="LoginFormVisible=false; RegisterFormVisible=true"
+                           type="text">忘记密码</el-button>
+            </el-col>
+        </el-row>
     </el-dialog>
 </template>
 
 <style>
 #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
+    font-family: sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
@@ -36,6 +47,18 @@
     padding-left: 1em;
     padding-right: 1em;
     padding-bottom: 0;
+}
+*{
+    font-family: "微软雅黑 Light", sans-serif;
+}
+.el-input .el-input__inner{
+    height: 35px;
+    letter-spacing: 1px;
+    padding: 0 4px;
+}
+.el-form >>> .el-form-item__label {
+    text-align: justify;
+    text-align-last: justify;
 }
 </style>
 

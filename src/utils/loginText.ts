@@ -15,7 +15,7 @@ export const loginRules = reactive ({
         {
             required: true,
             trigger: "blur",
-            message: "请输入用户名",
+            message: "请输入学号",
         },
     ],
     password: [

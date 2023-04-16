@@ -3,7 +3,7 @@
         <el-form ref="baseForm" :model="loginData.loginForm" :rules="loginRules">
             <el-form-item prop="username">
                 <el-input v-model="loginData.loginForm.username"
-                          placeholder="用户名 / 邮箱地址"
+                          placeholder="学号"
                           prefix-icon="User"></el-input>
             </el-form-item>
             <el-form-item prop="password">
@@ -13,7 +13,8 @@
                           show-password></el-input>
             </el-form-item>
         </el-form>
-        <el-button class=LoginButton type="primary" @click="commitLogin"> 登 录 </el-button>
+        <el-button class=LoginButton type="primary"
+                   @click="commitLogin" round>登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录</el-button>
     </div>
 </template>
 
@@ -42,9 +43,10 @@ export default defineComponent({
 .LoginButton{
     display: flex;
     flex-direction: row;
+    height: 35px;
     margin-top: 10px;
-    margin-left: 35%;
-    margin-right: 35%;
-    width: 30%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
 }
 </style>
