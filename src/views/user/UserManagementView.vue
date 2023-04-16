@@ -9,10 +9,12 @@
                     </el-col>
                     <el-col :span="6">
                         <p style="font-size: 30px;text-align: left;font-family:SimHei;font-style: italic">{{nickname}}</p>
-                        <p style="text-align: left"> 姓名: &nbsp; &nbsp;{{user_name}}</p>
+<!--                        <p style="text-align: left"> 姓名: &nbsp; &nbsp;{{user_name}}</p>-->
                         <p style="text-align: left"> 学号: &nbsp; &nbsp;{{user_student_num}}</p>
-                        <p style="text-align: left"> 生日: &nbsp; &nbsp;{{user_brithday}}</p>
-                        <p style="text-align: left"> 家乡: &nbsp; &nbsp;{{user_home}}</p>
+<!--                        <p style="text-align: left"> 生日: &nbsp; &nbsp;{{user_brithday}}</p>-->
+<!--                        <p style="text-align: left"> 家乡: &nbsp; &nbsp;{{user_home}}</p>-->
+                        <p style="text-align: left"> 个性签名: &nbsp; &nbsp;{{user_signature}}</p>
+
                     </el-col>
                     <el-col :span="3">
                         <div style="height: 70px"></div>
@@ -30,38 +32,35 @@
                     </el-col>
                     <el-col :span="7">
                         <div style="height: 10px"></div>
-                        <el-button type="info" :icon="Edit">个人资料</el-button>
+                        <el-button type="info" :icon="Edit" @click="show_info">个人资料</el-button>
                         <div style="height: 30px"></div>
                         <el-button type="primary" :icon="View">我的关注</el-button>
                         <div style="height: 30px"></div>
                         <el-button type="primary" :icon="Search">我的粉丝</el-button>
                         <div style="height: 30px"></div>
-                        <el-button type="primary" :icon="Share">我的动态</el-button>
+                        <el-button type="primary" :icon="Share" @click="post_router" >我的动态</el-button>
                     </el-col>
                 </el-row>
 
-                <div class="user_music_library">
-                    <p>我的曲库</p>
-                    <el-divider></el-divider>
-                    <el-scrollbar height="400px" >
-                        <p v-for="(item,index) in user_music" :key="index" class="scrollbar-demo-item">
-                            <span style="justify-content: flex-start;display: flex">&nbsp;&nbsp;{{index+1}}.{{item.music_name}}&nbsp;&nbsp; -- {{item.singer}}</span>
-                            <span style="justify-content: flex-end;display: flex">{{item.date}}</span>
-                        </p>
-                    </el-scrollbar>
-                </div>
+                <router-view class="child_page"></router-view>
 
             </el-main>
             <el-aside class="user_aside" :style="{width: aside_width + 'vh'}"></el-aside>
         </el-container>
+
+        <user-info-view></user-info-view>
+
     </div>
 </template>
 
 <script>
 import { Delete, Edit, Search, Share, Upload,View } from '@element-plus/icons-vue';
+import UserInfoView from "@/views/user/UserInfoView.vue";
+import {provide, ref} from "vue";
 export default {
-
     name: "UserManagementView",
+    components: {UserInfoView},
+    //components: {UserInfoView},
    data(){
         return{
             aside_width:35,
@@ -74,62 +73,31 @@ export default {
             user_follow:20,
             user_fans:10,
             user_post:15,
-            user_music:[
-                {
-                    music_name:"青花瓷",
-                    singer:"周杰伦",
-                    date:"2023-4-10"
-                },
-                {
-                    music_name:"东风破",
-                    singer:"周杰伦",
-                    date:"2023-4-9"
-                },
-                {
-                    music_name:"花海",
-                    singer:"周杰伦",
-                    date:"2023-4-8"
-                },
-                {
-                    music_name:"千里之外",
-                    singer:"周杰伦/费玉清",
-                    date:"2023-4-7"
-                },
-                {
-                    music_name:"园游会",
-                    singer:"周杰伦",
-                    date:"2023-4-6"
-                },
-                {
-                    music_name:"晴天",
-                    singer:"周杰伦",
-                    date:"2023-4-5"
-                },
-                {
-                    music_name:"稻香",
-                    singer:"周杰伦",
-                    date:"2023-4-4"
-                },
-                {
-                    music_name:"稻香",
-                    singer:"周杰伦",
-                    date:"2023-4-4"
-                },
-                {
-                    music_name:"稻香",
-                    singer:"周杰伦",
-                    date:"2023-4-4"
-                }
-            ]
+            user_signature:"我是天皇，我最强！",
+            // user_info_show_control:0    //控制是否展示个人信息界面
         }
     },
+    methods:{
+        post_router(){
+            this.$router.push('/user/post')
+        },
+
+    }
+    ,
     setup(){
+        const user_info_control=ref(false)
+        provide("user_info_show",user_info_control);
+        function show_info(){
+            user_info_control.value=user_info_control.value==true?false:true;
+
+        }
         return{
             Search,
             Share,
             Upload,
             View,
-            Edit
+            Edit,
+            show_info
         }
     }
 }
@@ -138,19 +106,11 @@ export default {
 <style scoped>
 .user_main{
     //background-color: cornflowerblue;
-    height: 90vh;
+    //height: 90vh;
+    min-height: 740px;
 }
 .user_aside{
     background-color: rgb(245,245,245);
-}
-.user_info{
-    height: 250px;
-    background-color: cornflowerblue;
-}
-.user_music_library{
-    //background-color: aquamarine;
-    position: absolute;
-    bottom: 0;
 }
 
 .user_photo{
@@ -170,20 +130,14 @@ export default {
     border-radius:50%;
     box-shadow: 0px 0px 5px 10px rgba(0,0,0,0.5);
 }
-
-.scrollbar-demo-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 50px;
-    width: 900px;
-    margin: 10px;
-    text-align: center;
-    border-radius: 4px;
-    background: var(--el-color-primary-light-9);
-    color: var(--el-color-primary);
-    padding-left: 30px;
-    padding-right: 30px;
+.common-layout{
+    overflow-y: auto;
+    //background-image: url("../../assets/backgroud_test.jpg");
 }
+
+.child_page{
+    //min-height: 800px;
+}
+
 
 </style>
