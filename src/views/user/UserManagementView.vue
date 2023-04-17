@@ -48,7 +48,7 @@
             <el-aside class="user_aside" :style="{width: aside_width + 'vh'}"></el-aside>
         </el-container>
 
-        <user-info-view></user-info-view>
+        <user-info-view @pass_nickname="get_nickname" @pass_signature="get_signature" ></user-info-view>
 
     </div>
 </template>
@@ -81,7 +81,12 @@ export default {
         post_router(){
             this.$router.push('/user/post')
         },
-
+        get_nickname(data){
+            this.nickname=data;
+        },
+        get_signature(data){
+            this.user_signature=data;
+        }
     }
     ,
     setup(){

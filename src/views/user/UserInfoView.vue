@@ -10,28 +10,17 @@
          <el-form-item label="专业">
             <el-input v-model="form.major" />
          </el-form-item>
-         <el-form-item label="Activity zone">
-            <el-select v-model="form.region" placeholder="please select your zone">
-               <el-option label="Zone one" value="shanghai" />
-               <el-option label="Zone two" value="beijing" />
-            </el-select>
+
+         <el-form-item label="地区">
+            <el-cascader size='mid' :options='options' v-model='selectedOptions' @change='handleChange()'></el-cascader>
          </el-form-item>
-         <el-form-item label="Activity time">
+
+         <el-form-item label="生日">
             <el-col :span="11">
                <el-date-picker
                    v-model="form.date1"
                    type="date"
-                   placeholder="Pick a date"
-                   style="width: 100%"
-               />
-            </el-col>
-            <el-col :span="2" class="text-center">
-               <span class="text-gray-500">-</span>
-            </el-col>
-            <el-col :span="11">
-               <el-time-picker
-                   v-model="form.date2"
-                   placeholder="Pick a time"
+                   placeholder="选择你的生日"
                    style="width: 100%"
                />
             </el-col>
@@ -42,46 +31,61 @@
                <el-radio label="男" />
                <el-radio label="女" />
             </el-radio-group>
+
          </el-form-item>
          <el-form-item label="个性签名">
             <el-input v-model="form.signature" type="textarea" />
          </el-form-item>
          <el-form-item>
-            <el-button type="primary" @click="onSubmit">提交</el-button>
-            <el-button>修改</el-button>
+            <el-button type="primary" @click="onSubmit" >提交</el-button>
          </el-form-item>
       </el-form>
    </el-dialog>
 </template>
 
-<script lang="ts">
+<script>
 import {inject, reactive} from "vue";
+import { provinceAndCityData, CodeToText } from 'element-china-area-data'
 
 export default {
     name: "UserInfoView",
-    setup()
+    data(){
+        return{
+            options:provinceAndCityData,
+            selectedOptions: ['120000', '120100']
+        }
+    },
+    methods: {
+        handleChange () {
+            console.log(this.selectedOptions)
+        }
+    },
+    setup(props,cxt)
     {
         const user_info_show=inject("user_info_show");
         const form = reactive({
           nickname: '日本天皇',   //昵称
-          region: '',
-          date1: '',
+          province: '四川',
+           city:'成都',
+          date1: '2001-06-25',
           date2: '',
           delivery: false,
           type: [],
-          gender: '',   //性别
+          gender: '男',   //性别
           signature: '我是天皇，我最强！',   //签名
            colledg:"电子与信息工程学院",  //学院
            major:"计算机科学与技术",  //专业
 
         })
        const onSubmit = () => {
-          console.log('submit!')
+          cxt.emit("pass_nickname",form.nickname);  //向父组件传递昵称参数
+          cxt.emit("pass_signature",form.signature);  //向父组件传递签名参数
+          user_info_show.value=false;
        }
         return{
            user_info_show,
            form,
-           onSubmit
+           onSubmit,
         }
     }
 }
