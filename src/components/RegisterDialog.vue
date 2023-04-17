@@ -12,7 +12,8 @@
                         <el-input v-model="registerData.registerForm.verificationCode"></el-input>
                     </el-col>
                     <el-col :span="12">
-                        <el-button>发送验证码</el-button>
+                        <el-button @click="sendRegisterVRCode(
+                            {userNumber: registerData.registerForm.userNumber})">发送验证码</el-button>
                     </el-col>
                     <el-col :span="2">
                         <div class="tip_icon">
@@ -29,10 +30,10 @@
                     <el-input v-model="registerData.registerForm.checkPassword" show-password></el-input>
                 </el-form-item>
             </el-form>
-            <el-button class=RegisterButton type="primary"
+            <el-button class=AccountDialogButton type="primary"
                        @click="commitRegister" round>注&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;册</el-button>
         </div>
-        <el-button class="login_register_button"
+        <el-button class="AccountChangeDialogButton"
                    @click="showLoginDialog"
                    link>已有账号，去登录</el-button>
     </el-dialog>
@@ -40,7 +41,7 @@
 
 <script lang="ts">
 import {QuestionFilled} from "@element-plus/icons";
-import {registerData, registerRules, baseForm, commitRegister} from "@/utils/Texts/registerText";
+import {registerData, registerRules, baseForm, sendRegisterVRCode, commitRegister} from "@/utils/Texts/registerText";
 import {defineComponent} from "vue";
 import {RegisterDialogVisible, showLoginDialog} from "@/utils/DialogVisible";
 
@@ -54,24 +55,30 @@ export default defineComponent({
             baseForm,
             commitRegister,
             RegisterDialogVisible,
-            showLoginDialog
+            showLoginDialog,
+            sendRegisterVRCode
         }
     }
 })
 </script>
 
-<style scoped>
-.RegisterButton{
+<style>
+.AccountDialogButton{
     display: flex;
     flex-direction: row;
-    height: 35px;
     margin-top: 10px;
     margin-left: auto;
     margin-right: auto;
     width: 40%;
+    font-size: 15px !important;
+    height: 40px !important;
 }
 .tip_icon{
     display: flex;
     align-items: center;
+}
+.AccountChangeDialogButton{
+    margin-top: 20px;
+    font-size: 10px !important;
 }
 </style>

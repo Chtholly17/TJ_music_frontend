@@ -37,9 +37,9 @@ const errorHandle = (status: number, info: any) => {
 axiosInstance.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
         if (config.method === 'post') {
+            console.log(config.data)
             config.data = qs.stringify(config.data) // THIS IS A MUST!!!
         }
-        console.log(config)
         return config;
     },
     (error: any) => {

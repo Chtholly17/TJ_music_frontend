@@ -1,17 +1,17 @@
 // 包含Login表单所需的数据类型form，约束rules以及处理函数commit
 import {reactive, ref, unref} from "vue";
-import {FormInstance} from "element-plus";
+import {ElMessage, FormInstance} from "element-plus";
 import api from "@/service";
 
 export const baseForm = ref<FormInstance>();
 export const loginData = reactive({
     loginForm: {
-        username: "",
+        userNumber: "",
         password: ""
     }
 })
 export const loginRules = reactive ({
-    username: [
+    userNumber: [
         {
             required: true,
             trigger: "blur",
@@ -34,12 +34,12 @@ export const commitLogin = async () => {
         if (valid) {
             try {
                 const response = await api.postLogin(loginData.loginForm); // 不能传入submitForm！
-                console.log(response.data);
-            } catch (error) {
-                console.error(error);
+                console.log(response.data); // TODO：登陆成功与失败的后处理
+            } catch (error: any) {
+                ElMessage.error(error.code+': 提交失败，请检查网络或联系管理员')
             }
         } else {
-            console.log("验证失败");
+            ElMessage.error('验证失败，请检查数据是否完整且正确')
         }
     })
 }

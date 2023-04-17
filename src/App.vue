@@ -13,9 +13,6 @@
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
 }
-.login_register_button{
-    margin-top: 10px;
-}
 .log_reg_dialog{
     padding-left: 1em;
     padding-right: 1em;

@@ -2,8 +2,8 @@
     <el-dialog class="log_reg_dialog" v-model="LoginDialogVisible" title="登 录 账 号" width="30%">
         <div class="login-form" >
             <el-form ref="baseForm" :model="loginData.loginForm" :rules="loginRules">
-                <el-form-item prop="username">
-                    <el-input v-model="loginData.loginForm.username"
+                <el-form-item prop="userNumber">
+                    <el-input v-model="loginData.loginForm.userNumber"
                               placeholder="学号"
                               prefix-icon="User"></el-input>
                 </el-form-item>
@@ -14,19 +14,19 @@
                               show-password></el-input>
                 </el-form-item>
             </el-form>
-            <el-button class=LoginButton type="primary"
+            <el-button class=AccountDialogButton type="primary"
                        @click="commitLogin" round>登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录</el-button>
         </div>
         <el-row>
             <el-col :span="10">
-                <el-button class="login_register_button"
+                <el-button class="AccountChangeDialogButton"
                            @click="showRegisterDialog"
                            link>没有账号，去注册</el-button>
             </el-col>
             <el-col :span="4">
             </el-col>
             <el-col :span="10">
-                <el-button class="login_register_button"
+                <el-button class="AccountChangeDialogButton"
                            @click="showRetrieveDialog"
                            link>忘记密码</el-button>
             </el-col>
@@ -60,13 +60,4 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.LoginButton{
-    display: flex;
-    flex-direction: row;
-    height: 35px;
-    margin-top: 10px;
-    margin-left: auto;
-    margin-right: auto;
-    width: 40%;
-}
 </style>
