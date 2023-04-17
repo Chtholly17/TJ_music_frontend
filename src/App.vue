@@ -1,4 +1,5 @@
 <template>
+
     <el-menu class="nav_bar" :router="true" mode="horizontal">
         <el-menu-item @click="LoginFormVisible=true; RegisterFormVisible=false">登录 / 注册</el-menu-item>
         <el-sub-menu>
@@ -31,6 +32,8 @@
     text-align: center;
 }
 
+
+
 a{
     text-decoration: none;
     color: #000;
@@ -46,17 +49,21 @@ a{
     padding-right: 1em;
     padding-bottom: 0;
 }
+
 .nav_bar{
     position: fixed;
     top: 0;
     width: 100%;
 }
+
 </style>
 
 <script setup lang="ts">
 import { ref } from 'vue'
+
 import RegisterForm from "@/components/login/RegisterForm.vue";
 import LoginForm from "@/components/login/LoginForm.vue";
+
 const RegisterFormVisible = ref(false)
 const LoginFormVisible = ref(false)
 </script>
