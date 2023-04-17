@@ -7,6 +7,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'home',
     component: HomeView
   },
+
   {
     redirect:'/user/music_library',
     path:'/user',
@@ -25,6 +26,7 @@ const routes: Array<RouteRecordRaw> = [
       }
     ]
   },
+
   // {
   //   path: '/Login',
   //   name: 'Login',

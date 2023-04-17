@@ -32,7 +32,9 @@
     text-align: center;
 }
 
-
+nav {
+  padding: 30px;
+}
 
 a{
     text-decoration: none;
@@ -50,11 +52,6 @@ a{
     padding-bottom: 0;
 }
 
-.nav_bar{
-    position: fixed;
-    top: 0;
-    width: 100%;
-}
 
 </style>
 
