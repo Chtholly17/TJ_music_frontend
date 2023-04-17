@@ -39,11 +39,10 @@ public class accountController {
      * code:1 represents sending verification code succeeded.
      * code:0 represents register failed. The account has been existed.
      * @param userNumber
-     * @param password
      * @return Result
      */
     @PostMapping("/register")
-    public Result registerSendVerificationCode(@RequestParam("userNumber") String userNumber, @RequestParam("password") String password) throws MessagingException {
+    public Result registerSendVerificationCode(@RequestParam("userNumber") String userNumber) throws MessagingException {
         return accountService.registerSendVerificationCode(userNumber);
     }
 
