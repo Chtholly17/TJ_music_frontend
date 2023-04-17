@@ -12,8 +12,8 @@
                         <el-input v-model="registerData.registerForm.verificationCode"></el-input>
                     </el-col>
                     <el-col :span="12">
-                        <el-button @click="sendRegisterVRCode(
-                            {userNumber: registerData.registerForm.userNumber})">发送验证码</el-button>
+                        <el-button :disabled="sendVRCodeButtonDisabled"
+                                   @click="getVRCodeHandler">{{sendVRCodeButtonMessage}}</el-button>
                     </el-col>
                     <el-col :span="2">
                         <div class="tip_icon">
@@ -42,13 +42,45 @@
 <script lang="ts">
 import {QuestionFilled} from "@element-plus/icons";
 import {registerData, registerRules, baseForm, sendRegisterVRCode, commitRegister} from "@/utils/Texts/registerText";
-import {defineComponent} from "vue";
+import {defineComponent, ref} from "vue";
 import {RegisterDialogVisible, showLoginDialog} from "@/utils/DialogVisible";
+import {ElMessage} from "element-plus";
 
 export default defineComponent({
     name: "RegisterForm",
     components: {QuestionFilled},
     setup() {
+        let sendVRCodeButtonCount = 0;
+        let sendVRCodeButtonMessage = ref("获取验证码"); // 必须要ref才能实现按钮的更改！！
+        let sendVRCodeButtonDisabled = ref(false);
+        let sendVRCodeButtonTimer: any = null;
+        const getVRCodeHandler = async () => { // 从Promise中获取数据的方法：添加await关键字，代价是所在的函数需要是async
+            const TIME_COUNT = 60;
+            if (sendVRCodeButtonCount > 0) {
+                ElMessage.error("请在" + sendVRCodeButtonCount + "s后再发送验证码")
+                return
+            }
+            const result = await sendRegisterVRCode({userNumber: registerData.registerForm.userNumber})
+            if (result)
+            {
+                if (sendVRCodeButtonTimer == null) {
+                    sendVRCodeButtonCount = TIME_COUNT;
+                    sendVRCodeButtonDisabled.value = true;
+                    sendVRCodeButtonTimer = setInterval(() => {
+                        if (sendVRCodeButtonCount > 0 && sendVRCodeButtonCount <= TIME_COUNT) {
+                            sendVRCodeButtonCount--;
+                            sendVRCodeButtonMessage.value = sendVRCodeButtonCount + "s后重试";
+                            console.log(sendVRCodeButtonDisabled)
+                        } else {
+                            sendVRCodeButtonDisabled.value = false;
+                            sendVRCodeButtonMessage.value = "获取验证码"
+                            clearInterval(sendVRCodeButtonTimer); // 清除定时器
+                            sendVRCodeButtonTimer = null;
+                        }
+                    }, 1000) // 延时1000ms，每一轮执行一次setInterval函数体内容
+                }
+            }
+        }
         return {
             registerData,
             registerRules,
@@ -56,7 +88,10 @@ export default defineComponent({
             commitRegister,
             RegisterDialogVisible,
             showLoginDialog,
-            sendRegisterVRCode
+            sendRegisterVRCode,
+            getVRCodeHandler,
+            sendVRCodeButtonMessage,
+            sendVRCodeButtonDisabled
         }
     }
 })

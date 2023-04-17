@@ -21,6 +21,7 @@ export const registerRules = reactive ({
         }
     ],
     password: [
+        // TODO：验证密码合法（字符，下划线之类）
         {
             required: true,
             trigger: 'blur',
@@ -55,7 +56,7 @@ export const commitRegister = async () => {
         if (valid) {
             try { // TODO: 剥离checkPassword，使用新的对象进行传送
                 const response = await api.postRegister(registerData.registerForm); // 不能传入submitForm！
-                console.log(response.data); // TODO：注册成功与失败的后处理
+                console.log(response.data); // TODO：注册成功与失败的判断与后处理
             } catch (error: any) {
                 ElMessage.error(error.code+': 提交失败，请检查网络或联系管理员')
             }
@@ -65,18 +66,21 @@ export const commitRegister = async () => {
     })
 }
 
-export const sendRegisterVRCode = async (userInfo: any) => {
+export const sendRegisterVRCode = async (userInfo: any): Promise<boolean> => {
     if (!userInfo)
-        return
+        return false
     if (!userInfo.userNumber) {
         ElMessage.error("请输入学号")
-        return
+        return false
     }
     // TODO：验证学号合法
     try {
         const response = await api.post_sendRegisterVRCode(userInfo);
         console.log(response.data); // TODO：注册成功与失败的后处理
+        // if success
+        return true
     } catch (error: any) {
         ElMessage.error(error.code+': 提交失败，请检查网络或联系管理员')
     }
+    return false
 }

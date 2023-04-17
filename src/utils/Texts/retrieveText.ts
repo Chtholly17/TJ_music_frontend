@@ -20,7 +20,7 @@ export const retrieveRules = reactive ({
             message: '请输入用户名'
         }
     ],
-    password: [
+    password: [ // TODO：验证密码合法（字符，下划线之类）
         {
             required: true,
             trigger: 'blur',
@@ -55,7 +55,7 @@ export const commitRetrieve = async () => {
         if (valid) {
             try { // TODO: 剥离checkPassword，使用新的对象进行传送
                 const response = await api.postRetrieve(retrieveData.retrieveForm); // 不能传入submitForm！
-                console.log(response.data); // TODO：修改成功与失败的后处理
+                console.log(response.data); // TODO：修改成功与失败的判断与后处理
             } catch (error: any) {
                 ElMessage.error(error.code+': 提交失败，请检查网络或联系管理员')
             }
