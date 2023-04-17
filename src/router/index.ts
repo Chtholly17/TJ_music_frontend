@@ -7,6 +7,24 @@ const routes: Array<RouteRecordRaw> = [
     name: 'home',
     component: HomeView
   },
+  {
+    redirect:'/user/music_library',
+    path:'/user',
+    name:'user',
+    component:()=>import('../views/user/UserManagementView.vue'),
+    children:[
+      {
+        path:'music_library',
+        name:'user_music_library',
+        component:() =>import('../views/user/UserMusicLibraryView.vue')
+      },
+      {
+        path:'post',
+        name:'user_post',
+        component:()=>import('../views/user/UserPostView.vue')
+      }
+    ]
+  },
   // {
   //   path: '/Login',
   //   name: 'Login',

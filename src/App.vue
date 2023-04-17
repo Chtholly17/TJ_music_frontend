@@ -1,11 +1,13 @@
 <template>
-    <el-menu :router="true" mode="horizontal">
+
+    <el-menu class="nav_bar" :router="true" mode="horizontal">
         <el-menu-item @click="LoginFormVisible=true; RegisterFormVisible=false">登录 / 注册</el-menu-item>
         <el-sub-menu>
             <template #title>我的</template>
-            <el-menu-item index="/">个人主页</el-menu-item>
+            <el-menu-item index="/user">个人主页</el-menu-item>
         </el-sub-menu>
     </el-menu>
+
     <router-view></router-view>
 
     <el-dialog class="log_reg_dialog" v-model="RegisterFormVisible" title="注 册 账 号" width="30%">
@@ -29,9 +31,9 @@
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
 }
-nav {
-  padding: 30px;
-}
+
+
+
 a{
     text-decoration: none;
     color: #000;
@@ -47,12 +49,21 @@ a{
     padding-right: 1em;
     padding-bottom: 0;
 }
+
+.nav_bar{
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
 </style>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import RegisterForm from "@/components/RegisterForm.vue";
-import LoginForm from "@/components/LoginForm.vue";
+
+import RegisterForm from "@/components/login/RegisterForm.vue";
+import LoginForm from "@/components/login/LoginForm.vue";
+
 const RegisterFormVisible = ref(false)
 const LoginFormVisible = ref(false)
 </script>
