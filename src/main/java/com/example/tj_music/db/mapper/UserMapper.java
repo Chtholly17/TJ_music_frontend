@@ -39,5 +39,7 @@ public interface UserMapper {
     @Select("update user set user_status=#{user_status} where user_id=#{user_id}")
     public void updateUserStatusById(String user_status, Integer user_id);
 
-
+    // select user_profile_image_filename by student number
+    @Select("select user_profile_image_filename from user where user_student_number=#{user_student_number}")
+    public String selectUserProfileImageByStudentNumber(String user_student_number);
 }
