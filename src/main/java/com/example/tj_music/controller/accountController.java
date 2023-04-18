@@ -35,6 +35,18 @@ public class accountController {
     }
 
     /**
+     * code:1 represents logout succeeded.
+     * code:0 represents logout failed.
+     * logout
+     * @param userNumber
+     * @return Result
+     */
+    @PostMapping("/logout")
+    public Result logout(@RequestParam("userNumber") String userNumber) {
+        return accountService.logout(userNumber);
+    }
+
+    /**
      * register send verification code.
      * code:1 represents sending verification code succeeded.
      * code:0 represents register failed. The account has been existed.

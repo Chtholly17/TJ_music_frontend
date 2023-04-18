@@ -30,6 +30,22 @@ public class accountService {
     private String verificationCode;
 
     /**
+     * logout.
+     * code:1 represents logout succeeded.
+     * code:0 represents logout failed. The user does not exist.
+     * @param userNumber
+     * @return Result
+     */
+    public Result logout(String userNumber) {
+        User user = userMapper.selectUserByStudentNumber(userNumber);
+        if (user == null)
+            return new Result(0, "Logout failed. The user does not exist.", null);
+
+        userMapper.updateUserStatusById("normal", user.getUserId());
+        return new Result(1, "Logout succeeded.", null);
+    }
+
+    /**
      * login check.
      * code:0 represents user does not exist.
      * code:1 represents login succeeded.
@@ -42,10 +58,14 @@ public class accountService {
         User user = userMapper.selectUserByStudentNumber(userNumber);
         if (user == null)
             return new Result(0, "Login failed. The user does not exist.", null);
-        if (Objects.equals(user.getUserPassword(), password))
-            return new Result(1, "Login succeeded", null);
+        else if (Objects.equals(user.getUserStatus(), "online"))
+            return new Result(3, "Login failed. The user is online.", null);
+        else if (Objects.equals(user.getUserPassword(), password)) {
+            userMapper.updateUserStatusById("online", user.getUserId());
+            return new Result(1, "Login succeeded.", null);
+        }
         else
-            return new Result(2, "Login failed", null);
+            return new Result(2, "Login failed. The password is incorrect.", null);
     }
 
     /**
