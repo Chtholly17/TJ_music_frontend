@@ -6,6 +6,8 @@ import com.example.tj_music.utils.HttpUtils;
 import com.example.tj_music.utils.Result;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +18,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.List;
 
 
 @RestController // @RestController = @Controller + @ResponseBody (return json)
+@PropertySource(value = {"classpath:application.properties"})
 public class informationController {
     // please use the logger to print the log
     private static Logger log = Logger.getLogger("UserController.class");
@@ -27,17 +31,17 @@ public class informationController {
     @Autowired // auto-inject
     private informationService informationService;
 
-    @GetMapping("/getUserImage")
-    public Result getUserImage(HttpServletResponse resp){
-        String url = "http://localhost:8080/test.jpg";
-        // 获取输入流
-        InputStream inputStream = HttpUtils.getInputStream(url);
-        // 将输入流写入到response的输出流中
-        HttpUtils.writeFile(resp, inputStream);
-        return Result.success();
-    }
-    @GetMapping("/getuserInformation")
-    public Result getUserInformation(@RequestParam("user_id") int user_id) {
+    @Value("${imagepath}")
+    private String imagepath;
+
+    /**
+     * 获取用户信息
+     * 用这个API可以获取用户信息
+     * @param user_id
+     * @return
+     */
+    @GetMapping("/getUserInfo")
+    public Result getUserInfo(@RequestParam("user_id") Integer user_id) {
         User user = informationService.getInformationById(user_id);
         if (user == null) {
             return Result.fail("user not found");
@@ -46,25 +50,97 @@ public class informationController {
     }
 
     /**
-     * 更新用户信息
-     * 用这个API可以更新用户的信息
-     * @param user_id: 用户的ID
-     * @param new_name: 用户的新名字
-     * @return: list of objects: [user_id, user_name, user_signature, user_profile_image]
+     * 获取用户头像
+     * @param user_id
+     * @return
      */
-    @PostMapping("/updateUserName")
-    public Result updateUserName(@RequestParam("user_id") int user_id, @RequestParam("new_name") String new_name) {
+    @GetMapping("/getUserImage")
+    public Result getUserImage(@RequestParam("user_id") Integer user_id) {
         User user = informationService.getInformationById(user_id);
         if (user == null) {
             return Result.fail("user not found");
         }
-        informationService.updateUserName(user.getUserStudentNumber(), new_name);
-        return Result.success();
+        return Result.success(user.getUserProfileImageFilename());
     }
 
     /**
-     * 更新用户信息
-     * 用这个API可以更新用户的信息
+     * 修改用户信息
+     * 用这个API可以修改用户信息
+     * @param user_id
+     * @param new_nickname
+     * @param new_college
+     * @param new_major
+     * @param new_area1
+     * @param new_area2
+     * @param new_birthday
+     * @param new_gender
+     * @param new_signature
+     * @return
+     */
+    @PostMapping("/updateUserinfo")
+    public Result updateUserinfo(@RequestParam("user_id") Integer user_id,
+                                 @RequestParam("new_nickname") String new_nickname,
+                                 @RequestParam("new_college") String new_college,
+                                 @RequestParam("new_major") String new_major,
+                                 @RequestParam("new_area1") String new_area1,
+                                 @RequestParam("new_area2") String new_area2,
+                                 @RequestParam("new_birthday") Date new_birthday,
+                                 @RequestParam("new_gender") String new_gender,
+                                 @RequestParam("new_signature") String new_signature) {
+        User user = informationService.getInformationById(user_id);
+        if (user == null) {
+            return Result.fail("user not found");
+        }
+        informationService.updateUserNickName(new_nickname, user_id);
+        informationService.updateUserCollege(new_college, user_id);
+        informationService.updateUserMajor(new_major, user_id);
+        informationService.updateUserArea1(new_area1, user_id);
+        informationService.updateUserArea2(new_area2, user_id);
+        informationService.updateUserBirthday(new_birthday, user_id);
+        informationService.updateUserGender(new_gender, user_id);
+        informationService.updateUserSignature(new_signature, user_id);
+        return Result.success();
+    }
+
+
+    /**
+     * 修改用户头像
+     * @param user_id
+     * @param file
+     * @return
+     */
+    @PostMapping("/updateUserImage")
+    public Result updateUserImage(@RequestParam("user_id") Integer user_id, @RequestParam("file") MultipartFile file) {
+        User user = informationService.getInformationById(user_id);
+        if (user == null) {
+            return Result.fail("user not found");
+        }
+        String fileName = file.getOriginalFilename();
+        File dest = new File(imagepath + fileName);
+        if(!dest.exists()){
+            //先得到文件的上级目录，并创建上级目录，在创建文件
+            dest.getParentFile().mkdir();
+            try {
+                //创建文件
+                dest.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println(dest);
+        try {
+            file.transferTo(dest);
+            informationService.updateUserProfileImage(user.getUserStudentNumber(), fileName);
+            return Result.success();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return Result.fail("upload failed");
+    }
+
+    /**
+     * 修改用户密码
+     * 用这个API可以修改用户密码
      * @param user_id: 用户的ID
      * @param new_password: 用户的新密码
      * @return: list of objects: [user_id, user_name, user_signature, user_profile_image]
@@ -77,48 +153,5 @@ public class informationController {
         }
         informationService.updateUserPassword(user.getUserStudentNumber(), new_password);
         return Result.success();
-    }
-
-    /**
-     * 更新用户信息
-     * 用这个API可以更新用户的信息
-     * @param user_id: 用户的ID
-     * @param new_signature: 用户的新签名
-     * @return: list of objects: [user_id, user_name, user_signature, user_profile_image]
-     */
-    @PostMapping("/updateUserSignature")
-    public Result updateUserSignature(@RequestParam("user_id") int user_id, @RequestParam("new_signature") String new_signature) {
-        User user = informationService.getInformationById(user_id);
-        if (user == null) {
-            return Result.fail("user not found");
-        }
-        informationService.updateUserSignature(user.getUserStudentNumber(), new_signature);
-        return Result.success();
-    }
-
-    /**
-     * 更新用户信息
-     * 用这个API可以更新用户的信息
-     * @param user_id: 用户的ID
-     * @param new_ProfileImage: 用户的新文件名
-     * @return: list of objects: [user_id, user_name, user_signature, user_profile_image]
-     */
-    @PostMapping("/updateUserProfileImage")
-    public Result updateUserProfileImage(@RequestParam("user_id") int user_id, @RequestParam("new_ProfileImage") String new_ProfileImage,@RequestParam("file") MultipartFile file) {
-        User user = informationService.getInformationById(user_id);
-        if (user == null) {
-            return Result.fail("user not found");
-        }
-        informationService.updateUserProfileImageByStudentNumber(user.getUserStudentNumber(), new_ProfileImage);
-        String fileName = file.getOriginalFilename();
-        String filePath = "./src/main/resources/static/images/";
-        File dest = new File(filePath + fileName);
-        try {
-            file.transferTo(dest);
-            return Result.success();
-        } catch (IOException e) {
-            System.out.println(e.toString());
-        }
-        return Result.fail("upload failed");
     }
 }
