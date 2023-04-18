@@ -5,7 +5,7 @@ import qs from 'qs';
 
 
 const axiosInstance: AxiosInstance = axios.create({
-    timeout: 5000,
+    timeout: 10000,
 });
 
 const errorHandle = (status: number, info: any) => {
@@ -38,7 +38,7 @@ const errorHandle = (status: number, info: any) => {
 axiosInstance.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
         if (config.method === 'post') {
-            console.log(config.data)
+            // console.log(config.data)
             config.data = qs.stringify(config.data) // THIS IS A MUST!!!
         }
         return config;
@@ -54,6 +54,7 @@ axiosInstance.interceptors.response.use(
         return response.status === 200 ? Promise.resolve(response) : Promise.reject(response);
     },
     (error: any) => {
+        console.error(error)
         const {response} = error;
         errorHandle(response.status, response.info);
         return Promise.reject(error);
