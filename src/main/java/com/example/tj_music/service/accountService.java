@@ -10,11 +10,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import javax.mail.Authenticator;
 import javax.mail.internet.MimeMessage;
 
 
@@ -24,6 +26,8 @@ public class accountService {
     private AppealMapper appealMapper;
     @Autowired
     private UserMapper userMapper;
+
+    private String verificationCode;
 
     /**
      * login check.
@@ -50,26 +54,31 @@ public class accountService {
      * @param userNumber
      * @return Result
      */
-    public Result sendVerificationCode(String userNumber) throws MessagingException {
+    public Result sendVerificationCode(String userNumber) throws MessagingException, AddressException {
         User user = userMapper.selectUserByStudentNumber(userNumber);
-        String VerificationCode = "12345";
+        Random random = new Random();
+        this.verificationCode = String.valueOf(random.nextInt(89999) + 10000);
         String email = userNumber + "@tongji.edu.cn";
         Properties properties = new Properties();
-        properties.setProperty("mail.transport.protocol", "smtp");//发送邮件协议
+        properties.setProperty("mail.transport.protocol", "SMTP");//发送邮件协议
+        properties.setProperty("mail.host", "smtp.qq.com");//发送邮件的服务器地址
         properties.setProperty("mail.smtp.auth", "true");//需要验证
-        Session session = Session.getInstance(properties);
-        session.setDebug(true);//debug模式
-        //邮件信息
+
+        Authenticator auth = new Authenticator() {
+            public PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("982017264@qq.com", "xhamshqextmpbbcd");
+            }
+        };
+
+        Session session = Session.getInstance(properties, auth);
         Message message = new MimeMessage(session);
+
         message.setFrom(new InternetAddress("982017264@qq.com"));//设置发送人
-        message.setText("你的验证码为：" + VerificationCode + "。请注意，验证码有效时间为2分钟！！！");//设置邮件内容
+        message.setRecipient(Message.RecipientType.TO, new InternetAddress(email));//设置接收人
         message.setSubject("邮箱验证");//设置邮件主题
-        //发送邮件
-        Transport tran = session.getTransport();
-//        tran.connect("smtp.sina.com", 25, "邮箱账户", "邮箱授权码");//连接到新浪邮箱服务器
-        tran.connect("smtp.qq.com", 587, "982017264@qq.com", "napfmggjgflzbcja");//连接到QQ邮箱服务器
-        tran.sendMessage(message, new Address[]{new InternetAddress(email)});//设置邮件接收人
-        tran.close();
+        message.setText("你的验证码为：" + this.verificationCode + "。请注意，验证码有效时间为2分钟！！！");//设置邮件内容
+        Transport.send(message);
+
         return new Result(1, "send verification code succeeded", null);
     }
 
@@ -101,7 +110,7 @@ public class accountService {
      */
     public Result registerCheckVerificationCode(String userNumber, String password, String verificationCode, String checkPassword) {
         User user = userMapper.selectUserByStudentNumber(userNumber);
-        if (Objects.equals(verificationCode, "12345")) {
+        if (Objects.equals(verificationCode, this.verificationCode)) {
             if (!Objects.equals(password, checkPassword))
                 return new Result(2, "Register failed. The password is not the same", null);
 
