@@ -37,12 +37,12 @@ public class informationController {
     /**
      * 获取用户信息
      * 用这个API可以获取用户信息
-     * @param user_id
+     * @param user_student_number
      * @return
      */
     @GetMapping("/getUserInfo")
-    public Result getUserInfo(@RequestParam("user_id") Integer user_id) {
-        User user = informationService.getInformationById(user_id);
+    public Result getUserInfo(@RequestParam("user_student_number") String user_student_number) {
+        User user = informationService.getInformationByStudentNumber(user_student_number);
         if (user == null) {
             return Result.fail("user not found");
         }
@@ -51,12 +51,12 @@ public class informationController {
 
     /**
      * 获取用户头像
-     * @param user_id
+     * @param user_student_number
      * @return
      */
     @GetMapping("/getUserImage")
-    public Result getUserImage(@RequestParam("user_id") Integer user_id) {
-        User user = informationService.getInformationById(user_id);
+    public Result getUserImage(@RequestParam("user_student_number") String user_student_number) {
+        User user = informationService.getInformationByStudentNumber(user_student_number);
         if (user == null) {
             return Result.fail("user not found");
         }
@@ -66,7 +66,7 @@ public class informationController {
     /**
      * 修改用户信息
      * 用这个API可以修改用户信息
-     * @param user_id
+     * @param user_student_number
      * @param new_nickname
      * @param new_college
      * @param new_major
@@ -78,7 +78,7 @@ public class informationController {
      * @return
      */
     @PostMapping("/updateUserinfo")
-    public Result updateUserinfo(@RequestParam("user_id") Integer user_id,
+    public Result updateUserinfo(@RequestParam("user_student_number") String user_student_number,
                                  @RequestParam("new_nickname") String new_nickname,
                                  @RequestParam("new_college") String new_college,
                                  @RequestParam("new_major") String new_major,
@@ -87,31 +87,33 @@ public class informationController {
                                  @RequestParam("new_birthday") Date new_birthday,
                                  @RequestParam("new_gender") String new_gender,
                                  @RequestParam("new_signature") String new_signature) {
-        User user = informationService.getInformationById(user_id);
+        User user = informationService.getInformationByStudentNumber(user_student_number);
         if (user == null) {
             return Result.fail("user not found");
         }
-        informationService.updateUserNickName(new_nickname, user_id);
-        informationService.updateUserCollege(new_college, user_id);
-        informationService.updateUserMajor(new_major, user_id);
-        informationService.updateUserArea1(new_area1, user_id);
-        informationService.updateUserArea2(new_area2, user_id);
-        informationService.updateUserBirthday(new_birthday, user_id);
-        informationService.updateUserGender(new_gender, user_id);
-        informationService.updateUserSignature(new_signature, user_id);
+        informationService.updateUserNickName(new_nickname, user_student_number);
+        informationService.updateUserCollege(new_college, user_student_number);
+        informationService.updateUserMajor(new_major, user_student_number);
+        informationService.updateUserArea1(new_area1, user_student_number);
+        informationService.updateUserArea2(new_area2, user_student_number);
+        informationService.updateUserBirthday(new_birthday, user_student_number);
+        informationService.updateUserGender(new_gender, user_student_number);
+        informationService.updateUserSignature(new_signature, user_student_number);
         return Result.success();
     }
 
 
     /**
      * 修改用户头像
-     * @param user_id
+     * 用这个API可以修改用户头像
+     * @param user_student_number
      * @param file
      * @return
      */
     @PostMapping("/updateUserImage")
-    public Result updateUserImage(@RequestParam("user_id") Integer user_id, @RequestParam("file") MultipartFile file) {
-        User user = informationService.getInformationById(user_id);
+    public Result updateUserImage(@RequestParam("user_student_number") String user_student_number,
+                                  @RequestParam("file") MultipartFile file) {
+        User user = informationService.getInformationByStudentNumber(user_student_number);
         if (user == null) {
             return Result.fail("user not found");
         }
@@ -130,8 +132,9 @@ public class informationController {
         System.out.println(dest);
         try {
             file.transferTo(dest);
-            informationService.updateUserProfileImage(user.getUserStudentNumber(), fileName);
-            return Result.success();
+            String url = "http://localhost:8080/" + fileName;
+            informationService.updateUserProfileImage(url, user_student_number);
+            return Result.success(url);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -141,17 +144,18 @@ public class informationController {
     /**
      * 修改用户密码
      * 用这个API可以修改用户密码
-     * @param user_id: 用户的ID
+     * @param user_student_number: 用户的学号
      * @param new_password: 用户的新密码
      * @return: list of objects: [user_id, user_name, user_signature, user_profile_image]
      */
     @PostMapping("/updateUserPassword")
-    public Result updateUserPassword(@RequestParam("user_id") int user_id, @RequestParam("new_password") String new_password) {
-        User user = informationService.getInformationById(user_id);
+    public Result updateUserPassword(@RequestParam("user_student_number") String user_student_number,
+                                     @RequestParam("new_password") String new_password) {
+        User user = informationService.getInformationByStudentNumber(user_student_number);
         if (user == null) {
             return Result.fail("user not found");
         }
-        informationService.updateUserPassword(user.getUserStudentNumber(), new_password);
+        informationService.updateUserPassword(new_password, user_student_number);
         return Result.success();
     }
 }
