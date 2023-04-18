@@ -7,21 +7,20 @@ export const baseForm = ref<FormInstance>();
 
 export const userinfoData=reactive({
     userinfoForm:{
-        user_id:0,
-        nickname:'日本天皇',   //昵称
-        //select_area:['120000', '120100'],  //选择的地区
-        area1:'120000',
-        area2:'120100',
-        date1: '2001-06-25',    //生日
-        gender: '男',   //性别
-        signature: '我是天皇，我最强！',   //签名
-        colledg:"电子与信息工程学院",  //学院
-        major:"计算机科学与技术",  //专业
+        user_student_number:0,
+        new_nickname:'日本天皇',   //昵称
+        new_college:"电子与信息工程学院",  //学院
+        new_major:"计算机科学与技术",
+        new_area1:'120000',
+        new_area2:'120100',
+        new_birthday: '2001/6/30',    //生日
+        new_gender: '男',   //性别
+        new_signature: '我是天皇，我最强！',   //签名
     }
 })
 
 export const userinfoRules=reactive({
-    nickname:[
+    new_nickname:[
         {
             required:true,
             trigger:"blur",
@@ -41,6 +40,27 @@ export const commitUserInfo=async ()=>{
         if (valid) {
             try {
                 const response = await api.postUserInfo(userinfoData.userinfoForm); // 不能传入submitForm！
+                console.log(response.data); // TODO：登陆成功与失败的后处理
+            } catch (error: any) {
+                ElMessage.error(error.code+': 提交失败，请检查网络或联系管理员')
+            }
+        } else {
+            ElMessage.error('验证失败，请检查数据是否完整且正确')
+        }
+    })
+}
+
+export const getUserInfo=async ()=>{
+
+    const submitForm = unref(baseForm)
+    if (!submitForm)
+    {
+        return
+    }
+    await submitForm.validate( async (valid: any) => {
+        if (valid) {
+            try {
+                const response = await api.getUserInfo(userinfoData.userinfoForm.user_student_number); // 不能传入submitForm！
                 console.log(response.data); // TODO：登陆成功与失败的后处理
             } catch (error: any) {
                 ElMessage.error(error.code+': 提交失败，请检查网络或联系管理员')

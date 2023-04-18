@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import music_player from "@/views/music_player.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -7,7 +8,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'home',
     component: HomeView
   },
-
+  {
+    path:"/music_player",
+    name:"music_player",
+    component:music_player
+  },
   {
     redirect:'/user/music_library',
     path:'/user',
@@ -26,6 +31,7 @@ const routes: Array<RouteRecordRaw> = [
       }
     ]
   },
+
 
   // {
   //   path: '/Login',

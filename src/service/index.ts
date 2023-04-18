@@ -32,7 +32,11 @@ const api = {
         return axios.post(path.baseUrl + path.retrieve, retrieveForm)
     },
     postUserInfo(userInfo:any){
-        return axios.post(path.baseUrl+path.userinfo,userInfo)
+        return axios.post(path.baseUrl+path.postuserinfo,userInfo)
+    },
+    getUserInfo(user_id:any)  //获取用户信息
+    {
+        return axios.get(path.baseUrl + path.getuserinfo,user_id)
     }
 }
 

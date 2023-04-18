@@ -1,4 +1,5 @@
 import { createStore } from 'vuex'
+import {ElMessage} from "element-plus";
 
 export default createStore({
   state:{
@@ -6,6 +7,7 @@ export default createStore({
   },
   getters: {
     getUserID (state) {
+      ElMessage.success(state.userID)
       return state.userID
     }
   },

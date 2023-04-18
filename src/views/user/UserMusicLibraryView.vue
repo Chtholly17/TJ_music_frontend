@@ -3,10 +3,12 @@
         <p>我的曲库</p>
         <el-divider></el-divider>
         <el-scrollbar height="400px" >
+            <router-link to="/music_player">
             <p v-for="(item,index) in user_music" :key="index" class="scrollbar-demo-item">
                 <span style="justify-content: flex-start;display: flex">&nbsp;&nbsp;{{index+1}}.{{item.music_name}}&nbsp;&nbsp; -- {{item.singer}}</span>
                 <span style="justify-content: flex-end;display: flex">{{item.date}}</span>
             </p>
+            </router-link>
         </el-scrollbar>
     </div>
 </template>
@@ -18,8 +20,8 @@ export default {
         return{
             user_music:[
                 {
-                    music_name:"青花瓷",
-                    singer:"周杰伦",
+                    music_name:"锦鲤抄",
+                    singer:"银临",
                     date:"2023-4-10"
                 },
                 {
@@ -88,4 +90,5 @@ export default {
     /*position: absolute;*/
     /*bottom: 0;*/
 }
+
 </style>

@@ -36,8 +36,8 @@ export const commitLogin = async () => {
                 const response = await api.postLogin(loginData.loginForm); // 不能传入submitForm！
                 console.log(response.data); // TODO：登陆成功与失败的后处理
                 store.commit('setUserID', loginData.loginForm.userNumber)
-                location. reload()
-
+                ElMessage.success("登陆成功！")
+                //location.reload()
             } catch (error: any) {
                 ElMessage.error(error.code+': 提交失败，请检查网络或联系管理员')
             }

@@ -10,12 +10,12 @@
                         <el-button type="primary" >更换头像</el-button>
                     </el-col>
                     <el-col :span="6">
-                        <p style="font-size: 30px;text-align: left;font-family:SimHei;font-style: italic">{{nickname}}</p>
+                        <p style="font-size: 30px;text-align: left;font-family:SimHei;font-style: italic">{{userinfoData.userinfoForm.new_nickname}}</p>
 <!--                        <p style="text-align: left"> 姓名: &nbsp; &nbsp;{{user_name}}</p>-->
-                        <p style="text-align: left"> 学号: &nbsp; &nbsp;{{user_student_num}}</p>
+                        <p style="text-align: left"> 学号: &nbsp; &nbsp;{{userinfoData.userinfoForm.user_student_number}}</p>
 <!--                        <p style="text-align: left"> 生日: &nbsp; &nbsp;{{user_brithday}}</p>-->
 <!--                        <p style="text-align: left"> 家乡: &nbsp; &nbsp;{{user_home}}</p>-->
-                        <p style="text-align: left"> 个性签名: &nbsp; &nbsp;{{user_signature}}</p>
+                        <p style="text-align: left"> 个性签名: &nbsp; &nbsp;{{userinfoData.userinfoForm.new_signature}}</p>
 
                     </el-col>
                     <el-col :span="3">
@@ -58,7 +58,11 @@
 <script>
 import { Delete, Edit, Search, Share, Upload,View } from '@element-plus/icons-vue';
 import UserInfoView from "@/views/user/UserInfoView.vue";
-import {provide, ref} from "vue";
+import {computed, onBeforeMount, provide, ref} from "vue";
+import store from "@/store";
+import { useStore } from 'vuex'
+import {userinfoData} from "@/utils/Texts/userinfoText";
+import {ElMessage} from "element-plus";
 export default {
     name: "UserManagementView",
     components: {UserInfoView},
@@ -69,14 +73,13 @@ export default {
             user_photo_url:require("../../assets/profile.jpg"),
             nickname:"日本天皇",
             user_name:"孙笑川",
-            user_student_num:"2050000",
             user_brithday:"1945-8-15",
             user_home:"上海市",
             user_follow:20,
             user_fans:10,
             user_post:15,
             user_signature:"我是天皇，我最强！",
-            // user_info_show_control:0    //控制是否展示个人信息界面
+            user_info_show_control:0    //控制是否展示个人信息界面
         }
     },
     methods:{
@@ -92,8 +95,16 @@ export default {
     }
     ,
     setup(){
+        const store = useStore()
+        const count = computed(() => store.getters.getUserID)
         const user_info_control=ref(false)
         provide("user_info_show",user_info_control);
+        onBeforeMount(()=>{
+            //这里其实不写也没关系，因为渲染完这个组件之后就会紧接着渲染下一个
+            userinfoData.userinfoForm.user_student_number = count.value;
+
+
+        })
         function show_info(){
             user_info_control.value=user_info_control.value==true?false:true;
         }
@@ -103,7 +114,9 @@ export default {
             Upload,
             View,
             Edit,
-            show_info
+            show_info,
+            userinfoData,
+            onBeforeMount
         }
     }
 }
