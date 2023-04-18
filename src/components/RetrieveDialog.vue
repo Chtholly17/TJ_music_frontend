@@ -41,7 +41,8 @@
 
 <script lang="ts">
 import { QuestionFilled } from "@element-plus/icons";
-import {retrieveData, retrieveRules, commitRetrieve, sendRetrieveVRCode, baseForm} from "@/utils/Texts/retrieveText";
+import {retrieveData, commitRetrieve, sendRetrieveVRCode, baseForm} from "@/utils/Texts/retrieveText";
+import {retrieveRules} from "@/utils/Texts/retrieveText";
 import {RetrieveDialogVisible, showLoginDialog} from "@/utils/DialogVisible";
 import {ElMessage} from "element-plus";
 import {ref} from "vue";
@@ -70,7 +71,6 @@ export default {
                         if (sendVRCodeButtonCount > 0 && sendVRCodeButtonCount <= TIME_COUNT) {
                             sendVRCodeButtonCount--;
                             sendVRCodeButtonMessage.value = sendVRCodeButtonCount + "s后重试";
-                            console.log(sendVRCodeButtonDisabled)
                         } else {
                             sendVRCodeButtonDisabled.value = false;
                             sendVRCodeButtonMessage.value = "获取验证码"

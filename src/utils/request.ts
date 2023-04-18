@@ -4,7 +4,7 @@ import axios, {InternalAxiosRequestConfig, AxiosInstance, AxiosResponse} from 'a
 import qs from 'qs';
 
 const axiosInstance: AxiosInstance = axios.create({
-    timeout: 5000,
+    timeout: 10000,
 });
 
 const errorHandle = (status: number, info: any) => {
@@ -53,6 +53,7 @@ axiosInstance.interceptors.response.use(
         return response.status === 200 ? Promise.resolve(response) : Promise.reject(response);
     },
     (error: any) => {
+        console.error(error)
         const {response} = error;
         errorHandle(response.status, response.info);
         return Promise.reject(error);
