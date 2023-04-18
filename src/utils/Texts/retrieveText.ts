@@ -12,6 +12,7 @@ export const retrieveData = reactive({
         verificationCode: ""
     }
 })
+
 export const retrieveRules = reactive ({
     userNumber: [
         {

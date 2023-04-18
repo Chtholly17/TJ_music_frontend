@@ -9,6 +9,7 @@ const base = {
     register: '/registerCheck',
     retrieve_sendVRCode: '/forgetPassword',
     retrieve: '/forgetPasswordCheck',
+    userinfo:'/getUserInfo'    //用户信息
 }
 
 export default base;

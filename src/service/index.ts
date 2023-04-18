@@ -30,6 +30,9 @@ const api = {
     postRetrieve(retrieveForm: any)
     {
         return axios.post(path.baseUrl + path.retrieve, retrieveForm)
+    },
+    postUserInfo(userInfo:any){
+        return axios.post(path.baseUrl+path.userinfo,userInfo)
     }
 }
 

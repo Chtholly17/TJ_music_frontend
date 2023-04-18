@@ -64,7 +64,6 @@ export const commitRegister = async () => {
         }
     })
 }
-
 export const sendRegisterVRCode = async (userInfo: any) => {
     if (!userInfo)
         return

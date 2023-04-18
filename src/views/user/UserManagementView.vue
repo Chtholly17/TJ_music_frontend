@@ -6,6 +6,8 @@
                 <el-row :gutter="20">
                     <el-col :span="8">
                        <img :src=user_photo_url class="user_photo" >
+                        <div style="height: 10px"></div>
+                        <el-button type="primary" >更换头像</el-button>
                     </el-col>
                     <el-col :span="6">
                         <p style="font-size: 30px;text-align: left;font-family:SimHei;font-style: italic">{{nickname}}</p>
@@ -94,7 +96,6 @@ export default {
         provide("user_info_show",user_info_control);
         function show_info(){
             user_info_control.value=user_info_control.value==true?false:true;
-
         }
         return{
             Search,

@@ -1,5 +1,5 @@
 <template>
-    <el-dialog class="log_reg_dialog" v-model="LoginDialogVisible" title="登 录 账 号" width="30%">
+    <el-dialog class="log_reg_dialog" v-model="LoginDialogVisible" title="登 录 账 号" width="30%" :lock-scroll="false">
         <div class="login-form" >
             <el-form ref="baseForm" :model="loginData.loginForm" :rules="loginRules">
                 <el-form-item prop="userNumber">

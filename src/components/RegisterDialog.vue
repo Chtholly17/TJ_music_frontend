@@ -1,5 +1,5 @@
 <template>
-    <el-dialog class="log_reg_dialog" v-model="RegisterDialogVisible" title="注 册 账 号" width="30%">
+    <el-dialog class="log_reg_dialog" v-model="RegisterDialogVisible" title="注 册 账 号" width="30%" :lock-scroll="false">
         <div class="register-form">
             <el-form ref="baseForm" :model="registerData.registerForm"
                      :rules="registerRules" label-width="auto"

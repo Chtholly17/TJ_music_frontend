@@ -1,5 +1,5 @@
 <template>
-    <el-dialog class="log_reg_dialog" v-model="RetrieveDialogVisible" title="找 回 账 号" width="30%">
+    <el-dialog class="log_reg_dialog" v-model="RetrieveDialogVisible" title="找 回 账 号" width="30%" :lock-scroll="false">
         <div class="retrieve-form">
             <el-form ref="baseForm" :model="retrieveData.retrieveForm"
                      :rules="retrieveRules" label-width="auto"
