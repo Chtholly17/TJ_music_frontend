@@ -12,7 +12,7 @@
                         <el-input v-model="registerData.registerForm.verificationCode"></el-input>
                     </el-col>
                     <el-col :span="12">
-                        <el-button :disabled="sendVRCodeButtonDisabled"
+                        <el-button class="VRCodeButton" :disabled="sendVRCodeButtonDisabled"
                                    @click="getVRCodeHandler">{{sendVRCodeButtonMessage}}</el-button>
                     </el-col>
                     <el-col :span="2">
@@ -115,5 +115,8 @@ export default defineComponent({
 .AccountChangeDialogButton{
     margin-top: 20px;
     font-size: 10px !important;
+}
+.VRCodeButton{
+    width: 100px !important;
 }
 </style>

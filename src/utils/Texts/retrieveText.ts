@@ -27,6 +27,13 @@ export const pwdCheck =  async(rule: any, value: any, callback: any) => {
     else
         callback() // callback回调函数得到的信息将会输出，类似rules里面的message
 }
+export const VRCodeCheck =  async(rule: any, value: any, callback: any) => {
+    const reg = /\b\d{5}\b/ // 验证码长度为五位数字
+    if (!reg.test(value))
+        callback(Error("验证码不合法（五位数字）"))
+    else
+        callback() // callback回调函数得到的信息将会输出，类似rules里面的message
+}
 const pwdAgainCheck = async(rule: any, value: any, callback: any) => {
     if (retrieveData.retrieveForm.checkPassword != retrieveData.retrieveForm.password)
         callback(Error("两次密码不一致，请检查"))
@@ -79,8 +86,7 @@ export const retrieveRules = reactive ({
             message: '请输入验证码'
         },
         {
-            type: 'string',
-            message: '验证码格式错误',
+            validator: VRCodeCheck,
             trigger: 'blur'
         }
     ]
@@ -111,8 +117,17 @@ export const sendRetrieveVRCode = async (userInfo: any): Promise<boolean> => {
             try {
                 const response = await api.post_sendRetrieveVRCode(userInfo);
                 console.log(response.data);
-                ElMessage.success("验证码发送成功，请注意查收")
-                return true
+                if (response.data.code == 1)
+                {
+                    ElMessage.success("验证码发送成功，请注意查收")
+                    return true
+                }
+                else // 发送失败，可能是账号未存在
+                {
+                    ElMessage.error("找回失败，请检查账号是否已经注册")
+                    // console.log('result')
+                    return false
+                }
             } catch (error: any) {
                 ElMessage.error(error.code + ': 提交失败，请检查网络或联系管理员')
                 return false

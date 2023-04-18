@@ -25,6 +25,7 @@ const api = {
         return axios.post(path.baseUrl + path.register, registerForm)
     },
     post_sendRetrieveVRCode(userInfo: any) {
+        // console.log("SEND!")
         return axios.post(path.baseUrl + path.retrieve_sendVRCode, userInfo)
     },
     postRetrieve(retrieveForm: any)
