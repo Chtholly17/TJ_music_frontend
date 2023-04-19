@@ -1,5 +1,6 @@
 <template>
-    <el-dialog class="log_reg_dialog" v-model="RetrieveDialogVisible" title="找 回 账 号" width="30%">
+    <el-dialog class="log_reg_dialog" v-model="RetrieveDialogVisible" title="找 回 账 号"
+               width="30%" @close="retrieveDialogClose">
         <div class="retrieve-form">
             <el-form ref="baseForm" :model="retrieveData.retrieveForm"
                      :rules="retrieveRules" label-width="auto"
@@ -82,6 +83,10 @@ export default {
                 }
             }
         }
+        const retrieveDialogClose = () => {
+            if(baseForm.value)
+                baseForm.value.resetFields() // 清空表单
+        }
         return {
             retrieveData,
             retrieveRules,
@@ -91,7 +96,8 @@ export default {
             showLoginDialog,
             getVRCodeHandler,
             sendVRCodeButtonMessage,
-            sendVRCodeButtonDisabled
+            sendVRCodeButtonDisabled,
+            retrieveDialogClose
         }
     }
 } // TODO：固定验证码按钮宽度

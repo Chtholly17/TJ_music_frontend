@@ -2,6 +2,7 @@
 import {reactive, ref} from "vue";
 import {ElMessage, FormInstance} from "element-plus";
 import api from "@/service";
+import {showLoginDialog} from "@/utils/DialogVisible";
 
 export const baseForm = ref<FormInstance>();
 export const retrieveData = reactive({
@@ -98,7 +99,17 @@ export const commitRetrieve = async () => {
         if (valid) {
             try { // TODO: 剥离checkPassword，使用新的对象进行传送
                 const response = await api.postRetrieve(retrieveData.retrieveForm); // 不能传入submitForm！
-                console.log(response.data); // TODO：修改成功与失败的判断与后处理
+                console.log(response.data);
+                if (response.data.code == 1){
+                    ElMessage.success("修改成功！请保存好新密码")
+                    showLoginDialog()
+                    if(baseForm.value)
+                        baseForm.value.resetFields() // 清空表单，打开登录弹窗
+                    // TODO：进行路由跳转
+                }
+                else{
+                    ElMessage.error(response.data.msg)
+                }
             } catch (error: any) {
                 ElMessage.error(error.code+': 提交失败，请检查网络或联系管理员')
             }
@@ -111,30 +122,32 @@ export const commitRetrieve = async () => {
 export const sendRetrieveVRCode = async (userInfo: any): Promise<boolean> => {
     // 由于是异步函数，因此只能使用Promise返回
     if (!baseForm.value)
-        return false
-    return await baseForm.value.validateField('userNumber', async valid => {
-        if (valid) {
-            try {
-                const response = await api.post_sendRetrieveVRCode(userInfo);
-                console.log(response.data);
-                if (response.data.code == 1)
-                {
-                    ElMessage.success("验证码发送成功，请注意查收")
-                    return true
-                }
-                else // 发送失败，可能是账号未存在
-                {
-                    ElMessage.error("找回失败，请检查账号是否已经注册")
-                    // console.log('result')
-                    return false
-                }
-            } catch (error: any) {
-                ElMessage.error(error.code + ': 提交失败，请检查网络或联系管理员')
+        return Promise.resolve(false)
+    let FormValid = false
+    await baseForm.value.validateField('userNumber', (valid)  => {
+        FormValid = valid
+    })
+    // 不要在回调函数里声明异步……
+    if (FormValid) {
+        try {
+            const response = await api.post_sendRetrieveVRCode(userInfo);
+            console.log(response.data);
+            if (response.data.code == 1)
+            {
+                ElMessage.success("验证码发送成功，请注意查收")
+                return true
+            }
+            else // 发送失败，可能是账号未注册
+            {
+                ElMessage.error("找回失败，请检查账号是否未注册")
                 return false
             }
-        } else {
-            ElMessage.error('验证失败，请检查数据是否完整且正确')
+        } catch (error: any) {
+            ElMessage.error(error.code + ': 提交失败，请检查网络或联系管理员')
             return false
         }
-    })
+    } else {
+        ElMessage.error('验证失败，请检查数据是否完整且正确')
+        return false
+    }
 }

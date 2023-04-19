@@ -1,5 +1,6 @@
 <template>
-    <el-dialog class="log_reg_dialog" v-model="RegisterDialogVisible" title="注 册 账 号" width="30%">
+    <el-dialog class="log_reg_dialog" v-model="RegisterDialogVisible" title="注 册 账 号"
+               width="30%" @close="registerDialogClose">
         <div class="register-form">
             <el-form ref="baseForm" :model="registerData.registerForm"
                      :rules="registerRules" label-width="auto"
@@ -62,6 +63,7 @@ export default defineComponent({
                 return
             }
             const result = await sendRegisterVRCode({userNumber: registerData.registerForm.userNumber})
+            // await 异步操作必须返回一个Promise对象，否则await不会等待
             if (result)
             {
                 if (sendVRCodeButtonTimer == null) {
@@ -81,6 +83,10 @@ export default defineComponent({
                 }
             }
         }
+        const registerDialogClose = () => {
+            if(baseForm.value)
+                baseForm.value.resetFields() // 清空表单
+        }
         return {
             registerData,
             registerRules,
@@ -91,7 +97,8 @@ export default defineComponent({
             sendRegisterVRCode,
             getVRCodeHandler,
             sendVRCodeButtonMessage,
-            sendVRCodeButtonDisabled
+            sendVRCodeButtonDisabled,
+            registerDialogClose
         }
     }
 })

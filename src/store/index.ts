@@ -1,5 +1,4 @@
 import { createStore } from 'vuex'
-import {ElMessage} from "element-plus";
 
 export default createStore({
   state:{
@@ -13,7 +12,6 @@ export default createStore({
   mutations: {
     setUserID (state, ID) {
       state.userID = ID
-      ElMessage.success(state.userID)
     }
   },
   actions: {
