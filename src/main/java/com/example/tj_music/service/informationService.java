@@ -27,75 +27,84 @@ public class informationService {
     }
 
     /**
-     * updateUserNickName
-     * @param userId
+     * get information by student number
+     * @param studentNum
      * @return
      */
-    public void updateUserNickName(String nickName, Integer userId) {
-        userMapper.updateUserNicknameById(nickName, userId);
+    public User getInformationByStudentNumber(String studentNum) {
+        return userMapper.selectUserByStudentNumber(studentNum);
+    }
+
+    /**
+     * get information by student number
+     * @param studentNum
+     * @return
+     */
+    public void updateUserNickName(String nickname, String studentNum){
+        userMapper.updateUserNicknameByStudentNumber(nickname, studentNum);
     }
 
     /**
      * updateUserCollege
-     * @param userId
+     * @param studentNum
      * @return
      */
-    public void updateUserCollege(String college, Integer userId) {
-        userMapper.updateUserCollegeById(college, userId);
+    public void updateUserCollege(String college, String studentNum) {
+        userMapper.updateUserCollegeByStudentNumber(college, studentNum);
     }
 
     /**
      * updateUserMajor
-     * @param userId
+     * @param studentNum
      * @return
      */
-    public void updateUserMajor(String major, Integer userId) {
-        userMapper.updateUserMajorById(major, userId);
+    public void updateUserMajor(String major, String studentNum) {
+        userMapper.updateUserMajorByStudentNumber(major, studentNum);
     }
-
 
     /**
      * updateUserArea1
-     * @param userId
+     * @param studentNum
      * @return
      */
-    public void updateUserArea1(String area1, Integer userId) {
-        userMapper.updateUserArea1ById(area1, userId);
+    public void updateUserArea1(String area1, String studentNum) {
+        userMapper.updateUserArea1ByStudentNumber(area1, studentNum);
     }
 
     /**
      * updateUserArea2
-     * @param userId
+     * @param studentNum
      * @return
      */
-    public void updateUserArea2(String area2, Integer userId) {
-        userMapper.updateUserArea2ById(area2, userId);
+    public void updateUserArea2(String area2, String studentNum) {
+        userMapper.updateUserArea2ByStudentNumber(area2, studentNum);
     }
 
     /**
      * updateUserBirthday
-     * @param userId
+     * @param studentNum
      * @return
      */
-    public void updateUserBirthday(Date birthday, Integer userId) {
-        userMapper.updateUserBirthdayById(birthday, userId);
+    public void updateUserBirthday(Date birthday, String studentNum) {
+        userMapper.updateUserBirthdayByStudentNumber(birthday, studentNum);
     }
+
     /**
      * updateUserGender
-     * @param userId
+     * @param studentNum
      * @return
      */
-    public void updateUserGender(String gender, Integer userId){
-        userMapper.updateUserGenderById(gender, userId);
+    public void updateUserGender(String gender, String studentNum){
+        userMapper.updateUserGenderByStudentNumber(gender, studentNum);
     }
 
     /**
      * updateUserSignature
-     * @param userId
+     * @param studentNum
      * @return
      */
-    public void updateUserSignature(String signature, Integer userId) {
-        userMapper.updateUserSignatureById(signature, userId);
+    public void updateUserSignature(String signature, String studentNum) {
+        userMapper.updateUserSignatureByStudentNumber(signature, studentNum);
     }
 
     /**
@@ -103,8 +112,8 @@ public class informationService {
      * @param studentNum
      * @return
      */
-    public void updateUserPassword(String studentNum, String password) {
-        userMapper.updateUserPasswordByStudentNumber(studentNum, password);
+    public void updateUserPassword(String password, String studentNum) {
+        userMapper.updateUserPasswordByStudentNumber(password, studentNum);
     }
 
     /**
@@ -112,7 +121,7 @@ public class informationService {
      * @param studentNum
      * @return
      */
-    public void updateUserProfileImage(String studentNum, String profileImage) {
-        userMapper.updateUserProfileImageByStudentNumber(studentNum, profileImage);
+    public void updateUserProfileImage(String profileImage, String studentNum) {
+        userMapper.updateUserProfileImageByStudentNumber(profileImage, studentNum);
     }
 }
