@@ -2,7 +2,7 @@
 import {reactive, ref} from "vue";
 import {ElMessage, FormInstance} from "element-plus";
 import api from "@/service";
-import {pwdCheck, userNumberCheck} from "@/utils/Texts/retrieveText";
+import {pwdCheck, userNumberCheck, VRCodeCheck} from "@/utils/Texts/retrieveText";
 
 export const baseForm = ref<FormInstance>();
 export const registerData = reactive({
@@ -65,8 +65,7 @@ export const registerRules = reactive ({
             message: '请输入验证码'
         },
         {
-            type: 'string',
-            message: '验证码格式错误',
+            validator: VRCodeCheck,
             trigger: 'blur'
         }
     ]
@@ -97,8 +96,16 @@ export const sendRegisterVRCode = async (userInfo: any): Promise<boolean> => {
             try {
                 const response = await api.post_sendRegisterVRCode(userInfo);
                 console.log(response.data);
-                ElMessage.success("验证码发送成功，请注意查收")
-                return true
+                if (response.data.code == 1)
+                {
+                    ElMessage.success("验证码发送成功，请注意查收")
+                    return true
+                }
+                else // 发送失败，可能是账号已经存在
+                {
+                    ElMessage.error("注册失败，请检查账号是否已经存在")
+                    return false
+                }
             } catch (error: any) {
                 ElMessage.error(error.code + ': 提交失败，请检查网络或联系管理员')
                 return false

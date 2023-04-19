@@ -34,10 +34,19 @@ export const commitLogin = async () => {
         if (valid) {
             try {
                 const response = await api.postLogin(loginData.loginForm); // 不能传入submitForm！
-                console.log(response.data); // TODO：登陆成功与失败的后处理
-                store.commit('setUserID', loginData.loginForm.userNumber)
-                ElMessage.success("登陆成功！")
-                //location.reload()
+
+                console.log(response.data);
+                if (response.data.code == 1)
+                {
+                    store.commit('setUserID', loginData.loginForm.userNumber)
+                    ElMessage.success("登陆成功！")
+                    location.reload()
+                }
+                else
+                {
+                    ElMessage.error("登陆失败！请检查密码是否正确及是否已注册！")
+                }
+
             } catch (error: any) {
                 ElMessage.error(error.code+': 提交失败，请检查网络或联系管理员')
             }

@@ -12,7 +12,7 @@
                         <el-input v-model="retrieveData.retrieveForm.verificationCode"></el-input>
                     </el-col>
                     <el-col :span="12">
-                        <el-button :disabled="sendVRCodeButtonDisabled"
+                        <el-button class="VRCodeButton" :disabled="sendVRCodeButtonDisabled"
                                    @click="getVRCodeHandler">{{sendVRCodeButtonMessage}}</el-button>
                     </el-col>
                     <el-col :span="2">
@@ -62,6 +62,7 @@ export default {
                 return
             }
             const result = await sendRetrieveVRCode({userNumber: retrieveData.retrieveForm.userNumber})
+            // console.log('result: ' + result)
             if (result)
             {
                 if (sendVRCodeButtonTimer == null) {

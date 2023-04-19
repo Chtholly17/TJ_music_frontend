@@ -14,6 +14,7 @@ export default createStore({
   mutations: {
     setUserID (state, ID) {
       state.userID = ID
+      ElMessage.success(state.userID)
     }
   },
   actions: {
