@@ -83,11 +83,13 @@ public class accountController {
      * code:0 represents the verification code is wrong.
      * @param userNumber
      * @param verificationCode
+     * @param password
+     * @param checkPassword
      * @return Result
      */
     @PostMapping("/forgetPasswordCheck")
-    public Result forgetPasswordCheckVerificationCode(@RequestParam("userNumber") String userNumber, @RequestParam("verificationCode") String verificationCode) {
-        return accountService.forgetPasswordCheckVerificationCode(userNumber, verificationCode);
+    public Result forgetPasswordCheckVerificationCode(@RequestParam("userNumber") String userNumber, @RequestParam("verificationCode") String verificationCode, @RequestParam("password") String password, @RequestParam("checkPassword") String checkPassword) {
+        return accountService.forgetPasswordCheckVerificationCode(userNumber, verificationCode, password, checkPassword);
     }
 
     /**

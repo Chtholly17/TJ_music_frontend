@@ -111,11 +111,13 @@ public class accountService {
     public Result registerCheckVerificationCode(String userNumber, String password, String verificationCode, String checkPassword) {
         User user = userMapper.selectUserByStudentNumber(userNumber);
         if (Objects.equals(verificationCode, this.verificationCode)) {
+
             if (!Objects.equals(password, checkPassword))
                 return new Result(2, "Register failed. The password is not the same", null);
 
             userMapper.insertUser(userNumber, password, "user", "user", "user");
             return new Result(1, "Register succeeded", null);
+
         } else
             return new Result(0, "Register failed. The verification code is wrong", null);
     }
@@ -137,16 +139,23 @@ public class accountService {
 
     /**
      * forget password check verification code.
+     * code:2 represents the password is not the same.
      * code:1 represents checking verification code successfully.
      * code:0 represents the verification code is wrong.
      * @param userNumber
      * @param verificationCode
+     * @param password
+     * @param checkPassword
      * @return Result
      */
-    public Result forgetPasswordCheckVerificationCode(String userNumber, String verificationCode) {
+    public Result forgetPasswordCheckVerificationCode(String userNumber, String verificationCode, String password, String checkPassword) {
         User user = userMapper.selectUserByStudentNumber(userNumber);
-        if (Objects.equals(verificationCode, "12345"))
-            return new Result(1, "Checking the verification code succeeded", null);
+        if (Objects.equals(verificationCode, this.verificationCode)) {
+            if (!Objects.equals(password, checkPassword))
+                return new Result(2, "Forget password failed. The password is not the same", null);
+            else
+                return new Result(1, "Forget password successfully.", null);
+        }
         else
             return new Result(0, "Forget password failed. The verification code is wrong", null);
     }
