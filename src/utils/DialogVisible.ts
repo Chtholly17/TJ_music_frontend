@@ -22,3 +22,8 @@ export const showRetrieveDialog = ()=> {
     LoginDialogVisible.value = false
     RetrieveDialogVisible.value = true
 }
+export const closeAllDialogs = () => {
+    RegisterDialogVisible.value = false
+    LoginDialogVisible.value = false
+    RetrieveDialogVisible.value = false
+}

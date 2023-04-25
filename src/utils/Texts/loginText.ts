@@ -3,6 +3,7 @@ import {reactive, ref} from "vue";
 import {ElMessage, FormInstance} from "element-plus";
 import api from "@/service";
 import store from "@/store";
+import {closeAllDialogs} from "@/utils/DialogVisible";
 
 export const baseForm = ref<FormInstance>();
 export const loginData = reactive({
@@ -30,21 +31,23 @@ export const loginRules = reactive ({
 export const commitLogin = async () => {
     if (!baseForm.value)
         return
+    // 注意：这个await很可能并没有处于等待状态！
     await baseForm.value.validate( async (valid: any) => {
         if (valid) {
             try {
                 const response = await api.postLogin(loginData.loginForm); // 不能传入submitForm！
 
                 console.log(response.data);
-                if (response.data.code == 1)
-                {
+                if (response.data.code == 1){
                     store.commit('setUserID', loginData.loginForm.userNumber)
                     ElMessage.success("登陆成功！")
-                    location.reload()
+                    closeAllDialogs()
+                    if(baseForm.value)
+                        baseForm.value.resetFields() // 清空表单，关闭所有弹窗
+                    // TODO：进行路由跳转
                 }
-                else
-                {
-                    ElMessage.error("登陆失败！请检查密码是否正确及是否已注册！")
+                else{
+                    ElMessage.error(response.data.msg)
                 }
 
             } catch (error: any) {
