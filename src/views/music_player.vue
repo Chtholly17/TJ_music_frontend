@@ -83,7 +83,7 @@ export default {
     setup(){
         const input="";
         const items=[
-            { name: "青花瓷" ,singer:"周杰伦"},
+            { name: "锦鲤抄" ,singer:"银临"},
             { name: "东风破" ,singer:"周杰伦"},
             { name: "花海" ,singer:"周杰伦"},
             { name: "千里之外" ,singer:"周杰伦/费玉清"},

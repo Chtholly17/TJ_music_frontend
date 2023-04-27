@@ -9,9 +9,28 @@ const routes: Array<RouteRecordRaw> = [
     component: HomeView
   },
   {
-    path: '/music_player',
-    name: 'music_player',
-    component: music_player
+
+    path:"/music_player",
+    name:"music_player",
+    component:music_player
+  },
+  {
+    redirect:'/user/music_library',
+    path:'/user',
+    name:'user',
+    component:()=>import('../views/user/UserManagementView.vue'),
+    children:[
+      {
+        path:'music_library',
+        name:'user_music_library',
+        component:() =>import('../views/user/UserMusicLibraryView.vue')
+      },
+      {
+        path:'post',
+        name:'user_post',
+        component:()=>import('../views/user/UserPostView.vue')
+      }
+    ]
   },
   // {
   //   path: '/Login',
