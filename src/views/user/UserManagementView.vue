@@ -2,19 +2,23 @@
     <div class="common-layout">
         <el-container>
             <el-aside class="user_aside" :style="{width: aside_width + 'vh'}"></el-aside>
-            <el-main class="user_main">
+            <el-main class="user_main" >
                 <el-row :gutter="20">
                     <el-col :span="8">
                        <img :src=user_photo_url class="user_photo" >
+<!--                        <el-image class="personal-img" fit="contain" :src=user_photo_url @click="dialogTableVisible = true" />-->
                         <div style="height: 10px"></div>
                         <el-button type="primary" >更换头像</el-button>
                     </el-col>
                     <el-col :span="6">
+                        <div style="height: 30px"></div>
                         <p style="font-size: 30px;text-align: left;font-family:SimHei;font-style: italic">{{userinfoData.userinfoForm.new_nickname}}</p>
 <!--                        <p style="text-align: left"> 姓名: &nbsp; &nbsp;{{user_name}}</p>-->
+                        <div style="height: 30px"></div>
                         <p style="text-align: left"> 学号: &nbsp; &nbsp;{{userinfoData.userinfoForm.user_student_number}}</p>
 <!--                        <p style="text-align: left"> 生日: &nbsp; &nbsp;{{user_brithday}}</p>-->
 <!--                        <p style="text-align: left"> 家乡: &nbsp; &nbsp;{{user_home}}</p>-->
+                        <div style="height: 30px"></div>
                         <p style="text-align: left"> 个性签名: &nbsp; &nbsp;{{userinfoData.userinfoForm.new_signature}}</p>
 
                     </el-col>
@@ -44,7 +48,7 @@
                     </el-col>
                 </el-row>
 
-                <router-view class="child_page"></router-view>
+<!--                <router-view class="child_page"></router-view>-->
 
             </el-main>
             <el-aside class="user_aside" :style="{width: aside_width + 'vh'}"></el-aside>
@@ -69,7 +73,7 @@ export default {
     //components: {UserInfoView},
    data(){
         return{
-            aside_width:35,
+            aside_width:5,
             user_photo_url:require("../../assets/profile.jpg"),
             nickname:"日本天皇",
             user_name:"孙笑川",
@@ -140,14 +144,14 @@ export default {
     /*boxShadow: '0px 0px 0px 4px white, 0px 0px 0px 5px black';*/
 
     /*圆角边框*/
-    /*border: 2px solid black;*/
-    /*border-radius: 10px;*/
-    /*padding: 10px;*/
+    border: 2px solid white;
+    border-radius: 50%;
+    padding: 10px;
 
     /*阴影边框*/
-    padding: 10px;
-    border-radius:50%;
-    box-shadow: 0px 0px 5px 10px rgba(0,0,0,0.5);
+    /*padding: 10px;*/
+    /*border-radius:50%;*/
+    /*box-shadow: 0px 0px 5px 10px rgba(0,0,0,0.5);*/
 }
 .common-layout{
     overflow-y: auto;
