@@ -1,20 +1,34 @@
 <template>
-    <navigationMenu></navigationMenu>
-
-    <router-view></router-view>
-    <login-dialogue></login-dialogue>
-    <register-dialog></register-dialog>
-    <retrieve-dialog></retrieve-dialog>
+    <div id="app">
+        <navigation-menu></navigation-menu>
+        <router-view></router-view>
+    </div>
 </template>
 
-<style>
+<style lang="scss">
+
 #app {
     font-family: sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
 }
-/*<<<<<<< HEAD*/
+
+.el-button--primary:focus{
+    background: #CC2288 !important;
+    border-color: #CC2288 !important;
+    color: #ffffff !important;
+}
+.el-button--primary:hover{
+    background: #c965a2 !important;
+    border-color: #c965a2 !important;
+    color: #ffffff !important;
+}
+.el-button--primary{
+    background: #CC2288 !important;
+    border-color: #CC2288 !important;
+    color: #ffffff !important;
+}
 
 /*nav {*/
 /*  padding: 30px;*/
@@ -31,26 +45,17 @@
 /*    margin-top: 10px;*/
 /*}*/
 
-.log_reg_dialog{
-    padding-left: 1em;
-    padding-right: 1em;
-    padding-bottom: 0;
-}
+/*.log_reg_dialog{*/
+/*    padding-left: 1em;*/
+/*    padding-right: 1em;*/
+/*    padding-bottom: 0;*/
+/*}*/
 
 *{
     font-family: "微软雅黑 Light", sans-serif;
-}
-.el-input .el-input__inner{
-    height: 35px;
-    letter-spacing: 1px;
-    padding: 0 4px;
 }
 </style>
 
 <script setup lang="ts">
 import NavigationMenu from "@/components/NavigationMenu.vue";
-import LoginDialogue from "@/components/LoginDialogue.vue";
-import RegisterDialog from "@/components/RegisterDialog.vue";
-import RetrieveDialog from "@/components/RetrieveDialog.vue";
-
 </script>

@@ -84,7 +84,6 @@ export const commitRegister = async () => {
                     showLoginDialog()
                     if(baseForm.value)
                         baseForm.value.resetFields() // 清空表单，打开登录弹窗
-                    // TODO：进行路由跳转
                 }
                 else {
                     ElMessage.error(response.data.msg)

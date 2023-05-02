@@ -1,10 +1,18 @@
 <template>
-  <div class="home">
-      <h3> Corpse </h3>
-      <img src="../assets/profile.jpg" alt="啊哦，马老师照片不见了">
+  <div>
+      <h1> 这里是一片蛮荒…… </h1>
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts">
+import {defineComponent, onBeforeMount} from "vue";
+import router from "@/router";
 
+export default defineComponent({
+    setup() {
+        onBeforeMount(()=>{
+            router.replace({path: "/hello"})
+        })
+    }
+})
 </script>

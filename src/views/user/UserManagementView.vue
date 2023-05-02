@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import { Delete, Edit, Search, Share, Upload,View } from '@element-plus/icons-vue';
+import { Edit, Search, Share, Upload,View } from '@element-plus/icons-vue';
 import UserInfoView from "@/views/user/UserInfoView.vue";
 import {computed, onBeforeMount, provide, ref} from "vue";
 // import store from "@/store";

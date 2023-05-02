@@ -4,6 +4,7 @@ import {ElMessage, FormInstance} from "element-plus";
 import api from "@/service";
 import store from "@/store";
 import {closeAllDialogs} from "@/utils/DialogVisible";
+import router from "@/router";
 
 export const baseForm = ref<FormInstance>();
 export const loginData = reactive({
@@ -44,7 +45,7 @@ export const commitLogin = async () => {
                     closeAllDialogs()
                     if(baseForm.value)
                         baseForm.value.resetFields() // 清空表单，关闭所有弹窗
-                    // TODO：进行路由跳转
+                    await router.replace({path: '/square'})
                 }
                 else{
                     ElMessage.error(response.data.msg)

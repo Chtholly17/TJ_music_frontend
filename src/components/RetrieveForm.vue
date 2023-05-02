@@ -1,42 +1,52 @@
 <template>
-    <el-dialog class="log_reg_dialog" v-model="RetrieveDialogVisible" title="找 回 账 号" width="30%" :lock-scroll="false">
-        <div class="retrieve-form">
-            <el-form ref="baseForm" :model="retrieveData.retrieveForm"
-                     :rules="retrieveRules" label-width="auto"
-                     :hide-required-asterisk="true">
-                <el-form-item label="学号" prop="userNumber">
-                    <el-input v-model="retrieveData.retrieveForm.userNumber"></el-input>
-                </el-form-item>
-                <el-form-item label="验证码" prop="verificationCode">
-                    <el-col :span="10">
-                        <el-input v-model="retrieveData.retrieveForm.verificationCode"></el-input>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-button class="VRCodeButton" :disabled="sendVRCodeButtonDisabled"
-                                   @click="getVRCodeHandler">{{sendVRCodeButtonMessage}}</el-button>
-                    </el-col>
-                    <el-col :span="2">
-                        <div class="tip_icon">
-                            <el-tooltip content="向同济邮箱（学号@tongji.edu.cn）发送验证码">
-                                <el-icon :size="15"><QuestionFilled /></el-icon>
-                            </el-tooltip>
-                        </div>
-                    </el-col>
-                </el-form-item>
-                <el-form-item label="新密码" prop="password">
-                    <el-input v-model="retrieveData.retrieveForm.password" show-password></el-input>
-                </el-form-item>
-                <el-form-item label="确认密码" prop="checkPassword">
-                    <el-input v-model="retrieveData.retrieveForm.checkPassword" show-password></el-input>
-                </el-form-item>
-            </el-form>
-            <el-button class=AccountDialogButton type="primary"
-                       @click="commitRetrieve" round>找&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</el-button>
-        </div>
+    <div class="retrieve-form">
+        <el-form ref="baseForm" :model="retrieveData.retrieveForm"
+                 :rules="retrieveRules" label-width="auto"
+                 :hide-required-asterisk="true">
+            <el-form-item prop="userNumber">
+                <el-input v-model="retrieveData.retrieveForm.userNumber"
+                          placeholder="学号"
+                          prefix-icon="User"></el-input>
+            </el-form-item>
+            <el-form-item prop="verificationCode">
+                <el-col :span="12">
+                    <el-input v-model="retrieveData.retrieveForm.verificationCode"
+                              prefix-icon="Message"
+                              placeholder="验证码"></el-input>
+                </el-col>
+                <el-col :span="10">
+                    <el-button class="VRCodeButton" :disabled="sendVRCodeButtonDisabled"
+                               @click="getVRCodeHandler">{{sendVRCodeButtonMessage}}</el-button>
+                </el-col>
+                <el-col :span="2">
+                    <div class="tip_icon">
+                        <el-tooltip content="向同济邮箱（学号@tongji.edu.cn）发送验证码">
+                            <el-icon :size="15"><QuestionFilled /></el-icon>
+                        </el-tooltip>
+                    </div>
+                </el-col>
+            </el-form-item>
+            <el-form-item prop="password">
+                <el-input v-model="retrieveData.retrieveForm.password"
+                          placeholder="新密码"
+                          prefix-icon="Lock"
+                          show-password></el-input>
+            </el-form-item>
+            <el-form-item prop="checkPassword">
+                <el-input v-model="retrieveData.retrieveForm.checkPassword"
+                          placeholder="确认新密码"
+                          prefix-icon="Lock"
+                          show-password></el-input>
+            </el-form-item>
+        </el-form>
+        <el-button class=AccountDialogButton type="primary"
+                   @click="commitRetrieve" round>找&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回</el-button>
+    </div>
+    <div>
         <el-button class="AccountChangeDialogButton"
                    @click="showLoginDialog"
                    link>去登录</el-button>
-    </el-dialog>
+    </div>
 </template>
 
 <script lang="ts">
@@ -46,6 +56,7 @@ import {retrieveRules} from "@/utils/Texts/retrieveText";
 import {RetrieveDialogVisible, showLoginDialog} from "@/utils/DialogVisible";
 import {ElMessage} from "element-plus";
 import {ref} from "vue";
+import {Lock, Message, User} from "@element-plus/icons-vue";
 
 export default {
     name: "RetrieveForm",
@@ -83,6 +94,9 @@ export default {
             }
         }
         return {
+            User,
+            Lock,
+            Message,
             retrieveData,
             retrieveRules,
             baseForm,
@@ -97,5 +111,5 @@ export default {
 } // TODO：固定验证码按钮宽度
 </script>
 
-<style scoped>
+<style src="@/assets/CSS/preface.scss" lang="scss" scoped>
 </style>

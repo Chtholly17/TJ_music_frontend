@@ -1,12 +1,10 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 import music_player from "@/views/music_player.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView
+    redirect:'/hello',
   },
   {
     path:"/music_player",
@@ -31,6 +29,16 @@ const routes: Array<RouteRecordRaw> = [
       }
     ]
   },
+  {
+    path:'/hello',
+    name:'hello',
+    component:()=>import('../views/PrefaceView.vue'),
+  },
+  {
+    path: '/square',
+    name: 'square',
+    component:()=>import('../views/SquareView.vue'),
+  }
 
 
   // {
@@ -39,13 +47,8 @@ const routes: Array<RouteRecordRaw> = [
   //   // route level code-splitting
   //   // this generates a separate chunk (about.[hash].js) for this route
   //   // which is lazy-loaded when the route is visited.
-  //   component: () => import(/* webpackChunkName: "about" */ '../views/LoginView.vue')
+  //   component: () => import(/* webpackChunkName: "about" */ '../views/PrefaceView.vue')
   // },
-  // {
-  //   path: '/Register',
-  //   name: 'Register',
-  //   component: () => import('../views/RegisterView.vue')
-  // }
 ]
 
 const router = createRouter({
