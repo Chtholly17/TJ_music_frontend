@@ -38,6 +38,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/square',
     name: 'square',
     component:()=>import('../views/SquareView.vue'),
+  },
+  {
+    path: '/accompaniment',
+    name: 'accompaniment',
+    component:()=>import('../views/accompanimentView.vue'),
   }
 
 

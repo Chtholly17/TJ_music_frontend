@@ -1,6 +1,8 @@
 <template>
     <div id="app">
-        <navigation-menu></navigation-menu>
+        <el-affix>
+            <navigation-menu></navigation-menu>
+        </el-affix>
         <router-view></router-view>
     </div>
 </template>
@@ -12,6 +14,9 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
+
+    overflow: auto;
+    height: 100%
 }
 
 .el-button--primary:focus{
