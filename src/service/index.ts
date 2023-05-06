@@ -38,6 +38,11 @@ const api = {
     getUserInfo(user_id:any)  //获取用户信息
     {
         return axios.get(path.baseUrl + path.getuserinfo,user_id)
+    },
+    postSearchAccompaniment(keyword: any)
+    {
+        console.log(keyword)
+        // return axios.get(path.baseUrl + path.postSearch, keyword)
     }
 }
 

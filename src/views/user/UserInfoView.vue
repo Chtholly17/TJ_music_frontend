@@ -44,15 +44,15 @@
 </template>
 
 <script>
-import {computed, inject, onBeforeMount, onMounted, reactive, ref} from "vue";
-import { provinceAndCityData, CodeToText } from 'element-china-area-data'
+import {computed, inject, onBeforeMount, ref} from "vue";
+import { provinceAndCityData } from 'element-china-area-data'
 import {baseForm,userinfoData,userinfoRules,commitUserInfo} from "@/utils/Texts/userinfoText";
 import {mapGetters} from "vuex";
 import store from "@/store";
 import { useStore } from 'vuex'
 
 export default {
-    name: "UserInfoView",
+   name: "UserInfoView",
    computed: {
       store() {
          return store
@@ -64,41 +64,41 @@ export default {
    },
 
    setup(props,cxt)
-    {
-       const store = useStore()
-       const options=provinceAndCityData
-       const area=ref([])
-       const count = computed(() => store.getters.getUserID)
-       onBeforeMount(()=>{
-          userinfoData.userinfoForm.user_student_number= count.value;
-          area.value.push(userinfoData.userinfoForm.new_area1)
-          area.value.push(userinfoData.userinfoForm.new_area2)
-       })
-        const user_info_show=inject("user_info_show");
+   {
+      const store = useStore()
+      const options=provinceAndCityData
+      const area=ref([])
+      const count = computed(() => store.getters.getUserID)
+      onBeforeMount(()=>{
+         userinfoData.userinfoForm.user_student_number= count.value;
+         area.value.push(userinfoData.userinfoForm.new_area1)
+         area.value.push(userinfoData.userinfoForm.new_area2)
+      })
+      const user_info_show=inject("user_info_show");
 
-       const onSubmit = () => {
-          commitUserInfo();
-          cxt.emit("pass_nickname",userinfoData.userinfoForm.new_nickname);  //向父组件传递昵称参数
-          cxt.emit("pass_signature",userinfoData.userinfoForm.new_signature);  //向父组件传递签名参数
-          user_info_show.value=false;
-       }
-        return{
-           user_info_show,
-           // form,
-           onSubmit,
-           userinfoRules,
-           baseForm,
-           area,
-           onBeforeMount,
-           options
-        }
-    }
+      const onSubmit = () => {
+         commitUserInfo();
+         cxt.emit("pass_nickname",userinfoData.userinfoForm.new_nickname);  //向父组件传递昵称参数
+         cxt.emit("pass_signature",userinfoData.userinfoForm.new_signature);  //向父组件传递签名参数
+         user_info_show.value=false;
+      }
+      return{
+         user_info_show,
+         // form,
+         onSubmit,
+         userinfoRules,
+         baseForm,
+         area,
+         onBeforeMount,
+         options
+      }
+   }
 }
 
 </script>
 
 <style scoped>
 .user_info{
-    overflow: hidden;
+   overflow: hidden;
 }
 </style>

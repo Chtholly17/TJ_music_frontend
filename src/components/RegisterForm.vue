@@ -1,42 +1,51 @@
 <template>
-    <el-dialog class="log_reg_dialog" v-model="RegisterDialogVisible" title="注 册 账 号" width="30%" :lock-scroll="false">
-        <div class="register-form">
-            <el-form ref="baseForm" :model="registerData.registerForm"
-                     :rules="registerRules" label-width="auto"
-                     :hide-required-asterisk="true">
-                <el-form-item label="学号" prop="userNumber">
-                    <el-input v-model="registerData.registerForm.userNumber"></el-input>
-                </el-form-item>
-                <el-form-item label="验证码" prop="verificationCode">
-                    <el-col :span="10">
-                        <el-input v-model="registerData.registerForm.verificationCode"></el-input>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-button class="VRCodeButton" :disabled="sendVRCodeButtonDisabled"
-                                   @click="getVRCodeHandler">{{sendVRCodeButtonMessage}}</el-button>
-                    </el-col>
-                    <el-col :span="2">
-                        <div class="tip_icon">
-                            <el-tooltip content="向同济邮箱（学号@tongji.edu.cn）发送验证码">
-                                <el-icon :size="15"><QuestionFilled /></el-icon>
-                            </el-tooltip>
-                        </div>
-                    </el-col>
-                </el-form-item>
-                <el-form-item label="密码" prop="password">
-                    <el-input v-model="registerData.registerForm.password" show-password></el-input>
-                </el-form-item>
-                <el-form-item label="确认密码" prop="checkPassword">
-                    <el-input v-model="registerData.registerForm.checkPassword" show-password></el-input>
-                </el-form-item>
-            </el-form>
-            <el-button class=AccountDialogButton type="primary"
-                       @click="commitRegister" round>注&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;册</el-button>
-        </div>
+    <div>
+        <el-form ref="baseForm" :model="registerData.registerForm" :rules="registerRules"
+                 label-width="auto" :hide-required-asterisk="true">
+            <el-form-item prop="userNumber">
+                <el-input v-model="registerData.registerForm.userNumber"
+                          placeholder="学号"
+                          prefix-icon="User"></el-input>
+            </el-form-item>
+            <el-form-item prop="verificationCode">
+                <el-col :span="12">
+                    <el-input v-model="registerData.registerForm.verificationCode"
+                              prefix-icon="Message"
+                              placeholder="验证码"></el-input>
+                </el-col>
+                <el-col :span="10">
+                    <el-button class="VRCodeButton" :disabled="sendVRCodeButtonDisabled"
+                               @click="getVRCodeHandler">{{sendVRCodeButtonMessage}}</el-button>
+                </el-col>
+                <el-col :span="2">
+                    <div class="tip_icon">
+                        <el-tooltip content="向同济邮箱（学号@tongji.edu.cn）发送验证码">
+                            <el-icon :size="15"><QuestionFilled /></el-icon>
+                        </el-tooltip>
+                    </div>
+                </el-col>
+            </el-form-item>
+            <el-form-item prop="password">
+                <el-input v-model="registerData.registerForm.password"
+                          placeholder="密码"
+                          prefix-icon="Lock"
+                          show-password></el-input>
+            </el-form-item>
+            <el-form-item prop="checkPassword">
+                <el-input v-model="registerData.registerForm.checkPassword"
+                          placeholder="确认密码"
+                          prefix-icon="Lock"
+                          show-password></el-input>
+            </el-form-item>
+        </el-form>
+        <el-button class=AccountDialogButton type="primary"
+                   @click="commitRegister" round>注&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;册</el-button>
+    </div>
+    <div>
         <el-button class="AccountChangeDialogButton"
                    @click="showLoginDialog"
                    link>已有账号，去登录</el-button>
-    </el-dialog>
+    </div>
 </template>
 
 <script lang="ts">
@@ -46,6 +55,7 @@ import {registerRules} from "@/utils/Texts/registerText";
 import {defineComponent, ref} from "vue";
 import {RegisterDialogVisible, showLoginDialog} from "@/utils/DialogVisible";
 import {ElMessage} from "element-plus";
+import {User, Lock, Message} from "@element-plus/icons-vue";
 
 export default defineComponent({
     name: "RegisterForm",
@@ -82,6 +92,9 @@ export default defineComponent({
             }
         }
         return {
+            User,
+            Lock,
+            Message,
             registerData,
             registerRules,
             baseForm,
@@ -97,26 +110,5 @@ export default defineComponent({
 })
 </script>
 
-<style>
-.AccountDialogButton{
-    display: flex;
-    flex-direction: row;
-    margin-top: 10px;
-    margin-left: auto;
-    margin-right: auto;
-    width: 40%;
-    font-size: 15px !important;
-    height: 40px !important;
-}
-.tip_icon{
-    display: flex;
-    align-items: center;
-}
-.AccountChangeDialogButton{
-    margin-top: 20px;
-    font-size: 10px !important;
-}
-.VRCodeButton{
-    width: 100px !important;
-}
+<style src="@/assets/CSS/preface.scss" lang="scss" scoped>
 </style>
