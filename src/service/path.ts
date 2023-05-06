@@ -10,7 +10,8 @@ const base = {
     retrieve_sendVRCode: '/forgetPassword',
     retrieve: '/forgetPasswordCheck',
     getuserinfo:'/getUserInfo',    //获取用户信息
-    postuserinfo:'/updateUserinfo'  //提交用户信息
+    postuserinfo:'/updateUserinfo',//提交用户信息
+    postSearch: ''
 }
 
 export default base;

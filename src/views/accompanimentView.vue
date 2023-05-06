@@ -1,5 +1,5 @@
 <template>
-    <div id="accompanimentFrame">
+    <div id="accompanimentFrame" :key="keyWord">
         <div id="accompanimentBox">
             <div id="searchResult">搜索结果</div>
             <div id="searchResultNumber"> 共找到{{accompanimentInfo.length}}条结果 >></div>
@@ -18,106 +18,19 @@
 </template>
 
 <script>
-
 import AccompanimentItem from "@/components/accompanimentItem.vue";
 import {ref} from "vue";
+import {onBeforeRouteUpdate, useRoute} from 'vue-router'
+import api from "@/service";
 
 export default {
     name: "accompanimentView",
     components: {AccompanimentItem},
     setup() {
+        //首先在setup中定义
         const getAccompanimentInfo = () => {
+            api.postSearchAccompaniment(keyWord)
             return ref([
-                {
-                    name: '雪distance',
-                    cover: 'profile.jpg',
-                    singer: 'capper',
-                    duration: '03:28'
-                },
-                {
-                    name: '只因你太美',
-                    cover: 'profile.jpg',
-                    singer: 'SWINS',
-                    duration: '03:28'
-                },
-                {
-                    name: '夜に駆ける',
-                    cover: 'profile.jpg',
-                    singer: 'YASOBI',
-                    duration: '03:28'
-                },
-                {
-                    name: '雪distance',
-                    cover: 'profile.jpg',
-                    singer: 'capper',
-                    duration: '03:28'
-                },
-                {
-                    name: '只因你太美',
-                    cover: 'profile.jpg',
-                    singer: 'SWINS',
-                    duration: '03:28'
-                },
-                {
-                    name: '夜に駆ける',
-                    cover: 'profile.jpg',
-                    singer: 'YASOBI',
-                    duration: '03:28'
-                },
-                {
-                    name: '雪distance',
-                    cover: 'profile.jpg',
-                    singer: 'capper',
-                    duration: '03:28'
-                },
-                {
-                    name: '只因你太美',
-                    cover: 'profile.jpg',
-                    singer: 'SWINS',
-                    duration: '03:28'
-                },
-                {
-                    name: '夜に駆ける',
-                    cover: 'profile.jpg',
-                    singer: 'YASOBI',
-                    duration: '03:28'
-                },
-                {
-                    name: '雪distance',
-                    cover: 'profile.jpg',
-                    singer: 'capper',
-                    duration: '03:28'
-                },
-                {
-                    name: '只因你太美',
-                    cover: 'profile.jpg',
-                    singer: 'SWINS',
-                    duration: '03:28'
-                },
-                {
-                    name: '夜に駆ける',
-                    cover: 'profile.jpg',
-                    singer: 'YASOBI',
-                    duration: '03:28'
-                },
-                {
-                    name: '雪distance',
-                    cover: 'profile.jpg',
-                    singer: 'capper',
-                    duration: '03:28'
-                },
-                {
-                    name: '只因你太美',
-                    cover: 'profile.jpg',
-                    singer: 'SWINS',
-                    duration: '03:28'
-                },
-                {
-                    name: '夜に駆ける',
-                    cover: 'profile.jpg',
-                    singer: 'YASOBI',
-                    duration: '03:28'
-                },
                 {
                     name: '雪distance',
                     cover: 'profile.jpg',
@@ -138,8 +51,21 @@ export default {
                 },
             ])
         }
-        const accompanimentInfo = getAccompanimentInfo()
+        const route = useRoute()
+        let keyWord = route.query;
+        let accompanimentInfo = getAccompanimentInfo()
+        onBeforeRouteUpdate((to, from, next) => { // 当路由在本界面进行跳转时，需要调用此钩子函数进行重新渲染
+            if(to.name === from.name) {
+                next()
+                keyWord = to.query;
+                accompanimentInfo = getAccompanimentInfo()
+            }
+            else {
+                next()
+            }
+        })
         return {
+            keyWord,
             accompanimentInfo
         }
     }
@@ -148,6 +74,11 @@ export default {
 
 <style lang="scss" scoped>
 #accompanimentFrame{
+    //background: url("@/assets/Login/LoginBackground.jpg");
+    //width: 100%;
+    //height: 100%;
+    //position: fixed;
+    //background-size: 100% 100%;
 }
 #accompanimentBox{
     width: 60%;
@@ -155,7 +86,7 @@ export default {
     margin: 0 auto;
 }
 #searchResult{
-    font-size: 30px;
+    font-size: 25px;
     margin: 10px auto 10px
 }
 #searchResultNumber{
@@ -165,7 +96,7 @@ export default {
 }
 #accompanimentHeader{
     font-weight: bold;
-    font-family: "宋体", sans-serif !important;
+    font-family: "宋体", sans-serif !important; // 好像不能覆盖？
     height: 30px;
 }
 </style>
