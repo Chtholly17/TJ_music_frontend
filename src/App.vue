@@ -35,13 +35,6 @@
     padding-right: 1em;
     padding-bottom: 0;
 }
-<<<<<<< HEAD
-.nav_bar{
-    position:fixed;
-    top:0;
-    width: 100%;
-=======
-
 *{
     font-family: "微软雅黑 Light", sans-serif;
 }
@@ -49,7 +42,6 @@
     height: 35px;
     letter-spacing: 1px;
     padding: 0 4px;
->>>>>>> front-end
 }
 </style>
 
