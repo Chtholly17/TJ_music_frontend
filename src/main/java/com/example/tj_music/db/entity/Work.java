@@ -16,26 +16,10 @@ public class Work {
     private Integer workId;
     private Date createTime;
     private String workName;
-    private String workContent;
+    private String workComment;
     private Integer workOwner;
     private Integer workOriginVersion;
     private Integer workLike;
-
     private String workVoiceFilename;
-
-    // Create a constructor with no parameters
-    public Work() {
-    }
-
-    // Create a constructor with parameters
-    public Work(Integer workId, Date createTime, String workName, String workContent, Integer workOwner, Integer workOriginVersion, Integer workLike) {
-        this.workId = workId;
-        this.createTime = createTime;
-        this.workName = workName;
-        this.workContent = workContent;
-        this.workOwner = workOwner;
-        this.workOriginVersion = workOriginVersion;
-        this.workLike = workLike;
-    }
-
+    private Integer workScore;
 }

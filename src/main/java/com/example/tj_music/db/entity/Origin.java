@@ -21,14 +21,10 @@ public class Origin {
 
     private String originVoiceFilename;
 
-    // Create a constructor without parameters
-    public Origin() {
-    }
-    // Create a constructor with parameters
-    public Origin(int originId, String originName, String originAuthor) {
-        this.originId = originId;
-        this.originName = originName;
-        this.originAuthor = originAuthor;
-    }
+    private Integer originDuration;
+
+    private String originPrefaceFilename;
+
+    private String originIntroduction;
 
 }

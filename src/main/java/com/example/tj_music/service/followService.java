@@ -71,5 +71,41 @@ public class followService {
         return followMapper.selectFollowByOwnerAndTarget(followOwner, followTarget);
     }
 
+    // update the user follow cnt by id
+    public void updateUserFollowCntById(Integer user_id){
+        // first get the true follow cnt
+        System.out.println("user_id: "+user_id);
+        List<Follow> follow_list= followMapper.selectFollowByOwner(user_id);
+        // print out the list of follow
+        for (Follow follow : follow_list) {
+            System.out.println(follow.toString());
+        }
+        Integer follow_cnt = follow_list.size();
+        // print out the user id and update result
+        System.out.println("user_id: "+user_id+" follow_cnt: "+follow_cnt);
+        // then update the user follow cnt
+        userMapper.updateUserFollowCntById(follow_cnt,user_id);
+    }
+
+    // update the user fans cnt by id
+    public void updateUserFansCntById(Integer user_id){
+        // first get the true fans cnt
+        List<Follow> follow_list= followMapper.selectFollowByTarget(user_id);
+        Integer fans_cnt = follow_list.size();
+        // print out the user id and update result
+        System.out.println("user_id: "+user_id+" follow_cnt: "+fans_cnt);
+        // then update the user fans cnt
+        userMapper.updateUserFansCntById(fans_cnt,user_id);
+    }
+
+    // update the user posts cnt by id
+    public void updateUserPostsCntById(Integer user_id){
+        // first get the true posts cnt
+        List<Follow> follow_list= followMapper.selectFollowByTarget(user_id);
+        Integer posts_cnt = follow_list.size();
+        // then update the user posts cnt
+        userMapper.updateUserPostsCntById( posts_cnt,user_id);
+    }
+
 
 }
