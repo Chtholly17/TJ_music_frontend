@@ -7,8 +7,10 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class workController {
     private static Logger log = Logger.getLogger("UserController.class");
 
@@ -21,12 +23,18 @@ public class workController {
      * @return Result, data is a list of work, length is workNumber.
      */
     @GetMapping("/mainPageWorks")
-    public Result getMainPageWorks(int workNumber) {
-        return workService.getMainPageWorks(workNumber);
+    public Result getMainPageWorks(@RequestParam("workNumber") int workNumber) {
+        return workService.getNWorks(workNumber);
     }
 
+    /**
+     * get related works by origin id.
+     * @param originId
+     * @return Result, data is a list of work.
+     */
     @GetMapping("/relatedWorks")
-    public Result getRelatedWorks(int originId) {
+    public Result getRelatedWorks(@RequestParam("originId") int originId) {
         return workService.selectWorkByOriginId(originId);
     }
+
 }

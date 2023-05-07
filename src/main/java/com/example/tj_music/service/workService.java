@@ -22,7 +22,7 @@ public class workService {
         return Result.success(works);
     }
 
-    public Result getMainPageWorks(int n) {
+    public Result getNWorks(int n) {
         List<Work> works = workMapper.selectNWorksWithHighestNWorkLike(n);
         if(works == null) {
             return Result.fail("there are no n works");

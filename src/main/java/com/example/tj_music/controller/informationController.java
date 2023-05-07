@@ -158,4 +158,16 @@ public class informationController {
         informationService.updateUserPassword(new_password, user_student_number);
         return Result.success();
     }
+
+    /**
+     * get user information.
+     * code:1 represents getting user information successfully.
+     * code:0 represents getting user information failed. The account does not exist.
+     * @param userNumber
+     * @return Result, data is a dictionary consist two keys: 'user' and 'workList'
+     */
+    @PostMapping("/UserProfile")
+    public Result getUserProfile(@RequestParam("userNumber") String userNumber) {
+        return informationService.getUserInformation(userNumber);
+    }
 }
