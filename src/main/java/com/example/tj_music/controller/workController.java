@@ -22,7 +22,7 @@ public class workController {
      * @param originId: origin id
      * @return Result, data is a list of work can be null.
      */
-    @GetMapping("/relatedWorks")
+    @GetMapping("/relatedWork")
     public Result selectRelatedWorks(@RequestParam("originId") int originId) {
         return workService.selectWorkByOriginId(originId);
     }
