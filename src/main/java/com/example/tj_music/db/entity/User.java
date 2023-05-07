@@ -45,24 +45,7 @@ public class User {
     private String userGender;
     private String userCollege;
     private String userMajor;
-
-    public User() {
-    }
-
-    public User(Integer userId, Date createTime, String userStudentNumber, String userNickname, String userPassword, String userSignature, String userStatus, String userProfileImageFilename, Date userBirthday, String userArea1, String userArea2, String userGender, String userCollege, String userMajor) {
-        this.userId = userId;
-        this.createTime = createTime;
-        this.userStudentNumber = userStudentNumber;
-        this.userNickname = userNickname;
-        this.userPassword = userPassword;
-        this.userSignature = userSignature;
-        this.userStatus = userStatus;
-        this.userProfileImageFilename = userProfileImageFilename;
-        this.userBirthday = userBirthday;
-        this.userArea1 = userArea1;
-        this.userArea2 = userArea2;
-        this.userGender = userGender;
-        this.userCollege = userCollege;
-        this.userMajor = userMajor;
-    }
+    private Integer userFollowCnt;
+    private Integer userPostsCnt;
+    private Integer userFansCnt;
 }

@@ -71,5 +71,31 @@ public class followService {
         return followMapper.selectFollowByOwnerAndTarget(followOwner, followTarget);
     }
 
+    // update the user follow cnt by id
+    public void updateUserFollowCntById(Integer user_id){
+        List<User> follow_list= selectFollowByOwner(user_id);
+        Integer follow_cnt = follow_list.size();
+        // then update the user follow cnt
+        userMapper.updateUserFollowCntById(follow_cnt,user_id);
+    }
+
+    // update the user fans cnt by id
+    public void updateUserFansCntById(Integer user_id){
+        // first get the true fans cnt
+        List<User> fans_list= selectFollowByTarget(user_id);
+        Integer fans_cnt = fans_list.size();
+        // then update the user fans cnt
+        userMapper.updateUserFansCntById(fans_cnt,user_id);
+    }
+
+    // update the user posts cnt by id
+    public void updateUserPostsCntById(Integer user_id){
+        // first get the true posts cnt
+        List<Follow> follow_list= followMapper.selectFollowByTarget(user_id);
+        Integer posts_cnt = follow_list.size();
+        // then update the user posts cnt
+        userMapper.updateUserPostsCntById( posts_cnt,user_id);
+    }
+
 
 }

@@ -2,17 +2,16 @@ package com.example.tj_music.service;
 
 import com.example.tj_music.db.entity.Appeal;
 import com.example.tj_music.db.entity.User;
+import com.example.tj_music.db.entity.Work;
 import com.example.tj_music.db.mapper.AppealMapper;
 import com.example.tj_music.db.mapper.UserMapper;
+import com.example.tj_music.db.mapper.WorkMapper;
 import com.example.tj_music.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
-import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -26,6 +25,8 @@ public class accountService {
     private AppealMapper appealMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private WorkMapper workMapper;
 
     private String verificationCode;
 
@@ -223,4 +224,5 @@ public class accountService {
         } else
             return new Result(3, "Appeal account failed. The account does not exist", null);
     }
+
 }
