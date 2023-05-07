@@ -9,6 +9,26 @@ import javax.persistence.Id;
 import java.sql.Date;
 import java.time.LocalDateTime;
 
+/**
+ *
+ * @author rkr
+ * @date 2021/4/18
+ * @description: user entity
+ * user_id
+ * create_time
+ * user_student_number
+ * user_nickname
+ * user_password
+ * user_signature
+ * user_status
+ * user_profile_image_filename
+ * user_birthday
+ * user_area1
+ * user_area2
+ * user_gender
+ * user_college
+ * user_major
+ */
 @Data
 public class User {
     private Integer userId;
@@ -19,11 +39,17 @@ public class User {
     private String userSignature;
     private String userStatus;
     private String userProfileImageFilename;
+    private Date userBirthday;
+    private String userArea1;
+    private String userArea2;
+    private String userGender;
+    private String userCollege;
+    private String userMajor;
 
     public User() {
     }
 
-    public User(Integer userId, Date createTime, String userStudentNumber, String userNickname, String userPassword, String userSignature, String userStatus, String userProfileImageFilename) {
+    public User(Integer userId, Date createTime, String userStudentNumber, String userNickname, String userPassword, String userSignature, String userStatus, String userProfileImageFilename, Date userBirthday, String userArea1, String userArea2, String userGender, String userCollege, String userMajor) {
         this.userId = userId;
         this.createTime = createTime;
         this.userStudentNumber = userStudentNumber;
@@ -32,5 +58,11 @@ public class User {
         this.userSignature = userSignature;
         this.userStatus = userStatus;
         this.userProfileImageFilename = userProfileImageFilename;
+        this.userBirthday = userBirthday;
+        this.userArea1 = userArea1;
+        this.userArea2 = userArea2;
+        this.userGender = userGender;
+        this.userCollege = userCollege;
+        this.userMajor = userMajor;
     }
 }
