@@ -131,4 +131,5 @@ public class accountController {
     public Result appealForAccount(@RequestParam("userNumber") String userNumber, @RequestParam("appealContent") String appealContent) {
         return accountService.appealAccount(userNumber, appealContent);
     }
+
 }
