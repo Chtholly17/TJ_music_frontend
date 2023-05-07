@@ -166,7 +166,7 @@ public class informationController {
      * @param userNumber
      * @return Result, data is a dictionary consist two keys: 'user' and 'workList'
      */
-    @PostMapping("/UserProfile")
+    @GetMapping("/UserProfile")
     public Result getUserProfile(@RequestParam("userNumber") String userNumber) {
         return informationService.getUserInformation(userNumber);
     }
