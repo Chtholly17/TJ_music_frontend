@@ -28,7 +28,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path:'music_library',
         name:'user_music_library',
-        component:() =>import('../views/user/UserMusicLibraryView.vue')
+        component:() =>import('../components/user/MusicLibrary.vue')
       },
       {
         path:'post',
@@ -61,6 +61,12 @@ const routes: Array<RouteRecordRaw> = [
     path: '/accompaniment',
     name: 'accompaniment',
     component:()=>import('../views/accompanimentView.vue'),
+  },
+    //榜单路由
+  {
+    path:'/rank',
+    name:'rank',
+    component:()=>import('../views/rankView.vue'),
   }
 
 

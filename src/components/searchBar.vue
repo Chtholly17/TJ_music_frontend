@@ -1,6 +1,6 @@
 <template>
   <div class="searchBar">
-      <el-input prefix-icon="Search" v-model="searchKeyword.keyWord" style="margin: 10px 5px 10px"></el-input>
+      <el-input prefix-icon="Search" v-model="searchKeyword.keyWord" style="margin: 10px 20px 10px"></el-input>
       <el-button @click="searchHandler" style="margin: 10px 5px 10px">查找</el-button>
   </div>
 </template>

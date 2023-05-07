@@ -45,7 +45,7 @@
                             <div style="height: 30px"></div>
                             <el-button type="primary" :icon="Search" @click="fan_router">我的粉丝</el-button>
                             <div style="height: 30px"></div>
-                            <el-button type="primary" :icon="Share" @click="post_router" >我的动态</el-button>
+                            <el-button type="primary" :icon="Share" @click="music_router" >我的曲库</el-button>
                         </el-col>
                     </el-row>
                 </div>
@@ -65,7 +65,7 @@
 import { Edit, Search, Share, Upload,View } from '@element-plus/icons-vue';
 import UserInfoView from "@/views/user/UserInfoView.vue";
 import {computed, onBeforeMount, provide, ref,nextTick} from "vue";
-import SongList from "@/components/user/SongList.vue";
+import SongList from "@/components/user/jlSongList.vue";
 import store from "@/store";
 import { useStore } from 'vuex'
 import {userinfoData} from "@/utils/Texts/userinfoText";
@@ -92,8 +92,8 @@ export default {
         }
     },
     methods:{
-        post_router(){
-            this.$router.push('/user/post')
+        music_router(){
+            this.$router.push('/user/music_library')
         },
         fan_router(){
             this.$router.push('/user/fan_list')
@@ -154,6 +154,7 @@ export default {
 .user_main{
     //background-color: cornflowerblue;
     //height: 90vh;
+    //overflow-y: hidden;
     min-height: 100vh;
 }
 .user_aside{
@@ -171,6 +172,8 @@ export default {
     border: 2px solid white;
     border-radius: 50%;
     padding: 10px;
+    height: 280px;
+    width: 280px;
 
     /*阴影边框*/
     /*padding: 10px;*/

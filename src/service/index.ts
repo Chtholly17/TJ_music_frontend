@@ -79,6 +79,15 @@ const api = {
                 target_student_number:follow_id
             }
         })
+    },
+    //获取用户曲库
+    getMusicLibrary(user_id:any)
+    {
+        return axios.get(path.baseUrl+path.get_musicLibrary,{
+            params:{
+                userNumber:user_id
+            }
+        })
     }
 }
 
