@@ -65,4 +65,16 @@ public interface UserMapper {
     // update user profile image file name by StudentNumber
     @Update("update user set user_profile_image_filename=#{user_profile_image} where user_student_number=#{user_student_number}")
     public void updateUserProfileImageByStudentNumber(String user_profile_image, String user_student_number);
+
+    // update the user follow cnt by id
+    @Update("update user set user_follow_cnt=#{user_follow_cnt} where user_id=#{user_id}")
+    public void updateUserFollowCntById(Integer user_follow_cnt, Integer user_id);
+
+    // update the user fans cnt by id
+    @Update("update user set user_fans_cnt=#{user_fans_cnt} where user_id=#{user_id}")
+    public void updateUserFansCntById(Integer user_fans_cnt, Integer user_id);
+
+    // update the user post cnt by id
+    @Update("update user set user_posts_cnt=#{user_post_cnt} where user_id=#{user_id}")
+    public void updateUserPostsCntById(Integer user_posts_cnt, Integer user_id);
 }

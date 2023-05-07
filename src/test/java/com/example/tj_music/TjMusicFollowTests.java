@@ -1,5 +1,6 @@
 package com.example.tj_music;
 
+import com.example.tj_music.controller.followController;
 import com.example.tj_music.db.entity.Follow;
 import com.example.tj_music.db.entity.User;
 import com.example.tj_music.service.followService;
@@ -14,7 +15,7 @@ public class TjMusicFollowTests {
 
     @Autowired
     private followService followService;
-
+    private followController followController;
 
 
 
@@ -48,8 +49,8 @@ public class TjMusicFollowTests {
     @Test
     public void testSelectFollowByOwnerAndTarget() {
         System.out.println(("----- selectFollowByOwnerAndTarget method test ------"));
-        User owner = followService.selectUserByStudentNumber("20170102");
-        User target = followService.selectUserByStudentNumber("20170101");
+        User owner = followService.selectUserByStudentNumber("20170101");
+        User target = followService.selectUserByStudentNumber("20170102");
         if (owner == null || target == null) {
             System.out.println("owner or target is null");
             return;
@@ -97,5 +98,21 @@ public class TjMusicFollowTests {
         }else{
             followService.deleteFollow(returned_follow.getId());
         }
+    }
+
+    @Test
+    public void testUpdateFollow() {
+//        System.out.println(("----- updateFollow method test ------"));
+//        followController.follow("20170101","20170102" );
+//        Integer current_follow_cnt= followService.selectUserByStudentNumber("20170101").getUserFollowCnt();
+//        assert current_follow_cnt == 1;
+//        Integer current_follower_cnt= followService.selectUserByStudentNumber("20170102").getUserFansCnt();
+//        assert current_follower_cnt == 1;
+//        followController.unfollow("20170101","20170102" );
+//        current_follow_cnt= followService.selectUserByStudentNumber("20170101").getUserFollowCnt();
+//        assert current_follow_cnt == 0;
+//        current_follower_cnt= followService.selectUserByStudentNumber("20170102").getUserFansCnt();
+//        assert current_follower_cnt == 0;
+
     }
 }

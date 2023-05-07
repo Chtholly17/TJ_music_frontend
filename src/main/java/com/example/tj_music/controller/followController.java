@@ -38,6 +38,9 @@ public class followController {
         }
         // check whether the follow already exists
         Follow follow = followService.selectFollowByOwnerAndTarget(user.getUserId(), target.getUserId());
+        // update the follow cnt and fans cnt
+        followService.updateUserFollowCntById(user.getUserId());
+        followService.updateUserFansCntById(target.getUserId());
         if (follow != null) {
             return new Result(2, "follow already exists", null);
         }
@@ -65,6 +68,9 @@ public class followController {
         if (follow == null) {
             return new Result(2, "follow does not exist", null);
         }
+        // update the follow cnt and fans cnt
+        followService.updateUserFollowCntById(user.getUserId());
+        followService.updateUserFansCntById(target.getUserId());
         followService.deleteFollow(follow.getId());
         return new Result(0, "success", null);
     }
