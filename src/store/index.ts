@@ -3,7 +3,7 @@ import {ElMessage} from "element-plus";
 
 export default createStore({
   state:{
-    userID: ""
+    userID:"20170101"
   },
   getters: {
     getUserID (state) {
