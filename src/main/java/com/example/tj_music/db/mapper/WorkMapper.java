@@ -11,4 +11,8 @@ public interface WorkMapper {
     // get all work
     @Select("select * from work")
     public List<Work> getAllWork();
+
+    // select work by owner Id
+    @Select("select * from work where work_owner = #{ownerId}")
+    public List<Work> selectWorkByOwnerId(Integer ownerId);
 }
