@@ -18,6 +18,10 @@ public interface UserMapper {
     @Select("select * from user where user_student_number=#{user_student_number}")
     public User selectUserByStudentNumber(String user_student_number);
 
+    // select id by student number
+    @Select("select user_id from user where user_student_number=#{user_student_number}")
+    public Integer selectIdByStudentNumber(String user_student_number);
+
     // select user by id
     @Select("select * from user where user_id=#{user_id}")
     public User selectUserById(Integer user_id);

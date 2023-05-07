@@ -131,4 +131,16 @@ public class accountController {
     public Result appealForAccount(@RequestParam("userNumber") String userNumber, @RequestParam("appealContent") String appealContent) {
         return accountService.appealAccount(userNumber, appealContent);
     }
+
+    /**
+     * get user information.
+     * code:1 represents getting user information successfully.
+     * code:0 represents getting user information failed. The account does not exist.
+     * @param userNumber
+     * @return Result, data is a dictionary consist two keys: 'user' and 'workList'
+     */
+    @PostMapping("/UserInfo")
+    public Result getUserInfo(@RequestParam("userNumber") String userNumber) {
+        return accountService.getUserInformation(userNumber);
+    }
 }

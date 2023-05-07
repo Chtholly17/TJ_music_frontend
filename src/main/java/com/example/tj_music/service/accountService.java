@@ -2,17 +2,16 @@ package com.example.tj_music.service;
 
 import com.example.tj_music.db.entity.Appeal;
 import com.example.tj_music.db.entity.User;
+import com.example.tj_music.db.entity.Work;
 import com.example.tj_music.db.mapper.AppealMapper;
 import com.example.tj_music.db.mapper.UserMapper;
+import com.example.tj_music.db.mapper.WorkMapper;
 import com.example.tj_music.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
-import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -26,6 +25,8 @@ public class accountService {
     private AppealMapper appealMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private WorkMapper workMapper;
 
     private String verificationCode;
 
@@ -222,5 +223,29 @@ public class accountService {
             }
         } else
             return new Result(3, "Appeal account failed. The account does not exist", null);
+    }
+
+    /**
+     * get user information.
+     * code:1 represents getting user information successfully.
+     * code:0 represents getting user information failed. The account does not exist.
+     * @param user_student_number
+     * @return Result, data is a dictionary consist two keys: 'user' and 'workList'
+     */
+    public Result getUserInformation(String user_student_number) {
+        User user = userMapper.selectUserByStudentNumber(user_student_number);
+        // if the user exists
+        if(user != null) {
+            Integer userId = user.getUserId();
+            // get all works of the user
+            List<Work> workList = workMapper.selectWorkByOwnerId(userId);
+            // a dictionary consist two keys: 'user' and 'workList'
+            Map<String, Object> map = new HashMap<>();
+            map.put("user", user);
+            map.put("workList", workList);
+            return new Result(1, "Getting user information successfully", map);
+        }
+        else
+            return new Result(0, "Getting user information failed. The account does not exist", null);
     }
 }
