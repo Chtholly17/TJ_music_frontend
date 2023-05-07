@@ -40,7 +40,7 @@ export const commitUserInfo=async ()=>{
         if (valid) {
             try {
                 const response = await api.postUserInfo(userinfoData.userinfoForm); // 不能传入submitForm！
-                console.log(response.data); // TODO：登陆成功与失败的后处理
+                console.log(response.data);
             } catch (error: any) {
                 ElMessage.error(error.code+': 提交失败，请检查网络或联系管理员')
             }
@@ -50,7 +50,7 @@ export const commitUserInfo=async ()=>{
     })
 }
 
-export const getUserInfo=async ()=>{
+export const fetchUserInfo=async ()=>{
 
     const submitForm = unref(baseForm)
     if (!submitForm)
@@ -61,9 +61,9 @@ export const getUserInfo=async ()=>{
         if (valid) {
             try {
                 const response = await api.getUserInfo(userinfoData.userinfoForm.user_student_number); // 不能传入submitForm！
-                console.log(response.data); // TODO：登陆成功与失败的后处理
+                console.log(response.data);
             } catch (error: any) {
-                ElMessage.error(error.code+': 提交失败，请检查网络或联系管理员')
+                ElMessage.error(error.code+': 获取失败，请检查网络或联系管理员')
             }
         } else {
             ElMessage.error('验证失败，请检查数据是否完整且正确')

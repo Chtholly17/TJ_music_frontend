@@ -37,12 +37,48 @@ const api = {
     },
     getUserInfo(user_id:any)  //获取用户信息
     {
-        return axios.get(path.baseUrl + path.getuserinfo,user_id)
+        return axios.get(path.baseUrl + path.getuserinfo,{
+            params:{
+                user_student_number:user_id
+            }
+            })
     },
-    postSearchAccompaniment(keyword: any)
+    //获取歌单
+    getSongList(user_id:any)//获取用户曲库
     {
-        console.log(keyword)
-        // return axios.get(path.baseUrl + path.postSearch, keyword)
+        return axios.get(path.baseUrl+path.get_songList,{
+            params:{
+                user_student_number:user_id
+            }
+        })
+    },
+    //获取粉丝列表
+    getFanList(user_id:any)//获取用户粉丝列表
+    {
+        return axios.get(path.baseUrl+path.get_fanList,{
+            params:{
+                user_student_number:user_id
+            }
+        })
+    },
+    //获取关注列表
+    getFollowList(user_id:any)
+    {
+        return axios.get(path.baseUrl+path.get_followList,{
+            params:{
+                user_student_number:user_id
+            }
+        })
+    },
+    //取消关注某用户
+    deleteFollow(user_id:string,follow_id:string)
+    {
+        return axios.delete(path.baseUrl+path.delete_follow,{
+            params:{    //这里必须用params，不能用data，否则无法正确删除
+                user_student_number:user_id,
+                target_student_number:follow_id
+            }
+        })
     }
 }
 

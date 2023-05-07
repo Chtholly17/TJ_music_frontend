@@ -34,6 +34,16 @@ const routes: Array<RouteRecordRaw> = [
         path:'post',
         name:'user_post',
         component:()=>import('../views/user/UserPostView.vue')
+      },
+      {
+        path:'fan_list',
+        name:'user_fan_list',
+        component:()=>import('../components/user/FanList.vue')
+      },
+      {
+        path:'follow_list',
+        name:'user_follow_list',
+        component:()=>import('../components/user/FollowList.vue')
       }
     ]
   },
