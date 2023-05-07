@@ -73,16 +73,8 @@ public class followService {
 
     // update the user follow cnt by id
     public void updateUserFollowCntById(Integer user_id){
-        // first get the true follow cnt
-        System.out.println("user_id: "+user_id);
-        List<Follow> follow_list= followMapper.selectFollowByOwner(user_id);
-        // print out the list of follow
-        for (Follow follow : follow_list) {
-            System.out.println(follow.toString());
-        }
+        List<User> follow_list= selectFollowByOwner(user_id);
         Integer follow_cnt = follow_list.size();
-        // print out the user id and update result
-        System.out.println("user_id: "+user_id+" follow_cnt: "+follow_cnt);
         // then update the user follow cnt
         userMapper.updateUserFollowCntById(follow_cnt,user_id);
     }
@@ -90,10 +82,8 @@ public class followService {
     // update the user fans cnt by id
     public void updateUserFansCntById(Integer user_id){
         // first get the true fans cnt
-        List<Follow> follow_list= followMapper.selectFollowByTarget(user_id);
-        Integer fans_cnt = follow_list.size();
-        // print out the user id and update result
-        System.out.println("user_id: "+user_id+" follow_cnt: "+fans_cnt);
+        List<User> fans_list= selectFollowByTarget(user_id);
+        Integer fans_cnt = fans_list.size();
         // then update the user fans cnt
         userMapper.updateUserFansCntById(fans_cnt,user_id);
     }

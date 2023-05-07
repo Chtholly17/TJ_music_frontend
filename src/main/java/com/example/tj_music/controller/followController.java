@@ -22,7 +22,7 @@ public class followController {
 
     /**
      * 关注某人
-     * 通过调用这个API来关注某人 code 0:成功 code 1:用户不存在 code 2:关注已存在
+     * 通过调用这个API来关注某人 code 0:成功 code 1:用户不存在 code 2:关注已存在 code3:自己关注自己
      * @param user_student_number 当前发起关注用户的学号
      * @param target_student_number 被关注的用户的学号
      * @return Result 成功返回success，失败返回fail,可能出现的message有： user or target does not exist
@@ -30,21 +30,27 @@ public class followController {
     @PostMapping("/follow")
     public Result follow(@NotNull String user_student_number,@NotNull String target_student_number) {
 
+        // check whether the user and target are the same
+        if (user_student_number.equals(target_student_number)) {
+            return new Result(3, "user and target are the same", null);
+        }
+
         // this api should be called after login so the user does exist
         User user = followService.selectUserByStudentNumber(user_student_number);
         User target = followService.selectUserByStudentNumber(target_student_number);
+
         if (user == null || target == null) {
             return new Result(1, "user or target does not exist", null);
         }
         // check whether the follow already exists
         Follow follow = followService.selectFollowByOwnerAndTarget(user.getUserId(), target.getUserId());
-        // update the follow cnt and fans cnt
-        followService.updateUserFollowCntById(user.getUserId());
-        followService.updateUserFansCntById(target.getUserId());
         if (follow != null) {
             return new Result(2, "follow already exists", null);
         }
         followService.insertFollow(user.getUserId(), target.getUserId());
+        // update the attribute of currently real data
+        followService.updateUserFollowCntById(user.getUserId());
+        followService.updateUserFansCntById(target.getUserId());
         return new Result(0, "success", null);
     }
 
@@ -69,9 +75,10 @@ public class followController {
             return new Result(2, "follow does not exist", null);
         }
         // update the follow cnt and fans cnt
+        followService.deleteFollow(follow.getId());
+        // update the attribute of currently real data
         followService.updateUserFollowCntById(user.getUserId());
         followService.updateUserFansCntById(target.getUserId());
-        followService.deleteFollow(follow.getId());
         return new Result(0, "success", null);
     }
 
