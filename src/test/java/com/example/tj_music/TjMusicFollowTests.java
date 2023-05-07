@@ -38,7 +38,7 @@ public class TjMusicFollowTests {
         System.out.println(("----- selectFollowByTarget method test ------"));
         //User
         System.out.println("----- User ------");
-        List<User> return_value = followService.selectFollowByTarget(1);
+        List<User> return_value = followService.selectFollowByTarget(2);
 
         for (User user : return_value) {
             System.out.println(user);
