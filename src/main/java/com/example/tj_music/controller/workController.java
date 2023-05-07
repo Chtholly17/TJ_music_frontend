@@ -18,23 +18,23 @@ public class workController {
     private workService workService;
 
     /**
+     * get related works by origin id.Use for origin detail page
+     * @param originId: origin id
+     * @return Result, data is a list of work can be null.
+     */
+    @GetMapping("/relatedWorks")
+    public Result selectRelatedWorks(@RequestParam("originId") int originId) {
+        return workService.selectWorkByOriginId(originId);
+    }
+
+    /**
      * get work in main page, with highest n like numbers.
-     * @param workNumber
+     * @param workNumber: work number
      * @return Result, data is a list of work, length is workNumber.
      */
     @GetMapping("/mainPageWorks")
     public Result getMainPageWorks(@RequestParam("workNumber") int workNumber) {
         return workService.getNWorks(workNumber);
-    }
-
-    /**
-     * get related works by origin id.
-     * @param originId
-     * @return Result, data is a list of work.
-     */
-    @GetMapping("/relatedWorks")
-    public Result getRelatedWorks(@RequestParam("originId") int originId) {
-        return workService.selectWorkByOriginId(originId);
     }
 
 }
