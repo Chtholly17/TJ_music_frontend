@@ -35,6 +35,7 @@ public class accountController {
     }
 
     /**
+     * logout
      * code:1 represents logout succeeded.
      * code:0 represents logout failed.
      * logout
