@@ -63,8 +63,8 @@ export default {
     components: {QuestionFilled},
     setup() {
         let sendVRCodeButtonCount = 0;
-        let sendVRCodeButtonMessage = ref("获取验证码"); // 必须要ref才能实现按钮的更改！！
-        let sendVRCodeButtonDisabled = ref(false);
+        const sendVRCodeButtonMessage = ref("获取验证码"); // 必须要ref才能实现按钮的更改！！
+        const sendVRCodeButtonDisabled = ref(false);
         let sendVRCodeButtonTimer: any = null;
         const getVRCodeHandler = async () => { // 从Promise中获取数据的方法：添加await关键字，代价是所在的函数需要是async
             const TIME_COUNT = 60;

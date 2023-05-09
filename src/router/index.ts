@@ -1,6 +1,4 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import music_player from "@/views/music_player.vue";
-import music_square from "@/views/music_square.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -8,59 +6,62 @@ const routes: Array<RouteRecordRaw> = [
     redirect:'/hello',
   },
   {
-
     path:"/music_player",
     name:"music_player",
-    component:music_player
+    component:()=>import('@/views/music_player.vue'),
   },
   {
-
     path:"/music_square",
     name:"music_square",
-    component:music_square
+    component:()=>import('@/views/music_square.vue'),
   },
   {
     redirect:'/user/music_library',
     path:'/user',
     name:'user',
-    component:()=>import('../views/user/UserManagementView.vue'),
+    component:()=>import('@/views/user/UserManagementView.vue'),
     children:[
       {
         path:'music_library',
         name:'user_music_library',
-        component:() =>import('../views/user/UserMusicLibraryView.vue')
+        component:() =>import('@/views/user/UserMusicLibraryView.vue')
       },
       {
         path:'post',
         name:'user_post',
-        component:()=>import('../views/user/UserPostView.vue')
+        component:()=>import('@/views/user/UserPostView.vue')
       },
       {
         path:'fan_list',
         name:'user_fan_list',
-        component:()=>import('../components/user/FanList.vue')
+        component:()=>import('@/components/user/FanList.vue')
       },
       {
         path:'follow_list',
         name:'user_follow_list',
-        component:()=>import('../components/user/FollowList.vue')
+        component:()=>import('@/components/user/FollowList.vue')
       }
     ]
   },
   {
     path:'/hello',
     name:'hello',
-    component:()=>import('../views/PrefaceView.vue'),
+    component:()=>import('@/views/PrefaceView.vue'),
   },
   {
     path: '/square',
     name: 'square',
-    component:()=>import('../views/SquareView.vue'),
+    component:()=>import('@/views/SquareView.vue'),
   },
   {
     path: '/accompaniment',
     name: 'accompaniment',
-    component:()=>import('../views/accompanimentView.vue'),
+    component:()=>import('@/views/accompanimentView.vue'),
+  },
+  {
+    path: '/detail',
+    name: 'detailView',
+    component:()=>import('@/views/detailView.vue')
   }
 
 

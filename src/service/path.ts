@@ -15,6 +15,7 @@ const base = {
     get_fanList:"/display_user_follower",   //获取用户粉丝
     get_followList:"/display_user_following",    //获取用户关注
     delete_follow:"/unfollow",  //取消关注某人
+    postSearch: '/searchOriginByTag',
 }
 
 export default base;

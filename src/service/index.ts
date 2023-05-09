@@ -79,6 +79,10 @@ const api = {
                 target_student_number:follow_id
             }
         })
+    },
+    postSearchAccompaniment(keyword: any)
+    {
+        return axios.post(path.baseUrl + path.postSearch, keyword)
     }
 }
 
