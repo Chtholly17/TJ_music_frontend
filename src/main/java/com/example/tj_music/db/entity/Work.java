@@ -22,4 +22,5 @@ public class Work {
     private Integer workLike;
     private String workVoiceFilename;
     private Integer workScore;
+    private String workPrefaceFilename;
 }
