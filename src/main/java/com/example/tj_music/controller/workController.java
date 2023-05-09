@@ -38,8 +38,8 @@ public class workController {
     }
 
     @GetMapping("/getWorkList")
-    public Result getWorkList(@RequestParam("tag") String tag) {
-        return workService.getWorkList(tag);
+    public Result getWorkList(@RequestParam("tag") String tag, @RequestParam("order") String order) {
+        return workService.getWorkList(tag, order);
     }
 
 }

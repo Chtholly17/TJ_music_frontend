@@ -52,8 +52,15 @@ public class workService {
         return Result.success(works);
     }
 
-    public Result getWorkList(String tag) {
-        List<Work> works = workMapper.selectWorkByTag(tag);
+    public Result getWorkList(String tag, String order) {
+        List<Work> works = null;
+        if (order.equals("like")) {
+            works = workMapper.selectWorkByTagWorkLikeDesc(tag);
+        } else if (order.equals("comment")) {
+            works = workMapper.selectWorkByTagCommentNumberDesc(tag);
+        } else {
+            works = workMapper.selectWorkByTagUserFansDesc(tag);
+        }
         if(works == null) {
             return Result.fail("no work with tag " + tag);
         }

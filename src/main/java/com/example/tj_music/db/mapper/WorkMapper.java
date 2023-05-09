@@ -28,6 +28,26 @@ public interface WorkMapper {
     @Select("select * from work order by work_like desc limit #{n}")
     public List<Work> selectNWorksWithHighestNWorkLike(Integer n);
 
-    @Select("SELECT * FROM work WHERE work_tag LIKE CONCAT('%', #{tag}, '%')")
-    public List<Work> selectWorkByTag(String tag);
+    //按work的评论数量降序排列
+    @Select("SELECT * FROM work LEFT JOIN " +
+            "(SELECT work_comment_id, COUNT(work_comment_id) AS work_comment_number " +
+            "FROM work_comment " +
+            "GROUP BY work_comment_id) AS wc " +
+            "ON work.work_id = wc.work_comment_id " +
+            "WHERE work_tag LIKE CONCAT('%', #{tag}, '%')" +
+            "ORDER BY wc.work_comment_number DESC")
+    public List<Work> selectWorkByTagCommentNumberDesc(String tag);
+
+    //按work的点赞数量降序排列
+    @Select("SELECT * FROM work LEFT JOIN " +
+            "(SELECT user_id, user_fans_cnt " +
+            "FROM user) AS usr " +
+            "ON work.work_owner = usr.user_id " +
+            "WHERE work_tag LIKE CONCAT('%', #{tag}, '%')" +
+            "ORDER BY usr.user_fans_cnt DESC")
+    public List<Work> selectWorkByTagUserFansDesc(String tag);
+
+    @Select("SELECT * FROM work WHERE work_tag LIKE CONCAT('%', #{tag}, '%')" +
+            "ORDER BY work_like DESC")
+    public List<Work> selectWorkByTagWorkLikeDesc(String tag);
 }
