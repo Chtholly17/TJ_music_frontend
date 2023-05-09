@@ -56,8 +56,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/css/var.scss";
-@import "@/assets/css/global.scss";
+//@import "@/assets/css/var.scss";
+//@import "@/assets/css/global.scss";
 .user{
     float:right
 }

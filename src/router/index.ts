@@ -51,7 +51,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/square',
     name: 'square',
-    component:()=>import('@/views/SquareView.vue'),
+    component:()=>import('@/views/music_square.vue'),
   },
   {
     path: '/accompaniment',
