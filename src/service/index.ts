@@ -43,7 +43,37 @@ const api = {
     {
         console.log(keyword)
         // return axios.get(path.baseUrl + path.postSearch, keyword)
-    }
+    },
+    //获取首页作品
+    getMainPageWorks(worknum:any)
+    {
+        return axios.get(path.baseUrl+path.getMainPageWorks,{
+            params:{
+                workNumber:worknum
+            }
+        })
+    },
+    //获取作品评论信息
+    //获取首页作品
+    getComment(work_id:any)
+    {
+        return axios.get(path.baseUrl+path.getComment,{
+            params:{
+                workId:work_id
+            }
+        })
+    },
+    postComment(comment_target:any,comment_owner:any,comment_content:any){
+        console.log("target:"+typeof(comment_target))
+        console.log("owner:"+comment_owner)
+        console.log("content:"+comment_content)
+        return axios.post(path.baseUrl+path.postComment,
+            {
+                workCommentTarget:comment_target,
+                workCommentOwner:comment_owner,
+                workCommentContent:comment_content
+            })
+    },
 }
 
 export default api

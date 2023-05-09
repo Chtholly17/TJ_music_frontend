@@ -11,7 +11,10 @@ const base = {
     retrieve: '/forgetPasswordCheck',
     getuserinfo:'/getUserInfo',    //获取用户信息
     postuserinfo:'/updateUserinfo',//提交用户信息
-    postSearch: ''
+    postSearch: '',
+    getMainPageWorks:'/mainPageWorks',  //获取首页作品
+    getComment:'/getWorkCommentByWorkId',  //获取作品评论
+    postComment:'/addWorkComment'//提交评论
 }
 
 export default base;
