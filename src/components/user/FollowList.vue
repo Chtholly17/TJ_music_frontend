@@ -32,17 +32,12 @@ export default {
     {
         const reload=inject('reload')
         const store = useStore()
-        // const test = computed(() => store.getters.getUserID)
-        // console.log("用户id为："+test.value)
 
         let user_id;
         let follow_list;
         follow_list=ref()
         onBeforeMount(()=>{
             const count = computed(() => store.getters.getUserID)
-
-            //console.log(count)
-            //console.log(count.value)
 
             user_id=count.value
             fetchFollowList(user_id).then(res=>{
@@ -51,12 +46,6 @@ export default {
             })
 
         })
-        // onBeforeUpdate(()=>{
-        //     fetchFollowList(user_id).then(res=>{
-        //         follow_list.value=res
-        //         console.log("组件更新")
-        //     })
-        // })
         function delete_follow(follow_id){
             deleteFollow(user_id,follow_id).then(res=>{
                 reload()

@@ -16,12 +16,7 @@ export const fetchFollowList=async (user_id:string)=>{
 }
 
 export const deleteFollow=async (user_id:string,follow_id:string)=>{
-    // const store = useStore()
-    // const count = computed(() => store.getters.getUserID)   //获取用户id
-
-    //const response = await api.deleteFollow(user_id, follow_id)
-    // console.log("user_id:"+user_id)
-    // console.log("follow_id:"+follow_id)
+    console.log(user_id,follow_id)
     try {
         const response = await api.deleteFollow(user_id, follow_id)
         console.log(response)

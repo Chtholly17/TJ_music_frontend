@@ -94,6 +94,16 @@ const api = {
     {
         //console.log(path.baseUrl+path.update_user_image)
         return axios.post(path.baseUrl+path.update_user_image,file)
+    },
+    //修改密码
+    postUpdatePassword(user_id:any,password:any)
+    {
+        return axios.post(path.baseUrl+path.update_password,{
+            data:{
+                userNumber:user_id,
+                password:password
+            }
+        })
     }
 }
 

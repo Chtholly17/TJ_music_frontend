@@ -1,6 +1,6 @@
 <template>
     <div class="common-layout">
-        <el-container>
+        <el-container style="height: 100%">
             <el-aside class="user_aside" :style="{width: aside_width + 'vh'}"></el-aside>
             <el-main class="user_main" >
                 <div class="user_top">
@@ -163,10 +163,12 @@ export default {
     //background-color: cornflowerblue;
     //height: 90vh;
     //overflow-y: hidden;
-    min-height: 100vh;
+    /*min-height: 100vh;*/
+    height: 100%;
 }
 .user_aside{
     background-color: rgb(245,245,245);
+    height: 100%;
 }
 
 .user_photo{
@@ -189,14 +191,12 @@ export default {
     /*box-shadow: 0px 0px 5px 10px rgba(0,0,0,0.5);*/
 }
 .common-layout{
-    //overflow-y: auto;
-    //background-image: url("../../assets/backgroud_test.jpg");
     overflow: auto;
-    height: 100vh;
+    min-height: 90vh;
 }
 
 .child_page{
-    //min-height: 800px;
+
 }
 
 

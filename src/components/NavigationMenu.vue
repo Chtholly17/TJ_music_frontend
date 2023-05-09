@@ -11,6 +11,7 @@
                 <template #dropdown>
                     <el-dropdown-menu >
                         <el-dropdown-item @click="user_router" >个人主页</el-dropdown-item>
+                        <el-dropdown-item >修改密码</el-dropdown-item>
                         <el-dropdown-item >登出</el-dropdown-item>
                     </el-dropdown-menu>
                 </template>
