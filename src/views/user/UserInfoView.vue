@@ -39,7 +39,6 @@
             <el-button type="primary" @click="onSubmit" >提交</el-button>
          </el-form-item>
       </el-form>
-      {{userinfoData.userinfoForm.user_student_number}}
    </el-dialog>
 </template>
 

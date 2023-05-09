@@ -37,10 +37,16 @@ const api = {
     },
     getUserInfo(user_id:any)  //获取用户信息
     {
-        return axios.get(path.baseUrl + path.getuserinfo,user_id)
+        return axios.get(path.baseUrl + path.getuserinfo,{
+            params:{
+                user_student_number:user_id
+            }
+            })
     },
-    postSearchAccompaniment(keyword: any)
+    //获取歌单
+    getSongList(user_id:any)//获取用户曲库
     {
+<<<<<<< HEAD
         console.log(keyword)
         // return axios.get(path.baseUrl + path.postSearch, keyword)
     },
@@ -74,6 +80,74 @@ const api = {
                 workCommentContent:comment_content
             })
     },
+=======
+        return axios.get(path.baseUrl+path.get_songList,{
+            params:{
+                user_student_number:user_id
+            }
+        })
+    },
+    //获取粉丝列表
+    getFanList(user_id:any)//获取用户粉丝列表
+    {
+        return axios.get(path.baseUrl+path.get_fanList,{
+            params:{
+                user_student_number:user_id
+            }
+        })
+    },
+    //获取关注列表
+    getFollowList(user_id:any)
+    {
+        return axios.get(path.baseUrl+path.get_followList,{
+            params:{
+                user_student_number:user_id
+            }
+        })
+    },
+    //取消关注某用户
+    deleteFollow(user_id:string,follow_id:string)
+    {
+        return axios.delete(path.baseUrl+path.delete_follow,{
+            params:{    //这里必须用params，不能用data，否则无法正确删除
+                user_student_number:user_id,
+                target_student_number:follow_id
+            }
+        })
+    },
+    //获取用户曲库
+    getMusicLibrary(user_id:any)
+    {
+        return axios.get(path.baseUrl+path.get_musicLibrary,{
+            params:{
+                userNumber:user_id
+            }
+        })
+    },
+    //修改用户头像
+    postUserImage(file:any)
+    {
+        //console.log(path.baseUrl+path.update_user_image)
+        return axios.post(path.baseUrl+path.update_user_image,file)
+    },
+    //修改密码
+    postUpdatePassword(user_id:any,password:any) {
+        return axios.post(path.baseUrl + path.update_password, {
+            data: {
+                userNumber: user_id,
+                password: password
+            }
+        })
+    },
+    postSearchAccompanimentByKeyword(keyword: any)
+    {
+        return axios.post(path.baseUrl + path.postSearch_keyword, keyword)
+    },
+    getWorksById(id: any)
+    {
+        return axios.get(path.baseUrl + path.getWorksById, {params: id})
+    }
+>>>>>>> b8ffa1f8ab62a4c8850c28a663bcbb41b8897062
 }
 
 export default api
