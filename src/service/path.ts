@@ -18,7 +18,7 @@ const base = {
     get_musicLibrary:"/UserProfile",    //获取用户曲库
     update_user_image:"/updateUserImage",   //上传用户头像
     update_password:"/updatePassword", //
-
+    postSearch: '/searchOriginByTag',
 }
 
 export default base;
