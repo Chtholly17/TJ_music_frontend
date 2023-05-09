@@ -1,38 +1,30 @@
 package com.example.tj_music.controller;
 
+import com.example.tj_music.db.entity.Image;
 import com.example.tj_music.db.entity.User;
 import com.example.tj_music.service.informationService;
-import com.example.tj_music.utils.HttpUtils;
+import com.example.tj_music.utils.ImageUtils;
 import com.example.tj_music.utils.Result;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Date;
-import java.util.List;
 
 
 @RestController // @RestController = @Controller + @ResponseBody (return json)
-@PropertySource(value = {"classpath:application.properties"})
 public class informationController {
-    // please use the logger to print the log
-    private static Logger log = Logger.getLogger("UserController.class");
     // user service
     @Autowired // auto-inject
     private informationService informationService;
 
-    @Value("${imagepath}")
-    private String imagepath;
+    @Autowired
+    private ImageUtils imageUtils;
 
     /**
      * 获取用户信息
@@ -106,39 +98,24 @@ public class informationController {
     /**
      * 修改用户头像
      * 用这个API可以修改用户头像
-     * @param user_student_number
-     * @param file
+     * @param image
      * @return
      */
     @PostMapping("/updateUserImage")
-    public Result updateUserImage(@RequestParam("user_student_number") String user_student_number,
-                                  @RequestParam("file") MultipartFile file) {
+    public Result updateUserImage(Image image) {
+        String user_student_number = image.getUser_student_number();
+        MultipartFile file = image.getFile();
         User user = informationService.getInformationByStudentNumber(user_student_number);
         if (user == null) {
             return Result.fail("user not found");
         }
-        String fileName = file.getOriginalFilename();
-        File dest = new File(imagepath + fileName);
-        if(!dest.exists()){
-            //先得到文件的上级目录，并创建上级目录，在创建文件
-            dest.getParentFile().mkdir();
-            try {
-                //创建文件
-                dest.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        System.out.println(dest);
-        try {
-            file.transferTo(dest);
-            String url = "http://localhost:8080/" + fileName;
+        try{
+            String url = imageUtils.upload(file, user_student_number, "avatar");
             informationService.updateUserProfileImage(url, user_student_number);
-            return Result.success(url);
+            return Result.success("upload success");
         } catch (IOException e) {
-            e.printStackTrace();
+            return Result.fail("upload failed");
         }
-        return Result.fail("upload failed");
     }
 
     /**

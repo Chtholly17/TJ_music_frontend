@@ -23,7 +23,6 @@ public class originService {
      * @param originTag
      * @return Result
      */
-    @PostMapping("/searchOrigin")
     public Result searchOriginByTag(String originTag) {
         List<Origin> originList =  originMapper.selectOriginByTag(originTag);
         if (originList.isEmpty()) {
@@ -39,7 +38,6 @@ public class originService {
      * @param workId
      * @return Result
      */
-    @PostMapping("/searchOriginByWorkId")
     public Result searchOriginByWorkId(Integer workId) {
         Origin origin = originMapper.selectOriginByWorkId(workId);
         if (origin == null) {

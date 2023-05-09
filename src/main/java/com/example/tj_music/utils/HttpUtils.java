@@ -1,5 +1,7 @@
 package com.example.tj_music.utils;
 
+import lombok.Data;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -9,6 +11,7 @@ import java.net.URL;
 
 import javax.servlet.http.HttpServletResponse;
 
+@Data
 public class HttpUtils {
     /**
      * @description: 通过url获取输入流

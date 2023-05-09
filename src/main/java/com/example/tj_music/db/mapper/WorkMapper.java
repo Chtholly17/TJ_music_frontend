@@ -27,4 +27,7 @@ public interface WorkMapper {
     // select n works with highest n work_like value
     @Select("select * from work order by work_like desc limit #{n}")
     public List<Work> selectNWorksWithHighestNWorkLike(Integer n);
+
+    @Select("SELECT * FROM work WHERE work_tag LIKE CONCAT('%', #{tag}, '%')")
+    public List<Work> selectWorkByTag(String tag);
 }

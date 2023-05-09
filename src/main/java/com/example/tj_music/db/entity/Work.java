@@ -143,3 +143,4 @@ public class Work {
         return Objects.hash(workId, createTime, workName, workComment, workOwner, workOriginVersion, workLike, workVoiceFilename, workScore, workTag, workPrefaceFilename);
     }
 }
+

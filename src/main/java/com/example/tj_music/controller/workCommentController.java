@@ -26,7 +26,7 @@ public class workCommentController {
      * @param workId
      * @return Result
      */
-    @PostMapping("/getWorkCommentByWorkId")
+    @GetMapping("/getWorkCommentByWorkId")
     public Result getWorkCommentByWorkId(@RequestParam("workId") Integer workId) {
         return workCommentService.getWorkCommentByWorkId(workId);
     }
