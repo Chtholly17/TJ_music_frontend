@@ -6,7 +6,7 @@
             {{props.index + 1}}
         </div>
         <div class="profileBox">
-            <el-image :src="require('@/assets/'+props.profile)" class="profileImg"
+            <el-image :src="props.profile" class="profileImg"
                       fit="scale-down"></el-image>
         </div>
         <!-- 注意require不支持直接引入变量，需要通过ES6字符串模板将变量转换为字符串 `${props.cover}` -->
@@ -22,7 +22,7 @@
                 <icon-thumb-up :stroke-width="3"></icon-thumb-up>
             </div>
             &nbsp;
-            <el-text truncated>{{ props.likes }}</el-text>
+            <el-text truncated>{{props.likes}}</el-text>
         </div>
         <div class="dateBox">
             <el-text truncated> {{props.date}} </el-text>

@@ -13,9 +13,9 @@
 <!--                <div class="singerBox"><el-text truncated size="large"> 歌手 </el-text></div>-->
 <!--                <div class="durationBox"><el-text truncated size="large"> 时长 </el-text></div>-->
 <!--            </div>-->
-            <accompaniment-item v-for="(item, index) in accompanimentInfo" :key="item.originId"
-                                :cover="'profile.jpg'" :name="item.originName" :singer="item.originAuthor"
-                                :index="index" :duration="item.originDuration"></accompaniment-item>
+            <accompaniment-item v-for="(item, index) in accompanimentInfoList" :key="item.originId"
+                                :cover="item.originPrefaceFilename" :name="item.originName" :singer="item.originAuthor"
+                                :index="index" :duration="item.originDuration" :id="item.originId"></accompaniment-item>
             <div style="height: 10px"></div>
         </div>
     </div>
@@ -27,24 +27,13 @@ import {onBeforeRouteUpdate, useRoute} from 'vue-router'
 import api from "@/service";
 import {ElMessage} from "element-plus";
 import {onBeforeMount, ref} from "vue";
-import {accompanimentInfo} from "@/utils/Texts/accompanimentText";
-
-// interface accompanimentType {
-//     originId: number;
-//     originName: string;
-//     originAuthor: string;
-//     originBgmusicFilename: string;
-//     originVoiceFilename: string;
-//     originDuration: string;
-//     originPrefaceFilename: string;
-//     originIntroduction: string;
-// }
+import {accompanimentInfoList} from "@/utils/Texts/accompanimentText";
 
 export default {
     name: "accompanimentView",
     components: {AccompanimentItem},
     setup() {
-        // let accompanimentInfo = [{
+        // let accompanimentInfoList = [{
         //     originPrefaceFilename: 'profile.jpg',
         //     originName: 'test222222',
         //     originAuthor: 'author',
@@ -52,123 +41,27 @@ export default {
         // }];
         const itemsLength = ref(0);
         //首先在setup中定义
-        const getAccompanimentInfo = () => {
-            try{
-                api.postSearchAccompaniment(keyWord).then( (info) => {
-                    if (info.data.code === 1){
-                        ElMessage.success("查找成功！");
+        const getAccompanimentInfo = async () => {
+            try {
+                const response = await api.postSearchAccompanimentByKeyword(keyWord)
+                if (response.data.code === 1) {
+                    ElMessage.success("查找成功！");
 
-                        while(accompanimentInfo.length > 0){
-                            accompanimentInfo.pop()
-                        }
-                        for(let i = 0; i < info.data.data.length; ++i){
-                            const iter = info.data.data[i];
-                            accompanimentInfo.push(iter)
-                        }
-                        console.log(accompanimentInfo)
-                        itemsLength.value = info.data.data.length;
+                    while (accompanimentInfoList.length > 0) {
+                        accompanimentInfoList.pop()
                     }
-                    else{
-                        ElMessage.error(info.data.msg)
+                    for (let i = 0; i < response.data.data.length; ++i) {
+                        const iter = response.data.data[i];
+                        accompanimentInfoList.push(iter)
                     }
-                })
-            }
-            catch(error){
+                    itemsLength.value = response.data.data.length;
+                } else {
+                    ElMessage.error(response.data.msg)
+                }
+            } catch (error) {
                 console.log(error)
-                ElMessage.error(error.code+': 提交失败，请检查网络或联系管理员')
+                ElMessage.error(error.code + ': 提交失败，请检查网络或联系管理员')
             }
-            // return ref([
-            //     {
-            //         name: '雪distance',
-            //         cover: 'profile.jpg',
-            //         singer: 'capper',
-            //         duration: '03:28'
-            //     },
-            //     {
-            //         name: '只因你太美',
-            //         cover: 'profile.jpg',
-            //         singer: 'SWINS',
-            //         duration: '03:28'
-            //     },
-            //     {
-            //         name: '夜に駆ける',
-            //         cover: 'profile.jpg',
-            //         singer: 'YASOBI',
-            //         duration: '03:28'
-            //     },
-            //     {
-            //         name: '雪distance',
-            //         cover: 'profile.jpg',
-            //         singer: 'capper',
-            //         duration: '03:28'
-            //     },
-            //     {
-            //         name: '只因你太美',
-            //         cover: 'profile.jpg',
-            //         singer: 'SWINS',
-            //         duration: '03:28'
-            //     },
-            //     {
-            //         name: '夜に駆ける',
-            //         cover: 'profile.jpg',
-            //         singer: 'YASOBI',
-            //         duration: '03:28'
-            //     },
-            //     {
-            //         name: '雪distance',
-            //         cover: 'profile.jpg',
-            //         singer: 'capper',
-            //         duration: '03:28'
-            //     },
-            //     {
-            //         name: '只因你太美',
-            //         cover: 'profile.jpg',
-            //         singer: 'SWINS',
-            //         duration: '03:28'
-            //     },
-            //     {
-            //         name: '夜に駆ける',
-            //         cover: 'profile.jpg',
-            //         singer: 'YASOBI',
-            //         duration: '03:28'
-            //     },
-            //     {
-            //         name: '雪distance',
-            //         cover: 'profile.jpg',
-            //         singer: 'capper',
-            //         duration: '03:28'
-            //     },
-            //     {
-            //         name: '只因你太美',
-            //         cover: 'profile.jpg',
-            //         singer: 'SWINS',
-            //         duration: '03:28'
-            //     },
-            //     {
-            //         name: '夜に駆ける',
-            //         cover: 'profile.jpg',
-            //         singer: 'YASOBI',
-            //         duration: '03:28'
-            //     },
-            //     {
-            //         name: '雪distance',
-            //         cover: 'profile.jpg',
-            //         singer: 'capper',
-            //         duration: '03:28'
-            //     },
-            //     {
-            //         name: '只因你太美',
-            //         cover: 'profile.jpg',
-            //         singer: 'SWINS',
-            //         duration: '03:28'
-            //     },
-            //     {
-            //         name: '夜に駆ける',
-            //         cover: 'profile.jpg',
-            //         singer: 'YASOBI',
-            //         duration: '03:28'
-            //     },
-            // ])
         }
         const route = useRoute();
         let keyWord = route.query;
@@ -185,7 +78,7 @@ export default {
         })
         return {
             keyWord,
-            accompanimentInfo,
+            accompanimentInfoList,
             itemsLength,
         }
     }
