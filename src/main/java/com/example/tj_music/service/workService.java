@@ -51,4 +51,12 @@ public class workService {
         return Result.success(works);
     }
 
+    public Result getWorkList(String tag) {
+        List<Work> works = workMapper.selectWorkByTag(tag);
+        if(works == null) {
+            return Result.fail("no work with tag " + tag);
+        }
+        return Result.success(works);
+    }
+
 }

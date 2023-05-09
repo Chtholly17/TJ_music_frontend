@@ -5,10 +5,11 @@ import com.example.tj_music.service.workService;
 import com.example.tj_music.utils.Result;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 public class workController {
@@ -35,6 +36,11 @@ public class workController {
     @GetMapping("/mainPageWorks")
     public Result getMainPageWorks(@RequestParam("workNumber") int workNumber) {
         return workService.getNWorks(workNumber);
+    }
+
+    @GetMapping("/getWorkList")
+    public Result getWorkList(@RequestParam("tag") String tag) {
+        return workService.getWorkList(tag);
     }
 
 }
