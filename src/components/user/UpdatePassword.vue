@@ -6,6 +6,9 @@
         <el-form-item label="请输入新密码">
             <el-input v-model="updatePasswordData.updatePasswordForm.new_password"></el-input>
         </el-form-item>
+        <el-form-item>
+            <el-button type="primary" >提交</el-button>
+        </el-form-item>
     </el-form>
 </template>
 
