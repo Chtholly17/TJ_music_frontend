@@ -50,6 +50,7 @@ export const commitUserInfo=async ()=>{
     })
 }
 
+//获取用户信息
 export const fetchUserInfo=async ()=>{
 
     const submitForm = unref(baseForm)
@@ -69,4 +70,14 @@ export const fetchUserInfo=async ()=>{
             ElMessage.error('验证失败，请检查数据是否完整且正确')
         }
     })
+}
+
+export const commitUserImage=async (file:any)=>{
+    try {
+        const response = await api.postUserImage(file)
+        console.log(response)
+        ElMessage.success("头像修改成功")
+    }catch (error: any) {
+        ElMessage.error(error.code+': 提交失败，请检查网络或联系管理员')
+    }
 }

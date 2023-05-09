@@ -9,7 +9,7 @@
                            <img :src=user_photo_url class="user_photo" >
     <!--                        <el-image class="personal-img" fit="contain" :src=user_photo_url @click="dialogTableVisible = true" />-->
                             <div style="height: 10px"></div>
-                            <el-button type="primary" >更换头像</el-button>
+                            <el-button type="primary" @click="show_upload=true">更换头像</el-button>
                         </el-col>
                         <el-col :span="6">
                             <div style="height: 30px"></div>
@@ -58,28 +58,32 @@
 
         <user-info-view @pass_nickname="get_nickname" @pass_signature="get_signature" ></user-info-view>
 
+        <el-dialog v-model="show_upload" title="修改头像">
+            <upload-pic></upload-pic>
+        </el-dialog>
+
     </div>
 </template>
 
 <script>
 import { Edit, Search, Share, Upload,View } from '@element-plus/icons-vue';
 import UserInfoView from "@/views/user/UserInfoView.vue";
-import {computed, onBeforeMount, provide, ref,nextTick} from "vue";
-import SongList from "@/components/user/jlSongList.vue";
-import store from "@/store";
+import {computed, onBeforeMount, provide, ref, nextTick, watch} from "vue";
 import { useStore } from 'vuex'
 import {userinfoData} from "@/utils/Texts/userinfoText";
+import uploadPic from "@/components/user/uploadPic.vue";
 
 // import {ElMessage} from "element-plus";
 export default {
     name: "UserManagementView",
-    // components: {SongList, UserInfoView},
-    components: {UserInfoView},
+    components: {
+        UserInfoView,
+        uploadPic
+    },
    data(){
         return{
             aside_width:13,
             //user_photo_url:require("../../assets/profile.jpg"),
-
             nickname:"日本天皇",
             user_name:"孙笑川",
             user_brithday:"1945-8-15",
@@ -112,6 +116,10 @@ export default {
     setup(){
         const user_photo_url=ref()   //用户头像
         const show_router=ref(true)
+        const show_upload=ref(false) //展示上传头像框
+        watch(user_photo_url,()=>{
+            show_upload.value=false;
+            })
         const reload=()=>{
             show_router.value=false
             nextTick(()=>{
@@ -144,7 +152,7 @@ export default {
             userinfoData,
             onBeforeMount,
             show_router,
-            reload,user_photo_url
+            reload,user_photo_url,show_upload
         }
     }
 }

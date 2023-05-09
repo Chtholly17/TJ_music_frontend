@@ -88,6 +88,12 @@ const api = {
                 userNumber:user_id
             }
         })
+    },
+    //修改用户头像
+    postUserImage(file:any)
+    {
+        //console.log(path.baseUrl+path.update_user_image)
+        return axios.post(path.baseUrl+path.update_user_image,file)
     }
 }
 

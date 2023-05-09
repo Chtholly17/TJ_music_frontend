@@ -1,16 +1,21 @@
 <template>
-    <div class="fan_block"  v-for="item in follow_list" :key="item.userId">
-        <div class="user_photo">
-            <!--            <el-image :src="require(item.userProfileImageFilename)" class="photo" fit="scale-down"> </el-image>-->
-            <img class="photo" :src="item.userProfileImageFilename">
+    <div   v-for="item in follow_list" :key="item.userId">
+        <div class="fan_block">
+            <div class="user_photo">
+                <!--            <el-image :src="require(item.userProfileImageFilename)" class="photo" fit="scale-down"> </el-image>-->
+                <img class="photo" :src="item.userProfileImageFilename">
+            </div>
+            <div class="name_signature">
+                <p>{{item.userNickname}}</p>
+                <div style="height: 20px"></div>
+                <p>{{item.userSignature}}</p>
+            </div>
+            <div class="delete_fan">
+                <el-button @click="delete_follow(item.userStudentNumber)">取消关注</el-button>
+            </div>
         </div>
-        <div class="name_signature">
-            <p>{{item.userNickname}}</p>
-            <p>{{item.userSignature}}</p>
-        </div>
-        <div class="delete_fan">
-            <el-button @click="delete_follow(item.userStudentNumber)">取消关注</el-button>
-        </div>
+        <el-divider></el-divider>
+
     </div>
 
 </template>
@@ -27,12 +32,18 @@ export default {
     {
         const reload=inject('reload')
         const store = useStore()
+        // const test = computed(() => store.getters.getUserID)
+        // console.log("用户id为："+test.value)
+
         let user_id;
-        //const count = computed(() => store.getters.getUserID)
         let follow_list;
         follow_list=ref()
         onBeforeMount(()=>{
             const count = computed(() => store.getters.getUserID)
+
+            //console.log(count)
+            //console.log(count.value)
+
             user_id=count.value
             fetchFollowList(user_id).then(res=>{
                 follow_list.value=res
@@ -71,7 +82,9 @@ export default {
 }
 
 .fan_block > .user_photo>.photo{
-    height: 95%;
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
 }
 
 .fan_block>.name_signature{

@@ -1,16 +1,21 @@
 <template>
-    <div class="fan_block"  v-for="item in fan_list" :key="item.userId">
-        <div class="user_photo">
-<!--            <el-image :src="require(item.userProfileImageFilename)" class="photo" fit="scale-down"> </el-image>-->
-            <img class="photo" :src="item.userProfileImageFilename">
+    <div  v-for="item in fan_list" :key="item.userId">
+        <div class="fan_block">
+          <div class="user_photo">
+              <vue-avatar :name="item.userNickname" :src="item.userProfileImageFilename"></vue-avatar>
+
+              <img class="photo" :src="item.userProfileImageFilename">
+
+          </div>
+          <div class="name_signature">
+              <p>{{item.userNickname}}</p>
+              <p>{{item.userSignature}}</p>
+          </div>
+          <div class="delete_fan">
+              <el-button>删除粉丝</el-button>
+          </div>
         </div>
-        <div class="name_signature">
-            <p>{{item.userNickname}}</p>
-            <p>{{item.userSignature}}</p>
-        </div>
-        <div class="delete_fan">
-            <el-button>删除粉丝</el-button>
-        </div>
+        <el-divider></el-divider>
     </div>
 
 </template>
@@ -18,9 +23,13 @@
 <script>
 import {onBeforeMount, ref} from "vue";
 import {fetchFanList} from "@/utils/Texts/FanList";
+// import VueAvatar from 'vue-avatar'
 
 export default {
     name:'FanList',
+    // components: {
+    //     VueAvatar
+    // },
     setup()
     {
         let fan_list;
@@ -49,7 +58,9 @@ export default {
 }
 
 .fan_block > .user_photo>.photo{
-    height: 95%;
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
 }
 
 .fan_block>.name_signature{
