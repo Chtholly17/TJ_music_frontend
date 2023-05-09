@@ -45,4 +45,19 @@ public class originService {
         }
         return Result.success(origin);
     }
+
+    /**
+     * get origin by origin id.
+     * code:0 represents origin does not exist.
+     * code:1 represents search succeeded.
+     * @param originId
+     * @return Result
+     */
+    public Result getOriginByOriginId(Integer originId) {
+        Origin origin = originMapper.selectOriginByOriginId(originId);
+        if (origin == null) {
+            return Result.fail("origin does not exist.");
+        }
+        return Result.success(origin);
+    }
 }

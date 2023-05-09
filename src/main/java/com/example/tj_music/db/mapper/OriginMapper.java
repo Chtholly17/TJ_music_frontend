@@ -20,4 +20,8 @@ public interface OriginMapper {
     @Select("select * from origin inner join work on origin.origin_id = work.work_origin_version" +
             " where work.work_id = #{workId}")
     public Origin selectOriginByWorkId(Integer workId);
+
+    // Select origin by origin id
+    @Select("select * from origin where origin_id = #{originId}")
+    public Origin selectOriginByOriginId(Integer originId);
 }

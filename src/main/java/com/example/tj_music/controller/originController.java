@@ -42,4 +42,16 @@ public class originController {
     public Result searchOriginByWorkId(@RequestParam("workId") Integer workId) {
         return originService.searchOriginByWorkId(workId);
     }
+
+    /**
+     * get origin by origin id.
+     * code:0 represents origin does not exist.
+     * code:1 represents search succeeded.
+     * @param originId
+     * @return Result
+     */
+    @PostMapping("/getOriginByOriginId")
+    public Result getOriginByOriginId(@RequestParam("originId") Integer originId) {
+        return originService.getOriginByOriginId(originId);
+    }
 }
