@@ -48,4 +48,5 @@ public class User {
     private Integer userFollowCnt;
     private Integer userPostsCnt;
     private Integer userFansCnt;
+    private String userIdentifyingCode;
 }
