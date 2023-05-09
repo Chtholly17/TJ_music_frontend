@@ -1,6 +1,7 @@
 <template>
   <div class="searchBar">
-      <el-input prefix-icon="Search" v-model="searchKeyword.keyWord" style="margin: 10px 5px 10px"></el-input>
+      <el-input prefix-icon="Search" v-model="searchKeyword.keyWord"
+                style="margin: 10px 5px 10px" placeholder="查找伴奏歌名"></el-input>
       <el-button @click="searchHandler" style="margin: 10px 5px 10px">查找</el-button>
   </div>
 </template>
@@ -18,7 +19,7 @@ export default {
         })
         const searchHandler = () => {
             if (searchKeyword.keyWord)
-                router.push({ path: '/accompaniment', query: { keyWord: searchKeyword.keyWord }})
+                router.push({ path: '/accompaniment', query: { originTag: searchKeyword.keyWord }})
             else
                 ElMessage("想好要查找什么再点我吧~")
         }

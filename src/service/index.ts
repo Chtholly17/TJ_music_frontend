@@ -41,8 +41,7 @@ const api = {
     },
     postSearchAccompaniment(keyword: any)
     {
-        console.log(keyword)
-        // return axios.get(path.baseUrl + path.postSearch, keyword)
+        return axios.post(path.baseUrl + path.postSearch, keyword)
     }
 }
 
