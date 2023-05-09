@@ -52,34 +52,6 @@ import {ref} from "vue";
 export default {
     name: "music_player",
     functional: true,
-    // data() {
-    //     return {
-    //         input:"",
-    //         items: [
-    //             { name: "青花瓷" ,singer:"周杰伦"},
-    //             { name: "东风破" ,singer:"周杰伦"},
-    //             { name: "花海" ,singer:"周杰伦"},
-    //             { name: "千里之外" ,singer:"周杰伦/费玉清"},
-    //             { name: "园游会" ,singer:"周杰伦"},
-    //             { name: "晴天" ,singer:"周杰伦"},
-    //             { name: "稻香" ,singer:"周杰伦"},
-    //             { name: "夜的第七章" ,singer:"周杰伦"},
-    //             { name: "说好的幸福呢" ,singer:"周杰伦"},
-    //             { name: "一路向北" ,singer:"周杰伦"},
-    //             { name: "红尘客栈" ,singer:"周杰伦"},
-    //             { name: "爱情废柴" ,singer:"周杰伦"},
-    //             { name: "粉色海洋" ,singer:"周杰伦"}
-    //         ],
-    //         currentsong: {
-    //             name: "锦鲤抄",
-    //             singer: "银临",
-    //             img:require("../assets/1.jpg"),
-    //             url:require("../assets/1.mp3")
-    //         },
-    //         ifPlaying:false,
-    //         ifPaused:true
-    //     }
-    // },
     setup(){
         const input="";
         const items=[
@@ -129,10 +101,6 @@ export default {
             ifPaused
         }
     }
-    // method()
-    // {
-    //     this.$refs.myAudio.play()
-    // }
 }</script>
 
 

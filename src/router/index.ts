@@ -11,6 +11,11 @@ const routes: Array<RouteRecordRaw> = [
     component:()=>import('@/views/music_player.vue'),
   },
   {
+    path:"/music_square",
+    name:"music_square",
+    component:()=>import('@/views/music_square.vue'),
+  },
+  {
     redirect:'/user/music_library',
     path:'/user',
     name:'user',
@@ -25,6 +30,16 @@ const routes: Array<RouteRecordRaw> = [
         path:'post',
         name:'user_post',
         component:()=>import('@/views/user/UserPostView.vue')
+      },
+      {
+        path:'fan_list',
+        name:'user_fan_list',
+        component:()=>import('@/components/user/FanList.vue')
+      },
+      {
+        path:'follow_list',
+        name:'user_follow_list',
+        component:()=>import('@/components/user/FollowList.vue')
       }
     ]
   },
