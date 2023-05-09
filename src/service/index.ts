@@ -80,9 +80,13 @@ const api = {
             }
         })
     },
-    postSearchAccompaniment(keyword: any)
+    postSearchAccompanimentByKeyword(keyword: any)
     {
-        return axios.post(path.baseUrl + path.postSearch, keyword)
+        return axios.post(path.baseUrl + path.postSearch_keyword, keyword)
+    },
+    getWorksById(id: any)
+    {
+        return axios.get(path.baseUrl + path.getWorksById, {params: id})
     }
 }
 

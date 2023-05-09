@@ -65,8 +65,6 @@
 import { Edit, Search, Share, Upload,View } from '@element-plus/icons-vue';
 import UserInfoView from "@/views/user/UserInfoView.vue";
 import {computed, onBeforeMount, provide, ref,nextTick} from "vue";
-import SongList from "@/components/user/SongList.vue";
-import store from "@/store";
 import { useStore } from 'vuex'
 import {userinfoData} from "@/utils/Texts/userinfoText";
 

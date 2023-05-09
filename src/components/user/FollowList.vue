@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import {computed, onBeforeMount, ref, inject, onBeforeUpdate} from "vue";
+import {computed, onBeforeMount, ref, inject} from "vue";
 import {fetchFollowList} from "@/utils/Texts/FollowList";
 import {deleteFollow} from "@/utils/Texts/FollowList";
 import {useStore} from "vuex";
@@ -47,7 +47,7 @@ export default {
         //     })
         // })
         function delete_follow(follow_id){
-            deleteFollow(user_id,follow_id).then(res=>{
+            deleteFollow(user_id,follow_id).then(()=>{
                 reload()
             })
         }

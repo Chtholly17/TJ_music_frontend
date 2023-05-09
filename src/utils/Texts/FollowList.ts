@@ -1,7 +1,5 @@
-import {computed, reactive, ref, unref} from "vue";
-import {ElMessage, FormInstance} from "element-plus";
+import {ElMessage} from "element-plus";
 import api from "@/service";
-import {useStore} from "vuex";
 
 
 // 获取用户的粉丝列表

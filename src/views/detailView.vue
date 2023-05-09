@@ -3,14 +3,14 @@
         <div style="height:20px"></div>
         <div class="frameBox detailDiv">
             <div class="songDetailBox">
-                <el-image :src="require('@/assets/'+songDetail.cover)" class="coverBox" fit="scale-down"></el-image>
+                <el-image :src="songDetails.originPrefaceFilename" class="coverBox" fit="scale-down"></el-image>
                 <div style="height: 100%; width: 10%"></div>
                 <div class="detailBox">
-                    <div class="nameBox"><el-text truncated class="nameText">{{songDetail.name}}</el-text></div>
+                    <div class="nameBox"><el-text truncated class="nameText">{{songDetails.originName}}</el-text></div>
                     <div class="singerBox">
                         <el-icon :size="17" class="userIcon"><User /></el-icon>
-                        <el-text truncated class="singerText">{{songDetail.singer}}</el-text></div>
-                    <div class="introBox">{{songDetail.intro}}</div>
+                        <el-text truncated class="singerText">{{songDetails.originAuthor}}</el-text></div>
+                    <div class="introBox">{{songDetails.originIntroduction}}</div>
                     <div style="height: 100%"></div>
                     <div class="singBox"><el-button type="primary">我 也 要 唱</el-button></div>
                 </div>
@@ -25,59 +25,96 @@
                 <el-text class="worksItemTitleText">翻唱作品</el-text>
             </div>
             <el-divider></el-divider>
-            <works-item v-for="(works, index) in songDetail.works" :key="works" :profile="works.profile"
-                        :nickname="works.nickname" :score="works.score" :likes="works.likes" :date="works.date"
+            <works-item v-for="(works, index) in songWorksInfoList" :key="works"
+                        :profile="works.work.workPrefaceFilename"
+                        :nickname="works.userNickname" :score="works.work.workScore"
+                        :likes="works.work.workLike" :date="works.work.createTime"
                         :index="index"></works-item>
         </div>
     </div>
 </template>
 
 <script>
-import {ref} from "vue";
 import {User} from "@element-plus/icons";
 import WorksItem from "@/components/worksItem.vue";
+import {useRoute} from "vue-router";
+import api from "@/service";
+import {ElMessage} from "element-plus";
+import {accompanimentInfoList, songWorksInfoList} from "@/utils/Texts/accompanimentText";
+import {onBeforeMount} from "vue";
 
 export default {
     name: "detailView",
     components: {WorksItem, User},
     setup() {
+        const queryParams = useRoute().query;
         const getSongDetail = () => {
-            // api !!
-            return ref(
-                {
-                    name: '雪distance',
-                    cover: 'profile.jpg',
-                    singer: 'capper',
-                    intro: '太好听了呜呜呜呜呜呜呜呜，你听：在这么冷的天别离我那么远再靠近我一点可是雪 飘进双眼看不见你桥牌的谎言心甘情愿囚禁在深渊舔舐着伤口和刀尖可是雪 飘进双眼看不见你桥牌的谎言心甘情愿囚禁在深渊烧一捧雪花做硝烟',
-                    works: [
-                        {
-                            profile: 'profile.jpg',
-                            nickname: '孙笑川',
-                            date: '2023-02-03',
-                            score: '5.28',
-                            likes: '114'
-                        },
-                        {
-                            profile: 'profile.jpg',
-                            nickname: '孙笑川不爱吃香菜',
-                            date: '2020-02-03',
-                            score: '99.90',
-                            likes: '1145999'
-                        },
-                        {
-                            profile: 'profile.jpg',
-                            nickname: '孙笑川已黑化已有闺hhhhhh哈哈哈哈哈哈',
-                            date: '2022-02-03',
-                            score: '88.90',
-                            likes: '1145'
-                        }
-                    ]
+            for(let i = 0; i < accompanimentInfoList.length; ++i) {
+                if (String(accompanimentInfoList[i].originId) === queryParams.originId){
+                    return accompanimentInfoList[i]
                 }
-            )
+            }
         }
-        const songDetail = getSongDetail()
+        const getSongWorks = () => {
+            api.getWorksById(queryParams).then((response) => {
+                if (response.data.code === 1) {
+                    while (songWorksInfoList.length > 0) {
+                        songWorksInfoList.pop()
+                    }
+                    // console.log(response.data.data.length)
+                    for (let i = 0; i < response.data.data.length; ++i) {
+                        const iter = response.data.data[i];
+                        songWorksInfoList.push(iter)
+                    }
+                    for (let i = 0; i < songWorksInfoList.length; ++i) {
+                        const iter = songWorksInfoList[i];
+                        iter.work.createTime = iter.work.createTime.substring(0,10)
+                    }
+                } else {
+                    ElMessage.error(response.data.msg)
+                }
+            })
+            // return ref(
+            //     {
+            //         name: '雪distance',
+            //         cover: 'profile.jpg',
+            //         singer: 'capper',
+            //         intro: '太好听了呜呜呜呜呜呜呜呜，你听：在这么冷的天别离我那么远再靠近我一点可是雪 飘进双眼看不见你桥牌的谎言心甘情愿囚禁在深渊舔舐着伤口和刀尖可是雪 飘进双眼看不见你桥牌的谎言心甘情愿囚禁在深渊烧一捧雪花做硝烟',
+            //         works: [
+            //             {
+            //                 profile: 'profile.jpg',
+            //                 nickname: '孙笑川',
+            //                 date: '2023-02-03',
+            //                 score: '5.28',
+            //                 likes: '114'
+            //             },
+            //             {
+            //                 profile: 'profile.jpg',
+            //                 nickname: '孙笑川不爱吃香菜',
+            //                 date: '2020-02-03',
+            //                 score: '99.90',
+            //                 likes: '1145999'
+            //             },
+            //             {
+            //                 profile: 'profile.jpg',
+            //                 nickname: '孙笑川已黑化已有闺hhhhhh哈哈哈哈哈哈',
+            //                 date: '2022-02-03',
+            //                 score: '88.90',
+            //                 likes: '1145'
+            //             }
+            //         ]
+            //     }
+            // )
+        }
+        let songDetails = getSongDetail()
+        onBeforeMount(getSongWorks)  // TODO: 使用新的api接口，通过歌曲id再次获得歌曲信息，防止因为刷新导致上一个页面数据丢失
+        // onBeforeUpdate(()=>{
+        //     getSongWorks();
+        //     songDetails = getSongDetail()
+        // })
         return {
-            songDetail
+            songWorksInfoList,
+            songDetails
         }
     }
 }
