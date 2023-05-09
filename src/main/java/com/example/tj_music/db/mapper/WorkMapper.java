@@ -1,8 +1,8 @@
 package com.example.tj_music.db.mapper;
 
-import com.example.tj_music.db.entity.Work;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import com.example.tj_music.db.entity.Work;
 
 import java.util.List;
 

@@ -1,11 +1,9 @@
 package com.example.tj_music.controller;
 
-import com.example.tj_music.db.entity.Work;
 import com.example.tj_music.service.workService;
 import com.example.tj_music.utils.Result;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;

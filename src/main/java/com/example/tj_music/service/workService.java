@@ -2,11 +2,11 @@ package com.example.tj_music.service;
 
 import com.example.tj_music.db.mapper.UserMapper;
 import com.example.tj_music.utils.Result;
-import com.example.tj_music.db.entity.Work;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.tj_music.db.mapper.WorkMapper;
+import com.example.tj_music.db.entity.Work;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +35,7 @@ public class workService {
             map.put("userNickname", nickname);
             map.put("userStudentNumber", userStudentNumber);
             map.put("work", work);
+
             list.add(map);
         }
         if(works.size() == 0) {
