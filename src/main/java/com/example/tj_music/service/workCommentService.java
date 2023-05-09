@@ -31,7 +31,6 @@ public class workCommentService {
      * @param workId
      * @return Result
      */
-    @PostMapping("/getWorkCommentByWorkId")
     public Result getWorkCommentByWorkId(Integer workId) {
         List<WorkComment> workCommentList = workCommentMapper.selectWorkCommentByTarget(workId);
         if (workCommentList.isEmpty()) {
@@ -60,7 +59,6 @@ public class workCommentService {
      * @param workCommentContent
      * @return Result
      */
-    @PostMapping("/addWorkComment")
     public Result addWorkComment(Integer workCommentTarget, Integer workCommentOwner, String workCommentContent) {
         User user = userMapper.selectUserById(workCommentOwner);
         Work work = workMapper.selectWorkByWorkId(workCommentTarget);
