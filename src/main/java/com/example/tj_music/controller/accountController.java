@@ -36,6 +36,7 @@ public class accountController {
 
     /**
      * logout
+     * code:2 represents logout failed. The account does not exist.
      * code:1 represents logout succeeded.
      * code:0 represents logout failed.
      * logout
@@ -92,6 +93,8 @@ public class accountController {
 
     /**
      * forget password check verification code.
+     * code:3 represents checking verification code failed. The account does not exist.
+     * code:2 represents checking verification code failed. The password is not the same.
      * code:1 represents checking verification code successfully.
      * code:0 represents the verification code is wrong.
      * @param userNumber

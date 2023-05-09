@@ -28,10 +28,10 @@ public class accountService {
     @Autowired
     private WorkMapper workMapper;
 
-    private String verificationCode;
 
     /**
      * logout.
+     * code:2 represents logout failed. The user is not online.
      * code:1 represents logout succeeded.
      * code:0 represents logout failed. The user does not exist.
      * @param userNumber
@@ -39,11 +39,14 @@ public class accountService {
      */
     public Result logout(String userNumber) {
         User user = userMapper.selectUserByStudentNumber(userNumber);
-        if (user == null)
+        if (user == null || Objects.equals(user.getUserStatus(), "unsigned"))
             return new Result(0, "Logout failed. The user does not exist.", null);
-
-        userMapper.updateUserStatusById("normal", user.getUserId());
-        return new Result(1, "Logout succeeded.", null);
+        if (Objects.equals(user.getUserStatus(), "online")) {
+            userMapper.updateUserStatusById("normal", user.getUserId());
+            return new Result(1, "Logout succeeded.", null);
+        }
+        else
+            return new Result(2, "Logout failed. The user is not online.", null);
     }
 
     /**
@@ -57,7 +60,7 @@ public class accountService {
      */
     public Result loginCheck(String userNumber, String password) {
         User user = userMapper.selectUserByStudentNumber(userNumber);
-        if (user == null)
+        if (user == null || Objects.equals(user.getUserStatus(), "unsigned"))
             return new Result(0, "Login failed. The user does not exist.", null);
         else if (Objects.equals(user.getUserStatus(), "online"))
             return new Result(3, "Login failed. The user is online.", null);
@@ -78,7 +81,12 @@ public class accountService {
     public Result sendVerificationCode(String userNumber) throws MessagingException, AddressException {
         User user = userMapper.selectUserByStudentNumber(userNumber);
         Random random = new Random();
-        this.verificationCode = String.valueOf(random.nextInt(89999) + 10000);
+        String verificationCode = String.valueOf(random.nextInt(89999) + 10000);
+        if (user == null)
+            userMapper.insertUser(userNumber, "null", "unsigned", "user", "user", "user");
+
+        userMapper.updateUserVerificationCodeByStudentNumber(verificationCode, userNumber);
+
         String email = userNumber + "@tongji.edu.cn";
         Properties properties = new Properties();
         properties.setProperty("mail.transport.protocol", "SMTP");//发送邮件协议
@@ -97,7 +105,7 @@ public class accountService {
         message.setFrom(new InternetAddress("982017264@qq.com"));//设置发送人
         message.setRecipient(Message.RecipientType.TO, new InternetAddress(email));//设置接收人
         message.setSubject("邮箱验证");//设置邮件主题
-        message.setText("你的验证码为：" + "12345" + "。请注意，验证码有效时间为2分钟！！！");//设置邮件内容
+        message.setText("你的验证码为：" + verificationCode + "。请注意，验证码有效时间为2分钟！！！");//设置邮件内容
         Transport.send(message);
 
         return new Result(1, "send verification code succeeded", null);
@@ -112,9 +120,9 @@ public class accountService {
      */
     public Result registerSendVerificationCode(String userNumber) throws MessagingException {
         User user = userMapper.selectUserByStudentNumber(userNumber);
-        if (user == null) {
+        if (user == null || Objects.equals(user.getUserStatus(), "unsigned"))
             return sendVerificationCode(userNumber);
-        } else
+        else
             return new Result(0, "Register failed. The account has been existed", null);
     }
 
@@ -131,12 +139,14 @@ public class accountService {
      */
     public Result registerCheckVerificationCode(String userNumber, String password, String verificationCode, String checkPassword) {
         User user = userMapper.selectUserByStudentNumber(userNumber);
-        if (Objects.equals(verificationCode, "12345")) {
+        if (Objects.equals(verificationCode, user.getUserIdentifyingCode())) {
 
             if (!Objects.equals(password, checkPassword))
                 return new Result(2, "Register failed. The password is not the same", null);
 
-            userMapper.insertUser(userNumber, password, "user", "user", "user");
+//            userMapper.insertUser(userNumber, password, "user", "user", "user");
+            userMapper.updateUserStatusById("normal", user.getUserId());
+            userMapper.updateUserPasswordByStudentNumber(password, userNumber);
             return new Result(1, "Register succeeded", null);
 
         } else
@@ -152,7 +162,7 @@ public class accountService {
      */
     public Result forgetPasswordSendVerificationCode(String userNumber) throws MessagingException {
         User user = userMapper.selectUserByStudentNumber(userNumber);
-        if (user != null)
+        if (user != null && !Objects.equals(user.getUserStatus(), "unsigned"))
             return sendVerificationCode(userNumber);
         else
             return new Result(0, "Forget password failed. The account does not exist", null);
@@ -160,6 +170,7 @@ public class accountService {
 
     /**
      * forget password check verification code.
+     * code:3 represents forget password failed. The account does not exist.
      * code:2 represents the password is not the same.
      * code:1 represents checking verification code successfully.
      * code:0 represents the verification code is wrong.
@@ -171,11 +182,15 @@ public class accountService {
      */
     public Result forgetPasswordCheckVerificationCode(String userNumber, String verificationCode, String password, String checkPassword) {
         User user = userMapper.selectUserByStudentNumber(userNumber);
-        if (Objects.equals(verificationCode, "12345")) {
+        if (user == null || Objects.equals(user.getUserStatus(), "unsigned"))
+            return new Result(3, "Forget password failed. The account does not exist", null);
+        if (Objects.equals(verificationCode, user.getUserIdentifyingCode())) {
             if (!Objects.equals(password, checkPassword))
                 return new Result(2, "Forget password failed. The password is not the same", null);
-            else
+            else {
+                userMapper.updateUserPasswordByStudentNumber(password, userNumber);
                 return new Result(1, "Forget password successfully.", null);
+            }
         }
         else
             return new Result(0, "Forget password failed. The verification code is wrong", null);
@@ -191,7 +206,7 @@ public class accountService {
      */
     public Result updatePassword(String userNumber, String password) {
         User user = userMapper.selectUserByStudentNumber(userNumber);
-        if (user != null) {
+        if (user != null && !Objects.equals(user.getUserStatus(), "unsigned")) {
             userMapper.updateUserPasswordByStudentNumber(userNumber, password);
             return new Result(1, "Updating password succeeded", null);
         } else
@@ -210,8 +225,8 @@ public class accountService {
      */
     public Result appealAccount(String userNumber, String appealContent) {
         User user = userMapper.selectUserByStudentNumber(userNumber);
-        if (user != null) {
-            if (Objects.equals(user.getUserStatus(), "valid"))
+        if (user != null && !Objects.equals(user.getUserStatus(), "unsigned")) {
+            if (!Objects.equals(user.getUserStatus(), "invalid"))
                 return new Result(0, "Appealing account failed. The account is valid", null);
 
             List<Integer> appealOwnerList = appealMapper.selectAppealOwnerById(user.getUserId());

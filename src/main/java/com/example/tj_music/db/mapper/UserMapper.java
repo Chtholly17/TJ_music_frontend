@@ -11,8 +11,8 @@ import java.util.Date;
 @Mapper
 public interface UserMapper {
     // insert user
-    @Insert("insert into user(user_student_number, user_password, user_nickname, user_signature, user_profile_image_filename) values(#{user_student_number}, #{user_password}, #{user_nickname}, #{user_signature}, #{user_profile_image_filename})")
-    public void insertUser(String user_student_number, String user_password, String user_nickname, String user_signature, String user_profile_image_filename);
+    @Insert("insert into user(user_student_number, user_password, user_status, user_nickname, user_signature, user_profile_image_filename) values(#{user_student_number}, #{user_password}, #{user_status}, #{user_nickname}, #{user_signature}, #{user_profile_image_filename})")
+    public void insertUser(String user_student_number, String user_password, String user_status, String user_nickname, String user_signature, String user_profile_image_filename);
 
     // select user by student number
     @Select("select * from user where user_student_number=#{user_student_number}")
@@ -33,6 +33,10 @@ public interface UserMapper {
     // update user password by StudentNumber
     @Update("update user set user_password=#{user_password} where user_student_number=#{user_student_number}")
     public void updateUserPasswordByStudentNumber(String user_password, String user_student_number);
+
+    // update user verification code by StudentNumber
+    @Update("update user set user_identifying_code=#{user_verification_code} where user_student_number=#{user_student_number}")
+    public void updateUserVerificationCodeByStudentNumber(String user_verification_code, String user_student_number);
 
     // update user nickname by StudentNumber
     @Update("update user set user_nickname=#{user_nickname} where user_student_number=#{user_student_number}")
