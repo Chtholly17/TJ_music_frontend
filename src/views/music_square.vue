@@ -20,6 +20,7 @@
                         <img
                             :src="item.workPrefaceFilename"
                             class="image"
+                            @click="player_router"
                         />
                         <div><span>{{item.workName}}</span></div>
                     </el-card>
@@ -37,6 +38,11 @@ import {fetchMusicSquare} from "@/utils/Texts/musicSquare";
 export default {
     name: 'music_square',
     functional: true,
+    methods:{
+        player_router(){
+            this.$router.push('/music_player')
+        }
+    },
     setup() {
         const work_message=ref();
 

@@ -22,7 +22,7 @@
       </div>
       <music_library_item v-for="(item,index) in music_library" :key="item"
                           :name="item.workName" :score="item.workScore"
-                          :index="index" :like="item.workLike" :time="item.createTime"></music_library_item>
+                          :index="index" :like="item.workLike" :time="item.createTime.substr(0,10)" @click="player_router"></music_library_item>
   </div>
 </template>
 
@@ -34,6 +34,11 @@ import music_library_item from "@/components/user/musicLibraryItem.vue"
 export default {
     name: "MusicLibrary",
     components:{music_library_item},
+    methods:{
+        player_router(){
+                this.$router.push('/music_player')
+        }
+    },
     setup(){
         const music_library=ref();
         onBeforeMount(()=>{

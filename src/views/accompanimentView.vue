@@ -15,7 +15,7 @@
 <!--            </div>-->
             <accompaniment-item v-for="(item, index) in accompanimentInfoList" :key="item.originId"
                                 :cover="item.originPrefaceFilename" :name="item.originName" :singer="item.originAuthor"
-                                :index="index" :duration="item.originDuration" :id="item.originId"></accompaniment-item>
+                                :index="index" :duration="'4:30'" :id="item.originId"></accompaniment-item>
             <div style="height: 10px"></div>
         </div>
     </div>
