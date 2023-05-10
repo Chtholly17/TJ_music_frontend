@@ -27,3 +27,6 @@ export const closeAllDialogs = () => {
     LoginDialogVisible.value = false
     RetrieveDialogVisible.value = false
 }
+
+//用于管理显示修改密码页面
+export const show_update_password=ref(false)

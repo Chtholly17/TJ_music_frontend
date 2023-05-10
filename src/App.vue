@@ -5,6 +5,9 @@
         </el-affix>
         <router-view></router-view>
     </div>
+    <el-dialog v-model="show_update_password" title="修改密码" width="30%" :lock-scroll="false">
+        <update-password></update-password>
+    </el-dialog>
 </template>
 
 <style lang="scss">
@@ -34,27 +37,6 @@
     color: #ffffff !important;
 }
 
-/*nav {*/
-/*  padding: 30px;*/
-/*}*/
-
-/*a{*/
-/*    text-decoration: none;*/
-/*    color: #000;*/
-/*}*/
-/*.router-link-active {*/
-/*    color: red;*/
-/*}*/
-/*.login_register_button{*/
-/*    margin-top: 10px;*/
-/*}*/
-
-/*.log_reg_dialog{*/
-/*    padding-left: 1em;*/
-/*    padding-right: 1em;*/
-/*    padding-bottom: 0;*/
-/*}*/
-
 *{
     font-family: "微软雅黑 Light", sans-serif;
 }
@@ -62,4 +44,7 @@
 
 <script setup lang="ts">
 import NavigationMenu from "@/components/NavigationMenu.vue";
+import UpdatePassword from "@/components/user/UpdatePassword.vue";
+import {show_update_password} from "@/utils/DialogVisible";
+import {ref} from "vue";
 </script>
