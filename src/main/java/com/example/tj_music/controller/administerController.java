@@ -27,6 +27,9 @@ public class administerController {
     @Autowired
     private com.example.tj_music.service.originService originService;
 
+    @Autowired
+    private com.example.tj_music.service.accountService accountService;
+
     /**
      * 获取所有申诉
      * 用这个API可以获取所有申诉
@@ -82,11 +85,25 @@ public class administerController {
         }
     }
 
-    // insert a new origin into database
+    /**
+     * 上传原唱(文件传输有bug)
+     * @param originFrontEnd
+     * @return
+     */
     @PostMapping("/insertOrigin")
     public Result insertOrigin(@RequestBody OriginFrontEnd originFrontEnd) {
         // insert a new origin
         originService.insertOrigin(originFrontEnd);
         return Result.success();
+    }
+
+    /**
+     * 通过学号删除用户
+     * @param studentNumber 学号
+     * @return Result(success) or Result(fail) for user not found
+     */
+    @PostMapping("/deleteUserByStudentNumber")
+    public Result deleteUserByStudentNumber(@RequestParam("studentNumber") String studentNumber) {
+        return accountService.deleteUserByStudentNumber(studentNumber);
     }
 }

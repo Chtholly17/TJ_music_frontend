@@ -1,10 +1,7 @@
 package com.example.tj_music.db.mapper;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import com.example.tj_music.db.entity.User;
-import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 import java.util.Date;
@@ -89,4 +86,12 @@ public interface UserMapper {
     // get the fans cnt by id
     @Select("select count(*) from user_follow where user_followed_id=#{user_id}")
     public Integer selectFansCntById(Integer user_id);
+
+    // delete the user by id
+    @Delete("delete from user where user_id=#{user_id}")
+    public void deleteUserById(Integer user_id);
+
+    // delete the user by student number
+    @Delete("delete from user where user_student_number=#{user_student_number}")
+    public void deleteUserByStudentNumber(String user_student_number);
 }

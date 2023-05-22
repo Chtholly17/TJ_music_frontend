@@ -239,4 +239,21 @@ public class accountService {
             return new Result(3, "Appeal account failed. The account does not exist", null);
     }
 
+    /**
+     * delete user by student number.
+     * possible code:1 user not found
+     * @param userNumber student number to delete
+     * @return Result
+     */
+    public Result deleteUserByStudentNumber(String userNumber) {
+        //check whether the user exists
+        User user = userMapper.selectUserByStudentNumber(userNumber);
+        if (user == null)
+            return new Result(0, "Delete user failed. The user does not exist", null);
+        else {
+            userMapper.deleteUserByStudentNumber(userNumber);
+            return Result.success();
+        }
+    }
+
 }
