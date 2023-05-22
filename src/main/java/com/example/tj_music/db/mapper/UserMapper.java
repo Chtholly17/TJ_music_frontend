@@ -85,4 +85,8 @@ public interface UserMapper {
     // update the user post cnt by id
     @Update("update user set user_posts_cnt=#{user_post_cnt} where user_id=#{user_id}")
     public void updateUserPostsCntById(Integer user_posts_cnt, Integer user_id);
+
+    // get the fans cnt by id
+    @Select("select count(*) from user_follow where user_followed_id=#{user_id}")
+    public Integer selectFansCntById(Integer user_id);
 }
