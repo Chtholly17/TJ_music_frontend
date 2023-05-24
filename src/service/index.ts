@@ -137,7 +137,17 @@ const api = {
     getWorksById(id: any)
     {
         return axios.get(path.baseUrl + path.getWorksById, {params: id})
-    }
+    },
+    //获取榜单
+    getRankList(tag:any,order:any)
+    {
+        return axios.get(path.baseUrl+path.getRank,{
+            params:{
+                tag:tag,
+                order:order
+            }
+        })
+    },
 }
 
 export default api

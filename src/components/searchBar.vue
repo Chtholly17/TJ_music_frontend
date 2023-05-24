@@ -1,6 +1,5 @@
 <template>
   <div class="searchBar">
-
       <el-input prefix-icon="Search" v-model="searchKeyword.keyWord"
                 style="margin: 10px 5px 10px" placeholder="查找伴奏歌名"></el-input>
       <el-button @click="searchHandler" style="margin: 10px 5px 10px">查找</el-button>

@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-        <el-menu :router="true" mode="horizontal" >
+        <el-menu :router="true" mode="horizontal"  :default-active=default_index>
             <img src="@/assets/logo/logo_rec.png" class="logo">
             <el-menu-item index="/hello">登录</el-menu-item>
             <el-menu-item index="/music_square">首页</el-menu-item>
@@ -16,10 +16,6 @@
                     </el-dropdown-menu>
                 </template>
             </el-dropdown>
-<!--            <el-sub-menu class="user">-->
-<!--                <template #title>我的</template>-->
-<!--                <el-menu-item index="/user">个人主页</el-menu-item>-->
-<!--            </el-sub-menu>-->
         </el-menu>
     </div>
 </template>
@@ -42,8 +38,15 @@ export default {
     },
     setup() {
         const user_photo_url=ref()   //用户头像
+        const default_index=ref()
         onBeforeMount(()=>{
             //这里其实不写也没关系，因为渲染完这个组件之后就会紧接着渲染下一�?
+            //console.log("刷新bar")
+            var root_path='http://localhost:8080'   //用这个消去href的前一段
+
+            var href=window.location.href
+            //console.log(href.substring(root_path.length))
+            default_index.value=href.substring(root_path.length)
             const user_photo=computed(() => store.getters.getUserPhoto)
             user_photo_url.value=user_photo.value;
         })
@@ -56,7 +59,8 @@ export default {
         return {
             showLoginDialog,
             user_photo_url,
-            show_update
+            show_update,
+            default_index
         }
     }
 }

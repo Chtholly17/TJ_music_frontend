@@ -160,10 +160,6 @@ export default {
 
 <style scoped>
 .user_main{
-    //background-color: cornflowerblue;
-    //height: 90vh;
-    //overflow-y: hidden;
-    /*min-height: 100vh;*/
     height: 100%;
 }
 .user_aside{
@@ -173,11 +169,6 @@ export default {
 
 .user_photo{
     height: 250px;
-    /*内边�?*/
-    /*border: 1px solid black;*/
-    /*padding: 10px;*/
-    /*boxShadow: '0px 0px 0px 4px white, 0px 0px 0px 5px black';*/
-
     /*圆角边框*/
     border: 2px solid white;
     border-radius: 50%;

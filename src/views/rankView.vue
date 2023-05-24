@@ -33,15 +33,45 @@
           </el-menu>
       </div>
       <div class="rank_list">
-          <h2 style="text-align: left;margin-bottom: 1vh">{{rank_name}}</h2>
-          <p style="text-align: left;margin-bottom: 1vh">排序方式</p>
+<!--          <h2 style="text-align: left;margin-bottom: 1vh">{{rank_name}}</h2>-->
+          <h2 style="text-align: left">{{rank_name}}</h2>
+<!--          <p style="text-align: left;margin-bottom: 1vh">排序方式</p>-->
+          <p style="text-align: left">排序方式</p>
           <div style="display: flex">
               <el-radio-group v-model="rank_type" size="medium ">
-                  <el-radio-button label="点赞数" />
-                  <el-radio-button label="评论数" />
-                  <el-radio-button label="作者粉丝数" />
+                  <el-radio-button label="点赞数" @click="change_type(1)" />
+                  <el-radio-button label="评论数" @click="change_type(2)"/>
+                  <el-radio-button label="粉丝数" @click="change_type(3)"/>
               </el-radio-group>
           </div>
+
+          <div class="myItem">
+              <div class="itemIndexBox"></div>
+              <div class="coverBox"></div>
+              <div class="nameBox">
+                  <el-text truncated size="large"> 歌名 </el-text>
+              </div>
+              <div class="nameBox">
+                  <el-text truncated size="large"> 作者 </el-text>
+              </div>
+              <div class="nameBox">
+                  <el-text truncated size="large"> 评分 </el-text>
+              </div>
+
+              <div class="singerBox">
+                  <el-text truncated size="large"> 点赞数 </el-text>
+              </div>
+              <div class="nameBox">
+                  <el-text truncated size="large"> 评论数 </el-text>
+              </div>
+              <div class="nameBox">
+                  <el-text truncated size="large"> 粉丝数 </el-text>
+              </div>
+          </div>
+        <rank-item v-for="(item,index) in all_rank" :key="item" :cover="item.workPrefaceFilename" :name="item.workName"
+                   :score="item.score" :index="index" :like="item.like" :nickname="item.workAuthorNickname"
+                   :comments_num="item.workCommentCnt" :fans_num="item.workAuthorFans"
+                    ></rank-item>
 
       </div>
   </div>
@@ -49,17 +79,38 @@
 
 <script lang="ts">
 import {onBeforeMount, ref} from "vue";
+import {fetchRankList} from "@/utils/Texts/rankList";
+import RankItem from "@/components/rankItem.vue";
 
 export default {
     name: "rankView",
+    components: {RankItem},
     setup(){
         const rank_name=ref();  //排行榜名
         const rank_type=ref( );  //排序类型
+        const all_rank=ref();   //具体的排行榜
+        const real_type=ref();  //真实的type，将"点赞数"这种改成"like"
+        const tpye_send=ref(true);  //每次点击change_type都出触发两次，用这个变量过滤一次
         //const rank_radio=ref(); //
         onBeforeMount(()=>{
             rank_name.value="民谣榜"
             rank_type.value='点赞数'
+            real_type.value="like"
+
+            fetchRankList(rank_name.value.substring(0,2),real_type.value).then(res=>{
+               all_rank.value=res
+
+            })
         })
+
+        function real_change(name:any,type:any)
+        {
+            fetchRankList(name.substring(0,2),type).then(res=>{
+                all_rank.value=res
+                console.log(all_rank.value)
+            })
+        }
+
         function change_list(id:any)    //改变榜单
         {
             if(id===1){
@@ -86,11 +137,40 @@ export default {
             else if(id===8){
                 rank_name.value="飙升榜"
             }
+            real_change(rank_name.value,real_type.value)
         }
+
+        function change_type(id:any)
+        {
+           if(id==1)
+           {
+               real_type.value="like"
+           }
+           else if(id==2)
+           {
+               real_type.value="comment"
+           }
+           else if(id==3)
+           {
+               rank_type.value="fans"
+           }
+           if(tpye_send.value==true) {
+               //console.log("change_type发送")
+               //console.log(real_type.value)
+               real_change(rank_name.value, real_type.value)
+               tpye_send.value=false
+           }
+           else {
+               tpye_send.value=true
+           }
+        }
+
         return{
             rank_name,
             change_list,
-            rank_type
+            rank_type,
+            all_rank,
+            change_type
 
         }
     }
@@ -102,6 +182,8 @@ export default {
 .rank_body{
     display: flex;
     margin-top: 10vh;
+    height: 100%;
+    overflow: hidden;
 }
 .rank_body>.aside{
     margin-left: 20vh;
@@ -109,6 +191,8 @@ export default {
 }
 .rank_body>.rank_list{
     margin-left: 5vh;
+    width: 100%;
+    height: 100%;
 }
 .rank_item{
     display: flex;
@@ -117,4 +201,29 @@ export default {
     text-align: center;
     height: 7vh;
 }
+.myItem{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    height: 60px;
+    //overflow: auto;
+}
+.coverBox{
+    padding: 2%;
+    width: 10%;
+    height: 100%
+}
+.itemIndexBox{
+    width: 10%
+}
+.nameBox{
+    width: 25%;
+    text-align: left;
+}
+.singerBox{
+    width: 25%;
+    text-align: left;
+}
+
 </style>
