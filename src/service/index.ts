@@ -35,6 +35,9 @@ const api = {
     postUserInfo(userInfo:any){
         return axios.post(path.baseUrl+path.postuserinfo,userInfo)
     },
+    getUserImage(user_id: any){
+        return axios.get(path.baseUrl + path.getUserImage, {params: user_id})
+    },
     getUserInfo(user_id:any)  //获取用户信息
     {
         return axios.get(path.baseUrl + path.getuserinfo,{

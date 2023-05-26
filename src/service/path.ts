@@ -23,8 +23,8 @@ const base = {
     update_password:"/updatePassword", //
     getMainPageWorks:'/mainPageWorks',  //获取首页作品
     getComment:'/getWorkCommentByWorkId',  //获取作品评论
-    postComment:'/addWorkComment'//提交评论
-
+    postComment:'/addWorkComment',//提交评论
+    getUserImage: '/getUserImage'   // 获取用户头像
 }
 
 export default base;

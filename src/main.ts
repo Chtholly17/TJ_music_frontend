@@ -3,7 +3,6 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
-import ArcoVue from '@arco-design/web-vue';
 import ArcoVueIcon from '@arco-design/web-vue/es/icon';
 
 import ElementPlus from 'element-plus'
@@ -17,8 +16,6 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 }
 app.use(store).use(router)
 app.use(ElementPlus)
-app.use(ArcoVue)
 app.use(ArcoVueIcon);
 app.mount('#app')
-
 // axios.defaults.baseURL='/api'
