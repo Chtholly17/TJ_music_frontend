@@ -21,12 +21,7 @@ public interface OriginMapper {
             " where work.work_id = #{workId}")
     public Origin selectOriginByWorkId(Integer workId);
 
-    // Select origin by origin id
+    // select origin by origin id
     @Select("select * from origin where origin_id = #{originId}")
     public Origin selectOriginByOriginId(Integer originId);
-
-    // insert a new orgin
-    @Select("insert into origin(origin_name,origin_autorh,origin_bgmusic_filename,origin_voice_filename,origin_duration,origin_preface_filename,origin_introduction) values(#{originName},#{originAuthor},#{originBgmusicFilename},#{originVoiceFilename},#{originDuration},#{originPrefaceFilename},#{originIntroduction})")
-    public void insertOrigin(String originName, String originAuthor, String originBgmusicFilename, String originVoiceFilename, Integer originDuration, String originPrefaceFilename, String originIntroduction);
-    
 }
