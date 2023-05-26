@@ -5,6 +5,7 @@
  */
 package com.example.tj_music.db.mapper;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import com.example.tj_music.db.entity.Origin;
@@ -29,4 +30,9 @@ public interface OriginMapper {
     // select origin by origin id
     @Select("select * from origin where origin_id = #{originId}")
     public Origin selectOriginByOriginId(Integer originId);
+
+
+    // insert origin
+    @Insert("insert into origin(origin_name, origin_author, origin_bgmusic_filename, origin_voice_filename, origin_duration, origin_preface_filename, origin_introduction) values(#{originName}, #{originAuthor}, #{originBgmusicFilename}, #{originVoiceFilename}, #{originDuration}, #{originPrefaceFilename}, #{originIntroduction})")
+    void insertOrigin(String originName, String originAuthor, String originBgmusicFilename, String originVoiceFilename, Integer originDuration, String originPrefaceFilename, String originIntroduction);
 }

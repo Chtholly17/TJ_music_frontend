@@ -90,7 +90,7 @@ public class workService {
             vo.setLike(work.getWorkLike());
             vo.setWorkAuthorFans(owner.getUserFansCnt());
             vo.setWorkCommentCnt(workMapper.getWorkCommentCntById(work.getWorkId()));
-            vo.setWorkPrefaceFilename(origin.getOriginPrefaceFilename());
+            vo.setWorkPrefaceFilename(work.getWorkPrefaceFilename());
 
             works_vo.add(vo);
         }
