@@ -48,12 +48,11 @@ export default defineComponent({
         }
 
         function handleAvatarSuccess(response:any, file:any) {
-            (proxy as any).$message({
-                message: response.message,
-                type: response.type,
-            });
+            // (proxy as any).$message({
+            //     message: response.message,
+            //     type: response.type,
+            // });
             console.log("上传成功！")
-            //if (response.success) proxy.$store.commit("setUserPic", response.data);
         }
 
         return {

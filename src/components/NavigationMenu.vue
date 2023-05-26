@@ -46,7 +46,9 @@ export default {
 
             var href=window.location.href
             //console.log(href.substring(root_path.length))
+            //console.log("渲染bar")
             default_index.value=href.substring(root_path.length)
+
             const user_photo=computed(() => store.getters.getUserPhoto)
             user_photo_url.value=user_photo.value;
         })

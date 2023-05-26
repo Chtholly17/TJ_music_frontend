@@ -8,6 +8,6 @@ export const fetchMusicLibrary=async ()=>{
     const count = computed(() => store.getters.getUserID)   //获取用户id
 
     const response = await api.getMusicLibrary(count.value)
-    console.log(response.data.data.workList);
+    //console.log(response.data.data.workList);
     return response.data.data.workList
 }

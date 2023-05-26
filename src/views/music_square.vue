@@ -33,8 +33,9 @@
 </template>
 
 <script>
-import {onBeforeMount, ref} from 'vue'
+import {onBeforeMount, onBeforeUnmount, ref} from 'vue'
 import {fetchMusicSquare} from "@/utils/Texts/musicSquare";
+import store from "@/store";
 export default {
     name: 'music_square',
     functional: true,

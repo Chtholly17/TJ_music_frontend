@@ -2,6 +2,7 @@
 import {reactive, ref, unref} from "vue";
 import {ElMessage, FormInstance} from "element-plus";
 import api from "@/service";
+import store from "@/store";
 
 export const baseForm = ref<FormInstance>();
 
@@ -75,8 +76,14 @@ export const fetchUserInfo=async ()=>{
 export const commitUserImage=async (file:any)=>{
     try {
         const response = await api.postUserImage(file)
+        console.log("头像上传成功")
         console.log(response)
         ElMessage.success("头像修改成功")
+
+        const image_response=await  api.getUserImage()
+        console.log("头像获取")
+        //console.log(image_response)
+
     }catch (error: any) {
         ElMessage.error(error.code+': 提交失败，请检查网络或联系管理员')
     }

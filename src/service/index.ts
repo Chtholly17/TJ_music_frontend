@@ -1,20 +1,11 @@
 // 本文件封装了一系列api请求
 import axios from "@/utils/request";
 import path from "@/service/path";
+import store from "@/store";
+import {computed} from "vue";
 
 // 此处集成各种api函数，通过调用这些函数实现网络请求
 const api = {
-    // getTest() {
-    //     return axios.get(path.baseUrl + path.getTest)
-    // },
-    // postTest(data: any)
-    // {
-    //     // const data_ = new URLSearchParams();
-    //     // data_.append('test_string', 'hahahaha')
-    //     // console.log(data_)
-    //     // data = JSON.stringify(data)
-    //     return axios.post(path.baseUrl + path.postTest, data)
-    // },
     postLogin(loginForm: any) {
         return axios.post(path.baseUrl + path.login, loginForm)
     },
@@ -43,12 +34,6 @@ const api = {
             }
             })
     },
-    //获取歌单
-    // getSongList(user_id:any)//获取用户曲库
-    // {
-    //     console.log(keyword)
-    //     // return axios.get(path.baseUrl + path.postSearch, keyword)
-    // },
     //获取首页作品
     getMainPageWorks(worknum:any)
     {
@@ -148,6 +133,18 @@ const api = {
             }
         })
     },
+    //用户用户头像
+    getUserImage()
+    {
+        const user_id = computed(() => store.getters.getUserID)
+        const user_image=axios.get(path.baseUrl+path.getUserImage,{
+            params:{
+                user_student_number:user_id.value
+            }
+        })
+        console.log(user_image)
+
+    }
 }
 
 export default api

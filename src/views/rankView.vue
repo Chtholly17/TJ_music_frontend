@@ -107,7 +107,7 @@ export default {
         {
             fetchRankList(name.substring(0,2),type).then(res=>{
                 all_rank.value=res
-                console.log(all_rank.value)
+                //console.log(all_rank.value)
             })
         }
 

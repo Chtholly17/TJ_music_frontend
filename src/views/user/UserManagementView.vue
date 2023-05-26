@@ -68,7 +68,7 @@
 <script>
 import { Edit, Search, Share, Upload,View } from '@element-plus/icons-vue';
 import UserInfoView from "@/views/user/UserInfoView.vue";
-import {computed, onBeforeMount, provide, ref, nextTick, watch} from "vue";
+import {computed, onBeforeMount, provide, ref, nextTick, watch, onBeforeUpdate} from "vue";
 import { useStore } from 'vuex'
 import {userinfoData} from "@/utils/Texts/userinfoText";
 import uploadPic from "@/components/user/uploadPic.vue";
@@ -137,6 +137,12 @@ export default {
             userinfoData.userinfoForm.user_student_number = count.value;
             const user_photo=computed(() => store.getters.getUserPhoto)
             user_photo_url.value=user_photo.value;
+            console.log(user_photo.value)
+        })
+        onBeforeUpdate(()=>{
+            const user_photo=computed(() => store.getters.getUserPhoto)
+            user_photo_url.value=user_photo.value;
+            console.log("头像url："+user_photo.value)
         })
         function show_info(){
             user_info_control.value=user_info_control.value==true?false:true;
