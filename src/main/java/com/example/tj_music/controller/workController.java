@@ -37,6 +37,15 @@ public class workController {
         return workService.getNWorks(workNumber);
     }
 
+
+    /**
+     * 通过tag搜索作品，同时按照order排序
+     * tag的可选项: “民谣” "摇滚" "金属" "古典" "电子" "热歌" “新歌” "飙升"
+     * order的可选项: "like" "comment" "fans"
+     * @param tag
+     * @param order
+     * @return
+     */
     @GetMapping("/getWorkList")
     public Result getWorkList(@RequestParam("tag") String tag, @RequestParam("order") String order) {
         return workService.getWorkList(tag, order);

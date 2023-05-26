@@ -1,3 +1,8 @@
+/*
+ * @Description: 
+ * @Date: 2023-05-21 21:47:30
+ * @LastEditTime: 2023-05-21 22:05:48
+ */
 package com.example.tj_music.db.mapper;
 
 import com.example.tj_music.db.entity.WorkComment;
@@ -15,4 +20,8 @@ public interface WorkCommentMapper {
     // select comments by work_comment_target
     @Select("select * from work_comment where work_comment_target = #{workCommentTarget}")
     public List<WorkComment> selectWorkCommentByTarget(Integer workCommentTarget);
+
+    // delete work comment by work_comment_id
+    @Select("delete from work_comment where work_comment_target = #{workCommentTarget}")
+    public void deleteWorkCommentById(Integer workCommentTarget);
 }

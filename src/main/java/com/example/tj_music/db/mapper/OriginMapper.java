@@ -1,3 +1,8 @@
+/*
+ * @Description: 
+ * @Date: 2023-05-07 14:45:36
+ * @LastEditTime: 2023-05-26 20:36:20
+ */
 package com.example.tj_music.db.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -20,4 +25,8 @@ public interface OriginMapper {
     @Select("select * from origin inner join work on origin.origin_id = work.work_origin_version" +
             " where work.work_id = #{workId}")
     public Origin selectOriginByWorkId(Integer workId);
+
+    // select origin by origin id
+    @Select("select * from origin where origin_id = #{originId}")
+    public Origin selectOriginByOriginId(Integer originId);
 }

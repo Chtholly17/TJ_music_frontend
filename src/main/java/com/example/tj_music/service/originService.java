@@ -1,9 +1,13 @@
 package com.example.tj_music.service;
 
+import com.example.tj_music.db.entity.Image;
 import com.example.tj_music.db.entity.Origin;
+import com.example.tj_music.db.entity.OriginFrontEnd;
 import com.example.tj_music.db.mapper.OriginMapper;
 
 import com.example.tj_music.db.mapper.UserMapper;
+import com.example.tj_music.utils.ImageUtils;
+import com.example.tj_music.utils.MusicUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.tj_music.utils.Result;
@@ -67,5 +71,42 @@ public class originService {
             return Result.fail("origin does not exist.");
         }
         return Result.success(originList);
+    }
+    public void insertOrigin(OriginFrontEnd originFrontEnd) {
+        // copy non-file attributes from originFrontEnd to origin
+        Origin origin = new Origin();
+        origin.setOriginName(originFrontEnd.getOriginName());
+        origin.setOriginAuthor(originFrontEnd.getOriginAuthor());
+        origin.setOriginDuration(10);
+        origin.setOriginIntroduction(originFrontEnd.getOriginIntroduction());
+
+        // save the file to the server
+        MusicUtils musicUtils = new MusicUtils();
+        try {
+            String bgmusicFilename = musicUtils.upload(originFrontEnd.getOriginBgmusicFile(), "admin", origin.getOriginName());
+            origin.setOriginBgmusicFilename(bgmusicFilename);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+        try {
+            String voiceFilename = musicUtils.upload(originFrontEnd.getOriginVoiceFile(), "admin", origin.getOriginName());
+            origin.setOriginVoiceFilename(voiceFilename);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+        ImageUtils imageUtils = new ImageUtils();
+        try {
+            String prefaceFilename = imageUtils.upload(originFrontEnd.getOriginPrefaceFile(), "admin", origin.getOriginName());
+            origin.setOriginPrefaceFilename(prefaceFilename);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return;
+        }
+
+
+        originMapper.insertOrigin(origin.getOriginName(), origin.getOriginAuthor(), origin.getOriginBgmusicFilename(), origin.getOriginVoiceFilename(), origin.getOriginDuration(), origin.getOriginPrefaceFilename(), origin.getOriginIntroduction());
     }
 }

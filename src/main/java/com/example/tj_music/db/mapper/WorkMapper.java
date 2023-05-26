@@ -1,5 +1,6 @@
 package com.example.tj_music.db.mapper;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import com.example.tj_music.db.entity.Work;
@@ -38,7 +39,7 @@ public interface WorkMapper {
             "ORDER BY wc.work_comment_number DESC")
     public List<Work> selectWorkByTagCommentNumberDesc(String tag);
 
-    //按work的点赞数量降序排列
+    //按work的作者的粉丝数降序排列
     @Select("SELECT * FROM work LEFT JOIN " +
             "(SELECT user_id, user_fans_cnt " +
             "FROM user) AS usr " +
@@ -50,4 +51,13 @@ public interface WorkMapper {
     @Select("SELECT * FROM work WHERE work_tag LIKE CONCAT('%', #{tag}, '%')" +
             "ORDER BY work_like DESC")
     public List<Work> selectWorkByTagWorkLikeDesc(String tag);
+
+    // remove all the work of given id
+    @Delete("delete from work where work_id = #{workId}")
+        public void deleteWorkAndCommentById(Integer workId);
+
+    // get the work comment cnt by work id
+    @Select("select count(*) from work_comment where work_comment_id = #{workId}")
+    public Integer getWorkCommentCntById(Integer workId);
+
 }
