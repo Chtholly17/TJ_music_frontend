@@ -60,4 +60,12 @@ public class originService {
         }
         return Result.success(origin);
     }
+
+    public Result getOriginList() {
+        List<Origin> originList = originMapper.getAllOrigin();
+        if (originList.isEmpty()) {
+            return Result.fail("origin does not exist.");
+        }
+        return Result.success(originList);
+    }
 }

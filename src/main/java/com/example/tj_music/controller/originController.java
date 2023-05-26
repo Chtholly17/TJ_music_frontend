@@ -54,4 +54,9 @@ public class originController {
     public Result getOriginByOriginId(@RequestParam("originId") Integer originId) {
         return originService.getOriginByOriginId(originId);
     }
+
+    @GetMapping("/getOriginList")
+    public Result getOriginList() {
+        return originService.getOriginList();
+    }
 }
