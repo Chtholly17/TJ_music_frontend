@@ -18,7 +18,7 @@ import java.io.IOException;
 public class ImageUtils {
 
     @Value("${savePath}")
-    private String savePath;
+    private String savePath="/root/TJ_music/static/";
 
     @Value("${server.port}")
     private String port;

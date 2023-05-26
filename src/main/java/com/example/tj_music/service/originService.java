@@ -26,6 +26,11 @@ public class originService {
     @Autowired
     private OriginMapper originMapper;
 
+    @Autowired
+    private MusicUtils musicUtils;
+    @Autowired
+    private ImageUtils imageUtils;
+
     /**
      * search origin by key word.
      * code:0 represents origin does not exist.
@@ -78,65 +83,48 @@ public class originService {
         }
         return Result.success(originList);
     }
-    public void insertOrigin(MultipartHttpServletRequest request) {
-        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
-        if (multipartResolver.isMultipart(request)){
-            //上传多个文件，每个字段一个文件
-            Iterator<String> fileNames = request.getFileNames();
-            while (fileNames.hasNext()){
-                //取得上传的文件
-                String uploadName = fileNames.next();
-                MultipartFile file = request.getFile(uploadName);
-                // print out the file name
-                System.out.println(file.getOriginalFilename());
-                if (file != null){
-                    String projectPath = request.getSession().getServletContext().getRealPath("/");
-                    String originalFilename = file.getOriginalFilename();
-                    String temFile = projectPath + System.currentTimeMillis() + "_" + originalFilename;
-                    File targetFile = new File(temFile);
-                    try {
-                        file.transferTo(targetFile);
-                    }catch (IOException e){
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-
-        // copy non-file attributes from originFrontEnd to origin
-//        Origin origin = new Origin();
-//        origin.setOriginName(originFrontEnd.getOriginName());
-//        origin.setOriginAuthor(originFrontEnd.getOriginAuthor());
-//        origin.setOriginDuration(10);
-//        origin.setOriginIntroduction(originFrontEnd.getOriginIntroduction());
-
-        // save the file to the server
-        // MusicUtils musicUtils = new MusicUtils();
-        // try {
-        //     String bgmusicFilename = musicUtils.upload(originFrontEnd.getOriginBgmusicFile(), "admin", origin.getOriginName());
-        //     origin.setOriginBgmusicFilename(bgmusicFilename);
-        // } catch (Exception e) {
-        //     e.printStackTrace();
-        //     return;
-        // }
-        // try {
-        //     String voiceFilename = musicUtils.upload(originFrontEnd.getOriginVoiceFile(), "admin", origin.getOriginName());
-        //     origin.setOriginVoiceFilename(voiceFilename);
-        // } catch (Exception e) {
-        //     e.printStackTrace();
-        //     return;
-        // }
-        // ImageUtils imageUtils = new ImageUtils();
-        // try {
-        //     String prefaceFilename = imageUtils.upload(originFrontEnd.getOriginPrefaceFile(), "admin", origin.getOriginName());
-        //     origin.setOriginPrefaceFilename(prefaceFilename);
-        // } catch (Exception e) {
-        //     e.printStackTrace();
-
-        //     return;
-        // }
+    public void insertOrigin(OriginFrontEnd originFrontEnd) {
 
 
-        //originMapper.insertOrigin(origin.getOriginName(), origin.getOriginAuthor(), origin.getOriginBgmusicFilename(), origin.getOriginVoiceFilename(), origin.getOriginDuration(), origin.getOriginPrefaceFilename(), origin.getOriginIntroduction());
+
+//         copy non-file attributes from originFrontEnd to origin
+        Origin origin = new Origin();
+        origin.setOriginName(originFrontEnd.getOriginName());
+        origin.setOriginAuthor(originFrontEnd.getOriginAuthor());
+        origin.setOriginDuration(10);
+        origin.setOriginIntroduction(originFrontEnd.getOriginIntroduction());
+
+//         save the file to the server
+//         MusicUtils musicUtils = new MusicUtils();
+         try {
+             String bgmusicFilename = musicUtils.upload(originFrontEnd.getOriginBgmusicFile(), "admin", origin.getOriginName());
+             origin.setOriginBgmusicFilename(bgmusicFilename);
+         } catch (Exception e) {
+             e.printStackTrace();
+             return;
+         }
+         try {
+             String voiceFilename = musicUtils.upload(originFrontEnd.getOriginVoiceFile(), "admin", origin.getOriginName());
+             origin.setOriginVoiceFilename(voiceFilename);
+         } catch (Exception e) {
+             e.printStackTrace();
+             return;
+         }
+//         ImageUtils imageUtils = new ImageUtils();
+         try {
+             String prefaceFilename = imageUtils.upload(originFrontEnd.getOriginPrefaceFile(), "admin", origin.getOriginName());
+             origin.setOriginPrefaceFilename(prefaceFilename);
+         } catch (Exception e) {
+             e.printStackTrace();
+
+             return;
+         }
+
+        // print the filenames
+        System.out.println(origin.getOriginBgmusicFilename());
+        System.out.println(origin.getOriginVoiceFilename());
+        System.out.println(origin.getOriginPrefaceFilename());
+
+        originMapper.insertOrigin(origin.getOriginName(), origin.getOriginAuthor(), origin.getOriginBgmusicFilename(), origin.getOriginVoiceFilename(), origin.getOriginDuration(), origin.getOriginPrefaceFilename(), origin.getOriginIntroduction());
     }
 }

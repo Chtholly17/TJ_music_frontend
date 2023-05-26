@@ -25,6 +25,9 @@ public class MusicUtils {
      */
     public String upload(MultipartFile file, String userName, String fileName) throws IOException {
         String saveName = savePath + userName +"/"+ fileName + ".mp3";
+        System.out.println(saveName);
+//        String saveName = "/root/TJ_music/static/" + userName +"/"+ fileName + ".mp3";
+        // display the saveName
         File dest = new File(saveName);
         System.out.println(saveName);
         if(!dest.exists()){
