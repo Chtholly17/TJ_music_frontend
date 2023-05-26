@@ -33,7 +33,7 @@ public class ImageUtils {
     public String upload(MultipartFile file, String userName, String fileName) throws IOException {
         String saveName = savePath + userName +"/images/"+ fileName + ".jpg";
         File dest = new File(saveName);
-        System.out.println(saveName);
+//        System.out.println(saveName);
         if(!dest.exists()){
             //先得到文件的上级目录，并创建上级目录，在创建文件
             dest.getParentFile().mkdirs();

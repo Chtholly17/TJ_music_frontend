@@ -4,6 +4,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
+import org.jaudiotagger.audio.AudioFileIO;
+import org.jaudiotagger.audio.mp3.MP3AudioHeader;
+import org.jaudiotagger.audio.mp3.MP3File;
+
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import java.io.File;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +33,7 @@ public class MusicUtils {
      */
     public String upload(MultipartFile file, String userName, String fileName) throws IOException {
         String saveName = savePath + userName +"/"+ fileName + ".mp3";
-        System.out.println(saveName);
+//        System.out.println(saveName);
 //        String saveName = "/root/TJ_music/static/" + userName +"/"+ fileName + ".mp3";
         // display the saveName
         File dest = new File(saveName);
@@ -47,6 +55,24 @@ public class MusicUtils {
         }
         catch (IllegalStateException e) {
             throw e;
+        }
+    }
+
+    /**
+     * 获取mp3语音文件播放时长(秒) mp3
+     * @param filePath
+     * @return
+     */
+    public static Float getMp3Duration(String filePath) {
+
+        try {
+            File mp3File = new File(filePath);
+            MP3File f = (MP3File) AudioFileIO.read(mp3File);
+            MP3AudioHeader audioHeader = (MP3AudioHeader) f.getAudioHeader();
+            return Float.parseFloat(audioHeader.getTrackLength() + "");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0f;
         }
     }
 }
