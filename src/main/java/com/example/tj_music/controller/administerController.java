@@ -1,15 +1,16 @@
 package com.example.tj_music.controller;
 
 import com.example.tj_music.db.entity.Appeal;
+import com.example.tj_music.db.entity.OriginFrontEnd;
 import com.example.tj_music.db.entity.User;
+import com.example.tj_music.db.mapper.OriginMapper;
 import com.example.tj_music.service.administerService;
+import com.example.tj_music.service.originService;
+import com.example.tj_music.service.workService;
 import com.example.tj_music.utils.Result;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,6 +21,14 @@ public class administerController {
     // user service
     @Autowired // auto-inject
     private administerService administerService;
+    @Autowired
+    private com.example.tj_music.service.workService workService;
+
+    @Autowired
+    private com.example.tj_music.service.originService originService;
+
+    @Autowired
+    private com.example.tj_music.service.accountService accountService;
 
     /**
      * 获取所有申诉
@@ -60,4 +69,41 @@ public class administerController {
         return Result.success();
     }
 
+    /**
+     * 根据id删除指定的作品以及其所有评论
+     * 可能的返回值：Result(success) or Result(fail) for work not found
+     * @param workId 作品id
+     * @return Result(success) or Result(fail) for work not found
+     */
+    @PostMapping("/deleteWorkAndCommentById")
+    public Result deleteWorkAndCommentById(@RequestParam("workId") int workId) {
+        boolean result = workService.deleteWorkAndCommentById(workId);
+        if(result) {
+            return Result.success();
+        } else {
+            return Result.fail("work not found");
+        }
+    }
+
+    /**
+     * 上传原唱(文件传输有bug)
+     * @param originFrontEnd
+     * @return
+     */
+    @PostMapping("/insertOrigin")
+    public Result insertOrigin(@RequestBody OriginFrontEnd originFrontEnd) {
+        // insert a new origin
+        originService.insertOrigin(originFrontEnd);
+        return Result.success();
+    }
+
+    /**
+     * 通过学号删除用户
+     * @param studentNumber 学号
+     * @return Result(success) or Result(fail) for user not found
+     */
+    @PostMapping("/deleteUserByStudentNumber")
+    public Result deleteUserByStudentNumber(@RequestParam("studentNumber") String studentNumber) {
+        return accountService.deleteUserByStudentNumber(studentNumber);
+    }
 }

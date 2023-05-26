@@ -74,5 +74,12 @@ public class workCommentService {
         workCommentMapper.insertWorkComment(workCommentTarget, workCommentOwner, workCommentContent);
         return Result.success("add work comment successfully.");
     }
+
+    // delete work comment by work_comment_target
+    public Result deleteWorkCommentById(Integer workCommentTarget) {
+        workCommentMapper.deleteWorkCommentById(workCommentTarget);
+        return Result.success("delete work comment successfully.");
+    }
+
 }
 

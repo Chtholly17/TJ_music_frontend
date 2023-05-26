@@ -1,6 +1,11 @@
 package com.example.tj_music.service;
 
+import com.example.tj_music.VO.GetWorkListVO;
+import com.example.tj_music.db.entity.Origin;
+import com.example.tj_music.db.entity.User;
+import com.example.tj_music.db.mapper.OriginMapper;
 import com.example.tj_music.db.mapper.UserMapper;
+import com.example.tj_music.db.mapper.WorkCommentMapper;
 import com.example.tj_music.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +24,13 @@ public class workService {
     private WorkMapper workMapper;
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private WorkCommentMapper workCommentMapper;
+
+    @Autowired
+    private OriginMapper originMapper;
+
 
     public Result selectWorkByOriginId(int originId) {
         List<Work> works = workMapper.selectWorkByOriginId(originId);
@@ -54,6 +66,7 @@ public class workService {
 
     public Result getWorkList(String tag, String order) {
         List<Work> works = null;
+        List<GetWorkListVO> works_vo = new ArrayList<>();
         if (order.equals("like")) {
             works = workMapper.selectWorkByTagWorkLikeDesc(tag);
         } else if (order.equals("comment")) {
@@ -64,7 +77,39 @@ public class workService {
         if(works == null) {
             return Result.fail("no work with tag " + tag);
         }
-        return Result.success(works);
+
+        // iterate works
+        for(Work work : works) {
+            GetWorkListVO vo = new GetWorkListVO();
+            User owner = userMapper.selectUserById(work.getWorkOwner());
+            Origin origin = originMapper.selectOriginByOriginId(work.getWorkOriginVersion());
+            vo.setWorkId(work.getWorkId());
+            vo.setWorkName(work.getWorkName());
+            vo.setWorkAuthorNickname(owner.getUserNickname());
+            vo.setScore(work.getWorkScore());
+            vo.setLike(work.getWorkLike());
+            vo.setWorkAuthorFans(owner.getUserFansCnt());
+            vo.setWorkCommentCnt(workMapper.getWorkCommentCntById(work.getWorkId()));
+            vo.setWorkPrefaceFilename(work.getWorkPrefaceFilename());
+
+            works_vo.add(vo);
+        }
+
+        return Result.success(works_vo);
     }
 
+    // delete the work and corresponding comments
+    public boolean deleteWorkAndCommentById(int workId) {
+        // check if the work exists
+
+        if(workCommentMapper.selectWorkCommentByTarget(workId) == null) {
+            return false;
+        }
+        // delete the work
+        workCommentMapper.deleteWorkCommentById(workId);
+        // delete the comments
+        workMapper.deleteWorkAndCommentById(workId);
+
+        return true;
+    }
 }
