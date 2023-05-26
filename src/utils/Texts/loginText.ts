@@ -1,10 +1,12 @@
 // 包含Login表单所需的数据类型form，约束rules以及处理函数commit
-import {reactive, ref} from "vue";
+import {computed, reactive, ref} from "vue";
 import {ElMessage, FormInstance} from "element-plus";
 import api from "@/service";
 import store from "@/store";
 import {closeAllDialogs} from "@/utils/DialogVisible";
 import router from "@/router";
+import {setCookie} from "@/service/cookie";
+import {visible} from "@/utils/BarVisible";
 
 export const baseForm = ref<FormInstance>();
 export const loginData = reactive({
@@ -37,12 +39,15 @@ export const commitLogin = async () => {
         if (valid) {
             try {
                 const response = await api.postLogin(loginData.loginForm); // 不能传入submitForm！
-
-                console.log(response.data);
                 if (response.data.code == 1){
                     store.commit('setUserID', loginData.loginForm.userNumber)
                     ElMessage.success("登陆成功！")
+                    await getUserProfile()
+                    visible.value = true;
                     closeAllDialogs()
+                    // 存储cookie
+                    setCookie("userNumber", loginData.loginForm.userNumber, 7)
+                    setCookie("password", loginData.loginForm.password, 7)
                     if(baseForm.value)
                         baseForm.value.resetFields() // 清空表单，关闭所有弹窗
                     await router.replace({path: '/square'})
@@ -58,4 +63,30 @@ export const commitLogin = async () => {
             ElMessage.error('验证失败，请检查数据是否完整且正确')
         }
     })
+}
+
+export const commitLogin_cookie = async () => {
+    const response = await api.postLogin(loginData.loginForm);
+    if (response.data.code == 1){
+        store.commit('setUserID', loginData.loginForm.userNumber)
+        visible.value = true;
+        closeAllDialogs()
+        await getUserProfile()
+        if(baseForm.value)
+            baseForm.value.resetFields() // 清空表单，关闭所有弹窗
+        if(router.currentRoute.value.path == "/hello")
+            await router.replace("/square")
+    }
+    else {
+        ElMessage.warning("您还没有登录，请先登录")
+        await router.replace("/hello")
+    }
+}
+
+const getUserProfile = async () => {
+    const userID = computed(() => store.getters.getUserID).value
+    const response = await api.getUserImage({user_student_number: userID})
+    if (response.data.code == 1){
+        store.commit('setUserPhoto', response.data)
+    }
 }

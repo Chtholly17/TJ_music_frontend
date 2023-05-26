@@ -2,7 +2,6 @@
     <div class="header">
         <el-menu :router="true" mode="horizontal" >
             <img src="@/assets/logo/logo_rec.png" class="logo">
-            <el-menu-item index="/hello">登录</el-menu-item>
             <el-menu-item index="/music_square">首页</el-menu-item>
             <el-menu-item index="/rank">榜单</el-menu-item>
             <search-bar></search-bar>
@@ -11,7 +10,7 @@
                 <template #dropdown>
                     <el-dropdown-menu >
                         <el-dropdown-item @click="user_router" >个人主页</el-dropdown-item>
-                        <el-dropdown-item >修改密码</el-dropdown-item>
+                        <el-dropdown-item @click="show_update">修改密码</el-dropdown-item>
                         <el-dropdown-item >登出</el-dropdown-item>
                     </el-dropdown-menu>
                 </template>
@@ -28,9 +27,8 @@
 import {showLoginDialog} from "@/utils/DialogVisible";
 import SearchBar from "@/components/searchBar.vue";
 import {computed, onBeforeMount, ref} from "vue";
-import {userinfoData} from "@/utils/Texts/userinfoText";
 import store from "@/store";
-
+import {show_update_password} from "@/utils/DialogVisible";
 export default {
     name: "NavigationMenu",
     components: {SearchBar},
@@ -47,9 +45,16 @@ export default {
             const user_photo=computed(() => store.getters.getUserPhoto)
             user_photo_url.value=user_photo.value;
         })
+        function show_update()
+        {
+            //console.log(show_update_password.value)
+            show_update_password.value=true
+            //console.log(show_update_password.value)
+        }
         return {
             showLoginDialog,
-            user_photo_url
+            user_photo_url,
+            show_update
         }
     }
 }

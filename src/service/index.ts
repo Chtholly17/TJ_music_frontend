@@ -35,6 +35,9 @@ const api = {
     postUserInfo(userInfo:any){
         return axios.post(path.baseUrl+path.postuserinfo,userInfo)
     },
+    getUserImage(user_id: any){
+        return axios.get(path.baseUrl + path.getUserImage, {params: user_id})
+    },
     getUserInfo(user_id:any)  //获取用户信息
     {
         return axios.get(path.baseUrl + path.getuserinfo,{
@@ -44,14 +47,42 @@ const api = {
             })
     },
     //获取歌单
-    getSongList(user_id:any)//获取用户曲库
+    // getSongList(user_id:any)//获取用户曲库
+    // {
+    //     console.log(keyword)
+    //     // return axios.get(path.baseUrl + path.postSearch, keyword)
+    // },
+    //获取首页作品
+    getMainPageWorks(worknum:any)
     {
-        return axios.get(path.baseUrl+path.get_songList,{
+        return axios.get(path.baseUrl+path.getMainPageWorks,{
             params:{
-                user_student_number:user_id
+                workNumber:worknum
             }
         })
     },
+    //获取作品评论信息
+    //获取首页作品
+    getComment(work_id:any)
+    {
+        return axios.get(path.baseUrl+path.getComment,{
+            params:{
+                workId:work_id
+            }
+        })
+    },
+    postComment(comment_target:any,comment_owner:any,comment_content:any){
+        console.log("target:"+typeof(comment_target))
+        console.log("owner:"+comment_owner)
+        console.log("content:"+comment_content)
+        return axios.post(path.baseUrl+path.postComment,
+            {
+                workCommentTarget:comment_target,
+                workCommentOwner:comment_owner,
+                workCommentContent:comment_content
+            })
+    },
+
     //获取粉丝列表
     getFanList(user_id:any)//获取用户粉丝列表
     {
@@ -98,10 +129,8 @@ const api = {
     //修改密码
     postUpdatePassword(user_id:any,password:any) {
         return axios.post(path.baseUrl + path.update_password, {
-            data: {
                 userNumber: user_id,
                 password: password
-            }
         })
     },
     postSearchAccompanimentByKeyword(keyword: any)

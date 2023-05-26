@@ -16,23 +16,23 @@ export const SongListData=reactive({
 })
 
 //获取用户曲库
-export const fetchSongList=async ()=>{
-
-    const submitForm = unref(baseForm)
-    if (!submitForm)
-    {
-        return
-    }
-    await submitForm.validate( async (valid: any) => {
-        if (valid) {
-            try {
-                const response = await api.getSongList(SongListData.SongListForm.user_student_number) // 不能传入submitForm！
-                console.log(response.data);
-            } catch (error: any) {
-                ElMessage.error(error.code+': 获取失败，请检查网络或联系管理员')
-            }
-        } else {
-            ElMessage.error('验证失败，请检查数据是否完整且正确')
-        }
-    })
-}
+// export const fetchSongList=async ()=>{
+//
+//     const submitForm = unref(baseForm)
+//     if (!submitForm)
+//     {
+//         return
+//     }
+//     await submitForm.validate( async (valid: any) => {
+//         if (valid) {
+//             try {
+//                 const response = await api.getSongList(SongListData.SongListForm.user_student_number) // 不能传入submitForm！
+//                 console.log(response.data);
+//             } catch (error: any) {
+//                 ElMessage.error(error.code+': 获取失败，请检查网络或联系管理员')
+//             }
+//         } else {
+//             ElMessage.error('验证失败，请检查数据是否完整且正确')
+//         }
+//     })
+// }
