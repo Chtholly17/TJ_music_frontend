@@ -11,6 +11,7 @@ import com.example.tj_music.utils.Result;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.List;
 
@@ -91,9 +92,9 @@ public class administerController {
      * @return
      */
     @PostMapping("/insertOrigin")
-    public Result insertOrigin(@RequestBody OriginFrontEnd originFrontEnd) {
+    public Result insertOrigin(MultipartHttpServletRequest request) {
         // insert a new origin
-        originService.insertOrigin(originFrontEnd);
+        originService.insertOrigin(request);
         return Result.success();
     }
 
