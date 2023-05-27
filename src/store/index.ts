@@ -2,8 +2,9 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state:{
-    userID:"20170101",
-    userPhoto:"http://49.4.115.48:8888/20170101/images/2.jpg",
+    userID: "",
+    userPhoto: ""
+
   },
   getters: {
     getUserID (state) {
@@ -17,6 +18,9 @@ export default createStore({
     setUserID (state, ID) {
       state.userID = ID
     },
+    setUserPhoto (state, photo) {
+      state.userPhoto = photo
+    }
   },
   actions: {
   },

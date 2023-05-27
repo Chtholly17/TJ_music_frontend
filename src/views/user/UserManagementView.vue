@@ -72,6 +72,7 @@ import {computed, onBeforeMount, provide, ref, nextTick, watch, onBeforeUpdate} 
 import { useStore } from 'vuex'
 import {userinfoData} from "@/utils/Texts/userinfoText";
 import uploadPic from "@/components/user/uploadPic.vue";
+import {user_fetchUserImage} from "@/utils/Texts/userinfoText";
 
 // import {ElMessage} from "element-plus";
 export default {
@@ -129,20 +130,28 @@ export default {
         }
         provide('reload',reload)
         const store = useStore()
-        const count = computed(() => store.getters.getUserID)
+        const count = computed(() => store.getters.getUserID)   //用户头像
         const user_info_control=ref(false)
         provide("user_info_show",user_info_control);
+
+        //获取用户头像
+
+
         onBeforeMount(()=>{
+
             //这里其实不写也没关系，因为渲染完这个组件之后就会紧接着渲染下一�?
             userinfoData.userinfoForm.user_student_number = count.value;
-            const user_photo=computed(() => store.getters.getUserPhoto)
-            user_photo_url.value=user_photo.value;
-            console.log(user_photo.value)
+
+            user_fetchUserImage(count.value).then(res=>{
+                user_photo_url.value=res
+                console.log("用户主页获取头像")
+                console.log(user_photo_url.value)
+            })
         })
         onBeforeUpdate(()=>{
-            const user_photo=computed(() => store.getters.getUserPhoto)
-            user_photo_url.value=user_photo.value;
-            console.log("头像url："+user_photo.value)
+            // const user_photo=computed(() => store.getters.getUserPhoto)
+            // user_photo_url.value=user_photo.value;
+            // console.log("头像url："+user_photo.value)
         })
         function show_info(){
             user_info_control.value=user_info_control.value==true?false:true;

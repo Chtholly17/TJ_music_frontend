@@ -26,6 +26,9 @@ const api = {
     postUserInfo(userInfo:any){
         return axios.post(path.baseUrl+path.postuserinfo,userInfo)
     },
+    getUserImage(user_id: any){
+        return axios.get(path.baseUrl + path.getUserImage, {params: user_id})
+    },
     getUserInfo(user_id:any)  //获取用户信息
     {
         return axios.get(path.baseUrl + path.getuserinfo,{
@@ -105,8 +108,13 @@ const api = {
     //修改用户头像
     postUserImage(file:any)
     {
-        //console.log(path.baseUrl+path.update_user_image)
-        return axios.post(path.baseUrl+path.update_user_image,file)
+        for(const value of file.values()){
+            console.log("jl2")
+            console.log(value)
+        }
+        console.log(file)
+        //axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
+        return axios.post(path.baseUrl+path.update_user_image, file)
     },
     //修改密码
     postUpdatePassword(user_id:any,password:any) {
@@ -134,17 +142,16 @@ const api = {
         })
     },
     //用户用户头像
-    getUserImage()
-    {
-        const user_id = computed(() => store.getters.getUserID)
-        const user_image=axios.get(path.baseUrl+path.getUserImage,{
-            params:{
-                user_student_number:user_id.value
-            }
-        })
-        console.log(user_image)
-
-    }
+    // getUserImage()
+    // {
+    //     const user_id = computed(() => store.getters.getUserID)
+    //     const user_image=axios.get(path.baseUrl+path.getUserImage,{
+    //         params:{
+    //             user_student_number:user_id.value
+    //         }
+    //     })
+    //     console.log(user_image)
+    // }
 }
 
 export default api

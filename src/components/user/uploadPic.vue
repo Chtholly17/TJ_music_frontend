@@ -39,9 +39,19 @@ export default defineComponent({
                 (proxy as any).$message.error(`图片只支持 ${uploadTypes.value.join("、")} 格式!`);
             }
 
-            const pic_form=new FormData();
-            pic_form.append("file",file);
-            pic_form.append("user_student_number",userId.value);
+            let pic_form=new FormData();
+            //console.log("11233232")
+            //console.log(file)
+            pic_form.append("user_student_number","20170101");
+            //pic_form.append("file",file);
+
+            for(var value of pic_form.values()){
+                console.log("jl")
+                console.log(value)
+            }
+
+            //console.log("更新头像")
+            //console.log(pic_form)
             commitUserImage(pic_form);
 
             return isLt10M && isExistFileType;

@@ -10,7 +10,6 @@ const base = {
     retrieve_sendVRCode: '/forgetPassword',
     retrieve: '/forgetPasswordCheck',
     getuserinfo:'/getUserInfo',    //获取用户信息
-
     postuserinfo:'/updateUserinfo',  //提交用户信息
     get_songList:'/songList',   //获取用户曲库
     get_fanList:"/display_user_follower",   //获取用户粉丝
@@ -26,6 +25,7 @@ const base = {
     postComment:'/addWorkComment',//提交评论
     getRank:'/getWorkList', //获取榜单
     getUserImage:'/getUserImage',  //获取用户头像
+
 }
 
 export default base;
