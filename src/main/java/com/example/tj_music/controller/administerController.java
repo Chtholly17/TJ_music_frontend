@@ -11,7 +11,9 @@ import com.example.tj_music.utils.Result;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import java.util.List;
 
@@ -89,12 +91,35 @@ public class administerController {
     /**
      * 上传原唱(文件传输有bug)
      * @param originFrontEnd
+     * @details:
      * @return
      */
     @PostMapping("/insertOrigin")
     public Result insertOrigin(MultipartHttpServletRequest request) {
+        OriginFrontEnd originFrontEnd = new OriginFrontEnd();
         // insert a new origin
-        originService.insertOrigin(request);
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
+        if (multipartResolver.isMultipart(request)){
+
+            MultipartFile file = request.getFile("originBgmusicFile");
+            // print out the file name
+            System.out.println(file.getOriginalFilename());
+
+        }else{
+            System.out.println("没有文件上传");
+        }
+        String originId = request.getParameter("originId");
+        // convert originId to int
+        Integer originIdInt = Integer.parseInt(originId);
+
+
+        originFrontEnd.setOriginName(request.getParameter("originName"));
+        originFrontEnd.setOriginAuthor(request.getParameter("originAuthor"));
+        originFrontEnd.setOriginBgmusicFile(request.getFile("originBgmusicFile"));
+        originFrontEnd.setOriginVoiceFile(request.getFile("originVoiceFile"));
+        originFrontEnd.setOriginPrefaceFile(request.getFile("originPrefaceFile"));
+        originFrontEnd.setOriginIntroduction(request.getParameter("originIntroduction"));
+        originService.insertOrigin(originFrontEnd,originIdInt);
         return Result.success();
     }
 

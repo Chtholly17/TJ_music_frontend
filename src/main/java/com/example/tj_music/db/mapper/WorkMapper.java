@@ -60,4 +60,12 @@ public interface WorkMapper {
     @Select("select count(*) from work_comment where work_comment_id = #{workId}")
     public Integer getWorkCommentCntById(Integer workId);
 
+    // get the works by work_origin_version
+    @Select("select * from work where work_origin_version = #{originId}")
+    public List<Work> getWorksByOriginId(Integer originId);
+
+    // delete work by work_id
+    @Delete("delete from work where work_id = #{workId}")
+    public void deleteWorkById(Integer workId);
+
 }

@@ -103,6 +103,9 @@ public class informationController {
      */
     @PostMapping("/updateUserImage")
     public Result updateUserImage(Image image) {
+        // print out the user_student_number and file
+        System.out.println(image.getUser_student_number());
+        System.out.println(image.getFile());
         String user_student_number = image.getUser_student_number();
         MultipartFile file = image.getFile();
         User user = informationService.getInformationByStudentNumber(user_student_number);

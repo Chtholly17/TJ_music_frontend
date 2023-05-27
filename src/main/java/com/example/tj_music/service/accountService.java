@@ -61,8 +61,8 @@ public class accountService {
         User user = userMapper.selectUserByStudentNumber(userNumber);
         if (user == null || Objects.equals(user.getUserStatus(), "unsigned"))
             return new Result(0, "Login failed. The user does not exist.", null);
-        else if (Objects.equals(user.getUserStatus(), "online"))
-            return new Result(3, "Login failed. The user is online.", null);
+//        else if (Objects.equals(user.getUserStatus(), "online"))
+//            return new Result(3, "Login failed. The user is online.", null);
         else if (Objects.equals(user.getUserPassword(), password)) {
             userMapper.updateUserStatusById("online", user.getUserId());
             return new Result(1, "Login succeeded.", null);

@@ -3,9 +3,12 @@ package com.example.tj_music.service;
 import com.example.tj_music.db.entity.Image;
 import com.example.tj_music.db.entity.Origin;
 import com.example.tj_music.db.entity.OriginFrontEnd;
+import com.example.tj_music.db.entity.Work;
 import com.example.tj_music.db.mapper.OriginMapper;
 
 import com.example.tj_music.db.mapper.UserMapper;
+import com.example.tj_music.db.mapper.WorkCommentMapper;
+import com.example.tj_music.db.mapper.WorkMapper;
 import com.example.tj_music.utils.ImageUtils;
 import com.example.tj_music.utils.MusicUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +22,27 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.List;
+
+import static java.lang.Math.round;
+
 @Service
 public class originService {
     @Autowired
     private OriginMapper originMapper;
+
+    @Autowired
+    private WorkMapper workMapper;
+
+    @Autowired
+    private WorkCommentMapper workCommentMapper;
+
+    @Autowired
+    private MusicUtils musicUtils;
+    @Autowired
+    private ImageUtils imageUtils;
 
     /**
      * search origin by key word.
@@ -78,65 +96,77 @@ public class originService {
         }
         return Result.success(originList);
     }
-    public void insertOrigin(MultipartHttpServletRequest request) {
-        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
-        if (multipartResolver.isMultipart(request)){
-            //上传多个文件，每个字段一个文件
-            Iterator<String> fileNames = request.getFileNames();
-            while (fileNames.hasNext()){
-                //取得上传的文件
-                String uploadName = fileNames.next();
-                MultipartFile file = request.getFile(uploadName);
-                // print out the file name
-                System.out.println(file.getOriginalFilename());
-                if (file != null){
-                    String projectPath = request.getSession().getServletContext().getRealPath("/");
-                    String originalFilename = file.getOriginalFilename();
-                    String temFile = projectPath + System.currentTimeMillis() + "_" + originalFilename;
-                    File targetFile = new File(temFile);
-                    try {
-                        file.transferTo(targetFile);
-                    }catch (IOException e){
-                        e.printStackTrace();
-                    }
-                }
-            }
+    public void insertOrigin(OriginFrontEnd originFrontEnd, Integer originId) {
+
+
+
+        //  copy non-file attributes from originFrontEnd to origin
+        Origin origin = new Origin();
+        origin.setOriginName(originFrontEnd.getOriginName());
+        origin.setOriginAuthor(originFrontEnd.getOriginAuthor());
+        origin.setOriginDuration(10);
+        origin.setOriginIntroduction(originFrontEnd.getOriginIntroduction());
+
+//         save the file to the server
+//         MusicUtils musicUtils = new MusicUtils();
+        EnumMap<MusicUtils.UploadResult,Object> ret;
+        try {
+             ret = musicUtils.upload(originFrontEnd.getOriginBgmusicFile(), "admin", origin.getOriginName()+"_bgmusic");
+             origin.setOriginBgmusicFilename(ret.get(MusicUtils.UploadResult.URL).toString());
+         } catch (Exception e) {
+             e.printStackTrace();
+             return;
+         }
+         try {
+             ret = musicUtils.upload(originFrontEnd.getOriginVoiceFile(), "admin", origin.getOriginName()+"_voice");
+             origin.setOriginVoiceFilename(ret.get(MusicUtils.UploadResult.URL).toString());
+         } catch (Exception e) {
+             e.printStackTrace();
+             return;
+         }
+//         ImageUtils imageUtils = new ImageUtils();
+         try {
+             String prefaceFilename = imageUtils.upload(originFrontEnd.getOriginPrefaceFile(), "admin", origin.getOriginName()+"_preface");
+             origin.setOriginPrefaceFilename(prefaceFilename);
+         } catch (Exception e) {
+             e.printStackTrace();
+
+             return;
+         }
+
+         // get the duration
+        int duration = round(musicUtils.getMp3Duration(ret.get(MusicUtils.UploadResult.PATH).toString()));
+        origin.setOriginDuration(duration);
+        // print the duration
+        System.out.println(origin.getOriginDuration());
+
+        // print the filenames
+//        System.out.println(origin.getOriginBgmusicFilename());
+//        System.out.println(origin.getOriginVoiceFilename());
+//        System.out.println(origin.getOriginPrefaceFilename());
+        if(originId < 0) {
+            originMapper.insertOrigin(origin.getOriginName(), origin.getOriginAuthor(), origin.getOriginBgmusicFilename(), origin.getOriginVoiceFilename(), origin.getOriginDuration(), origin.getOriginPrefaceFilename(), origin.getOriginIntroduction());
+            return;
         }
+        originMapper.updateOriginById(originId, origin.getOriginName(), origin.getOriginAuthor(), origin.getOriginBgmusicFilename(), origin.getOriginVoiceFilename(), origin.getOriginDuration(), origin.getOriginPrefaceFilename(), origin.getOriginIntroduction());
+    }
 
-        // copy non-file attributes from originFrontEnd to origin
-//        Origin origin = new Origin();
-//        origin.setOriginName(originFrontEnd.getOriginName());
-//        origin.setOriginAuthor(originFrontEnd.getOriginAuthor());
-//        origin.setOriginDuration(10);
-//        origin.setOriginIntroduction(originFrontEnd.getOriginIntroduction());
-
-        // save the file to the server
-        // MusicUtils musicUtils = new MusicUtils();
-        // try {
-        //     String bgmusicFilename = musicUtils.upload(originFrontEnd.getOriginBgmusicFile(), "admin", origin.getOriginName());
-        //     origin.setOriginBgmusicFilename(bgmusicFilename);
-        // } catch (Exception e) {
-        //     e.printStackTrace();
-        //     return;
-        // }
-        // try {
-        //     String voiceFilename = musicUtils.upload(originFrontEnd.getOriginVoiceFile(), "admin", origin.getOriginName());
-        //     origin.setOriginVoiceFilename(voiceFilename);
-        // } catch (Exception e) {
-        //     e.printStackTrace();
-        //     return;
-        // }
-        // ImageUtils imageUtils = new ImageUtils();
-        // try {
-        //     String prefaceFilename = imageUtils.upload(originFrontEnd.getOriginPrefaceFile(), "admin", origin.getOriginName());
-        //     origin.setOriginPrefaceFilename(prefaceFilename);
-        // } catch (Exception e) {
-        //     e.printStackTrace();
-
-        //     return;
-        // }
-
-
-        //originMapper.insertOrigin(origin.getOriginName(), origin.getOriginAuthor(), origin.getOriginBgmusicFilename(), origin.getOriginVoiceFilename(), origin.getOriginDuration(), origin.getOriginPrefaceFilename(), origin.getOriginIntroduction());
+    public Result deleteOrigin(Integer originId) {
+        Origin origin = originMapper.selectOriginByOriginId(originId);
+        if (origin == null) {
+            return Result.fail("origin does not exist.");
+        }
+        // select all the works of the origin
+        List<Work> workIdList = workMapper.selectWorkByOriginId(originId);
+        // traverse the work list
+        for (Work work : workIdList) {
+            // delete the work_comment of the work
+            workCommentMapper.deleteWorkCommentByTarget(work.getWorkId());
+            // delete the work
+            workMapper.deleteWorkById(work.getWorkId());
+        }
+        // delete the origin
+        originMapper.deleteOriginById(originId);
+        return Result.success("delete origin successfully.");
     }
 }

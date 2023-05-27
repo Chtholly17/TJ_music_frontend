@@ -59,4 +59,9 @@ public class originController {
     public Result getOriginList() {
         return originService.getOriginList();
     }
+
+    @PostMapping("/deleteOrigin")
+    public Result deleteOrigin(@RequestParam("originId") Integer originId) {
+        return originService.deleteOrigin(originId);
+    }
 }
