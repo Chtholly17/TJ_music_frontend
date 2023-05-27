@@ -1,7 +1,8 @@
 //定义了个人信息管理部分需要使用到的数据结构
-import {reactive, ref, unref} from "vue";
+import {computed, reactive, ref, unref} from "vue";
 import {ElMessage, FormInstance} from "element-plus";
 import api from "@/service";
+import store from "@/store";
 
 export const baseForm = ref<FormInstance>();
 
@@ -75,9 +76,22 @@ export const fetchUserInfo=async ()=>{
 export const commitUserImage=async (file:any)=>{
     try {
         const response = await api.postUserImage(file)
+        console.log("头像上传成功")
         console.log(response)
         ElMessage.success("头像修改成功")
+
+        //const image_response=await  api.getUserImage()
+        console.log("头像获取")
+        //console.log(image_response)
+
     }catch (error: any) {
         ElMessage.error(error.code+': 提交失败，请检查网络或联系管理员')
     }
+}
+
+export const user_fetchUserImage=async (user_id:any)=>{
+    const  response=await api.getUserImage({user_student_number:user_id})
+    // console.log("用户主页获取头像")
+    // console.log(response.data)
+    return response.data.data
 }

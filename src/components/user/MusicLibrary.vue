@@ -44,7 +44,6 @@ export default {
         onBeforeMount(()=>{
             fetchMusicLibrary().then(res=>{
                 music_library.value=res
-                //console.log(res)
             })
         })
 

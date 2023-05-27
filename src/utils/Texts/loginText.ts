@@ -87,6 +87,6 @@ const getUserProfile = async () => {
     const userID = computed(() => store.getters.getUserID).value
     const response = await api.getUserImage({user_student_number: userID})
     if (response.data.code == 1){
-        store.commit('setUserPhoto', response.data)
+        store.commit('setUserPhoto', response.data.data)
     }
 }

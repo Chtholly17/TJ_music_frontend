@@ -1,20 +1,11 @@
 // 本文件封装了一系列api请求
 import axios from "@/utils/request";
 import path from "@/service/path";
+import store from "@/store";
+import {computed} from "vue";
 
 // 此处集成各种api函数，通过调用这些函数实现网络请求
 const api = {
-    // getTest() {
-    //     return axios.get(path.baseUrl + path.getTest)
-    // },
-    // postTest(data: any)
-    // {
-    //     // const data_ = new URLSearchParams();
-    //     // data_.append('test_string', 'hahahaha')
-    //     // console.log(data_)
-    //     // data = JSON.stringify(data)
-    //     return axios.post(path.baseUrl + path.postTest, data)
-    // },
     postLogin(loginForm: any) {
         return axios.post(path.baseUrl + path.login, loginForm)
     },
@@ -46,12 +37,6 @@ const api = {
             }
             })
     },
-    //获取歌单
-    // getSongList(user_id:any)//获取用户曲库
-    // {
-    //     console.log(keyword)
-    //     // return axios.get(path.baseUrl + path.postSearch, keyword)
-    // },
     //获取首页作品
     getMainPageWorks(worknum:any)
     {
@@ -123,8 +108,13 @@ const api = {
     //修改用户头像
     postUserImage(file:any)
     {
-        //console.log(path.baseUrl+path.update_user_image)
-        return axios.post(path.baseUrl+path.update_user_image,file)
+        for(const value of file.values()){
+            console.log("jl2")
+            console.log(value)
+        }
+        console.log(file)
+        //axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
+        return axios.post(path.baseUrl+path.update_user_image, file)
     },
     //修改密码
     postUpdatePassword(user_id:any,password:any) {
@@ -140,7 +130,28 @@ const api = {
     getWorksById(id: any)
     {
         return axios.get(path.baseUrl + path.getWorksById, {params: id})
-    }
+    },
+    //获取榜单
+    getRankList(tag:any,order:any)
+    {
+        return axios.get(path.baseUrl+path.getRank,{
+            params:{
+                tag:tag,
+                order:order
+            }
+        })
+    },
+    //用户用户头像
+    // getUserImage()
+    // {
+    //     const user_id = computed(() => store.getters.getUserID)
+    //     const user_image=axios.get(path.baseUrl+path.getUserImage,{
+    //         params:{
+    //             user_student_number:user_id.value
+    //         }
+    //     })
+    //     console.log(user_image)
+    // }
 }
 
 export default api

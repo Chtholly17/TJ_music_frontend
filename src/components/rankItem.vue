@@ -5,7 +5,7 @@
         <div class="itemIndexBox">
             {{props.index + 1}}
         </div>
-        <el-image :src="require('@/assets/'+props.cover)" class="coverBox"
+        <el-image :src=props.cover class="coverBox"
                   fit="scale-down"></el-image>
         <!-- 注意require不支持直接引入变量，需要通过ES6字符串模板将变量转换为字符串 `${props.cover}` -->
         <!--      如果使用本地图片则需要:src="require('@/assets/'+props.cover)"-->
@@ -13,20 +13,30 @@
             <el-text truncated size="large"> {{props.name}} </el-text>
         </div>
         <div class="nameBox">
+            <el-text truncated size="large"> {{props.nickname}} </el-text>
+        </div>
+        <div class="nameBox">
             <el-text truncated size="large"> {{props.score}} </el-text>
         </div>
+<!--        <div class="durationBox">-->
+<!--            <el-text truncated size="large"> {{props.time}} </el-text>-->
+<!--        </div>-->
+
         <div class="singerBox">
             <el-text truncated size="large"> {{props.like}} </el-text>
         </div>
-        <div class="durationBox">
-            <el-text truncated size="large"> {{props.time}} </el-text>
+        <div class="nameBox">
+            <el-text truncated size="large"> {{props.comments_num}} </el-text>
+        </div>
+        <div class="nameBox">
+            <el-text truncated size="large"> {{props.fans_num}} </el-text>
         </div>
     </div>
 </template>
 
 <script setup>
 import {defineProps, ref} from 'vue'
-const props = defineProps(['cover','name', 'score', 'index', 'time','like','nickname'])
+const props = defineProps(['cover','name', 'score', 'index', 'like','nickname','comments_num','fans_num'])
 let isHover = ref(false)
 const itemMouseOverHandler = () => {
     isHover.value = true
@@ -73,4 +83,5 @@ const itemMouseLeaveHandler = () => {
 .durationBox{
   width: 15%
 }
+
 </style>

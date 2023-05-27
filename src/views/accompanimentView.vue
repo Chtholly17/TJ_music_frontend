@@ -6,13 +6,6 @@
             <div id="searchResultNumber">
                 <el-divider content-position="left">共找到&nbsp;{{itemsLength}}&nbsp;条结果</el-divider>
             </div>
-<!--            <div class="accompanimentItem" id="accompanimentHeader">-->
-<!--                <div class="itemIndexBox"></div>-->
-<!--                <div class="coverBox"></div>-->
-<!--                <div class="nameBox"><el-text truncated size="large"> 歌名 </el-text></div>-->
-<!--                <div class="singerBox"><el-text truncated size="large"> 歌手 </el-text></div>-->
-<!--                <div class="durationBox"><el-text truncated size="large"> 时长 </el-text></div>-->
-<!--            </div>-->
             <accompaniment-item v-for="(item, index) in accompanimentInfoList" :key="item.originId"
                                 :cover="item.originPrefaceFilename" :name="item.originName" :singer="item.originAuthor"
                                 :index="index" :duration="'4:30'" :id="item.originId"></accompaniment-item>
@@ -33,12 +26,7 @@ export default {
     name: "accompanimentView",
     components: {AccompanimentItem},
     setup() {
-        // let accompanimentInfoList = [{
-        //     originPrefaceFilename: 'profile.jpg',
-        //     originName: 'test222222',
-        //     originAuthor: 'author',
-        //     originDuration: '0'
-        // }];
+
         const itemsLength = ref(0);
         //首先在setup中定义
         const getAccompanimentInfo = async () => {

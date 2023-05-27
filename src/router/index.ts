@@ -68,6 +68,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/detail',
     name: 'detailView',
     component:()=>import('@/views/detailView.vue')
+  },
+  {
+    path:'/message',
+    name: 'message',
+    component:()=>import('@/views/MessageView.vue')
   }
 
 
