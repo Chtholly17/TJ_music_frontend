@@ -2,6 +2,7 @@ package com.example.tj_music;
 
 import com.example.tj_music.controller.followController;
 import com.example.tj_music.service.followService;
+import com.example.tj_music.utils.MusicUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,5 +23,17 @@ public class TjMusicAdminTests {
         System.out.println("----- delete work by id ------");
         int workId = 55;
         workService.deleteWorkAndCommentById(workId);
+    }
+
+    // test the mp3 duration calculation
+    @Test
+    void test_mp3_duration() {
+        System.out.println("----- mp3 duration ------");
+        String mp3Path = "test.mp3";
+        // check whether the file exists using the path
+
+        MusicUtils musicUtils = new MusicUtils();
+        System.out.println(musicUtils.getMp3Duration(mp3Path));
+
     }
 }

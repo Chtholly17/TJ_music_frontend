@@ -15,6 +15,7 @@ import java.io.File;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.EnumMap;
 
 @Component
 @PropertySource(value = {"classpath:application.properties"})
@@ -26,13 +27,22 @@ public class MusicUtils {
     @Value("${server.port}")
     private String port;
 
+    public enum UploadResult {
+        URL,PATH
+    }
+
     /**
-     * @description: 通过url获取输入流
+     * upload 保存MultiPartFile
      * @param file
-     * @return String urlPath
+     * @param userName
+     * @param fileName
+     * @return
+     * @throws IOException
      */
-    public String upload(MultipartFile file, String userName, String fileName) throws IOException {
+    public EnumMap<UploadResult,Object> upload(MultipartFile file, String userName, String fileName) throws IOException {
+        EnumMap<UploadResult,Object> en = new EnumMap<UploadResult,Object>(UploadResult.class);
         String saveName = savePath + userName +"/"+ fileName + ".mp3";
+        en.put(UploadResult.PATH,saveName);
 //        System.out.println(saveName);
 //        String saveName = "/root/TJ_music/static/" + userName +"/"+ fileName + ".mp3";
         // display the saveName
@@ -51,7 +61,8 @@ public class MusicUtils {
         try {
             file.transferTo(dest);
             String url = "http://49.4.115.48:"+ port + "/" + userName +"/musics/" + fileName + ".mp3";
-            return url;
+            en.put(UploadResult.URL,url);
+            return en;
         }
         catch (IllegalStateException e) {
             throw e;
@@ -63,7 +74,7 @@ public class MusicUtils {
      * @param filePath
      * @return
      */
-    public static Float getMp3Duration(String filePath) {
+    public Float getMp3Duration(String filePath) {
 
         try {
             File mp3File = new File(filePath);

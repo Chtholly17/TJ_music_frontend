@@ -19,8 +19,12 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.List;
+
+import static java.lang.Math.round;
+
 @Service
 public class originService {
     @Autowired
@@ -96,16 +100,17 @@ public class originService {
 
 //         save the file to the server
 //         MusicUtils musicUtils = new MusicUtils();
-         try {
-             String bgmusicFilename = musicUtils.upload(originFrontEnd.getOriginBgmusicFile(), "admin", origin.getOriginName());
-             origin.setOriginBgmusicFilename(bgmusicFilename);
+        EnumMap<MusicUtils.UploadResult,Object> ret;
+        try {
+             ret = musicUtils.upload(originFrontEnd.getOriginBgmusicFile(), "admin", origin.getOriginName());
+             origin.setOriginBgmusicFilename(ret.get(MusicUtils.UploadResult.URL).toString());
          } catch (Exception e) {
              e.printStackTrace();
              return;
          }
          try {
-             String voiceFilename = musicUtils.upload(originFrontEnd.getOriginVoiceFile(), "admin", origin.getOriginName());
-             origin.setOriginVoiceFilename(voiceFilename);
+             ret = musicUtils.upload(originFrontEnd.getOriginVoiceFile(), "admin", origin.getOriginName());
+             origin.setOriginVoiceFilename(ret.get(MusicUtils.UploadResult.URL).toString());
          } catch (Exception e) {
              e.printStackTrace();
              return;
@@ -120,10 +125,16 @@ public class originService {
              return;
          }
 
+         // get the duration
+        int duration = round(musicUtils.getMp3Duration(ret.get(MusicUtils.UploadResult.PATH).toString()));
+        origin.setOriginDuration(duration);
+        // print the duration
+        System.out.println(origin.getOriginDuration());
+
         // print the filenames
-        System.out.println(origin.getOriginBgmusicFilename());
-        System.out.println(origin.getOriginVoiceFilename());
-        System.out.println(origin.getOriginPrefaceFilename());
+//        System.out.println(origin.getOriginBgmusicFilename());
+//        System.out.println(origin.getOriginVoiceFilename());
+//        System.out.println(origin.getOriginPrefaceFilename());
 
         originMapper.insertOrigin(origin.getOriginName(), origin.getOriginAuthor(), origin.getOriginBgmusicFilename(), origin.getOriginVoiceFilename(), origin.getOriginDuration(), origin.getOriginPrefaceFilename(), origin.getOriginIntroduction());
     }
