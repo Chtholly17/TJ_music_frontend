@@ -3,9 +3,12 @@ package com.example.tj_music.service;
 import com.example.tj_music.db.entity.Image;
 import com.example.tj_music.db.entity.Origin;
 import com.example.tj_music.db.entity.OriginFrontEnd;
+import com.example.tj_music.db.entity.Work;
 import com.example.tj_music.db.mapper.OriginMapper;
 
 import com.example.tj_music.db.mapper.UserMapper;
+import com.example.tj_music.db.mapper.WorkCommentMapper;
+import com.example.tj_music.db.mapper.WorkMapper;
 import com.example.tj_music.utils.ImageUtils;
 import com.example.tj_music.utils.MusicUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +32,12 @@ import static java.lang.Math.round;
 public class originService {
     @Autowired
     private OriginMapper originMapper;
+
+    @Autowired
+    private WorkMapper workMapper;
+
+    @Autowired
+    private WorkCommentMapper workCommentMapper;
 
     @Autowired
     private MusicUtils musicUtils;
@@ -87,11 +96,11 @@ public class originService {
         }
         return Result.success(originList);
     }
-    public void insertOrigin(OriginFrontEnd originFrontEnd) {
+    public void insertOrigin(OriginFrontEnd originFrontEnd, Integer originId) {
 
 
 
-//         copy non-file attributes from originFrontEnd to origin
+        //  copy non-file attributes from originFrontEnd to origin
         Origin origin = new Origin();
         origin.setOriginName(originFrontEnd.getOriginName());
         origin.setOriginAuthor(originFrontEnd.getOriginAuthor());
@@ -135,7 +144,29 @@ public class originService {
 //        System.out.println(origin.getOriginBgmusicFilename());
 //        System.out.println(origin.getOriginVoiceFilename());
 //        System.out.println(origin.getOriginPrefaceFilename());
+        if(originId < 0) {
+            originMapper.insertOrigin(origin.getOriginName(), origin.getOriginAuthor(), origin.getOriginBgmusicFilename(), origin.getOriginVoiceFilename(), origin.getOriginDuration(), origin.getOriginPrefaceFilename(), origin.getOriginIntroduction());
+            return;
+        }
+        originMapper.updateOriginById(originId, origin.getOriginName(), origin.getOriginAuthor(), origin.getOriginBgmusicFilename(), origin.getOriginVoiceFilename(), origin.getOriginDuration(), origin.getOriginPrefaceFilename(), origin.getOriginIntroduction());
+    }
 
-        originMapper.insertOrigin(origin.getOriginName(), origin.getOriginAuthor(), origin.getOriginBgmusicFilename(), origin.getOriginVoiceFilename(), origin.getOriginDuration(), origin.getOriginPrefaceFilename(), origin.getOriginIntroduction());
+    public Result deleteOrigin(Integer originId) {
+        Origin origin = originMapper.selectOriginByOriginId(originId);
+        if (origin == null) {
+            return Result.fail("origin does not exist.");
+        }
+        // select all the works of the origin
+        List<Work> workIdList = workMapper.selectWorkByOriginId(originId);
+        // traverse the work list
+        for (Work work : workIdList) {
+            // delete the work_comment of the work
+            workCommentMapper.deleteWorkCommentByTarget(work.getWorkId());
+            // delete the work
+            workMapper.deleteWorkById(work.getWorkId());
+        }
+        // delete the origin
+        originMapper.deleteOriginById(originId);
+        return Result.success("delete origin successfully.");
     }
 }

@@ -5,6 +5,7 @@
  */
 package com.example.tj_music.db.mapper;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -35,4 +36,12 @@ public interface OriginMapper {
     // insert origin
     @Insert("insert into origin(origin_name, origin_author, origin_bgmusic_filename, origin_voice_filename, origin_duration, origin_preface_filename, origin_introduction) values(#{originName}, #{originAuthor}, #{originBgmusicFilename}, #{originVoiceFilename}, #{originDuration}, #{originPrefaceFilename}, #{originIntroduction})")
     void insertOrigin(String originName, String originAuthor, String originBgmusicFilename, String originVoiceFilename, Integer originDuration, String originPrefaceFilename, String originIntroduction);
+
+    // delete origin by origin id
+    @Delete("delete from origin where origin_id = #{originId}")
+    public void deleteOriginById(Integer originId);
+
+    // update origin by origin id
+    @Select("update origin set origin_name = #{originName}, origin_author = #{originAuthor}, origin_bgmusic_filename = #{originBgmusicFilename}, origin_voice_filename = #{originVoiceFilename}, origin_duration = #{originDuration}, origin_preface_filename = #{originPrefaceFilename}, origin_introduction = #{originIntroduction} where origin_id = #{originId}")
+    public void updateOriginById(Integer originId, String originName, String originAuthor, String originBgmusicFilename, String originVoiceFilename, Integer originDuration, String originPrefaceFilename, String originIntroduction);
 }

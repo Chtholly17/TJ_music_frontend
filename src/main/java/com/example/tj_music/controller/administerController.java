@@ -91,6 +91,7 @@ public class administerController {
     /**
      * 上传原唱(文件传输有bug)
      * @param originFrontEnd
+     * @details:
      * @return
      */
     @PostMapping("/insertOrigin")
@@ -107,13 +108,18 @@ public class administerController {
         }else{
             System.out.println("没有文件上传");
         }
+        String originId = request.getParameter("originId");
+        // convert originId to int
+        Integer originIdInt = Integer.parseInt(originId);
+
+
         originFrontEnd.setOriginName(request.getParameter("originName"));
         originFrontEnd.setOriginAuthor(request.getParameter("originAuthor"));
         originFrontEnd.setOriginBgmusicFile(request.getFile("originBgmusicFile"));
         originFrontEnd.setOriginVoiceFile(request.getFile("originVoiceFile"));
         originFrontEnd.setOriginPrefaceFile(request.getFile("originPrefaceFile"));
         originFrontEnd.setOriginIntroduction(request.getParameter("originIntroduction"));
-        originService.insertOrigin(originFrontEnd);
+        originService.insertOrigin(originFrontEnd,originIdInt);
         return Result.success();
     }
 

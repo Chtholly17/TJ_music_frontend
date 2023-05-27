@@ -16,9 +16,9 @@ import org.springframework.web.multipart.MultipartFile;
 public class OriginFrontEnd {
     String originName;
     String originAuthor;
-     MultipartFile originBgmusicFile;
-     MultipartFile originVoiceFile;
-     MultipartFile originPrefaceFile;
+    MultipartFile originBgmusicFile;
+    MultipartFile originVoiceFile;
+    MultipartFile originPrefaceFile;
     String originIntroduction;
 //    MultipartFile[] file;
 }

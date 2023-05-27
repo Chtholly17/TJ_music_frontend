@@ -34,6 +34,5 @@ public class TjMusicAdminTests {
 
         MusicUtils musicUtils = new MusicUtils();
         System.out.println(musicUtils.getMp3Duration(mp3Path));
-
     }
 }

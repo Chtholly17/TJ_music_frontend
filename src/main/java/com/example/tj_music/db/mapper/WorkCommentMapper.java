@@ -6,6 +6,7 @@
 package com.example.tj_music.db.mapper;
 
 import com.example.tj_music.db.entity.WorkComment;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -24,4 +25,8 @@ public interface WorkCommentMapper {
     // delete work comment by work_comment_id
     @Select("delete from work_comment where work_comment_target = #{workCommentTarget}")
     public void deleteWorkCommentById(Integer workCommentTarget);
+
+    // delete work comment by work_comment_target
+    @Delete("delete from work_comment where work_comment_target = #{workCommentTarget}")
+    public void deleteWorkCommentByTarget(Integer workCommentTarget);
 }
