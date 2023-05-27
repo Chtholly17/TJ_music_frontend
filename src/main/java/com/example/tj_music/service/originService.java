@@ -102,14 +102,14 @@ public class originService {
 //         MusicUtils musicUtils = new MusicUtils();
         EnumMap<MusicUtils.UploadResult,Object> ret;
         try {
-             ret = musicUtils.upload(originFrontEnd.getOriginBgmusicFile(), "admin", origin.getOriginName());
+             ret = musicUtils.upload(originFrontEnd.getOriginBgmusicFile(), "admin", origin.getOriginName()+"_bgmusic");
              origin.setOriginBgmusicFilename(ret.get(MusicUtils.UploadResult.URL).toString());
          } catch (Exception e) {
              e.printStackTrace();
              return;
          }
          try {
-             ret = musicUtils.upload(originFrontEnd.getOriginVoiceFile(), "admin", origin.getOriginName());
+             ret = musicUtils.upload(originFrontEnd.getOriginVoiceFile(), "admin", origin.getOriginName()+"_voice");
              origin.setOriginVoiceFilename(ret.get(MusicUtils.UploadResult.URL).toString());
          } catch (Exception e) {
              e.printStackTrace();
@@ -117,7 +117,7 @@ public class originService {
          }
 //         ImageUtils imageUtils = new ImageUtils();
          try {
-             String prefaceFilename = imageUtils.upload(originFrontEnd.getOriginPrefaceFile(), "admin", origin.getOriginName());
+             String prefaceFilename = imageUtils.upload(originFrontEnd.getOriginPrefaceFile(), "admin", origin.getOriginName()+"_preface");
              origin.setOriginPrefaceFilename(prefaceFilename);
          } catch (Exception e) {
              e.printStackTrace();
