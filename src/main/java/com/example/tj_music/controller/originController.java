@@ -5,10 +5,7 @@ import com.example.tj_music.service.originService;
 import com.example.tj_music.utils.Result;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController // @RestController = @Controller + @ResponseBody (return json)
@@ -60,7 +57,7 @@ public class originController {
         return originService.getOriginList();
     }
 
-    @PostMapping("/deleteOrigin")
+    @DeleteMapping("/deleteOrigin")
     public Result deleteOrigin(@RequestParam("originId") Integer originId) {
         return originService.deleteOrigin(originId);
     }
