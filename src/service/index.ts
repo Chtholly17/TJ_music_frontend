@@ -3,6 +3,7 @@ import axios from "@/utils/request";
 import path from "@/service/path";
 import store from "@/store";
 import {computed} from "vue";
+import {AxiosRequestConfig} from "axios";
 
 // 此处集成各种api函数，通过调用这些函数实现网络请求
 const api = {
@@ -108,13 +109,15 @@ const api = {
     //修改用户头像
     postUserImage(file:any)
     {
-        for(const value of file.values()){
-            console.log("jl2")
-            console.log(value)
-        }
-        console.log(file)
+        // for(const value of file.values()){
+        //     console.log("jl2")
+        //     console.log(value)
+        // }
+        //console.log(file)
         //axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
-        return axios.post(path.baseUrl+path.update_user_image, file)
+
+        return axios.post(path.baseUrl+path.update_user_image, file
+        );
     },
     //修改密码
     postUpdatePassword(user_id:any,password:any) {

@@ -1,5 +1,12 @@
 <template>
     <div class="PrefaceDiv">
+
+        <div class="video-background">
+            <video autoplay muted loop>
+                <source src="@/assets/backgroud.mp4" type="video/mp4">
+            </video>
+        </div>
+
         <div class="preface-box">
             <div>
                 <el-image :src="require('@/assets/logo/logo_rec.png')"></el-image>
