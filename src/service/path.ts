@@ -26,6 +26,7 @@ const base = {
     getRank:'/getWorkList', //获取榜单
     getUserImage:'/getUserImage',  //获取用户头像
     logout:'/logout',   //登出
+    getMessageBrief:'/getMessageBrief', //获取消息列表
 }
 
 export default base;

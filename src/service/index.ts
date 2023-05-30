@@ -150,6 +150,15 @@ const api = {
         return axios.post(path.baseUrl+path.logout,{
             userNumber:user_id,
         })
+    },
+    //获取当前的聊天对象
+    getMessageObject(user_id:any)
+    {
+        return axios.get(path.baseUrl+path.getMessageBrief,{
+            params:{
+                user_student_number:user_id
+            }
+        })
     }
 
     //用户用户头像
