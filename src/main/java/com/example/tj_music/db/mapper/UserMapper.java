@@ -11,6 +11,10 @@ public interface UserMapper {
     @Insert("insert into user(user_student_number, user_password, user_status, user_nickname, user_signature, user_profile_image_filename) values(#{user_student_number}, #{user_password}, #{user_status}, #{user_nickname}, #{user_signature}, #{user_profile_image_filename})")
     public void insertUser(String user_student_number, String user_password, String user_status, String user_nickname, String user_signature, String user_profile_image_filename);
 
+    // get all users
+    @Select("select * from user")
+    public List<User> getAllUsers();
+
     // select user by student number
     @Select("select * from user where user_student_number=#{user_student_number}")
     public User selectUserByStudentNumber(String user_student_number);

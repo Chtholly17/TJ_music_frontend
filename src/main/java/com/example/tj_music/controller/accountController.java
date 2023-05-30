@@ -21,6 +21,16 @@ public class accountController {
     private accountService accountService;
 
     /**
+     * get all users
+     * code:1 represents getting all users succeeded.
+     * @return Result
+     */
+    @GetMapping("/getAllUsers")
+    public Result getAllUsers() {
+        return accountService.getAllUsers();
+    }
+
+    /**
      * login
      * code:0 represents user does not exist.
      * code:1 represents login succeeded.

@@ -27,6 +27,14 @@ public class accountService {
     @Autowired
     private WorkMapper workMapper;
 
+    /**
+     * get all users
+     * code:1 represents getting all users succeeded.
+     * @return Result
+     */
+    public Result getAllUsers() {
+        return new Result(1, "Getting all users succeeded.", userMapper.getAllUsers());
+    }
 
     /**
      * logout.
