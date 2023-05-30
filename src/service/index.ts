@@ -144,6 +144,14 @@ const api = {
             }
         })
     },
+    //用户登出
+    userLogout(user_id:any)
+    {
+        return axios.post(path.baseUrl+path.logout,{
+            userNumber:user_id,
+        })
+    }
+
     //用户用户头像
     // getUserImage()
     // {
