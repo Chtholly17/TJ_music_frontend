@@ -110,11 +110,22 @@ public class PythonUtils {
      */
     public Result merge(String bgmPath, String vocalPath, String outputPath) {
         try {
+            File workingDirectory = new File("/root/gitcode/music_score/");
             ProcessBuilder pb = new ProcessBuilder("/root/miniconda3/envs/music/bin/python3",
-                    "/root/gitcode/music_score/merge.py", bgmPath, vocalPath, outputPath);
+                    "merge.py", bgmPath, vocalPath, outputPath);
+            pb.directory(workingDirectory);
             Process process = pb.start();
-
+            InputStream inputStream = process.getInputStream();
+            BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
+            String line;
+            StringBuilder outputs = new StringBuilder();
+            while ((line = in.readLine()) != null) {
+                outputs.append(line);
+            }
+            in.close();
             int exitCode = process.waitFor();
+            String scriptOutput = outputs.toString();
+            System.out.println("Script output: " + scriptOutput);
             return Result.success();
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);

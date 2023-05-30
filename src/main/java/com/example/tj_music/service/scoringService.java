@@ -48,7 +48,7 @@ public class scoringService {
      * @return
      */
     public String mergeMp3(String bgmPath, String vocalPath, String userStudentNumber, String originName) {
-        String outputPath = "/root/tj_music/src/main/resources/static/" + userStudentNumber + "/" + originName + ".mp3";
+        String outputPath = "/root/TJ_music/static/" + userStudentNumber + "/music/" + originName + ".mp3";;
         pythonUtils.merge(bgmPath, vocalPath, outputPath);
         return outputPath;
     }
