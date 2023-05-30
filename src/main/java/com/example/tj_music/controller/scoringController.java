@@ -52,10 +52,14 @@ public class scoringController {
                             @RequestParam("userStudentNumber") String userStudentNumber) throws IOException {
         scoringService.saveTmpMp3(file, userStudentNumber);
         Origin origin = originService.getOriginByOriginId(originId);
-        String work_voice_path = "/root/TJ_music/static/" + userStudentNumber + "/vocal.mp3";
+        String work_voice_path = "/root/TJ_music/static/" + userStudentNumber + "/music/vocal.mp3";
         String origin_bgm_path = "/root/TJ_music/static/admin/" + origin.getOriginName() + "_bgmusic.mp3";
         String outputPath = scoringService.mergeMp3(origin_bgm_path, work_voice_path, userStudentNumber,
                 origin.getOriginName());
+        System.out.println("origin_bgm_path: " + origin_bgm_path);
+        System.out.println("work_voice_path: " + work_voice_path);
+        System.out.println("outputPath: " + outputPath);
+
         return pythonUtils.getScore("/root/TJ_music/static/admin/" + origin.getOriginName() + ".mp3",
                 outputPath);
     }
