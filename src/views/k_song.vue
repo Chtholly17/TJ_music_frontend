@@ -32,8 +32,7 @@
         </div>
         <el-affix position="bottom">
             <div class="bottom"><!--进度条-->
-                <audio id="audio" @timeupdate="audioTime" :currentTime=cur_time autoplay controls preload="auto" :src="cur_mode== 1 ? current_song.vocal_url: current_song.bgm_url"  style="width:100%;"></audio>
-
+                <audio id="audio"    @timeupdate="audioTime" autoplay controls preload="auto" style="width:100%;"></audio>
             </div>
         </el-affix>
 
@@ -59,8 +58,8 @@ export default {
             singer: "陈慧娴",
             cover:"刘安民",
             img:require('@/assets/material/image.jpg'),
-            vocal_url:require('@/assets/material/原唱_bgm.mp3'),
-            bgm_url:require('@/assets/material/bgm.mp3'),
+            song_url:require('@/assets/material/1.mp3'),
+            bgm_url:require('@/assets/material/bgm1.mp3'),
         };
         const LRC="[00:00.00]千千阕歌 \n" +
             "[00:02.00]作词 : 林振强\n" +
@@ -112,14 +111,15 @@ export default {
             "[04:22.00]都洗不清今晚我所思\n" +
             "[04:26.00]因不知哪天再共你唱\n";
         const lrcData=ref([]);//歌词数据数组
+        const isPlaying = ref(false);//是否正在播放
         const dataWords=ref("");//当前歌词
         const data_index=ref(0);//当前歌词索引
-        const cur_mode=ref(0);//当前模式（0为伴唱，1为原唱）
+        const cur_mode=ref(1);//当前模式（0为伴唱，1为原唱）
         const cur_mode_text=ref("原唱");//当前模式按钮展示的文字
         // let lrcTime=0;//当前时间
         const cur_time=ref(0);//当前时间
-        const audio=ref();//audio对象
-
+        const cur_time1=ref(0);//当前时间
+        const audio=ref();//audio_vocal对象
 
 
         //歌词数据转化为数组
@@ -162,11 +162,14 @@ export default {
             }
         };
 
+
+
         const chmod = async () => {
             if(cur_mode.value) {
                 const temp=ref(audio.value.currentTime);
                 cur_mode.value = 0;//切换为伴唱
                 cur_mode_text.value="原唱";
+                audio.value.src = current_song.bgm_url;
                 audio.value.currentTime=temp.value;
                 console.log(audio.value.currentTime);
             }
@@ -174,10 +177,12 @@ export default {
                 const temp=ref(audio.value.currentTime);
                 cur_mode.value = 1;//切换为原唱
                 cur_mode_text.value="伴唱";
+                audio.value.src = current_song.song_url;
                 audio.value.currentTime=temp.value;
                 console.log(audio.value.currentTime);
             }
-        }
+        };
+
 
         const start = async () => {
             audio.value.currentTime=0;
@@ -198,6 +203,7 @@ export default {
         onMounted(() => {
             console.log('mounted-----渲染次数')
             audio.value = document.getElementById("audio");
+            audio.value.src = current_song.song_url;
         })
 
         return {
