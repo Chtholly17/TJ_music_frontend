@@ -29,6 +29,10 @@ public interface MessageMapper {
     @Select("select * from message where sender_id = #{senderId} and receiver_id = #{receiverId} order by create_time desc")
     public List<Message> selectBySenderIdAndReceiverIdDescTime(Integer senderId, Integer receiverId);
 
+    // select by sender id and receiver id by time desc with limit
+    @Select("select * from message where sender_id = #{senderId} and receiver_id = #{receiverId} order by create_time desc limit #{limit}")
+    public List<Message> selectBySenderIdAndReceiverIdDescTimeWithLimit(Integer senderId, Integer receiverId, Integer limit);
+
     // select by message id
     @Select("select * from message where message_id = #{messageId}")
     public Message selectByMessageId(Integer messageId);
@@ -36,6 +40,16 @@ public interface MessageMapper {
     // select all the user that send message to the given receiver
     @Select("select distinct sender_id from message where receiver_id = #{receiverId}")
     public List<Integer> selectAllSenderIdByReceiverId(Integer receiverId);
+
+    // select messages between two users and sort by time desc and limit
+    @Select("SELECT * FROM message "+
+            "WHERE (sender_id = user1_id AND receiver_id = user2_id) "+
+            "OR (sender_id = user2_id AND receiver_id = user1_id ) "+
+            "ORDER BY create_time DESC" +
+            " LIMIT #{limit}")
+    public List<Message> selectMessageBetweenTwoUserTimeDescLimit(Integer user1Id, Integer user2Id, Integer limit);
+
+
 
     // insert------------------------------------------------
     // insert message

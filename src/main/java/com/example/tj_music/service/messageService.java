@@ -2,11 +2,13 @@ package com.example.tj_music.service;
 
 import com.example.tj_music.DTO.sendMessageDTO;
 import com.example.tj_music.VO.GetMessageBriefListVO;
+import com.example.tj_music.VO.GetMessageListVO;
 import com.example.tj_music.db.entity.Message;
 import com.example.tj_music.db.entity.User;
 import com.example.tj_music.db.mapper.MessageMapper;
 import com.example.tj_music.db.mapper.UserMapper;
 import com.example.tj_music.utils.Result;
+import org.python.netty.handler.codec.MessageAggregator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -71,4 +73,45 @@ public class messageService {
         return Result.success(messageList);
     }
 
+    // get the message list by sender and receiver's student number and ascending time with limit
+    public Result getMessageListSenderReceiverLimit(String sender_student_number, String receiver_student_number, int limit) {
+        User sender=userMapper.selectUserByStudentNumber(sender_student_number);
+        if(sender==null){
+            return Result.fail("sender does not exist");
+        }
+        User receiver=userMapper.selectUserByStudentNumber(receiver_student_number);
+        if(receiver==null){
+            return Result.fail("receiver does not exist");
+        }
+        List<Message> messageList=messageMapper.selectBySenderIdAndReceiverIdDescTimeWithLimit(sender.getUserId(),receiver.getUserId(),limit);
+        return Result.success(messageList);
+    }
+
+
+    // get the message list given 2 user's student number and ascending time with limit
+    public Result getMessageList2UserLimit(String user1_student_number, String user2_student_number, int limit) {
+        User user1=userMapper.selectUserByStudentNumber(user1_student_number);
+        if(user1==null){
+            return Result.fail("user1 does not exist");
+        }
+        User user2=userMapper.selectUserByStudentNumber(user2_student_number);
+        if(user2==null){
+            return Result.fail("user2 does not exist");
+        }
+        List<Message> messageList=messageMapper.selectMessageBetweenTwoUserTimeDescLimit(user1.getUserId(),user2.getUserId(),limit);
+        List<GetMessageListVO> ret=new ArrayList<>();
+        for(int i=0;i<messageList.size();i++){
+            GetMessageListVO getMessageListVO=new GetMessageListVO();
+            if(messageList.get(i).getSenderId()==user1.getUserId()){
+                getMessageListVO.setSender_student_number(user1_student_number);
+            }
+            else{
+                getMessageListVO.setSender_student_number(user2_student_number);
+            }
+            getMessageListVO.setMessage_content(messageList.get(i).getContent());
+            getMessageListVO.setMessage_time(messageList.get(i).getCreateTime());
+            ret.add(getMessageListVO);
+        }
+        return Result.success(ret);
+    }
 }
