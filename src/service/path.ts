@@ -28,6 +28,7 @@ const base = {
     sendMessage: '/sendMessage',
     logout:'/logout',   //登出
     getMessageBrief:'/getMessageBrief', //获取消息列表
+    getDetailMessage: '/getMessageList' // 获取两个用户间的详细信息
 }
 
 export default base;

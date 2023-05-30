@@ -159,7 +159,17 @@ const api = {
     },
     postMessage(message: any)
     {
+        console.log(message)
         return axios.post(path.baseUrl + path.sendMessage, message)
+    },
+    getDetailMessage(id1: any, id2: any)
+    {
+        return axios.get(path.baseUrl + path.getDetailMessage, {
+            params:{
+                user1_student_number: id1,
+                user2_student_number: id2
+            }
+        })
     }
 
     //用户用户头像

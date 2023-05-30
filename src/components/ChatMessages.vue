@@ -2,33 +2,25 @@
     <div id="chatMessageBox">
         <div id="nickNameBox">
             <div id="nickNameText">
-                {{props.nickName}}
+                {{chatNickname}}
             </div>
         </div>
         <div id="chatBox">
-          <h1>haha</h1>
-          <h1>haha</h1>
-          <h1>haha</h1>
-          <h1>haha</h1>
-          <h1>haha</h1>
-          <h1>haha</h1>
-          <h1>haha</h1>
-          <h1>haha</h1>
-          <h1>haha</h1>
-          <h1>haha</h1>
-          <h1>haha</h1>
-          <h1>haha</h1>
+          <message-row v-for="item in messageList" :key="item"
+              :sender-profile="chatProfile" :sender-id="item.sender_student_number" :content="item.message_content"></message-row>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import {defineProps} from "vue";
+import {chatNickname, messageList, chatProfile, getDetailMessage} from "@/utils/chatParams";
+import MessageRow from "@/components/messageRow.vue";
+import {onBeforeMount} from "vue";
 
-const props = defineProps(['nickName'])
+onBeforeMount(getDetailMessage);
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 #chatMessageBox{
     display: flex;
     flex-direction: column;
@@ -50,6 +42,8 @@ const props = defineProps(['nickName'])
     height: 85%;
     margin: 0 1%;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column-reverse;
 }
 #nickNameText{
     font-family: "Poppins", '微软雅黑 Light', sans-serif;
