@@ -62,7 +62,8 @@ public class scoringController {
         String origin_name = origin.getOriginName();
         byte[] utf8Bytes = origin_name.getBytes(StandardCharsets.UTF_8);
         origin_name = new String(utf8Bytes, StandardCharsets.UTF_8);
-        String url = scoringService.saveTmpMp3(file, userStudentNumber, origin_name);
+        scoringService.saveTmpMp3(file, userStudentNumber);
+        String url = "http://49.4.115.48:8888" + "/" + userStudentNumber +"/music/" + origin_name + ".wav";
         String work_voice_path = "/root/TJ_music/static/" + userStudentNumber + "/music/vocal.wav";
         String origin_bgm_path = "/root/TJ_music/static/admin/" + origin_name + "_bgmusic.wav";
         String outputPath = scoringService.mergeMp3(origin_bgm_path, work_voice_path, userStudentNumber,

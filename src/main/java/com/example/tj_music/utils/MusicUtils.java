@@ -35,15 +35,14 @@ public class MusicUtils {
     /**
      * upload 保存MultiPartFile
      * @param file
-     * @param userName
+     * @param userStudentNumber
      * @param fileName
-     * @param originName
      * @return
      * @throws IOException
      */
-    public String upload(MultipartFile file, String userName, String fileName, String originName) throws IOException {
+    public EnumMap<MusicUtils.UploadResult,Object> upload(MultipartFile file, String userStudentNumber, String fileName) throws IOException {
         EnumMap<UploadResult,Object> en = new EnumMap<UploadResult,Object>(UploadResult.class);
-        String saveName = savePath + userName +"/music/"+ fileName + ".wav";
+        String saveName = savePath + userStudentNumber +"/music/"+ fileName + ".wav";
         en.put(UploadResult.PATH,saveName);
 //        System.out.println(saveName);
 //        String saveName = "/root/TJ_music/static/" + userName +"/"+ fileName + ".mp3";
@@ -62,9 +61,9 @@ public class MusicUtils {
         }
         try {
             file.transferTo(dest);
-            String url = "http://49.4.115.48:"+ port + "/" + userName +"/music/" + originName + ".wav";
-//            en.put(UploadResult.URL,url);
-            return url;
+            String url = "http://49.4.115.48:"+ port + "/" + userStudentNumber +"/music/" + fileName + ".wav";
+            en.put(UploadResult.URL,url);
+            return en;
         }
         catch (IllegalStateException e) {
             throw e;
