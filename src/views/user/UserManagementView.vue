@@ -6,7 +6,7 @@
                 <div class="user_top">
                     <el-row :gutter="20">
                         <el-col :span="8">
-                           <img :src=user_photo_url class="user_photo" >
+                           <img :src=real_img_url class="user_photo" >
     <!--                        <el-image class="personal-img" fit="contain" :src=user_photo_url @click="dialogTableVisible = true" />-->
                             <div style="height: 10px"></div>
                             <el-button type="primary" @click="show_upload=true">更换头像</el-button>
@@ -118,6 +118,7 @@ export default {
         const user_photo_url=ref()   //用户头像
         const show_router=ref(true)
         const show_upload=ref(false) //展示上传头像框
+
         watch(user_photo_url,()=>{
             show_upload.value=false;
             })
@@ -126,7 +127,6 @@ export default {
             nextTick(()=>{
                 show_router.value=true
             })
-            //console.log("重新加载")
         }
         provide('reload',reload)
         const store = useStore()
@@ -134,25 +134,33 @@ export default {
         const user_info_control=ref(false)
         provide("user_info_show",user_info_control);
 
-        //获取用户头像
+        const real_img_url=ref('');
 
+
+
+        watch(
+            ()=>store.state.bar_pic_change,
+            ()=>{
+                const user_id=computed(()=>store.getters.getUserID)
+                user_fetchUserImage(user_id.value).then(res=>{
+                    user_photo_url.value=res
+                    const random_num=Math.random()*100+1;
+                    real_img_url.value=`${user_photo_url.value}?timestamp=${random_num}`;
+                })
+            }
+        )
 
         onBeforeMount(()=>{
-
             //这里其实不写也没关系，因为渲染完这个组件之后就会紧接着渲染下一�?
             userinfoData.userinfoForm.user_student_number = count.value;
-
             user_fetchUserImage(count.value).then(res=>{
                 user_photo_url.value=res
-                console.log("用户主页获取头像")
-                console.log(user_photo_url.value)
+                const random_num=Math.random()*100+1;
+                real_img_url.value= `${user_photo_url.value}?timestamp=${random_num}`;
             })
         })
-        onBeforeUpdate(()=>{
-            const user_photo=computed(() => store.getters.getUserPhoto)
-            user_photo_url.value=user_photo.value;
-            console.log("头像url："+user_photo.value)
-        })
+
+
         function show_info(){
             user_info_control.value=user_info_control.value==true?false:true;
         }
@@ -167,7 +175,8 @@ export default {
             userinfoData,
             onBeforeMount,
             show_router,
-            reload,user_photo_url,show_upload
+            reload,user_photo_url,show_upload,
+            real_img_url
         }
     }
 }

@@ -50,7 +50,7 @@ export const commitLogin = async () => {
                     setCookie("password", loginData.loginForm.password, 7)
                     if(baseForm.value)
                         baseForm.value.resetFields() // 清空表单，关闭所有弹窗
-                    await router.replace({path: '/square'})
+                    await router.replace({path: '/music_square'})
                 }
                 else{
                     ElMessage.error(response.data.msg)

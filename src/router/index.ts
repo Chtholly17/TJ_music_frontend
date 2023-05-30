@@ -27,11 +27,6 @@ const routes: Array<RouteRecordRaw> = [
         component:() =>import('../components/user/MusicLibrary.vue')
       },
       {
-        path:'post',
-        name:'user_post',
-        component:()=>import('@/views/user/UserPostView.vue')
-      },
-      {
         path:'fan_list',
         name:'user_fan_list',
         component:()=>import('@/components/user/FanList.vue')
@@ -47,11 +42,6 @@ const routes: Array<RouteRecordRaw> = [
     path:'/hello',
     name:'hello',
     component:()=>import('@/views/PrefaceView.vue'),
-  },
-  {
-    path: '/square',
-    name: 'square',
-    component:()=>import('@/views/music_square.vue'),
   },
   {
     path: '/accompaniment',

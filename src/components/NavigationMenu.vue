@@ -6,7 +6,7 @@
             <el-menu-item index="/rank">榜单</el-menu-item>
             <search-bar></search-bar>
             <el-dropdown trigger="hover">
-                <el-image :src=user_photo_url class="user_photo" />
+                <el-image :src=real_img_url class="user_photo" />
                 <template #dropdown>
                     <el-dropdown-menu >
                         <el-dropdown-item @click="user_router" >个人主页</el-dropdown-item>
@@ -23,14 +23,15 @@
 <script>
 import {showLoginDialog} from "@/utils/DialogVisible";
 import SearchBar from "@/components/searchBar.vue";
-import {computed, onBeforeMount, ref} from "vue";
+import {computed, onBeforeMount, onBeforeUpdate, ref, onMounted, watch} from "vue";
 import store from "@/store";
 import {show_update_password} from "@/utils/DialogVisible";
 import {user_fetchUserImage} from "@/utils/Texts/userinfoText";
 import api from "@/service";
 import {delCookie} from "@/service/cookie";
 import router from "@/router";
-import path from "@/service/path";
+import {visible} from "@/utils/BarVisible";
+
 export default {
     name: "NavigationMenu",
     components: {SearchBar},
@@ -46,6 +47,20 @@ export default {
     setup() {
         const user_photo_url=ref()   //用户头像
         const default_index=ref()
+        const real_img_url=ref('')
+
+        watch(
+            ()=>store.state.bar_pic_change,
+            ()=>{
+                const user_id=computed(()=>store.getters.getUserID)
+                user_fetchUserImage(user_id.value).then(res=>{
+                    user_photo_url.value=res
+                    const random_num=Math.random()*100+1;
+                    real_img_url.value=`${user_photo_url.value}?timestamp=${random_num}`;
+                })
+            }
+        )
+
         //const user_id=ref()
         onBeforeMount(()=>{
 
@@ -53,16 +68,28 @@ export default {
             var href=window.location.href
             default_index.value=href.substring(root_path.length)
             const user_id=computed(()=>store.getters.getUserID)
+            if (default_index.value=='/hello')
+                default_index.value='/music_square'
+
             user_fetchUserImage(user_id.value).then(res=>{
                 user_photo_url.value=res
+                const random_num=Math.random()*100+1;
+                real_img_url.value=`${user_photo_url.value}?timestamp=${random_num}`;
+                // store.commit('setUserPhoto',real_img_url)
+                // user_photo.value=store.getters.getUserPhoto
+
             })
 
+            // console.log("bar初始渲染")
+            // console.log(default_index.value)
+
+        })
+        onBeforeUpdate(()=>{
+            console.log("bar更新")
         })
         function show_update()
         {
-            //console.log(show_update_password.value)
             show_update_password.value=true
-            //console.log(show_update_password.value)
         }
 
         function user_logout(){
@@ -70,6 +97,7 @@ export default {
             api.userLogout(user_id.value)
             delCookie("userNumber")
             delCookie("password")
+            visible.value=false;
             router.push('/')
         }
         return {
@@ -77,7 +105,9 @@ export default {
             user_photo_url,
             show_update,
             default_index,
-            user_logout
+            user_logout,
+            real_img_url,
+
         }
     }
 }

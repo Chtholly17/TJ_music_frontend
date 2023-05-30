@@ -22,6 +22,7 @@ import {commitUserImage} from "@/utils/Texts/userinfoText";
 import api from "@/service";
 import axios from "axios";
 import path from "@/service/path";
+import store from "@/store";
 
 export default defineComponent({
     components: {
@@ -30,6 +31,12 @@ export default defineComponent({
     setup() {
         const proxy  = getCurrentInstance();
         const store = useStore();
+
+        // 声明一个异步函数 delay，使用 setTimeout 实现延迟操作
+        const delay = async () => {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            //console.log("睡眠完成")
+        };
 
         const uploadTypes = ref(["jpg", "jpeg", "png", "gif"]);
         const userId = computed(() => store.getters.getUserID);
@@ -47,37 +54,21 @@ export default defineComponent({
             }
 
             let pic_form=new FormData();
-            // console.log("11233232")
-            // console.log(file)
+
             pic_form.append("user_student_number",userId.value);
             pic_form.append("file",file);
-            //pic_form.append("file","123");
-
-            //console.log(pic_form.get('file'))
-
-            // for(var value of pic_form.values()){
-            //     console.log("jl")
-            //     console.log(value)
-            // }
-
-            console.log("更新头像")
-            console.log(pic_form)
-
             axios.post(path.baseUrl+path.update_user_image,pic_form).then(res=>{
-                console.log(res)
+               delay()
+               store.state.bar_pic_change=store.state.bar_pic_change===true?false:true;
             })
 
 
-            //commitUserImage(pic_form);
 
             return isLt10M && isExistFileType;
         }
 
         function handleAvatarSuccess(response:any, file:any) {
-            // (proxy as any).$message({
-            //     message: response.message,
-            //     type: response.type,
-            // });
+
             console.log("上传成功！")
         }
 

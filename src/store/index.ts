@@ -3,7 +3,8 @@ import { createStore } from 'vuex'
 export default createStore({
   state:{
     userID: "",
-    userPhoto: ""
+    userPhoto: "",
+    bar_pic_change:false,
 
   },
   getters: {
