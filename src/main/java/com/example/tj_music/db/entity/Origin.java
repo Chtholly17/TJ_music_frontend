@@ -25,6 +25,8 @@ public class Origin {
 
     private String originPrefaceFilename;
 
+    private String originLrcFilename;
+
     private String originIntroduction;
 
 }

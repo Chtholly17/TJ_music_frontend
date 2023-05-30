@@ -4,14 +4,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-import org.jaudiotagger.audio.AudioFileIO;
-import org.jaudiotagger.audio.mp3.MP3AudioHeader;
-import org.jaudiotagger.audio.mp3.MP3File;
-
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import java.io.File;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +11,7 @@ import java.util.EnumMap;
 
 @Component
 @PropertySource(value = {"classpath:application.properties"})
-public class MusicUtils {
+public class LrcUtils {
 
     @Value("${savePath}")
     private String savePath;
@@ -39,10 +31,10 @@ public class MusicUtils {
      * @return
      * @throws IOException
      */
-    public EnumMap<UploadResult,Object> upload(MultipartFile file, String userName, String fileName) throws IOException {
-        EnumMap<UploadResult,Object> en = new EnumMap<UploadResult,Object>(UploadResult.class);
-        String saveName = savePath + userName +"/music/"+ fileName + ".mp3";
-        en.put(UploadResult.PATH,saveName);
+    public EnumMap<LrcUtils.UploadResult,Object> upload(MultipartFile file, String userName, String fileName) throws IOException {
+        EnumMap<LrcUtils.UploadResult,Object> en = new EnumMap<LrcUtils.UploadResult,Object>(LrcUtils.UploadResult.class);
+        String saveName = savePath + userName +"/lrc/"+ fileName + ".lrc";
+        en.put(LrcUtils.UploadResult.PATH,saveName);
 //        System.out.println(saveName);
 //        String saveName = "/root/TJ_music/static/" + userName +"/"+ fileName + ".mp3";
         // display the saveName
@@ -60,30 +52,12 @@ public class MusicUtils {
         }
         try {
             file.transferTo(dest);
-            String url = "http://49.4.115.48:"+ port + "/" + userName +"/musics/" + fileName + ".mp3";
-            en.put(UploadResult.URL,url);
+            String url = "http://49.4.115.48:"+ port + "/" + userName +"/lrc/" + fileName + ".lrc";
+            en.put(LrcUtils.UploadResult.URL,url);
             return en;
         }
         catch (IllegalStateException e) {
             throw e;
-        }
-    }
-
-    /**
-     * 获取mp3语音文件播放时长(秒) mp3
-     * @param filePath
-     * @return
-     */
-    public Float getMp3Duration(String filePath) {
-
-        try {
-            File mp3File = new File(filePath);
-            MP3File f = (MP3File) AudioFileIO.read(mp3File);
-            MP3AudioHeader audioHeader = (MP3AudioHeader) f.getAudioHeader();
-            return Float.parseFloat(audioHeader.getTrackLength() + "");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0f;
         }
     }
 }

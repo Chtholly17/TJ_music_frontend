@@ -119,16 +119,7 @@ public class administerController {
         originFrontEnd.setOriginVoiceFile(request.getFile("originVoiceFile"));
         originFrontEnd.setOriginPrefaceFile(request.getFile("originPrefaceFile"));
         originFrontEnd.setOriginIntroduction(request.getParameter("originIntroduction"));
-
-        // print out all the information
-        System.out.println("we get:");
-        System.out.println(originFrontEnd.getOriginName());
-        System.out.println(originFrontEnd.getOriginAuthor());
-        System.out.println(originFrontEnd.getOriginBgmusicFile().getOriginalFilename());
-        System.out.println(originFrontEnd.getOriginVoiceFile().getOriginalFilename());
-        System.out.println(originFrontEnd.getOriginPrefaceFile().getOriginalFilename());
-        System.out.println(originFrontEnd.getOriginIntroduction());
-        System.out.println(originIdInt);
+        originFrontEnd.setOriginLrcFile(request.getFile("originLrcFile"));
         originService.insertOrigin(originFrontEnd,originIdInt);
         return Result.success();
     }

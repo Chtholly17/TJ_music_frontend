@@ -10,6 +10,7 @@ import com.example.tj_music.db.mapper.UserMapper;
 import com.example.tj_music.db.mapper.WorkCommentMapper;
 import com.example.tj_music.db.mapper.WorkMapper;
 import com.example.tj_music.utils.ImageUtils;
+import com.example.tj_music.utils.LrcUtils;
 import com.example.tj_music.utils.MusicUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,9 @@ public class originService {
     private MusicUtils musicUtils;
     @Autowired
     private ImageUtils imageUtils;
+
+    @Autowired
+    private LrcUtils lrcUtils;
 
     /**
      * search origin by key word.
@@ -110,6 +114,7 @@ public class originService {
 //         save the file to the server
 //         MusicUtils musicUtils = new MusicUtils();
         EnumMap<MusicUtils.UploadResult,Object> ret;
+        // insert bgm
         try {
              ret = musicUtils.upload(originFrontEnd.getOriginBgmusicFile(), "admin", origin.getOriginName()+"_bgmusic");
              origin.setOriginBgmusicFilename(ret.get(MusicUtils.UploadResult.URL).toString());
@@ -117,6 +122,7 @@ public class originService {
              e.printStackTrace();
              return;
          }
+        // insert voice
          try {
              ret = musicUtils.upload(originFrontEnd.getOriginVoiceFile(), "admin", origin.getOriginName()+"_voice");
              origin.setOriginVoiceFilename(ret.get(MusicUtils.UploadResult.URL).toString());
@@ -133,6 +139,17 @@ public class originService {
 
              return;
          }
+         // insert lrc
+        try {
+            EnumMap<LrcUtils.UploadResult,Object> lrc_ret;
+            lrc_ret = lrcUtils.upload(originFrontEnd.getOriginLrcFile(), "admin", origin.getOriginName()+"_lrc");
+            origin.setOriginLrcFilename(lrc_ret.get(LrcUtils.UploadResult.URL).toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+
+
 
          // get the duration
         int duration = round(musicUtils.getMp3Duration(ret.get(MusicUtils.UploadResult.PATH).toString()));
