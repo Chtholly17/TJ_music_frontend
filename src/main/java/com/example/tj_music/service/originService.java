@@ -110,9 +110,14 @@ public class originService {
 //         save the file to the server
 //         MusicUtils musicUtils = new MusicUtils();
         EnumMap<MusicUtils.UploadResult,Object> ret;
+
+        // get the time as the filename
+        long time = System.currentTimeMillis();
+        String filename_time = String.valueOf(time);
+
         // insert bgm
         try {
-             ret = musicUtils.upload(originFrontEnd.getOriginBgmusicFile(), "admin", origin.getOriginName()+"_bgmusic");
+             ret = musicUtils.upload(originFrontEnd.getOriginBgmusicFile(), "admin", filename_time+"_bgmusic");
              origin.setOriginBgmusicFilename(ret.get(MusicUtils.UploadResult.URL).toString());
          } catch (Exception e) {
              e.printStackTrace();
@@ -120,7 +125,7 @@ public class originService {
          }
         // insert voice
          try {
-             ret = musicUtils.upload(originFrontEnd.getOriginVoiceFile(), "admin", origin.getOriginName()+"_voice");
+             ret = musicUtils.upload(originFrontEnd.getOriginVoiceFile(), "admin", filename_time+"_voice");
              origin.setOriginVoiceFilename(ret.get(MusicUtils.UploadResult.URL).toString());
          } catch (Exception e) {
              e.printStackTrace();
@@ -128,7 +133,7 @@ public class originService {
          }
 //         ImageUtils imageUtils = new ImageUtils();
          try {
-             String prefaceFilename = imageUtils.upload(originFrontEnd.getOriginPrefaceFile(), "admin", origin.getOriginName()+"_preface");
+             String prefaceFilename = imageUtils.upload(originFrontEnd.getOriginPrefaceFile(), "admin", filename_time+"_preface");
              origin.setOriginPrefaceFilename(prefaceFilename);
          } catch (Exception e) {
              e.printStackTrace();
@@ -138,7 +143,7 @@ public class originService {
          // insert lrc
         try {
             EnumMap<LrcUtils.UploadResult,Object> lrc_ret;
-            lrc_ret = lrcUtils.upload(originFrontEnd.getOriginLrcFile(), "admin", origin.getOriginName()+"_lrc");
+            lrc_ret = lrcUtils.upload(originFrontEnd.getOriginLrcFile(), "admin", filename_time+"_lrc");
             origin.setOriginLrcFilename(lrc_ret.get(LrcUtils.UploadResult.URL).toString());
         } catch (Exception e) {
             e.printStackTrace();

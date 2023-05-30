@@ -86,7 +86,7 @@ public class workService {
             vo.setWorkId(work.getWorkId());
             vo.setWorkName(work.getWorkName());
             vo.setWorkAuthorNickname(owner.getUserNickname());
-            vo.setScore(work.getWorkScore());
+            vo.setScore(work.getWorkPreciseScore());
             vo.setLike(work.getWorkLike());
             vo.setWorkAuthorFans(owner.getUserFansCnt());
             vo.setWorkCommentCnt(workMapper.getWorkCommentCntById(work.getWorkId()));
@@ -111,5 +111,13 @@ public class workService {
         workMapper.deleteWorkAndCommentById(workId);
 
         return true;
+    }
+
+    public Result getWorkById(int workId) {
+        Work work = workMapper.selectWorkByWorkId(workId);
+        if(work == null) {
+            return Result.fail("no work with id " + workId);
+        }
+        return Result.success(work);
     }
 }

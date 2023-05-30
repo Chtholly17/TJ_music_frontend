@@ -51,4 +51,15 @@ public class workController {
         return workService.getWorkList(tag, order);
     }
 
+
+    /**
+     * 通过workId获取作品
+     * @param workId 作品id
+     * @return
+     */
+    @GetMapping("/getWorkById")
+    public Result getWorkById(@RequestParam("workId") int workId) {
+        return workService.getWorkById(workId);
+    }
+
 }

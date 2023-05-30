@@ -29,6 +29,8 @@ public interface WorkMapper {
     @Select("select * from work order by work_like desc limit #{n}")
     public List<Work> selectNWorksWithHighestNWorkLike(Integer n);
 
+
+
     //按work的评论数量降序排列
     @Select("SELECT * FROM work LEFT JOIN " +
             "(SELECT work_comment_id, COUNT(work_comment_id) AS work_comment_number " +
