@@ -1,5 +1,5 @@
 <template>
-    <div id="app">
+    <div>
         <el-affix v-if="visible">
             <navigation-menu></navigation-menu>
         </el-affix>
@@ -17,8 +17,9 @@
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
 
+    margin: -8px;
     overflow: auto;
-    height: 100%
+    height: 100vh;
 }
 
 //.el-button--primary:focus{

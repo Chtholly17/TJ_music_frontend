@@ -14,9 +14,9 @@ import {Position} from "@element-plus/icons-vue";
 import {message} from "@/utils/Texts/sendMessageText";
 import store from "@/store";
 import api from "@/service";
+import {ElMessage} from "element-plus";
 
 const props = defineProps(['id'])
-
 const sendDisable = ref(true)
 const inputHandler = () => {
     sendDisable.value = (message.content == "");
@@ -24,7 +24,11 @@ const inputHandler = () => {
 const sendMessage = async () => {
     message.receiver_student_number = props.id;
     message.sender_student_number = computed(()=>store.getters.getUserID).value;
-    await api.postMessage(message);
+    const response = await api.postMessage(message);
+    if (response.data.code == 0) {
+        ElMessage.error("发送消息失败，请检查网络或联系管理员")
+    }
+    ElMessage.info(response.data.data)
 }
 </script>
 
