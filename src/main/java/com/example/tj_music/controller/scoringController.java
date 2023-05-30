@@ -15,6 +15,8 @@ import com.example.tj_music.utils.PythonUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 @RestController // @RestController = @Controller + @ResponseBody (return json)
 public class scoringController {
@@ -52,15 +54,17 @@ public class scoringController {
                             @RequestParam("userStudentNumber") String userStudentNumber) throws IOException {
         scoringService.saveTmpMp3(file, userStudentNumber);
         Origin origin = originService.getOriginByOriginId(originId);
-        String work_voice_path = "/root/TJ_music/static/" + userStudentNumber + "/music/vocal.mp3";
-        String origin_bgm_path = "/root/TJ_music/static/admin/" + origin.getOriginName() + "_bgmusic.mp3";
+        String origin_name = origin.getOriginName();
+        byte[] utf8Bytes = origin_name.getBytes(StandardCharsets.UTF_8);
+        origin_name = new String(utf8Bytes, StandardCharsets.UTF_8);
+        String work_voice_path = "/root/TJ_music/static/" + userStudentNumber + "/music/vocal.wav";
+        String origin_bgm_path = "/root/TJ_music/static/admin/" + origin_name + "_bgmusic.wav";
         String outputPath = scoringService.mergeMp3(origin_bgm_path, work_voice_path, userStudentNumber,
-                origin.getOriginName());
+                origin_name);
         System.out.println("origin_bgm_path: " + origin_bgm_path);
         System.out.println("work_voice_path: " + work_voice_path);
         System.out.println("outputPath: " + outputPath);
-
-        return pythonUtils.getScore("/root/TJ_music/static/admin/" + origin.getOriginName() + ".mp3",
+        return pythonUtils.getScore("/root/TJ_music/static/admin/" + origin_name + ".wav",
                 outputPath);
     }
 

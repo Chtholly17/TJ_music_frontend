@@ -12,7 +12,7 @@ public interface UserMapper {
     public void insertUser(String user_student_number, String user_password, String user_status, String user_nickname, String user_signature, String user_profile_image_filename);
 
     // get all users
-    @Select("select * from user where user_status = 'normal'")
+    @Select("select * from user where user_status = 'normal' or user_status = 'banned'")
     public List<User> getAllUsers();
 
     // select user by student number
