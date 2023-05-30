@@ -162,7 +162,11 @@ public class originService {
 //        System.out.println(origin.getOriginBgmusicFilename());
 //        System.out.println(origin.getOriginVoiceFilename());
 //        System.out.println(origin.getOriginPrefaceFilename());
-        if(originId < 0) {
+        
+        // search whether the given origin id exist
+        boolean exist = originMapper.selectOriginByOriginId(originId) != null;
+
+        if(exist == false ) {
             originMapper.insertOrigin(origin.getOriginName(), origin.getOriginAuthor(), origin.getOriginBgmusicFilename(), origin.getOriginVoiceFilename(), origin.getOriginDuration(), origin.getOriginPrefaceFilename(), origin.getOriginIntroduction());
             return;
         }
