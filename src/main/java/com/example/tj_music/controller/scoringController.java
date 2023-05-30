@@ -1,5 +1,6 @@
 package com.example.tj_music.controller;
 
+import com.example.tj_music.db.entity.Music;
 import com.example.tj_music.service.originService;
 import com.example.tj_music.db.mapper.OriginMapper;
 import com.example.tj_music.utils.Result;
@@ -44,14 +45,17 @@ public class scoringController {
 
     /**
      * get scores by origin id and user id
-     * @param file
-     * @param originId
-     * @param userStudentNumber
+     * @param music
      * @return
      */
     @PostMapping("/getScores")
-    public Result getScores(@RequestParam("file") MultipartFile file, @RequestParam("originId") Integer originId,
-                            @RequestParam("userStudentNumber") String userStudentNumber) throws IOException {
+    public Result getScores(Music music) throws IOException {
+        MultipartFile file = music.getFile();
+        Integer originId = music.getOriginId();
+        String userStudentNumber = music.getUserStudentNumber();
+        System.out.println("originId: " + originId);
+        System.out.println("userStudentNumber: " + userStudentNumber);
+        System.out.println("file: " + file);
         scoringService.saveTmpMp3(file, userStudentNumber);
         Origin origin = originService.getOriginByOriginId(originId);
         String origin_name = origin.getOriginName();
