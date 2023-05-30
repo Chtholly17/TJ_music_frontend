@@ -1,11 +1,14 @@
 package com.example.tj_music.controller;
 
 import com.example.tj_music.db.entity.Music;
+import com.example.tj_music.db.mapper.UserMapper;
+import com.example.tj_music.db.entity.User;
 import com.example.tj_music.service.originService;
-import com.example.tj_music.db.mapper.OriginMapper;
+import com.example.tj_music.service.accountService;
 import com.example.tj_music.utils.Result;
 import com.example.tj_music.utils.MusicUtils;
 import com.example.tj_music.service.scoringService;
+import com.example.tj_music.service.workService;
 import com.example.tj_music.db.entity.Origin;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +35,12 @@ public class scoringController {
     private scoringService scoringService;
     @Autowired
     private originService originService;
+    @Autowired
+    private workService workService;
+    @Autowired
+    private accountService accountService;
+    @Autowired
+    private UserMapper userMapper;
 
     /**
      * get comments by scores
@@ -59,20 +68,50 @@ public class scoringController {
         System.out.println("userStudentNumber: " + userStudentNumber);
         System.out.println("file: " + file);
         Origin origin = originService.getOriginByOriginId(originId);
-        String origin_name = origin.getOriginName();
-        byte[] utf8Bytes = origin_name.getBytes(StandardCharsets.UTF_8);
-        origin_name = new String(utf8Bytes, StandardCharsets.UTF_8);
+
+        String[] parts = origin.getOriginVoiceFilename().split("/");
+        String origin_name = parts[parts.length - 1];
+
+        parts = origin.getOriginBgmusicFilename().split("/");
+        String origin_bgm_name = parts[parts.length - 1];
+
         scoringService.saveTmpMp3(file, userStudentNumber);
-        String url = "http://49.4.115.48:8888" + "/" + userStudentNumber +"/music/" + origin_name + ".wav";
+        String url = "http://49.4.115.48:8888" + "/" + userStudentNumber +"/music/" + origin_name;
+
+
         String work_voice_path = "/root/TJ_music/static/" + userStudentNumber + "/music/vocal.wav";
-        String origin_bgm_path = "/root/TJ_music/static/admin/" + origin_name + "_bgmusic.wav";
+        String origin_bgm_path = "/root/TJ_music/static/admin/music/" + origin_bgm_name;
         String outputPath = scoringService.mergeMp3(origin_bgm_path, work_voice_path, userStudentNumber,
                 origin_name);
         System.out.println("origin_bgm_path: " + origin_bgm_path);
         System.out.println("work_voice_path: " + work_voice_path);
         System.out.println("outputPath: " + outputPath);
-        Map<String, String> map = pythonUtils.getScore("/root/TJ_music/static/admin/" + origin_name + ".wav", outputPath);
+        Map<String, Object> map = new HashMap<>();
+        map.put("scores", pythonUtils.getScore("/root/TJ_music/static/admin/music/" + origin_name, outputPath));
         map.put("url", url);
+//        String work_voice_file_name = "http://49.4.115.48:8888/" + userStudentNumber + "/music/" + origin_name;
+//        String preface_file_name = origin.getOriginPrefaceFilename();
+
+//        // 从外部的 map 中获取 scores
+//        Map<String, Object> scoresMap = (Map<String, Object>) map.get("scores");
+//
+//        // 从 scoresMap 中获取 scoreList
+//        Map<String, String> scoreList = (Map<String, String>) scoresMap.get("scoreList");
+//
+//        User user = userMapper.selectUserByStudentNumber(userStudentNumber);
+//        workService.insertWork(
+//                origin.getOriginName(),
+//                null,
+//                user.getUserId(),
+//                originId,
+//                0,
+//                work_voice_file_name,
+//                null,
+//                preface_file_name,
+//                Integer.parseInt(scoreList.get("preciseScore")),
+//                Integer.parseInt(scoreList.get("qualityScore")),
+//                Integer.parseInt(scoreList.get("pitchScore"))
+//        );
         return Result.success(map);
     }
 

@@ -1,6 +1,7 @@
 package com.example.tj_music.db.mapper;
 
 import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import com.example.tj_music.db.entity.Work;
@@ -69,5 +70,9 @@ public interface WorkMapper {
     // delete work by work_id
     @Delete("delete from work where work_id = #{workId}")
     public void deleteWorkById(Integer workId);
+
+    // insert new work
+    @Insert("insert into work (work_name, work_comment, work_owner, work_origin_version, work_like, work_voice_filename, work_tag, work_preface_filename, work_quality_score, work_precise_score, work_pitch_score) values (#{workId}, #{createTime}, #{workName}, #{workComment}, #{workOwner}, #{workOriginVersion}, #{workLike}, #{workVoiceFilename}, #{workTag}, #{workPrefaceFilename}, #{workQualityScore}, #{workPreciseScore}, #{workPitchScore})")
+    public void insertWork(String work_name, String work_comment, Integer work_owner, Integer work_origin_version, Integer work_like, String work_voice_filename, String work_tag, String work_preface_filename, Integer work_quality_score, Integer work_precise_score, Integer work_pitch_score);
 
 }

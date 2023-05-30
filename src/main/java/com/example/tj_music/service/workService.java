@@ -120,4 +120,25 @@ public class workService {
         }
         return Result.success(work);
     }
+
+    /**
+     * insert work
+     * @return
+     */
+    public Result insertWork(String work_name, String work_comment, Integer work_owner, Integer work_origin_version, Integer work_like, String work_voice_filename, String work_tag, String work_preface_filename, Integer work_quality_score, Integer work_precise_score, Integer work_pitch_score) {
+        Work work = new Work();
+        work.setWorkName(work_name);
+        work.setWorkComment(work_comment);
+        work.setWorkOwner(work_owner);
+        work.setWorkOriginVersion(work_origin_version);
+        work.setWorkLike(work_like);
+        work.setWorkVoiceFilename(work_voice_filename);
+        work.setWorkTag(work_tag);
+        work.setWorkPrefaceFilename(work_preface_filename);
+        work.setWorkQualityScore(work_quality_score);
+        work.setWorkPreciseScore(work_precise_score);
+        work.setWorkPitchScore(work_pitch_score);
+        workMapper.insertWork(work.getWorkName(), work.getWorkComment(), work.getWorkOwner(), work.getWorkOriginVersion(), work.getWorkLike(), work.getWorkVoiceFilename(), work.getWorkTag(), work.getWorkPrefaceFilename(), work.getWorkQualityScore(), work.getWorkPreciseScore(), work.getWorkPitchScore());
+        return Result.success(work);
+    }
 }

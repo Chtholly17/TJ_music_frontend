@@ -62,6 +62,9 @@ public class PythonUtils {
             scoreList.put("preciseScore", preciseScore.toString());
             scoreList.put("qualityScore", qualityScore.toString());
             scoreList.put("pitchScore", pitchScore.toString());
+            System.out.println(preciseScore.toString());
+            System.out.println(qualityScore.toString());
+            System.out.println(pitchScore.toString());
             return scoreList;
 //            return Result.success(scoreList);
         } catch (IOException | InterruptedException e) {

@@ -1,6 +1,6 @@
 package com.example.tj_music.controller;
 
-import com.example.tj_music.db.entity.User;
+import com.example.tj_music.db.mapper.UserMapper;
 import com.example.tj_music.service.accountService;
 import com.example.tj_music.utils.Result;
 import org.apache.log4j.Logger;
@@ -19,6 +19,19 @@ public class accountController {
     // user service
     @Autowired // auto-inject
     private accountService accountService;
+
+    @Autowired
+    private UserMapper userMapper;
+
+    /**
+     * select user by user id
+     * @param userId
+     * @return
+     */
+    @GetMapping("/selectUserById")
+    public Result selectUserById(@RequestParam("userId") Integer userId) {
+        return Result.success(userMapper.selectUserById(userId));
+    }
 
     /**
      * get all users
