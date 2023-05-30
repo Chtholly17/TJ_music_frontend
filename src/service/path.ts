@@ -25,7 +25,7 @@ const base = {
     postComment:'/addWorkComment',//提交评论
     getRank:'/getWorkList', //获取榜单
     getUserImage:'/getUserImage',  //获取用户头像
-
+    sendMessage: '/sendMessage',
 }
 
 export default base;

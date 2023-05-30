@@ -21,21 +21,21 @@
     height: 100%
 }
 
-.el-button--primary:focus{
-    background: #CC2288 !important;
-    border-color: #CC2288 !important;
-    color: #ffffff !important;
-}
-.el-button--primary:hover{
-    background: #c965a2 !important;
-    border-color: #c965a2 !important;
-    color: #ffffff !important;
-}
-.el-button--primary{
-    background: #CC2288 !important;
-    border-color: #CC2288 !important;
-    color: #ffffff !important;
-}
+//.el-button--primary:focus{
+//    background: #CC2288 !important;
+//    border-color: #CC2288 !important;
+//    color: #ffffff !important;
+//}
+//.el-button--primary:hover{
+//    background: #c965a2 !important;
+//    border-color: #c965a2 !important;
+//    color: #ffffff !important;
+//}
+//.el-button--primary{
+//    background: #CC2288 !important;
+//    border-color: #CC2288 !important;
+//    color: #ffffff !important;
+//}
 
 *{
     font-family: "微软雅黑 Light", sans-serif;

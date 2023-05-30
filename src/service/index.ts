@@ -1,8 +1,6 @@
 // 本文件封装了一系列api请求
 import axios from "@/utils/request";
 import path from "@/service/path";
-import store from "@/store";
-import {computed} from "vue";
 
 // 此处集成各种api函数，通过调用这些函数实现网络请求
 const api = {
@@ -141,6 +139,10 @@ const api = {
             }
         })
     },
+    postMessage(message: any)
+    {
+        return axios.post(path.baseUrl + path.sendMessage, message)
+    }
     //用户用户头像
     // getUserImage()
     // {
