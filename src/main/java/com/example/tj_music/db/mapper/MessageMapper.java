@@ -43,8 +43,8 @@ public interface MessageMapper {
 
     // select messages between two users and sort by time desc and limit
     @Select("SELECT * FROM message "+
-            "WHERE (sender_id = user1_id AND receiver_id = user2_id) "+
-            "OR (sender_id = user2_id AND receiver_id = user1_id ) "+
+            "WHERE (sender_id = #{user1Id} AND receiver_id = #{user2Id}) "+
+            "OR (sender_id = #{user2Id} AND receiver_id = #{user1Id} ) "+
             "ORDER BY create_time DESC" +
             " LIMIT #{limit}")
     public List<Message> selectMessageBetweenTwoUserTimeDescLimit(Integer user1Id, Integer user2Id, Integer limit);
