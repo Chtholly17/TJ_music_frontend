@@ -32,10 +32,11 @@ public class scoringService {
      * save temporary mp3 for scoring
      * @param file
      * @param userStudentNumber
+     * @param originName
      * @return
      */
-    public EnumMap<MusicUtils.UploadResult,Object> saveTmpMp3(MultipartFile file, String userStudentNumber) throws IOException {
-        return musicUtils.upload(file, userStudentNumber, "vocal");
+    public String saveTmpMp3(MultipartFile file, String userStudentNumber, String originName) throws IOException {
+        return musicUtils.upload(file, userStudentNumber, "vocal", originName);
     }
 
     /**

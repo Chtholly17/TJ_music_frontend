@@ -18,7 +18,7 @@ public class PythonUtils {
      * @param singPath
      * @return
      */
-    public Result getScore(String originPath, String singPath) {
+    public Map<String, String> getScore(String originPath, String singPath) {
         try {
             File workingDirectory = new File("/root/gitcode/music_score");
             ProcessBuilder pb = new ProcessBuilder("/root/miniconda3/envs/music/bin/python3", "main.py", originPath, singPath);
@@ -62,12 +62,13 @@ public class PythonUtils {
             scoreList.put("preciseScore", preciseScore.toString());
             scoreList.put("qualityScore", qualityScore.toString());
             scoreList.put("pitchScore", pitchScore.toString());
-
-            return Result.success(scoreList);
+            return scoreList;
+//            return Result.success(scoreList);
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
-        return Result.fail("fail");
+        return null;
+//        return Result.fail("fail");
     }
 
     /**
