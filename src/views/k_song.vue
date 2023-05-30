@@ -66,7 +66,7 @@
         </div>
         <el-affix position="bottom">
             <div class="bottom"><!--进度条-->
-                <audio id="audio"    @timeupdate="audioTime" autoplay controls preload="auto" style="width:100%;"></audio>
+                <audio id="audio" @timeupdate="audioTime" autoplay controls preload="auto" style="width:100%;" ></audio>
             </div>
         </el-affix>
 
@@ -248,6 +248,7 @@ export default {
         onMounted(() => {
             audio.value = document.getElementById("audio");
             audio.value.src = current_song.song_url;
+            //audio.value.controls = false;
         })
 
         return {
@@ -279,6 +280,11 @@ export default {
 
 
 <style scoped>
+
+.-webkit-media-controls-pause-button {
+  display: none !important;
+  -webkit-appearance: none;
+}
 .wrapper{
     padding:0;
     margin:0;
