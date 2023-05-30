@@ -16,39 +16,38 @@
             <div class="right"><!--歌词、评论区-->
                 <div class="lyric">
                     <div v-for="(item, index) in lrcData" :key="index">
-                        <!--                        <p>{{item.words}}</p>-->
                         <!--大于当前索引的歌词才能被展示；当前播放的歌词才能被高亮-->
                         <p v-if="index>=data_index" style="color:black">{{item.words}}</p>
                     </div>
                 </div>
 
                 <div class="btn"><el-button class="sub-btn" type="primary" @click="enter_k_song">我也要唱</el-button></div>
-                <div class="comment">
-                    <h2 class="comment-title">
-                        <span>评论</span>
-                        <span class="comment-desc">共 {{ comment_list.length }} 条评论</span>
-                    </h2>
-                    <el-input class="comment-input" type="textarea" placeholder="期待您的精彩评论..." :rows="2" v-model="new_comment" clearable/>
-                    <div class="btn"><el-button class="sub-btn" type="primary" @click="handlerComment">发表评论</el-button></div>
-                </div>
+<!--                <div class="comment">-->
+<!--                    <h2 class="comment-title">-->
+<!--                        <span>评论</span>-->
+<!--                        <span class="comment-desc">共 {{ comment_list.length }} 条评论</span>-->
+<!--                    </h2>-->
+<!--                    <el-input class="comment-input" type="textarea" placeholder="期待您的精彩评论..." :rows="2" v-model="new_comment" clearable/>-->
+<!--                    <div class="btn"><el-button class="sub-btn" type="primary" @click="handlerComment">发表评论</el-button></div>-->
+<!--                </div>-->
 
-                <div class="popular">
-                    <div class="popular_comment" v-for="(item, index) in comment_list" :key="index">
-                        <el-image class="popular-img" fit="fill" :src="item.workCommentUser.userProfileImageFilename" />
-                        <div class="popular-msg">
-                            <span class="name">{{ item.workCommentUser.userNickname }}&nbsp;&nbsp;</span>
-                            <span class="time">{{ item.workComment.createTime}}</span>
-                            <p class="content">{{ item.workComment.workCommentContent }}</p>
-                        </div>
-                    </div>
-                </div>
+<!--                <div class="popular">-->
+<!--                    <div class="popular_comment" v-for="(item, index) in comment_list" :key="index">-->
+<!--                        <el-image class="popular-img" fit="fill" :src="item.workCommentUser.userProfileImageFilename" />-->
+<!--                        <div class="popular-msg">-->
+<!--                            <span class="name">{{ item.workCommentUser.userNickname }}&nbsp;&nbsp;</span>-->
+<!--                            <span class="time">{{ item.workComment.createTime}}</span>-->
+<!--                            <p class="content">{{ item.workComment.workCommentContent }}</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
 
 
             </div>
         </div>
         <el-affix position="bottom">
             <div class="bottom"><!--进度条-->
-                <audio @timeupdate="audioTime" autoplay controls loop :src="current_song.vocal_url"  style="width:100%;"></audio>
+                <audio id = "audio" @timeupdate="audioTime" autoplay controls loop :src="current_song.vocal_url"  style="width:100%;"></audio>
             </div>
         </el-affix>
 
@@ -59,7 +58,7 @@
 
 
 <script>
-import {onBeforeMount, onBeforeUpdate, ref, watch} from "vue";
+import {onBeforeMount, onBeforeUpdate, onMounted, ref, watch} from "vue";
 import {commitComment, fetchComment} from "@/utils/Texts/commentText";
 import api from "@/service";
 import {ElMessage} from "element-plus";
@@ -75,16 +74,9 @@ export default {
             singer: "陈慧娴",
             cover:"刘安民",
             img:require("../assets/material/image.jpg"),
-            vocal_url:require("../assets/material/原唱_bgm.mp3"),
+            song_url:require("../assets/material/原唱_bgm.mp3"),
             bgm_url:require("../assets/material/bgm.mp3"),
         };
-        // const comment_list=[
-        //     {username:"刘安民",content:"不愧是我",create_time:"2023-05-08",url:require("../assets/cxk4.png")},
-        //     {username:"姜 垒",content:"哎哎哟！",create_time:"2023-05-07",url:require("../assets/cxk5.jpg")},
-        //     {username:"王子安",content:"哈哈哈哈哈",create_time:"2023-05-06",url:require("../assets/cxk6.jpg")},
-        //     {username:"吴俊成",content:"呵呵呵呵呵呵呵",create_time:"2023-05-05",url:require("../assets/cxk7.jpg")},
-        // ];
-        const comment_list=ref([]);
         const LRC="[00:00.00]千千阕歌 \n" +
             "[00:02.00]作词 : 林振强\n" +
             "[00:06.00]作曲 : 馬飼野康二\n" +
@@ -134,12 +126,12 @@ export default {
             "[04:18.00]都比不起这宵美丽\n" +
             "[04:22.00]都洗不清今晚我所思\n" +
             "[04:26.00]因不知哪天再共你唱\n";
+        const comment_list=ref([]);
         const lrcData=ref([]);//歌词数据数组
         const dataWords=ref("");//当前歌词
         const data_index=ref(0);//当前歌词索引
+        const audio=ref();//audio对象
         const new_comment=ref("");
-        let lrcTime=0;//当前时间
-        let className="gray";
 
 
 
@@ -169,6 +161,9 @@ export default {
         const audioTime=(e)=>
         {
             let time = e.target.currentTime; //当前播放器时间
+
+            console.log(time)
+            console.log(data_index.value)
             for (let i = 0; i < lrcData.value.length; i++)
             {
                 if (time < lrcData.value[i].time)
@@ -176,8 +171,8 @@ export default {
                     //循环歌词数组，当播放器当前时间第一次小于歌词时间时当前数组下标减一即为当前时间数组所对应歌词下标
                     dataWords.value = lrcData.value[i - 1].words;
                     data_index.value=i-1;
-                    //保存当前歌词动画执行事件
-                    lrcTime = lrcData.value[i].time - lrcData.value[i - 1].time;
+                    // //保存当前歌词动画执行事件
+                    // lrcTime = lrcData.value[i].time - lrcData.value[i - 1].time;
                     return i - 1;
                 }
             }
@@ -194,9 +189,6 @@ export default {
             router.replace({path: '/k_song'})
         }
 
-        watch(dataWords,()=> {
-            console.log(data_index.value);
-        })
 
         onBeforeUpdate(()=> {
             fetchComment(1).then(res => {
@@ -220,6 +212,11 @@ export default {
             formatLrc();
         })
 
+        onMounted(() => {
+            audio.value = document.getElementById("audio");
+            audio.value.src = current_song.song_url;
+        })
+
         return {
             current_song,
             comment_list,
@@ -227,8 +224,6 @@ export default {
             lrcData,
             dataWords,
             data_index,
-            lrcTime,
-            className,
             new_comment,
             formatLrc,
             formatTime,

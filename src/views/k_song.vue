@@ -10,6 +10,8 @@
                     <p>歌曲：{{current_song.name }}</p>
                     <p>翻唱：{{current_song.cover }}</p>
                 </div>
+                <br/>
+                <div class="demo-progress"><el-progress type="circle" :percentage="25" /></div>
             </div>
 
 
@@ -17,7 +19,8 @@
                 <div class="lyric">
                     <div v-for="(item, index) in lrcData" :key="index">
                         <!--大于当前索引的歌词才能被展示；当前播放的歌词才能被高亮-->
-                        <p v-if="index>=data_index" style="color:black">{{item.words}}</p>
+                        <p v-if="index >=data_index" style="color:black">{{item.words}}</p>
+
                     </div>
                 </div>
                 <div class="option">
@@ -299,6 +302,14 @@ export default {
     height:800px;
     display:flex;
     flex-direction:column;
+}
+
+.left .demo-progress .el-progress--line {
+    margin-bottom: 15px;
+    width: 350px;
+}
+.left .demo-progress .el-progress--circle {
+    margin-right: 15px;
 }
 
 
