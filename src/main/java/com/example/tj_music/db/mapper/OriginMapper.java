@@ -34,8 +34,8 @@ public interface OriginMapper {
 
 
     // insert origin
-    @Insert("insert into origin(origin_name, origin_author, origin_bgmusic_filename, origin_voice_filename, origin_duration, origin_preface_filename, origin_introduction) values(#{originName}, #{originAuthor}, #{originBgmusicFilename}, #{originVoiceFilename}, #{originDuration}, #{originPrefaceFilename}, #{originIntroduction})")
-    void insertOrigin(String originName, String originAuthor, String originBgmusicFilename, String originVoiceFilename, Integer originDuration, String originPrefaceFilename, String originIntroduction);
+    @Insert("insert into origin(origin_name, origin_author, origin_bgmusic_filename, origin_voice_filename, origin_duration, origin_preface_filename, origin_introduction, origin_lrc_filename) values(#{originName}, #{originAuthor}, #{originBgmusicFilename}, #{originVoiceFilename}, #{originDuration}, #{originPrefaceFilename}, #{originIntroduction},#{originLrcFilename})")
+    void insertOrigin(String originName, String originAuthor, String originBgmusicFilename, String originVoiceFilename, Integer originDuration, String originPrefaceFilename, String originIntroduction,String originLrcFilename);
 
     // delete origin by origin id
     @Delete("delete from origin where origin_id = #{originId}")
