@@ -1,8 +1,7 @@
 //定义了个人信息管理部分需要使用到的数据结构
-import {computed, reactive, ref, unref} from "vue";
+import {reactive, ref, unref} from "vue";
 import {ElMessage, FormInstance} from "element-plus";
 import api from "@/service";
-import store from "@/store";
 
 export const baseForm = ref<FormInstance>();
 

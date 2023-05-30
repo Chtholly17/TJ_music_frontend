@@ -1,4 +1,3 @@
-import {computed} from "vue";
 import api from "@/service";
 
 
@@ -11,7 +10,5 @@ export const fetchComment=async (work_id:any)=>{
 
 export const commitComment=async(comment_target:any,comment_owner:any,comment_content:any)=>
 {
-    const response=await api.postComment(comment_target,comment_owner,comment_content)
-    return response
-
+    return await api.postComment(comment_target, comment_owner, comment_content)
 }

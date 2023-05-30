@@ -23,7 +23,7 @@
 <script>
 import {showLoginDialog} from "@/utils/DialogVisible";
 import SearchBar from "@/components/searchBar.vue";
-import {computed, onBeforeMount, onBeforeUpdate, ref, onMounted, watch} from "vue";
+import {computed, onBeforeMount, onBeforeUpdate, ref, watch} from "vue";
 import store from "@/store";
 import {show_update_password} from "@/utils/DialogVisible";
 import {user_fetchUserImage} from "@/utils/Texts/userinfoText";
@@ -68,7 +68,7 @@ export default {
             var href=window.location.href
             default_index.value=href.substring(root_path.length)
             const user_id=computed(()=>store.getters.getUserID)
-            if (default_index.value=='/hello')
+            if (default_index.value==='/hello')
                 default_index.value='/music_square'
 
             user_fetchUserImage(user_id.value).then(res=>{

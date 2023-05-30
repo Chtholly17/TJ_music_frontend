@@ -1,9 +1,6 @@
 import {reactive, ref, unref} from "vue";
 import {ElMessage, FormInstance} from "element-plus";
 import api from "@/service";
-import {userinfoData} from "@/utils/Texts/userinfoText";
-import {registerData} from "@/utils/Texts/registerText";
-import {pwdCheck} from "@/utils/Texts/retrieveText";
 
 export const baseForm = ref<FormInstance>();
 

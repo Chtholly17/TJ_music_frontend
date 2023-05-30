@@ -62,10 +62,7 @@
 <script>
 import {onBeforeMount, onBeforeUpdate, ref, watch} from "vue";
 import {commitComment, fetchComment} from "@/utils/Texts/commentText";
-import api from "@/service";
-import {ElMessage} from "element-plus";
-import {showLoginDialog} from "@/utils/DialogVisible";
-import {baseForm, registerData} from "@/utils/Texts/registerText";
+
 export default {
     name: "music_player",
     functional: true,
@@ -335,7 +332,7 @@ export default {
         }
 
         .popular-msg {
-            padding: 0px 15px;
+            padding: 0 15px;
             text-align:left;
 
             .time {

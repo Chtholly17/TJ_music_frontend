@@ -68,7 +68,7 @@
 <script>
 import { Edit, Search, Share, Upload,View } from '@element-plus/icons-vue';
 import UserInfoView from "@/views/user/UserInfoView.vue";
-import {computed, onBeforeMount, provide, ref, nextTick, watch, onBeforeUpdate} from "vue";
+import {computed, onBeforeMount, provide, ref, nextTick, watch} from "vue";
 import { useStore } from 'vuex'
 import {userinfoData} from "@/utils/Texts/userinfoText";
 import uploadPic from "@/components/user/uploadPic.vue";

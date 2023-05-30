@@ -17,12 +17,8 @@
 <script lang="ts">
 import { defineComponent, ref, computed, getCurrentInstance } from "vue";
 import { useStore } from "vuex";
-import { UploadFilled } from "@element-plus/icons-vue";
-import {commitUserImage} from "@/utils/Texts/userinfoText";
-import api from "@/service";
 import axios from "axios";
 import path from "@/service/path";
-import store from "@/store";
 
 export default defineComponent({
     components: {
@@ -57,9 +53,9 @@ export default defineComponent({
 
             pic_form.append("user_student_number",userId.value);
             pic_form.append("file",file);
-            axios.post(path.baseUrl+path.update_user_image,pic_form).then(res=>{
+            axios.post(path.baseUrl+path.update_user_image,pic_form).then(()=>{
                delay()
-               store.state.bar_pic_change=store.state.bar_pic_change===true?false:true;
+               store.state.bar_pic_change=!store.state.bar_pic_change;
             })
 
 
@@ -67,8 +63,7 @@ export default defineComponent({
             return isLt10M && isExistFileType;
         }
 
-        function handleAvatarSuccess(response:any, file:any) {
-
+        function handleAvatarSuccess() {
             console.log("上传成功！")
         }
 

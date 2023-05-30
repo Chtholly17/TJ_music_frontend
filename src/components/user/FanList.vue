@@ -47,7 +47,7 @@ export default {
                 })
         })
         function delete_fan(fan_id){
-            deleteFollow(fan_id,user_id).then(res=>{
+            deleteFollow(fan_id,user_id).then(()=>{
                 reload()
             })
         }
