@@ -190,8 +190,8 @@ export default {
                 new_comment.value.clear()
         }
 
-        const enter_k_song = async () => {
-            await router.replace({path: '/k_song'})
+        const enter_k_song = () => {
+            router.replace({path: '/k_song'})
         }
 
         watch(dataWords,()=> {

@@ -119,10 +119,6 @@ export default {
         // let lrcTime=0;//当前时间
         const cur_time=ref(0);//当前时间
         const audio=ref();//audio对象
-        //兼容
-        window.URL = window.URL || window.webkitURL;
-        //获取计算机的设备：摄像头或者录音设备
-        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
 
 
 
@@ -191,8 +187,8 @@ export default {
             audio.value.currentTime=0;
         }
 
-        const enter_song_preview = async () => {
-            await router.replace({path: '/song_preview'})
+        const enter_song_preview = () => {
+            router.replace({path: '/song_preview'})
         }
 
         onBeforeMount(() => {
@@ -288,13 +284,9 @@ export default {
     width:800px;
     height:30px;
     margin-top:30px;
-    padding-left:380px;
     display:flex;
-    text-align:right;
     .btn
     {
-
-        /*margin-left:30px;*/
         margin-right:30px;
     }
 }
