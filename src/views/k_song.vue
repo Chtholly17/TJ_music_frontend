@@ -21,19 +21,52 @@
                     </div>
                 </div>
                 <div class="option">
-                    <!--                    <audio controls autoplay></audio>-->
-                    <div class="btn"><el-button class="sub-btn" type="primary" @click="chmod">{{cur_mode_text}}</el-button></div>
-                    <div class="btn"><el-button class="sub-btn" type="primary" @click="again">重唱</el-button></div>
-                    <div class="btn"><el-button class="sub-btn" type="primary" @click="start">开始</el-button></div>
-                    <div class="btn"><el-button class="sub-btn" type="primary" >暂停</el-button></div>
-                    <div class="btn"><el-button class="sub-btn" type="primary" @click="enter_song_preview">完成</el-button></div>
+                    <div class="btn">
+                        <el-button class="sub-btn" type="primary" @click="chmod">
+                            <el-icon style="vertical-align: middle">
+                                <User />
+                            </el-icon>
+                            <span style="vertical-align: middle">{{cur_mode_text}}</span>
+                        </el-button>
+                    </div>
+                    <div class="btn">
+                        <el-button class="sub-btn" type="primary" @click="again">
+                            <el-icon style="vertical-align: middle">
+                                <Refresh />
+                            </el-icon>
+                            <span style="vertical-align: middle">重唱</span>
+                        </el-button>
+                    </div>
+                    <div class="btn">
+                        <el-button class="sub-btn" type="primary" :disabled=start_isDisabled @click="start">
+                            <el-icon style="vertical-align: middle">
+                                <Microphone />
+                            </el-icon>
+                            <span style="vertical-align: middle">开始</span>
+                        </el-button>
+                    </div>
+                    <div class="btn">
+                        <el-button class="sub-btn" type="primary" :disabled=pause_isDisabled @click="pause">
+                            <el-icon style="vertical-align: middle">
+                                <VideoPause />
+                            </el-icon>
+                            <span style="vertical-align: middle">暂停</span>
+                        </el-button>
+                    </div>
+                    <div class="btn">
+                        <el-button class="sub-btn" type="primary" @click="enter_song_preview">
+                            <el-icon style="vertical-align: middle">
+                                <Headset />
+                            </el-icon>
+                            <span style="vertical-align: middle">完成</span>
+                        </el-button>
+                    </div>
                 </div>
             </div>
         </div>
         <el-affix position="bottom">
             <div class="bottom"><!--进度条-->
-                <audio id="audio" @timeupdate="audioTime" :currentTime=cur_time autoplay controls preload="auto" :src="cur_mode== 1 ? current_song.vocal_url: current_song.bgm_url"  style="width:100%;"></audio>
-
+                 <audio id="audio" @timeupdate="audioTime" :currentTime=cur_time preload="auto" controls :src="cur_mode== 1 ? current_song.vocal_url: current_song.bgm_url"  style="width:100%;"></audio>
             </div>
         </el-affix>
 
@@ -50,8 +83,10 @@ import {ElMessage} from "element-plus";
 import {showLoginDialog} from "@/utils/DialogVisible";
 import {baseForm, registerData} from "@/utils/Texts/registerText";
 import router from "@/router";
+import {Headset, Microphone, Refresh} from "@element-plus/icons-vue";
 export default {
     name: "k_song",
+    components: {Headset, Microphone, Refresh},
     functional: true,
     setup(){
         const current_song={
@@ -119,7 +154,8 @@ export default {
         // let lrcTime=0;//当前时间
         const cur_time=ref(0);//当前时间
         const audio=ref();//audio对象
-
+        const start_isDisabled=ref(0);//播放按钮是否禁用
+        const pause_isDisabled=ref(0);//暂停按钮是否禁用
 
 
         //歌词数据转化为数组
@@ -167,20 +203,28 @@ export default {
                 const temp=ref(audio.value.currentTime);
                 cur_mode.value = 0;//切换为伴唱
                 cur_mode_text.value="原唱";
-                audio.value.currentTime=temp.value;
+                cur_time.value=temp.value;
                 console.log(audio.value.currentTime);
             }
             else {
                 const temp=ref(audio.value.currentTime);
                 cur_mode.value = 1;//切换为原唱
                 cur_mode_text.value="伴唱";
-                audio.value.currentTime=temp.value;
+                cur_time.value=temp.value;
                 console.log(audio.value.currentTime);
             }
         }
 
         const start = async () => {
-            audio.value.currentTime=0;
+            audio.value.play();
+            start_isDisabled.value=1;
+            pause_isDisabled.value=0;
+        }
+
+        const pause = async () => {
+            audio.value.pause();
+            start_isDisabled.value=0;
+            pause_isDisabled.value=1;
         }
 
         const again = async () => {
@@ -196,7 +240,6 @@ export default {
         })
 
         onMounted(() => {
-            console.log('mounted-----渲染次数')
             audio.value = document.getElementById("audio");
         })
 
@@ -209,12 +252,16 @@ export default {
             cur_mode,
             cur_mode_text,
             cur_time,
+            start_isDisabled,
+            pause_isDisabled,
             chmod,
             again,
             formatLrc,
             formatTime,
             audioTime,
-            enter_song_preview
+            enter_song_preview,
+            start,
+            pause
         }
 
     }
@@ -224,7 +271,7 @@ export default {
 
 
 
-<style>
+<style scoped>
 .wrapper{
     padding:0;
     margin:0;
@@ -283,11 +330,12 @@ export default {
 {
     width:800px;
     height:30px;
-    margin-top:30px;
+    margin-top:40px;
+    margin-left:100px;
     display:flex;
     .btn
     {
-        margin-right:30px;
+        margin-right:50px;
     }
 }
 

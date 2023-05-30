@@ -23,7 +23,10 @@
                 <div class="score">
                     <p>{{evaluation}}</p>
                 </div>
-                <div class="btn"><el-button class="sub-btn" type="primary" @click="publish">发表作品</el-button></div>
+                <div class="option">
+                    <div class="btn"><el-button class="sub-btn" type="primary" @click="cancel">取消发布</el-button></div>
+                    <div class="btn"><el-button class="sub-btn" type="primary" @click="publish">发表作品</el-button></div>
+                </div>
             </div>
         </div>
         <el-affix position="bottom">
@@ -155,9 +158,13 @@ export default {
             }
         };
 
-        const publish = async () => {
+        const publish =() => {
             alert("发表成功！")
-            await router.replace({path: '/user/music_library'})
+            router.replace({path: '/user/music_library'})
+        }
+
+        const cancel =() => {
+            router.replace({path: '/user/music_library'})
         }
 
         onBeforeMount(() => {
@@ -174,7 +181,8 @@ export default {
             formatLrc,
             formatTime,
             audioTime,
-            publish
+            publish,
+            cancel
         }
 
     }
@@ -183,7 +191,7 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
 .wrapper{
     padding:0;
     margin:0;
@@ -229,13 +237,17 @@ export default {
     flex-direction:column;
 }
 
-.right .btn
+.right .option
 {
-    width: 800px;
-    height: 30px;
-    top:30px;
+    width:800px;
+    height:30px;
     margin-top:30px;
-    text-align:right;
+    display:flex;
+    flex-direction: row-reverse;
+    .btn
+    {
+        margin-left:50px;
+    }
 }
 
 .right .lyric

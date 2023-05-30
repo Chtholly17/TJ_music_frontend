@@ -244,7 +244,7 @@ export default {
 
 
 
-<style>
+<style scoped>
 .wrapper{
     padding:0;
     margin:0;
