@@ -12,7 +12,13 @@ import java.util.Map;
 @Component
 @PropertySource(value = {"classpath:application.properties"})
 public class PythonUtils {
-    public Result usePython(String originPath, String singPath) {
+    /**
+     * 获取分数
+     * @param originPath
+     * @param singPath
+     * @return
+     */
+    public Result getScore(String originPath, String singPath) {
         try {
             File workingDirectory = new File("/root/gitcode/music_score");
             ProcessBuilder pb = new ProcessBuilder("/root/miniconda3/envs/music/bin/python3", "main.py", originPath, singPath);
@@ -62,5 +68,56 @@ public class PythonUtils {
             e.printStackTrace();
         }
         return Result.fail("fail");
+    }
+
+    /**
+     * get comments by scores
+     * @param preciseScore
+     * @param qualityScore
+     * @param pitchScore
+     * @return
+     */
+    public Result getComments(String preciseScore, String qualityScore, String pitchScore) {
+        try {
+            File workingDirectory = new File("/root/gpt_call/");
+            ProcessBuilder pb = new ProcessBuilder("/root/miniconda3/envs/music/bin/python3", "main.py", preciseScore, qualityScore, pitchScore);
+            pb.directory(workingDirectory);
+            Process process = pb.start();
+            InputStream inputStream = process.getInputStream();
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
+            String line;
+            StringBuilder comments = new StringBuilder();
+            while ((line = in.readLine()) != null) {
+                comments.append(line);
+            }
+            in.close();
+            int exitCode = process.waitFor();
+            String scriptOutput = comments.toString();
+            System.out.println("Script output: " + scriptOutput);
+            return Result.success(comments.toString());
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * merge mp3 from bgm and vocal
+     * @param bgmPath
+     * @param vocalPath
+     * @param outputPath
+     * @return
+     */
+    public Result merge(String bgmPath, String vocalPath, String outputPath) {
+        try {
+            ProcessBuilder pb = new ProcessBuilder("/root/miniconda3/envs/music/bin/python3",
+                    "/root/gitcode/music_score/merge.py", bgmPath, vocalPath, outputPath);
+            Process process = pb.start();
+
+            int exitCode = process.waitFor();
+            return Result.success();
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

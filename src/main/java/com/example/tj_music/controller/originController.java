@@ -4,6 +4,7 @@ import com.example.tj_music.db.entity.Origin;
 import com.example.tj_music.service.originService;
 import com.example.tj_music.utils.Result;
 import org.apache.log4j.Logger;
+import org.python.antlr.op.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,7 +50,11 @@ public class originController {
      */
     @PostMapping("/getOriginByOriginId")
     public Result getOriginByOriginId(@RequestParam("originId") Integer originId) {
-        return originService.getOriginByOriginId(originId);
+        Origin origin = originService.getOriginByOriginId(originId);
+        if (origin == null)
+            return new Result(0, "origin does not exist", null);
+        else
+            return new Result(1, "search succeeded", origin);
     }
 
     @GetMapping("/getOriginList")

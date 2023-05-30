@@ -79,14 +79,10 @@ public class originService {
      * code:0 represents origin does not exist.
      * code:1 represents search succeeded.
      * @param originId
-     * @return Result
+     * @return Origin
      */
-    public Result getOriginByOriginId(Integer originId) {
-        Origin origin = originMapper.selectOriginByOriginId(originId);
-        if (origin == null) {
-            return Result.fail("origin does not exist.");
-        }
-        return Result.success(origin);
+    public Origin getOriginByOriginId(Integer originId) {
+        return originMapper.selectOriginByOriginId(originId);
     }
 
     public Result getOriginList() {

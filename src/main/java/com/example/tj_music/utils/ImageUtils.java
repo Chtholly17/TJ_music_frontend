@@ -19,7 +19,6 @@ import java.io.IOException;
 @Component
 @PropertySource(value = {"classpath:application.properties"})
 public class ImageUtils {
-
     @Value("${savePath}")
     private String savePath="/root/TJ_music/static/";
 
