@@ -10,8 +10,11 @@
                     <p>歌曲：{{current_song.name }}</p>
                     <p>翻唱：{{current_song.cover }}</p>
                 </div>
-                <br/>
-                <div class="demo-progress"><el-progress type="circle" :percentage="25" /></div>
+                <div class="wave">
+                    <video autoplay loop muted>
+                        <source src="@/assets/wave.mp4" type="video/mp4">
+                    </video>
+                </div>
             </div>
 
 
@@ -67,9 +70,15 @@
                 </div>
             </div>
         </div>
+
         <el-affix position="bottom">
             <div class="bottom"><!--进度条-->
-                <audio id="audio" @timeupdate="audioTime" autoplay controls preload="auto" style="width:100%;" ></audio>
+                <audio id="audio" @timeupdate="audioTime"  preload="auto" style="width:100%;" ></audio>
+            </div>
+            <div class="demo-progress">
+                <el-progress :percentage="percentage" striped >
+                    <span>{{time_to_string(current_song.duration)}}</span>
+                </el-progress>
             </div>
         </el-affix>
 
@@ -97,8 +106,9 @@ export default {
             singer: "陈慧娴",
             cover:"刘安民",
             img:require('@/assets/material/image.jpg'),
-            song_url:require('@/assets/material/1.mp3'),
-            bgm_url:require('@/assets/material/bgm1.mp3'),
+            song_url:require("../assets/material/原唱_bgm.mp3"),
+            bgm_url:require("../assets/material/bgm.mp3"),
+            duration:299
         };
         const LRC="[00:00.00]千千阕歌 \n" +
             "[00:02.00]作词 : 林振强\n" +
@@ -153,13 +163,15 @@ export default {
         const isPlaying = ref(false);//是否正在播放
         const dataWords=ref("");//当前歌词
         const data_index=ref(0);//当前歌词索引
-        const cur_mode=ref(1);//当前模式（0为伴唱，1为原唱）
+        const cur_mode=ref(0);//当前模式（0为伴唱，1为原唱）
         const cur_mode_text=ref("原唱");//当前模式按钮展示的文字
-        // let lrcTime=0;//当前时间
+        let lrcTime=0;//当前时间
         const cur_time=ref(0);//当前时间
         const audio=ref();//audio对象
         const start_isDisabled=ref(0);//播放按钮是否禁用
         const pause_isDisabled=ref(0);//暂停按钮是否禁用
+        const percentage=ref(0);
+        const duration=ref(0);//当前歌曲时长
 
 
         //歌词数据转化为数组
@@ -178,16 +190,24 @@ export default {
             }
             lrcData.value = arr;
         };
-        //时间转换（秒）
+        //歌词中字符串时间转换为秒数时间
         const formatTime=(time)=>
         {
             const parts = time.split(":"); //[03:00.000]==>[03,00.00]
             return +parts[0] * 60 + +parts[1]; //计算秒
         };
+        //秒数时间转换为字符串时间（分+秒）
+        const time_to_string=(time)=>
+        {
+            const minute=Math.floor(time/60);
+            const second=time%60;
+            return minute.toString()+":"+second.toString();
+        };
         //获取当前播放时间
         const audioTime=(e)=>
         {
             let time = e.target.currentTime; //当前播放器时间
+            percentage.value=time/audio.value.duration*100;
             for (let i = 0; i < lrcData.value.length; i++)
             {
                 if (time < lrcData.value[i].time)
@@ -211,7 +231,7 @@ export default {
                 cur_mode_text.value="原唱";
                 audio.value.src = current_song.bgm_url;
                 audio.value.currentTime=temp.value;
-                console.log(audio.value.currentTime);
+                audio.value.play()
             }
             else {
                 const temp=ref(audio.value.currentTime);
@@ -219,7 +239,7 @@ export default {
                 cur_mode_text.value="伴唱";
                 audio.value.src = current_song.song_url;
                 audio.value.currentTime=temp.value;
-                console.log(audio.value.currentTime);
+                audio.value.play()
             }
         };
 
@@ -250,7 +270,7 @@ export default {
 
         onMounted(() => {
             audio.value = document.getElementById("audio");
-            audio.value.src = current_song.song_url;
+            audio.value.src = current_song.bgm_url;
             //audio.value.controls = false;
         })
 
@@ -265,6 +285,8 @@ export default {
             cur_time,
             start_isDisabled,
             pause_isDisabled,
+            percentage,
+            duration,
             chmod,
             again,
             formatLrc,
@@ -272,7 +294,8 @@ export default {
             audioTime,
             enter_song_preview,
             start,
-            pause
+            pause,
+            time_to_string
         }
 
     }
@@ -288,6 +311,7 @@ export default {
   display: none !important;
   -webkit-appearance: none;
 }
+
 .wrapper{
     padding:0;
     margin:0;
@@ -308,14 +332,6 @@ export default {
     height:800px;
     display:flex;
     flex-direction:column;
-}
-
-.left .demo-progress .el-progress--line {
-    margin-bottom: 15px;
-    width: 350px;
-}
-.left .demo-progress .el-progress--circle {
-    margin-right: 15px;
 }
 
 
@@ -367,6 +383,15 @@ export default {
     position: fixed;
     bottom: 0;
     width: 100%;
+    height: 7%;
+}
+
+.demo-progress
+{
+    left:420px;
+    position: fixed;
+    bottom: 10px;
+    width: 60%;
     height: 7%;
 }
 

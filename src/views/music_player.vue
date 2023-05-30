@@ -22,25 +22,25 @@
                 </div>
 
                 <div class="btn"><el-button class="sub-btn" type="primary" @click="enter_k_song">我也要唱</el-button></div>
-<!--                <div class="comment">-->
-<!--                    <h2 class="comment-title">-->
-<!--                        <span>评论</span>-->
-<!--                        <span class="comment-desc">共 {{ comment_list.length }} 条评论</span>-->
-<!--                    </h2>-->
-<!--                    <el-input class="comment-input" type="textarea" placeholder="期待您的精彩评论..." :rows="2" v-model="new_comment" clearable/>-->
-<!--                    <div class="btn"><el-button class="sub-btn" type="primary" @click="handlerComment">发表评论</el-button></div>-->
-<!--                </div>-->
+                <div class="comment">
+                    <h2 class="comment-title">
+                        <span>评论</span>
+                        <span class="comment-desc">共 {{ comment_list.length }} 条评论</span>
+                    </h2>
+                    <el-input class="comment-input" type="textarea" placeholder="期待您的精彩评论..." :rows="2" v-model="new_comment" clearable/>
+                    <div class="btn"><el-button class="sub-btn" type="primary" @click="handlerComment">发表评论</el-button></div>
+                </div>
 
-<!--                <div class="popular">-->
-<!--                    <div class="popular_comment" v-for="(item, index) in comment_list" :key="index">-->
-<!--                        <el-image class="popular-img" fit="fill" :src="item.workCommentUser.userProfileImageFilename" />-->
-<!--                        <div class="popular-msg">-->
-<!--                            <span class="name">{{ item.workCommentUser.userNickname }}&nbsp;&nbsp;</span>-->
-<!--                            <span class="time">{{ item.workComment.createTime}}</span>-->
-<!--                            <p class="content">{{ item.workComment.workCommentContent }}</p>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
+                <div class="popular">
+                    <div class="popular_comment" v-for="(item, index) in comment_list" :key="index">
+                        <el-image class="popular-img" fit="fill" :src="item.workCommentUser.userProfileImageFilename" />
+                        <div class="popular-msg">
+                            <span class="name">{{ item.workCommentUser.userNickname }}&nbsp;&nbsp;</span>
+                            <span class="time">{{ item.workComment.createTime}}</span>
+                            <p class="content">{{ item.workComment.workCommentContent }}</p>
+                        </div>
+                    </div>
+                </div>
 
 
             </div>
