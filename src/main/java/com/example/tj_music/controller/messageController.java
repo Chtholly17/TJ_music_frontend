@@ -57,10 +57,9 @@ public class messageController {
      */
     @GetMapping("/getMessageList")
     public Result getMessageListTwoUser(@RequestParam String user1_student_number,
-                                               @RequestParam String user2_student_number,
-                                                @RequestParam Integer limit){
+                                        @RequestParam String user2_student_number){
 //        return messageService.getMessageListSenderReceiverLimit(user1_student_number,user2_student_number,limit);
-        return messageService.getMessageList2UserLimit(user1_student_number,user2_student_number,limit);
+        return messageService.getMessageList2UserLimit(user1_student_number,user2_student_number,10000);
     }
 
 
