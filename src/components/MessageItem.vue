@@ -1,23 +1,47 @@
 <template>
-  <div class="a_message">
+  <div class="a_message" :class="isHover? 'hoverItem':  'oddItem'"
+       @mouseover="itemMouseOverHandler" @mouseleave="itemMouseLeaveHandler" @click="itemClickHandler">
+<!--  <div class="a_message">-->
       <div class="user_image_box">
-          <el-image :src="'http://49.4.115.48:8888/20170101/images/avatar.jpg'" class="user_image"
+          <el-image :src="props.userImage" class="user_image"
                     ></el-image>
       </div>
       <div class="name_last_box">
           <div class="nicknamebox">
-              <el-text>114514114514114514114514114</el-text>
+              <el-text>{{ string_control(props.nickname) }}</el-text>
           </div>
           <div class="last_message_box">
-              <el-text>{{56898}}</el-text>
+              <el-text>{{string_control(props.last_message)}}</el-text>
           </div>
       </div>
   </div>
 </template>
 
 <script setup>
-import {defineProps} from "vue";
-const props = defineProps(['nickname','userImage','last_message'])  //昵称，头像，最后一条消息
+import {defineProps, ref} from "vue";
+import router from "@/router";
+import {ElMessage} from "element-plus";
+const props = defineProps(['nickname','userImage','last_message','index','user_id'])  //昵称，头像，最后一条消息,下标
+function string_control(str) {
+    if (str.length > 20) {
+        return str.slice(0, 20) + "..."
+    }
+    return str
+}
+
+const isHover = ref(false)
+const itemMouseOverHandler = () => {
+    isHover.value = true
+}
+const itemMouseLeaveHandler = () => {
+    isHover.value = false
+}
+// const itemClickHandler = () => {
+//     if (props.user_id)
+//         router.push({ path: '/detail', query: { originId: props.user_id }})
+//     else
+//         ElMessage.error( "表项无跳转，请联系管理员")
+// }
 
 </script>
 
@@ -43,24 +67,29 @@ const props = defineProps(['nickname','userImage','last_message'])  //昵称，�
 }
 
 .user_image{
-    /*margin-top: 7px;*/
-    /*margin-left: 15px;*/
     border-radius: 50%;
     height: 50px;
     width: 50px;
     align-items: center;
-    //cursor: pointer;
-    /*position: absolute;*/
-    /*top: 50%;*/
-    /*left: 50%;*/
-    /*!* 将图片移到容器中央 *!*/
-    /*transform: translate(-50%, -50%);*/
-    /*!* 设置圆形裁剪 *!*/
-    /*clip-path: circle(50% at center);*/
 }
 
 .last_message_box{
     text-align: left;
+}
+
+.nicknamebox{
+    text-align: left;
+}
+
+.oddItem{
+    background-color: white;
+}
+.evenItem{
+    background-color: #fafafa;
+}
+.hoverItem{
+    transition: background-color 0.15s;
+    background-color: #f1f1f1;
 }
 
 </style>
