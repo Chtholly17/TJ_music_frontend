@@ -1,6 +1,7 @@
 package com.example.tj_music.controller;
 
 import com.example.tj_music.db.entity.Appeal;
+import com.example.tj_music.db.entity.AppealContent;
 import com.example.tj_music.db.entity.OriginFrontEnd;
 import com.example.tj_music.db.entity.User;
 import com.example.tj_music.db.mapper.OriginMapper;
@@ -122,6 +123,16 @@ public class administerController {
         originFrontEnd.setOriginLrcFile(request.getFile("originLrcFile"));
         originService.insertOrigin(originFrontEnd,originIdInt);
         return Result.success();
+    }
+
+    /**
+     * get all appeal content, appeal status and student number
+     * @return
+     */
+    @GetMapping("/allAppealContent")
+    public Result allAppealContent() {
+        List<AppealContent> appealContent = administerService.getAllAppealContentAndStatusAndStudentNumber();
+        return Result.success(appealContent);
     }
 
     /**

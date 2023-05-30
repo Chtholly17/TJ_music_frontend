@@ -1,6 +1,7 @@
 package com.example.tj_music.service;
 
 import com.example.tj_music.db.entity.Appeal;
+import com.example.tj_music.db.entity.AppealContent;
 import com.example.tj_music.db.mapper.AppealMapper;
 import com.example.tj_music.db.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,5 +64,14 @@ public class administerService {
         appealMapper.updateAppealStatusById("rejected",appealId);
         // change the appeal's reject reason
         appealMapper.updateAppealRejectReasonById(rejectReason,appealId);
+    }
+
+
+    /**
+     * get all appeal content, appeal status and student numbers
+     * @return
+     */
+    public List<AppealContent> getAllAppealContentAndStatusAndStudentNumber() {
+        return appealMapper.selectAllAppealContentAndStatusAndStudentNumber();
     }
 }

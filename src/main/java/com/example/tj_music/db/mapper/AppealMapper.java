@@ -1,6 +1,7 @@
 package com.example.tj_music.db.mapper;
 
 import com.example.tj_music.db.entity.Appeal;
+import com.example.tj_music.db.entity.AppealContent;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -8,6 +9,10 @@ import java.util.List;
 
 @Mapper
 public interface AppealMapper {
+
+    // select all appeal content, appeal status and user student number
+    @Select("select appeal_content, appeal_status, user_student_number from appeal, user where appeal_owner = user_id")
+    public List<AppealContent> selectAllAppealContentAndStatusAndStudentNumber();
 
     // select appeal by owner
     @Select("select * from appeal where appeal_owner = #{appealOwner}")

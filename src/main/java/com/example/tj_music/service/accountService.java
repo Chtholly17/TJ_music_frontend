@@ -60,19 +60,20 @@ public class accountService {
      * login check.
      * code:0 represents user does not exist.
      * code:1 represents login succeeded.
-     * code:2 represents login failed.
+     * code:2 represents login failed. The password is incorrect.
+     * code:3 represents login failed. The user is banned.
      * @param userNumber
      * @param password
      * @return Result
      */
     public Result loginCheck(String userNumber, String password) {
         User user = userMapper.selectUserByStudentNumber(userNumber);
-        if (user == null || Objects.equals(user.getUserStatus(), "unsigned"))
+        if (user == null || Objects.equals(user.getUserStatus(), "unsigned") ||
+                Objects.equals(user.getUserStatus(), "deleted"))
             return new Result(0, "Login failed. The user does not exist.", null);
-//        else if (Objects.equals(user.getUserStatus(), "online"))
-//            return new Result(3, "Login failed. The user is online.", null);
+        else if (Objects.equals(user.getUserStatus(), "banned"))
+            return new Result(3, "Login failed. The user is banned.", null);
         else if (Objects.equals(user.getUserPassword(), password)) {
-            userMapper.updateUserStatusById("online", user.getUserId());
             return new Result(1, "Login succeeded.", null);
         }
         else
@@ -127,7 +128,8 @@ public class accountService {
      */
     public Result registerSendVerificationCode(String userNumber) throws MessagingException {
         User user = userMapper.selectUserByStudentNumber(userNumber);
-        if (user == null || Objects.equals(user.getUserStatus(), "unsigned"))
+        if (user == null || Objects.equals(user.getUserStatus(), "unsigned") ||
+                Objects.equals(user.getUserStatus(), "deleted"))
             return sendVerificationCode(userNumber);
         else
             return new Result(0, "Register failed. The account has been existed", null);
@@ -147,11 +149,8 @@ public class accountService {
     public Result registerCheckVerificationCode(String userNumber, String password, String verificationCode, String checkPassword) {
         User user = userMapper.selectUserByStudentNumber(userNumber);
         if (Objects.equals(verificationCode, user.getUserIdentifyingCode())) {
-
             if (!Objects.equals(password, checkPassword))
                 return new Result(2, "Register failed. The password is not the same", null);
-
-//            userMapper.insertUser(userNumber, password, "user", "user", "user");
             userMapper.updateUserStatusById("normal", user.getUserId());
             userMapper.updateUserPasswordByStudentNumber(password, userNumber);
             return new Result(1, "Register succeeded", null);
@@ -169,10 +168,13 @@ public class accountService {
      */
     public Result forgetPasswordSendVerificationCode(String userNumber) throws MessagingException {
         User user = userMapper.selectUserByStudentNumber(userNumber);
-        if (user != null && !Objects.equals(user.getUserStatus(), "unsigned"))
+        if (user != null && Objects.equals(user.getUserStatus(), "normal"))
             return sendVerificationCode(userNumber);
-        else
+        else if (user == null || Objects.equals(user.getUserStatus(), "unsigned") ||
+                Objects.equals(user.getUserStatus(), "deleted"))
             return new Result(0, "Forget password failed. The account does not exist", null);
+        else
+            return new Result(3, "Forget password failed. The user is banned", null);
     }
 
     /**
@@ -264,4 +266,22 @@ public class accountService {
         }
     }
 
+    /**
+     * update user status by user id.
+     * code 1: update user status successfully
+     * code 0: update user status failed
+     * @param userId
+     * @param userStatus
+     * @return Result
+     */
+    public Result updateUserStatusByUserId(Integer userId, String userStatus) {
+        //check whether the user exists
+        User user = userMapper.selectUserById(userId);
+        if (user == null)
+            return new Result(0, "Update user status failed. The user does not exist", null);
+        else {
+            userMapper.updateUserStatusById(userStatus, userId);
+            return new Result(1, "Update user status successfully", null);
+        }
+    }
 }

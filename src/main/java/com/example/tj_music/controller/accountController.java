@@ -34,7 +34,8 @@ public class accountController {
      * login
      * code:0 represents user does not exist.
      * code:1 represents login succeeded.
-     * code:2 represents login failed.
+     * code:2 represents login failed. The password is incorrect.
+     * code:3 represents login failed. The user is banned.
      * @param userNumber
      * @param password
      * @return Result
@@ -55,7 +56,8 @@ public class accountController {
      */
     @PostMapping("/logout")
     public Result logout(@RequestParam("userNumber") String userNumber) {
-        return accountService.logout(userNumber);
+//        return accountService.logout(userNumber);
+        return Result.success();
     }
 
     /**
@@ -146,4 +148,16 @@ public class accountController {
         return accountService.appealAccount(userNumber, appealContent);
     }
 
+    /**
+     * update user status by user id.
+     * code:1 represents updating user status successfully.
+     * code:0 represents updating user status failed. The account does not exist.
+     * @param userId
+     * @param status
+     * @return Result
+     */
+    @PostMapping("/updateUserStatus")
+    public Result updateUserStatus(@RequestParam("userId") Integer userId, @RequestParam("status") String status) {
+        return accountService.updateUserStatusByUserId(userId, status);
+    }
 }
