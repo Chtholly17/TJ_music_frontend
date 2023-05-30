@@ -12,7 +12,7 @@
                         <el-dropdown-item @click="user_router" >个人主页</el-dropdown-item>
                         <el-dropdown-item @click="show_update">修改密码</el-dropdown-item>
                         <el-dropdown-item @click="user_message">我的消息</el-dropdown-item>
-                        <el-dropdown-item >登出</el-dropdown-item>
+                        <el-dropdown-item @click="user_logout">登出</el-dropdown-item>
                     </el-dropdown-menu>
                 </template>
             </el-dropdown>
@@ -27,6 +27,10 @@ import {computed, onBeforeMount, ref} from "vue";
 import store from "@/store";
 import {show_update_password} from "@/utils/DialogVisible";
 import {user_fetchUserImage} from "@/utils/Texts/userinfoText";
+import api from "@/service";
+import {delCookie} from "@/service/cookie";
+import router from "@/router";
+import path from "@/service/path";
 export default {
     name: "NavigationMenu",
     components: {SearchBar},
@@ -60,11 +64,20 @@ export default {
             show_update_password.value=true
             //console.log(show_update_password.value)
         }
+
+        function user_logout(){
+            const user_id=computed(()=>store.getters.getUserID)
+            api.userLogout(user_id.value)
+            delCookie("userNumber")
+            delCookie("password")
+            router.push('/')
+        }
         return {
             showLoginDialog,
             user_photo_url,
             show_update,
-            default_index
+            default_index,
+            user_logout
         }
     }
 }

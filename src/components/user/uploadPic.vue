@@ -1,12 +1,16 @@
 <template>
     <div class="upload">
-        <el-upload drag   :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+        <el-upload drag :action="'https://jsonplaceholder.typicode.com/posts/'"  :show-file-list="false"  :before-upload="beforeAvatarUpload">
             <el-icon class="el-icon--upload"><upload-filled /></el-icon>
             <div class="el-upload__text">将文件拖到此处或点击上传</div>
             <template #tip>
                 <p class="el-upload__tip">只能上传 {{ uploadTypes.join("、") }} 文件, 且不超过10M</p>
             </template>
         </el-upload>
+<!--        <a-upload class="avatar-upload" :show-upload-list="false"-->
+<!--                  :before-upload="beforeAvatarUpload">-->
+<!--            <a-button>更换头像</a-button>-->
+<!--        </a-upload>-->
     </div>
 </template>
 
@@ -15,10 +19,13 @@ import { defineComponent, ref, computed, getCurrentInstance } from "vue";
 import { useStore } from "vuex";
 import { UploadFilled } from "@element-plus/icons-vue";
 import {commitUserImage} from "@/utils/Texts/userinfoText";
+import api from "@/service";
+import axios from "axios";
+import path from "@/service/path";
 
 export default defineComponent({
     components: {
-        UploadFilled,
+        //UploadFilled,
     },
     setup() {
         const proxy  = getCurrentInstance();
@@ -40,19 +47,28 @@ export default defineComponent({
             }
 
             let pic_form=new FormData();
-            //console.log("11233232")
-            //console.log(file)
-            pic_form.append("user_student_number","20170101");
-            //pic_form.append("file",file);
+            // console.log("11233232")
+            // console.log(file)
+            pic_form.append("user_student_number",userId.value);
+            pic_form.append("file",file);
+            //pic_form.append("file","123");
 
-            for(var value of pic_form.values()){
-                console.log("jl")
-                console.log(value)
-            }
+            //console.log(pic_form.get('file'))
 
-            //console.log("更新头像")
-            //console.log(pic_form)
-            commitUserImage(pic_form);
+            // for(var value of pic_form.values()){
+            //     console.log("jl")
+            //     console.log(value)
+            // }
+
+            console.log("更新头像")
+            console.log(pic_form)
+
+            axios.post(path.baseUrl+path.update_user_image,pic_form).then(res=>{
+                console.log(res)
+            })
+
+
+            //commitUserImage(pic_form);
 
             return isLt10M && isExistFileType;
         }
@@ -81,5 +97,8 @@ export default defineComponent({
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.avatar-upload {
+    margin-top: 12px;
 }
 </style>

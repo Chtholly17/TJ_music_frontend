@@ -106,13 +106,15 @@ const api = {
     //修改用户头像
     postUserImage(file:any)
     {
-        for(const value of file.values()){
-            console.log("jl2")
-            console.log(value)
-        }
-        console.log(file)
+        // for(const value of file.values()){
+        //     console.log("jl2")
+        //     console.log(value)
+        // }
+        //console.log(file)
         //axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
-        return axios.post(path.baseUrl+path.update_user_image, file)
+
+        return axios.post(path.baseUrl+path.update_user_image, file
+        );
     },
     //修改密码
     postUpdatePassword(user_id:any,password:any) {
@@ -137,6 +139,13 @@ const api = {
                 tag:tag,
                 order:order
             }
+        })
+    },
+    //用户登出
+    userLogout(user_id:any)
+    {
+        return axios.post(path.baseUrl+path.logout,{
+            userNumber:user_id,
         })
     },
     postMessage(message: any)

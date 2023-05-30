@@ -149,9 +149,9 @@ export default {
             })
         })
         onBeforeUpdate(()=>{
-            // const user_photo=computed(() => store.getters.getUserPhoto)
-            // user_photo_url.value=user_photo.value;
-            // console.log("头像url："+user_photo.value)
+            const user_photo=computed(() => store.getters.getUserPhoto)
+            user_photo_url.value=user_photo.value;
+            console.log("头像url："+user_photo.value)
         })
         function show_info(){
             user_info_control.value=user_info_control.value==true?false:true;
