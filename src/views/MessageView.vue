@@ -1,16 +1,11 @@
 <template>
-    <h3>
-        用户消息
-    </h3>
+
     <div class="user_message">
         <div class="message_list">
-            <message-item></message-item>
-            <message-item></message-item>
-            <message-item></message-item>
-            <message-item></message-item>
-            <message-item></message-item>
-            <message-item></message-item>
-            <message-item></message-item>
+           <message-item v-for="(item,index) in chat_object" :key="item.last_message_content"
+                        :nickname="item.nickname" :userImage="item.profile_image_filename"
+                        :last_message="item.last_message_content" :index="index"
+                        :user_id="item.student_number"></message-item>
         </div>
         <div class="message_body">
             <message-detail id="20170101"></message-detail>
@@ -21,10 +16,39 @@
 <script>
 import MessageItem from "@/components/MessageItem.vue";
 import MessageDetail from "@/components/MessageDetail.vue";
+import {onBeforeMount, ref} from "vue";
+import api from "@/service";
+import store from "@/store";
 
 export default {
     name: "MessageView",
-    components: {MessageDetail, MessageItem}
+    components: {MessageDetail, MessageItem},
+    setup()
+    {
+        const chat_object=ref()
+        const user_id=ref()
+        onBeforeMount(()=>{
+            user_id.value=store.getters.getUserID
+            api.getMessageObject(user_id.value).then(res=>{
+                chat_object.value=res.data.data
+                console.log("获取聊天用户列表")
+                console.log(chat_object.value)
+            })
+        })
+        setInterval(()=>{
+            user_id.value=store.getters.getUserID
+            api.getMessageObject(user_id.value).then(res=>{
+                // chat_object.value[1]=res.data.data[1]
+                chat_object.value=res.data.data
+                console.log("获取聊天用户列表")
+                console.log(chat_object.value)
+            })
+        },1000)
+
+        return{
+            chat_object
+        }
+    }
 }
 </script>
 
@@ -34,10 +58,14 @@ export default {
     display: flex;
     width: 70%;
     margin: 0 auto;
+    height: 90vh;
 }
 .message_list{
-    width: 23%;
+    width: 300px;
+    min-width: 300px;
     margin: 0 1%;
+    height: 80vh;
+    overflow-y: scroll;
 }
 .message_body{
     width: 73%;
