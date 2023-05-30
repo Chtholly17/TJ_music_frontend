@@ -207,6 +207,7 @@ public class accountService {
 
     /**
      * update password.
+     * code:2 represents updating password failed. The user is banned.
      * code:1 represents updating password successfully.
      * code:0 represents updating password failed. The account does not exist.
      * @param userNumber
@@ -215,11 +216,14 @@ public class accountService {
      */
     public Result updatePassword(String userNumber, String password) {
         User user = userMapper.selectUserByStudentNumber(userNumber);
-        if (user != null && !Objects.equals(user.getUserStatus(), "unsigned")) {
+        if (user != null && Objects.equals(user.getUserStatus(), "normal")) {
             userMapper.updateUserPasswordByStudentNumber(userNumber, password);
             return new Result(1, "Updating password succeeded", null);
-        } else
+        } else if (user == null || Objects.equals(user.getUserStatus(), "unsigned") ||
+                Objects.equals(user.getUserStatus(), "deleted"))
             return new Result(0, "Updating password failed. The account does not exist", null);
+        else
+            return new Result(3, "Updating password failed. The user is banned", null);
     }
 
     /**
@@ -234,8 +238,9 @@ public class accountService {
      */
     public Result appealAccount(String userNumber, String appealContent) {
         User user = userMapper.selectUserByStudentNumber(userNumber);
-        if (user != null && !Objects.equals(user.getUserStatus(), "unsigned")) {
-            if (!Objects.equals(user.getUserStatus(), "invalid"))
+        if (user != null && !Objects.equals(user.getUserStatus(), "unsigned") &&
+                !Objects.equals(user.getUserStatus(), "deleted")) {
+            if (Objects.equals(user.getUserStatus(), "normal"))
                 return new Result(0, "Appealing account failed. The account is valid", null);
 
             List<Integer> appealOwnerList = appealMapper.selectAppealOwnerById(user.getUserId());
@@ -258,10 +263,12 @@ public class accountService {
     public Result deleteUserByStudentNumber(String userNumber) {
         //check whether the user exists
         User user = userMapper.selectUserByStudentNumber(userNumber);
-        if (user == null)
+        if (user == null || Objects.equals(user.getUserStatus(), "unsigned") ||
+                Objects.equals(user.getUserStatus(), "deleted"))
             return new Result(0, "Delete user failed. The user does not exist", null);
         else {
-            userMapper.deleteUserByStudentNumber(userNumber);
+            userMapper.updateUserStatusById("deleted", user.getUserId());
+            userMapper.updateUserNicknameByStudentNumber("该账号已注销", userNumber);
             return Result.success();
         }
     }

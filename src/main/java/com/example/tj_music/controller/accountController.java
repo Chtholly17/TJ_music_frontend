@@ -122,6 +122,7 @@ public class accountController {
 
     /**
      * update password.
+     * code:2 represents updating password failed. The account is banned.
      * code:1 represents updating password successfully.
      * code:0 represents updating password failed. The account does not exist.
      * @param userNumber
