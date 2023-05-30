@@ -53,6 +53,7 @@ export default defineComponent({
 
             pic_form.append("user_student_number",userId.value);
             pic_form.append("file",file);
+
             axios.post(path.baseUrl+path.update_user_image,pic_form).then(()=>{
                delay()
                store.state.bar_pic_change=!store.state.bar_pic_change;
