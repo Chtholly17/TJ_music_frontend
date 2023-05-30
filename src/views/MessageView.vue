@@ -1,5 +1,4 @@
 <template>
-
     <div class="user_message">
         <div class="message_list">
            <message-item v-for="(item,index) in chat_object" :key="item.last_message_content"
@@ -8,12 +7,12 @@
                         :user_id="item.student_number"></message-item>
         </div>
         <div class="message_body">
-            <message-detail id="20170101"></message-detail>
+            <message-detail id="20170101" nickName="JL子"></message-detail>
         </div>
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import MessageItem from "@/components/MessageItem.vue";
 import MessageDetail from "@/components/MessageDetail.vue";
 import {onBeforeMount, ref} from "vue";
@@ -58,17 +57,18 @@ export default {
     display: flex;
     width: 70%;
     margin: 0 auto;
-    height: 90vh;
+    padding: 3vh 0 0;
+    height: 88vh;
 }
 .message_list{
-    width: 300px;
-    min-width: 300px;
+    width: 23%;
+    height: 100%;
     margin: 0 1%;
-    height: 80vh;
     overflow-y: scroll;
 }
 .message_body{
     width: 73%;
+    height: 100%;
     margin: 0 1%;
 }
 </style>

@@ -38,10 +38,10 @@ export default {
     methods:{
         //跳转到个人主页
         user_router(){
-            this.$router.push('/user')
+            router.push('/user')
         },
         user_message(){
-            this.$router.push('/message')
+            router.push('/message')
         }
     },
     setup() {
@@ -64,8 +64,8 @@ export default {
         //const user_id=ref()
         onBeforeMount(()=>{
 
-            var root_path='http://localhost:8080'   //用这个消去href的前一段
-            var href=window.location.href
+            const root_path = 'http://localhost:8080';   //用这个消去href的前一段
+            const href = window.location.href;
             default_index.value=href.substring(root_path.length)
             const user_id=computed(()=>store.getters.getUserID)
             if (default_index.value==='/hello')
