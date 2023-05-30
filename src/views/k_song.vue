@@ -13,42 +13,27 @@
             </div>
 
 
-            <div class="right"><!--歌词、评论区-->
+            <div class="right"><!--歌词、按钮-->
                 <div class="lyric">
                     <div v-for="(item, index) in lrcData" :key="index">
-                        <!--                        <p>{{item.words}}</p>-->
                         <!--大于当前索引的歌词才能被展示；当前播放的歌词才能被高亮-->
                         <p v-if="index>=data_index" style="color:black">{{item.words}}</p>
                     </div>
                 </div>
-
-                <div class="btn"><el-button class="sub-btn" type="primary" @click="enter_k_song">我也要唱</el-button></div>
-                <div class="comment">
-                    <h2 class="comment-title">
-                        <span>评论</span>
-                        <span class="comment-desc">共 {{ comment_list.length }} 条评论</span>
-                    </h2>
-                    <el-input class="comment-input" type="textarea" placeholder="期待您的精彩评论..." :rows="2" v-model="new_comment" clearable/>
-                    <div class="btn"><el-button class="sub-btn" type="primary" @click="handlerComment">发表评论</el-button></div>
+                <div class="option">
+                    <!--                    <audio controls autoplay></audio>-->
+                    <div class="btn"><el-button class="sub-btn" type="primary" @click="chmod">{{cur_mode_text}}</el-button></div>
+                    <div class="btn"><el-button class="sub-btn" type="primary" @click="again">重唱</el-button></div>
+                    <div class="btn"><el-button class="sub-btn" type="primary" @click="start">开始</el-button></div>
+                    <div class="btn"><el-button class="sub-btn" type="primary" >暂停</el-button></div>
+                    <div class="btn"><el-button class="sub-btn" type="primary" @click="enter_song_preview">完成</el-button></div>
                 </div>
-
-                <div class="popular">
-                    <div class="popular_comment" v-for="(item, index) in comment_list" :key="index">
-                        <el-image class="popular-img" fit="fill" :src="item.workCommentUser.userProfileImageFilename" />
-                        <div class="popular-msg">
-                            <span class="name">{{ item.workCommentUser.userNickname }}&nbsp;&nbsp;</span>
-                            <span class="time">{{ item.workComment.createTime}}</span>
-                            <p class="content">{{ item.workComment.workCommentContent }}</p>
-                        </div>
-                    </div>
-                </div>
-
-
             </div>
         </div>
         <el-affix position="bottom">
             <div class="bottom"><!--进度条-->
-                <audio @timeupdate="audioTime" autoplay controls loop :src="current_song.vocal_url"  style="width:100%;"></audio>
+                <audio id="audio" @timeupdate="audioTime" :currentTime=cur_time autoplay controls preload="auto" :src="cur_mode== 1 ? current_song.vocal_url: current_song.bgm_url"  style="width:100%;"></audio>
+
             </div>
         </el-affix>
 
@@ -59,32 +44,24 @@
 
 
 <script>
-import {onBeforeMount, onBeforeUpdate, ref, watch} from "vue";
-import {commitComment, fetchComment} from "@/utils/Texts/commentText";
+import {onBeforeMount, onBeforeUpdate, onMounted,ref, watch} from "vue";
 import api from "@/service";
 import {ElMessage} from "element-plus";
 import {showLoginDialog} from "@/utils/DialogVisible";
 import {baseForm, registerData} from "@/utils/Texts/registerText";
 import router from "@/router";
 export default {
-    name: "music_player",
+    name: "k_song",
     functional: true,
     setup(){
         const current_song={
             name: "千千阕歌",
             singer: "陈慧娴",
             cover:"刘安民",
-            img:require("../assets/material/image.jpg"),
-            vocal_url:require("../assets/material/原唱_bgm.mp3"),
-            bgm_url:require("../assets/material/bgm.mp3"),
+            img:require('@/assets/material/image.jpg'),
+            vocal_url:require('@/assets/material/原唱_bgm.mp3'),
+            bgm_url:require('@/assets/material/bgm.mp3'),
         };
-        // const comment_list=[
-        //     {username:"刘安民",content:"不愧是我",create_time:"2023-05-08",url:require("../assets/cxk4.png")},
-        //     {username:"姜 垒",content:"哎哎哟！",create_time:"2023-05-07",url:require("../assets/cxk5.jpg")},
-        //     {username:"王子安",content:"哈哈哈哈哈",create_time:"2023-05-06",url:require("../assets/cxk6.jpg")},
-        //     {username:"吴俊成",content:"呵呵呵呵呵呵呵",create_time:"2023-05-05",url:require("../assets/cxk7.jpg")},
-        // ];
-        const comment_list=ref([]);
         const LRC="[00:00.00]千千阕歌 \n" +
             "[00:02.00]作词 : 林振强\n" +
             "[00:06.00]作曲 : 馬飼野康二\n" +
@@ -137,9 +114,15 @@ export default {
         const lrcData=ref([]);//歌词数据数组
         const dataWords=ref("");//当前歌词
         const data_index=ref(0);//当前歌词索引
-        const new_comment=ref("");
-        let lrcTime=0;//当前时间
-        let className="gray";
+        const cur_mode=ref(0);//当前模式（0为伴唱，1为原唱）
+        const cur_mode_text=ref("原唱");//当前模式按钮展示的文字
+        // let lrcTime=0;//当前时间
+        const cur_time=ref(0);//当前时间
+        const audio=ref();//audio对象
+        //兼容
+        window.URL = window.URL || window.webkitURL;
+        //获取计算机的设备：摄像头或者录音设备
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
 
 
 
@@ -176,65 +159,66 @@ export default {
                     //循环歌词数组，当播放器当前时间第一次小于歌词时间时当前数组下标减一即为当前时间数组所对应歌词下标
                     dataWords.value = lrcData.value[i - 1].words;
                     data_index.value=i-1;
-                    //保存当前歌词动画执行事件
-                    lrcTime = lrcData.value[i].time - lrcData.value[i - 1].time;
+                    // //保存当前歌词动画执行事件
+                    // lrcTime = lrcData.value[i].time - lrcData.value[i - 1].time;
                     return i - 1;
                 }
             }
         };
 
-        const handlerComment = async () => {
-            console.log(new_comment.value);
-            commitComment(1,16,new_comment.value);
-            if(new_comment.value)
-                new_comment.value.clear()
+        const chmod = async () => {
+            if(cur_mode.value) {
+                const temp=ref(audio.value.currentTime);
+                cur_mode.value = 0;//切换为伴唱
+                cur_mode_text.value="原唱";
+                audio.value.currentTime=temp.value;
+                console.log(audio.value.currentTime);
+            }
+            else {
+                const temp=ref(audio.value.currentTime);
+                cur_mode.value = 1;//切换为原唱
+                cur_mode_text.value="伴唱";
+                audio.value.currentTime=temp.value;
+                console.log(audio.value.currentTime);
+            }
         }
 
-        const enter_k_song = async () => {
-            await router.replace({path: '/k_song'})
+        const start = async () => {
+            audio.value.currentTime=0;
         }
 
-        watch(dataWords,()=> {
-            console.log(data_index.value);
-        })
+        const again = async () => {
+            audio.value.currentTime=0;
+        }
 
-        onBeforeUpdate(()=> {
-            fetchComment(1).then(res => {
-                comment_list.value = res;
-
-                for (let i = 0; i < comment_list.value.length; i++) {
-                    comment_list.value[i].workComment.createTime = comment_list.value[i].workComment.createTime.split("T")[0];
-                }
-            })
-        })
-
+        const enter_song_preview = async () => {
+            await router.replace({path: '/song_preview'})
+        }
 
         onBeforeMount(() => {
-            fetchComment(1).then(res => {
-                comment_list.value = res;
-
-                for (let i = 0; i < comment_list.value.length; i++) {
-                    comment_list.value[i].workComment.createTime = comment_list.value[i].workComment.createTime.split("T")[0];
-                }
-            })
             formatLrc();
+        })
+
+        onMounted(() => {
+            console.log('mounted-----渲染次数')
+            audio.value = document.getElementById("audio");
         })
 
         return {
             current_song,
-            comment_list,
             LRC,
             lrcData,
             dataWords,
             data_index,
-            lrcTime,
-            className,
-            new_comment,
+            cur_mode,
+            cur_mode_text,
+            cur_time,
+            chmod,
+            again,
             formatLrc,
             formatTime,
             audioTime,
-            handlerComment,
-            enter_k_song
+            enter_song_preview
         }
 
     }
@@ -248,6 +232,7 @@ export default {
 .wrapper{
     padding:0;
     margin:0;
+    position:fixed;
 }
 
 .cont{
@@ -283,7 +268,7 @@ export default {
 .right{
     margin: 0 auto;
     padding-top:40px;
-    padding-right:40px;
+    padding-right:20px;
     width: 800px;
     display:flex;
     flex-direction:column;
@@ -293,88 +278,32 @@ export default {
 {
     margin: 0 auto;
     width: 800px;
-    height: 300px;
+    height: 450px;
     background-color: rgba(0,0,0,0.05);
     overflow: hidden;
 }
 
-.right .btn
+.right .option
 {
-    width: 800px;
-    height: 30px;
-    top:30px;
+    width:800px;
+    height:30px;
     margin-top:30px;
+    padding-left:380px;
+    display:flex;
     text-align:right;
-}
+    .btn
+    {
 
-
-/*评论*/
-.right .comment {
-    margin: 20px auto;
-    width: 800px;
-    .comment-title {
-        height: 50px;
-        line-height: 50px;
-        text-align:left;
-        .comment-desc {
-            font-size: 14px;
-            font-weight: 400;
-            color: $color-grey;
-            margin-left: 10px;
-        }
-    }
-    .comment-input {
-        display: flex;
-        margin-bottom: 20px;
-    }
-    .btn{
-        text-align: right;
+        /*margin-left:30px;*/
+        margin-right:30px;
     }
 }
 
-
-/*热门评论*/
-.right .popular {
+.bottom {
+    position: fixed;
+    bottom: 0;
     width: 100%;
-
-    .popular_comment {
-        border-bottom: solid 1px rgba(0, 0, 0, 0.1);
-        padding: 10px 0 0;
-        display: flex;
-
-        .popular-img {
-            width: 50px;
-            height:50px;
-            border-radius:5px;
-        }
-
-        .popular-msg {
-            padding: 0px 15px;
-            text-align:left;
-
-            .time {
-                font-size: 10px;
-                color: rgba(0, 0, 0, 0.5);
-            }
-
-            .name {
-                color: rgba(0, 0, 0, 0.5);
-            }
-
-            .content {
-                font-size: 15px;
-            }
-        }
-    }
-
-
-
-
-    .bottom {
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-        height: 7%;
-    }
+    height: 7%;
 }
+
 </style>

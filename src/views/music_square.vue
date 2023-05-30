@@ -20,6 +20,7 @@
                         <img
                             :src="item.workPrefaceFilename"
                             class="image"
+                            
                         />
                         <div><span>{{item.workName}}</span></div>
                     </el-card>

@@ -43,12 +43,9 @@ const api = {
             }
             })
     },
-    //获取歌单
-    getSongList(user_id:any)//获取用户曲库
+    postSearchAccompanimentByKeyword(keyword: any)
     {
-<<<<<<< HEAD
-        console.log(keyword)
-        // return axios.get(path.baseUrl + path.postSearch, keyword)
+        return axios.post(path.baseUrl + path.postSearch_keyword, keyword)
     },
     //获取首页作品
     getMainPageWorks(worknum:any)
@@ -80,7 +77,8 @@ const api = {
                 workCommentContent:comment_content
             })
     },
-=======
+    getSongList(user_id:any)//获取用户曲库
+    {
         return axios.get(path.baseUrl+path.get_songList,{
             params:{
                 user_student_number:user_id
@@ -139,15 +137,14 @@ const api = {
             }
         })
     },
-    postSearchAccompanimentByKeyword(keyword: any)
-    {
-        return axios.post(path.baseUrl + path.postSearch_keyword, keyword)
-    },
+    // postSearchAccompanimentByKeyword(keyword: any)
+    // {
+    //     return axios.post(path.baseUrl + path.postSearch_keyword, keyword)
+    // },
     getWorksById(id: any)
     {
         return axios.get(path.baseUrl + path.getWorksById, {params: id})
     }
->>>>>>> b8ffa1f8ab62a4c8850c28a663bcbb41b8897062
 }
 
 export default api
