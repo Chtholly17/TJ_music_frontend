@@ -1,7 +1,9 @@
 package com.example.tj_music.controller;
 
+import com.example.tj_music.service.originService;
 import com.example.tj_music.service.workService;
 import com.example.tj_music.utils.Result;
+import com.example.tj_music.db.entity.Origin;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +18,8 @@ public class workController {
 
     @Autowired
     private workService workService;
+    @Autowired
+    private originService originService;
 
     /**
      * get related works by origin id.Use for origin detail page
@@ -60,6 +64,37 @@ public class workController {
     @GetMapping("/getWorkById")
     public Result getWorkById(@RequestParam("workId") int workId) {
         return workService.getWorkById(workId);
+    }
+
+    /**
+     * Insert work
+     * @param workName
+     * @param workComment
+     * @param workOwner
+     * @param workOriginVersion
+     * @param workVoiceFilename
+     * @param workPreciseScore
+     * @param workQualityScore
+     * @param workPitchScore
+     * @return
+     */
+    @GetMapping("/insertWork")
+    public Result insertWork(@RequestParam("workName") String workName, @RequestParam("workComment") String workComment, @RequestParam("workOwner") int workOwner, @RequestParam("workOriginVersion") int workOriginVersion, @RequestParam("workVoiceFilename") String workVoiceFilename, @RequestParam("workPreciseScore") int workPreciseScore, @RequestParam("workQualityScore") int workQualityScore, @RequestParam("workPitchScore") int workPitchScore) {
+        String workPrefaceFilename;
+        Origin origin = originService.getOriginByOriginId(workOriginVersion);
+        return workService.insertWork(
+                workName,
+                workComment,
+                workOwner,
+                workOriginVersion,
+                0,
+                workVoiceFilename,
+                "null",
+                origin.getOriginPrefaceFilename(),
+                workPreciseScore,
+                workQualityScore,
+                workPitchScore
+        );
     }
 
 }
