@@ -75,7 +75,7 @@ export const commitLogin_cookie = async () => {
         if(baseForm.value)
             baseForm.value.resetFields() // 清空表单，关闭所有弹窗
         if(router.currentRoute.value.path == "/hello")
-            await router.replace("/square")
+            await router.replace("/music_square")
     }
     else {
         ElMessage.warning("您还没有登录，请先登录")
