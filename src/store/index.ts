@@ -4,8 +4,7 @@ export default createStore({
   state:{
     userID: "",
     userPhoto: "",
-    bar_pic_change:false,
-
+    bar_pic_change: false,
   },
   getters: {
     getUserID (state) {
@@ -14,6 +13,7 @@ export default createStore({
     getUserPhoto(state){
       return state.userPhoto
     },
+
   },
   mutations: {
     setUserID (state, ID) {

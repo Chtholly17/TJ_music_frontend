@@ -7,7 +7,7 @@
                         :user_id="item.student_number"></message-item>
         </div>
         <div class="message_body">
-            <message-detail id="20170101" nickName="JL子"></message-detail>
+            <message-detail v-if="chatStudentNumber" :key="chatStudentNumber"></message-detail>
         </div>
     </div>
 </template>
@@ -18,20 +18,23 @@ import MessageDetail from "@/components/MessageDetail.vue";
 import {onBeforeMount, ref} from "vue";
 import api from "@/service";
 import store from "@/store";
+import {onBeforeRouteLeave} from "vue-router";
+import {chatNickname, chatStudentNumber, chatProfile} from "@/utils/chatParams";
 
 export default {
     name: "MessageView",
     components: {MessageDetail, MessageItem},
     setup()
     {
+        console.log(chatStudentNumber.value)
         const chat_object=ref()
         const user_id=ref()
         onBeforeMount(()=>{
             user_id.value=store.getters.getUserID
             api.getMessageObject(user_id.value).then(res=>{
                 chat_object.value=res.data.data
-                console.log("获取聊天用户列表")
-                console.log(chat_object.value)
+                // console.log("获取聊天用户列表")
+                // console.log(chat_object.value)
             })
         })
         setInterval(()=>{
@@ -39,13 +42,18 @@ export default {
             api.getMessageObject(user_id.value).then(res=>{
                 // chat_object.value[1]=res.data.data[1]
                 chat_object.value=res.data.data
-                console.log("获取聊天用户列表")
-                console.log(chat_object.value)
+                // console.log("获取聊天用户列表")
+                // console.log(chat_object.value)
             })
         },1000)
-
+        onBeforeRouteLeave(()=>{
+            chatNickname.value = "";
+            chatProfile.value = "";
+            chatStudentNumber.value = "";
+        })
         return{
-            chat_object
+            chat_object,
+            chatStudentNumber
         }
     }
 }
@@ -61,14 +69,14 @@ export default {
     height: 88vh;
 }
 .message_list{
-    width: 23%;
-    height: 100%;
+
+    min-width: 330px;
+    height: 80vh;
     margin: 0 1%;
     overflow-y: scroll;
 }
 .message_body{
-    width: 73%;
+    min-width: 800px;
     height: 100%;
-    margin: 0 1%;
 }
 </style>

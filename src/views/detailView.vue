@@ -37,7 +37,7 @@
 <script>
 import {User} from "@element-plus/icons";
 import WorksItem from "@/components/worksItem.vue";
-import {useRoute} from "vue-router";
+import {onBeforeRouteLeave, useRoute} from "vue-router";
 import api from "@/service";
 import {ElMessage} from "element-plus";
 import {accompanimentInfoList, songWorksInfoList} from "@/utils/Texts/accompanimentText";
@@ -107,7 +107,12 @@ export default {
             // )
         }
         let songDetails = getSongDetail()
-        onBeforeMount(getSongWorks)  // TODO: 使用新的api接口，通过歌曲id再次获得歌曲信息，防止因为刷新导致上一个页面数据丢失
+        onBeforeMount(getSongWorks)
+        onBeforeRouteLeave(() => {
+            // 离开时，清空数组
+            for(let i = 0; i < songWorksInfoList.length; ++i)
+                songWorksInfoList.pop()
+        })
         // onBeforeUpdate(()=>{
         //     getSongWorks();
         //     songDetails = getSongDetail()

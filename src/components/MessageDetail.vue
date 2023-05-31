@@ -1,17 +1,16 @@
 <template>
   <div class="messages">
-      <chat-messages :nickName=props.nickName></chat-messages>
+      <chat-messages></chat-messages>
   </div>
   <div class="messageBuffer">
-      <chat-message-buffer :id=props.id></chat-message-buffer>
+      <chat-message-buffer></chat-message-buffer>
   </div>
 </template>
 
 <script lang="ts" setup>
 import ChatMessageBuffer from "@/components/ChatMessageBuffer.vue";
-import {defineProps} from "vue";
 import ChatMessages from "@/components/ChatMessages.vue";
-const props = defineProps(['id', 'nickName'])
+
 </script>
 
 <style scoped>

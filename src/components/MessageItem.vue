@@ -15,19 +15,15 @@
           </div>
       </div>
   </div>
+
 </template>
 
 <script setup>
 import {defineProps, ref} from "vue";
-import router from "@/router";
-import {ElMessage} from "element-plus";
+import {chatNickname, chatProfile, chatStudentNumber} from "@/utils/chatParams";
+
 const props = defineProps(['nickname','userImage','last_message','index','user_id'])  //昵称，头像，最后一条消息,下标
-// function string_control(str) {
-//     if (str.length > 13) {
-//         return str.slice(0, 13) + "..."
-//     }
-//     return str
-// }
+
 
 const isHover = ref(false)
 const itemMouseOverHandler = () => {
@@ -36,12 +32,11 @@ const itemMouseOverHandler = () => {
 const itemMouseLeaveHandler = () => {
     isHover.value = false
 }
-// const itemClickHandler = () => {
-//     if (props.user_id)
-//         router.push({ path: '/detail', query: { originId: props.user_id }})
-//     else
-//         ElMessage.error( "表项无跳转，请联系管理员")
-// }
+const itemClickHandler = () => {
+    chatNickname.value = props.nickname;
+    chatProfile.value = props.userImage;
+    chatStudentNumber.value = props.user_id;
+}
 
 </script>
 
@@ -60,8 +55,8 @@ const itemMouseLeaveHandler = () => {
     display: flex;
     overflow: hidden;
     /* 设置容器宽高 */
-    width: 80px;
-    height:80px;
+    min-width: 80px;
+    min-height:80px;
     align-items: center;
     justify-content: center;
 }
