@@ -52,7 +52,7 @@ public class messageService {
             // for each sender, get the user information
             User sender=userMapper.selectUserById(senderList.get(i));
             // get the newest message content
-            List<Message> all_message=messageMapper.selectBySenderIdAndReceiverIdDescTime(sender.getUserId(),receiver.getUserId());
+            List<Message> all_message=messageMapper.selectMessageBetweenTwoUserTimeDescLimit(sender.getUserId(),receiver.getUserId(),1);
             getMessageBriefListVOList.add(new GetMessageBriefListVO(sender.getUserStudentNumber(),sender.getUserNickname(),sender.getUserProfileImageFilename(),all_message.get(0).getContent()));
         }
 
