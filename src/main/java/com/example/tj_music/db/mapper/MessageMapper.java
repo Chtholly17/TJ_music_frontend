@@ -49,6 +49,12 @@ public interface MessageMapper {
             " LIMIT #{limit}")
     public List<Message> selectMessageBetweenTwoUserTimeDescLimit(Integer user1Id, Integer user2Id, Integer limit);
 
+    // select messages that the given user is the sender or receiver and sort by time desc
+    @Select("SELECT * FROM message "+
+            "WHERE sender_id = #{userId} OR receiver_id = #{userId} "+
+            "ORDER BY create_time DESC")
+    public List<Message> selectMessageContainUserIdTimeDesc(Integer userId);
+
 
 
     // insert------------------------------------------------

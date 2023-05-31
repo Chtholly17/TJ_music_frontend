@@ -12,8 +12,7 @@ import org.python.netty.handler.codec.MessageAggregator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class messageService {
@@ -46,14 +45,27 @@ public class messageService {
         }
         List<GetMessageBriefListVO> getMessageBriefListVOList=new ArrayList<>();
 
-        // get all the users that have sent message to the receiver
-        List<Integer> senderList = messageMapper.selectAllSenderIdByReceiverId(receiver.getUserId());
-        for(int i=0;i<senderList.size();i++){
-            // for each sender, get the user information
-            User sender=userMapper.selectUserById(senderList.get(i));
-            // get the newest message content
-            List<Message> all_message=messageMapper.selectMessageBetweenTwoUserTimeDescLimit(sender.getUserId(),receiver.getUserId(),1);
-            getMessageBriefListVOList.add(new GetMessageBriefListVO(sender.getUserStudentNumber(),sender.getUserNickname(),sender.getUserProfileImageFilename(),all_message.get(0).getContent()));
+        // get all the users that have messages with current user(receiver)
+        Set<User> partnerList = new HashSet<>();
+        List<Message> relatedMessage = messageMapper.selectMessageContainUserIdTimeDesc(receiver.getUserId());
+        for(int i=0;i<relatedMessage.size();i++){
+            if(relatedMessage.get(i).getSenderId()==receiver.getUserId()){
+                partnerList.add(userMapper.selectUserById(relatedMessage.get(i).getReceiverId()));
+            }
+            else{
+                partnerList.add(userMapper.selectUserById(relatedMessage.get(i).getSenderId()));
+            }
+        }
+
+        // iterate all the partner and find out the newest message
+        for(User partner:partnerList){
+            List<Message> messageList=messageMapper.selectMessageBetweenTwoUserTimeDescLimit(receiver.getUserId(),partner.getUserId(),1);
+            GetMessageBriefListVO getMessageBriefListVO=new GetMessageBriefListVO();
+            getMessageBriefListVO.setLast_message_content(messageList.get(0).getContent());
+            getMessageBriefListVO.setNickname(partner.getUserNickname());
+            getMessageBriefListVO.setStudent_number(partner.getUserStudentNumber());
+            getMessageBriefListVO.setProfile_image_filename(partner.getUserProfileImageFilename());
+            getMessageBriefListVOList.add(getMessageBriefListVO);
         }
 
         return Result.success(getMessageBriefListVOList);
