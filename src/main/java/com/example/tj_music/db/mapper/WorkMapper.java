@@ -72,7 +72,7 @@ public interface WorkMapper {
     public void deleteWorkById(Integer workId);
 
     // insert new work
-    @Insert("insert into work (work_name, work_comment, work_owner, work_origin_version, work_like, work_voice_filename, work_tag, work_preface_filename, work_quality_score, work_precise_score, work_pitch_score) values (#{workId}, #{createTime}, #{workName}, #{workComment}, #{workOwner}, #{workOriginVersion}, #{workLike}, #{workVoiceFilename}, #{workTag}, #{workPrefaceFilename}, #{workQualityScore}, #{workPreciseScore}, #{workPitchScore})")
-    public void insertWork(String work_name, String work_comment, Integer work_owner, Integer work_origin_version, Integer work_like, String work_voice_filename, String work_tag, String work_preface_filename, Integer work_quality_score, Integer work_precise_score, Integer work_pitch_score);
+    @Insert("insert into work (work_name, work_comment, work_owner, work_origin_version, work_like, work_voice_filename, work_tag, work_preface_filename, work_quality_score, work_precise_score, work_pitch_score) values (#{workName}, #{workComment}, #{workOwner}, #{workOriginVersion}, #{workLike}, #{workVoiceFilename}, #{workTag}, #{workPrefaceFilename}, #{workQualityScore}, #{workPreciseScore}, #{workPitchScore})")
+    public void insertWork(String workName, String workComment, Integer workOwner, Integer workOriginVersion, Integer workLike, String workVoiceFilename, String workTag, String workPrefaceFilename, Integer workQualityScore, Integer workPreciseScore, Integer workPitchScore);
 
 }

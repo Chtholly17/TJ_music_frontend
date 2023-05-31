@@ -89,29 +89,6 @@ public class scoringController {
         Map<String, Object> map = new HashMap<>();
         map.put("scores", pythonUtils.getScore("/root/TJ_music/static/admin/music/" + origin_name, outputPath));
         map.put("url", url);
-//        String work_voice_file_name = "http://49.4.115.48:8888/" + userStudentNumber + "/music/" + origin_name;
-//        String preface_file_name = origin.getOriginPrefaceFilename();
-
-//        // 从外部的 map 中获取 scores
-//        Map<String, Object> scoresMap = (Map<String, Object>) map.get("scores");
-//
-//        // 从 scoresMap 中获取 scoreList
-//        Map<String, String> scoreList = (Map<String, String>) scoresMap.get("scoreList");
-//
-//        User user = userMapper.selectUserByStudentNumber(userStudentNumber);
-//        workService.insertWork(
-//                origin.getOriginName(),
-//                null,
-//                user.getUserId(),
-//                originId,
-//                0,
-//                work_voice_file_name,
-//                null,
-//                preface_file_name,
-//                Integer.parseInt(scoreList.get("preciseScore")),
-//                Integer.parseInt(scoreList.get("qualityScore")),
-//                Integer.parseInt(scoreList.get("pitchScore"))
-//        );
         return Result.success(map);
     }
 
