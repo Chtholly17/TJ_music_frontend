@@ -23,8 +23,12 @@ const base = {
     update_password:"/updatePassword", //
     getMainPageWorks:'/mainPageWorks',  //获取首页作品
     getComment:'/getWorkCommentByWorkId',  //获取作品评论
-    postComment:'/addWorkComment'//提交评论
-
+    postComment:'/addWorkComment',//提交评论
+    getOriginByOriginId:'/getOriginByOriginId',//根据原唱ID获取原唱信息
+    getOriginByWorkId:'/searchOriginByWorkId',//根据作品ID获取原唱信息
+    getWorkById:'/getWorkById',//根据work_id获取work信息
+    selectUserById:'/selectUserById',
+    postMusic:'/getScores'
 }
 
 export default base;
