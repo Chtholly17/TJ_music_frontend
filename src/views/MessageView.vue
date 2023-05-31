@@ -69,15 +69,14 @@ export default {
     height: 88vh;
 }
 .message_list{
-    width: 23%;
-    min-width: 200px;
-    height: 100%;
+
+    min-width: 330px;
+    height: 80vh;
     margin: 0 1%;
     overflow-y: scroll;
 }
 .message_body{
-    width: 73%;
-    min-width: 700px;
+    min-width: 800px;
     height: 100%;
 }
 </style>

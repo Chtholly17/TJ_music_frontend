@@ -1,20 +1,21 @@
 <template>
-    <div class="a_message" :class="isHover? 'hoverItem':  'oddItem'"
-         @mouseover="itemMouseOverHandler" @mouseleave="itemMouseLeaveHandler" @click="itemClickHandler">
-        <!--  <div class="a_message">-->
-        <div class="user_image_box">
-            <el-image :src="props.userImage" class="user_image"
-            ></el-image>
-        </div>
-        <div class="name_last_box">
-            <div class="nicknamebox">
-                <el-text>{{ string_control(props.nickname) }}</el-text>
-            </div>
-            <div class="last_message_box">
-                <el-text>{{string_control(props.last_message)}}</el-text>
-            </div>
-        </div>
-    </div>
+  <div class="a_message" :class="isHover? 'hoverItem':  'oddItem'"
+       @mouseover="itemMouseOverHandler" @mouseleave="itemMouseLeaveHandler" @click="itemClickHandler">
+<!--  <div class="a_message">-->
+      <div class="user_image_box">
+          <el-image :src="props.userImage" class="user_image"
+                    ></el-image>
+      </div>
+      <div class="name_last_box">
+          <div class="nicknamebox">
+              <el-text truncated class="nickname">{{ props.nickname}}</el-text>
+          </div>
+          <div class="last_message_box">
+              <el-text truncated class="last_message">{{props.last_message}}</el-text>
+          </div>
+      </div>
+  </div>
+
 </template>
 
 <script setup>
@@ -22,12 +23,7 @@ import {defineProps, ref} from "vue";
 import {chatNickname, chatProfile, chatStudentNumber} from "@/utils/chatParams";
 
 const props = defineProps(['nickname','userImage','last_message','index','user_id'])  //昵称，头像，最后一条消息,下标
-function string_control(str) {
-    if (str.length > 20) {
-        return str.slice(0, 20) + "..."
-    }
-    return str
-}
+
 
 const isHover = ref(false)
 const itemMouseOverHandler = () => {
@@ -59,8 +55,8 @@ const itemClickHandler = () => {
     display: flex;
     overflow: hidden;
     /* 设置容器宽高 */
-    width: 80px;
-    height:80px;
+    min-width: 80px;
+    min-height:80px;
     align-items: center;
     justify-content: center;
 }
@@ -89,6 +85,19 @@ const itemClickHandler = () => {
 .hoverItem{
     transition: background-color 0.15s;
     background-color: #f1f1f1;
+}
+
+.nickname{
+    font-size: 16px;
+    width: 200px; /* 容器宽度 */
+    font-weight: bold
+
+}
+
+.last_message{
+    font-size: 14px;
+    width: 200px; /* 容器宽度 */
+    color: #888888;
 }
 
 </style>

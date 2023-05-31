@@ -7,21 +7,16 @@
                     <el-row :gutter="20">
                         <el-col :span="8">
                            <img :src=real_img_url class="user_photo" >
-    <!--                        <el-image class="personal-img" fit="contain" :src=user_photo_url @click="dialogTableVisible = true" />-->
                             <div style="height: 10px"></div>
                             <el-button type="primary" @click="show_upload=true">更换头像</el-button>
                         </el-col>
                         <el-col :span="6">
                             <div style="height: 30px"></div>
                             <p style="font-size: 30px;text-align: left;font-family:SimHei;font-style: italic">{{userinfoData.userinfoForm.new_nickname}}</p>
-    <!--                        <p style="text-align: left"> 姓名: &nbsp; &nbsp;{{user_name}}</p>-->
                             <div style="height: 30px"></div>
                             <p style="text-align: left"> 学号: &nbsp; &nbsp;{{userinfoData.userinfoForm.user_student_number}}</p>
-    <!--                        <p style="text-align: left"> 生日: &nbsp; &nbsp;{{user_brithday}}</p>-->
-    <!--                        <p style="text-align: left"> 家乡: &nbsp; &nbsp;{{user_home}}</p>-->
                             <div style="height: 30px"></div>
                             <p style="text-align: left"> 个性签名: &nbsp; &nbsp;{{userinfoData.userinfoForm.new_signature}}</p>
-
                         </el-col>
                         <el-col :span="3">
                             <div style="height: 70px"></div>
@@ -33,9 +28,6 @@
                                 粉丝: {{user_fans}}
                             </div>
                             <div style="height: 30px"></div>
-                            <div style="color: darkgray;font-size: 25px;text-align: left">
-                                动态: {{user_post}}
-                            </div>
                         </el-col>
                         <el-col :span="7">
                             <div style="height: 10px"></div>
