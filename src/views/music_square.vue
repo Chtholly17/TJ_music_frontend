@@ -20,7 +20,10 @@
                         <img
                             :src="item.workPrefaceFilename"
                             class="image"
+
                             @click="player_router"
+
+
                         />
                         <div><span>{{item.workName}}</span></div>
                     </el-card>

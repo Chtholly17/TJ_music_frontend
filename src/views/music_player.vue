@@ -19,11 +19,10 @@
                         <!--                        <p>{{item.words}}</p>-->
                         <!--大于当前索引的歌词才能被展示；当前播放的歌词才能被高亮-->
                         <p v-if="index>=data_index" style="color:black">{{item.words}}</p>
-                        <!--                        <p v-if="index>data_index" style="color:black">{{item.words}}</p>-->
                     </div>
                 </div>
 
-
+                <div class="btn"><el-button class="sub-btn" type="primary" @click="enter_k_song">我也要唱</el-button></div>
                 <div class="comment">
                     <h2 class="comment-title">
                         <span>评论</span>
@@ -49,7 +48,7 @@
         </div>
         <el-affix position="bottom">
             <div class="bottom"><!--进度条-->
-                <audio @timeupdate="audioTime" controls :src="current_song.vocal_url"  style="width:100%;"></audio>
+                <audio @timeupdate="audioTime" autoplay controls loop :src="current_song.vocal_url"  style="width:100%;"></audio>
             </div>
         </el-affix>
 
@@ -62,6 +61,12 @@
 <script>
 import {onBeforeMount, onBeforeUpdate, ref, watch} from "vue";
 import {commitComment, fetchComment} from "@/utils/Texts/commentText";
+
+import api from "@/service";
+import {ElMessage} from "element-plus";
+import {showLoginDialog} from "@/utils/DialogVisible";
+import {baseForm, registerData} from "@/utils/Texts/registerText";
+import router from "@/router";
 
 export default {
     name: "music_player",
@@ -187,6 +192,10 @@ export default {
                 new_comment.value.clear()
         }
 
+        const enter_k_song = () => {
+            router.replace({path: '/k_song'})
+        }
+
         watch(dataWords,()=> {
             console.log(data_index.value);
         })
@@ -226,7 +235,8 @@ export default {
             formatLrc,
             formatTime,
             audioTime,
-            handlerComment
+            handlerComment,
+            enter_k_song
         }
 
     }
@@ -236,7 +246,7 @@ export default {
 
 
 
-<style>
+<style scoped>
 .wrapper{
     padding:0;
     margin:0;
@@ -288,6 +298,15 @@ export default {
     height: 300px;
     background-color: rgba(0,0,0,0.05);
     overflow: hidden;
+}
+
+.right .btn
+{
+    width: 800px;
+    height: 30px;
+    top:30px;
+    margin-top:30px;
+    text-align:right;
 }
 
 

@@ -11,6 +11,16 @@ const routes: Array<RouteRecordRaw> = [
     component:()=>import('@/views/music_player.vue'),
   },
   {
+    path:"/k_song",
+    name:"k_song",
+    component:()=>import('@/views/k_song.vue'),
+  },
+  {
+    path:"/song_preview",
+    name:"song_preview",
+    component:()=>import('@/views/song_preview.vue'),
+  },
+  {
     path:"/music_square",
     name:"music_square",
     component:()=>import('@/views/music_square.vue'),

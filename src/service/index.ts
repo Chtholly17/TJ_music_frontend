@@ -35,6 +35,12 @@ const api = {
             }
             })
     },
+
+    postSearchAccompanimentByKeyword(keyword: any)
+    {
+        return axios.post(path.baseUrl + path.postSearch_keyword, keyword)
+    },
+
     //获取首页作品
     getMainPageWorks(worknum:any)
     {
@@ -65,7 +71,14 @@ const api = {
                 workCommentContent:comment_content
             })
     },
-
+    getSongList(user_id:any)//获取用户曲库
+    {
+        return axios.get(path.baseUrl+path.get_songList,{
+            params:{
+                user_student_number:user_id
+            }
+        })
+    },
     //获取粉丝列表
     getFanList(user_id:any)//获取用户粉丝列表
     {
@@ -123,10 +136,10 @@ const api = {
                 password: password
         })
     },
-    postSearchAccompanimentByKeyword(keyword: any)
-    {
-        return axios.post(path.baseUrl + path.postSearch_keyword, keyword)
-    },
+    // postSearchAccompanimentByKeyword(keyword: any)
+    // {
+    //     return axios.post(path.baseUrl + path.postSearch_keyword, keyword)
+    // },
     getWorksById(id: any)
     {
         return axios.get(path.baseUrl + path.getWorksById, {params: id})
@@ -172,17 +185,6 @@ const api = {
         })
     }
 
-    //用户用户头像
-    // getUserImage()
-    // {
-    //     const user_id = computed(() => store.getters.getUserID)
-    //     const user_image=axios.get(path.baseUrl+path.getUserImage,{
-    //         params:{
-    //             user_student_number:user_id.value
-    //         }
-    //     })
-    //     console.log(user_image)
-    // }
 }
 
 export default api
