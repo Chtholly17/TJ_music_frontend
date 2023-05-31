@@ -51,12 +51,37 @@ const api = {
         })
     },
     //获取作品评论信息
-    //获取首页作品
     getComment(work_id:any)
     {
         return axios.get(path.baseUrl+path.getComment,{
             params:{
                 workId:work_id
+            }
+        })
+    },
+    //根据原唱ID获取原唱信息
+    getOriginByOriginId(origin_id:any)
+    {
+        return axios.post(path.baseUrl+path.getOriginByOriginId,origin_id)
+    },
+    searchOriginByWorkId(work_id:any)
+    {
+        return axios.post(path.baseUrl+path.getOriginByOriginId,work_id)
+    },
+    //根据work_id获取work信息
+    getWorkById(work_id:any)
+    {
+        return axios.get(path.baseUrl+path.getComment,{
+            params:{
+                workId:work_id
+            }
+        })
+    },
+    selectUserById(user_id:any)
+    {
+        return axios.get(path.baseUrl+path.selectUserById,{
+            params:{
+                userId:user_id
             }
         })
     },

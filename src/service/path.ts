@@ -28,7 +28,12 @@ const base = {
     sendMessage: '/sendMessage',
     logout:'/logout',   //登出
     getMessageBrief:'/getMessageBrief', //获取消息列表
-    getDetailMessage: '/getMessageList' // 获取两个用户间的详细信息
+    getDetailMessage: '/getMessageList', // 获取两个用户间的详细信息
+    getOriginByOriginId:'/getOriginByOriginId',//根据原唱ID获取原唱信息
+    getOriginByWorkId:'/searchOriginByWorkId',//根据作品ID获取原唱信息
+    getWorkById:'/getWorkById',//根据work_id获取work信息
+    selectUserById:'/selectUserById',
+    postMusic:'/getScores'
 }
 
 export default base;
