@@ -33,7 +33,9 @@ const base = {
     getOriginByWorkId:'/searchOriginByWorkId',//根据作品ID获取原唱信息
     getWorkById:'/getWorkById',//根据work_id获取work信息
     selectUserById:'/selectUserById',
-    postMusic:'/getScores'
+    postMusic:'/getScores',
+    postWork:'/insertWork'//提交作品
+
 }
 
 export default base;

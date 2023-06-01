@@ -11,6 +11,18 @@
 <!--                    <p>翻唱：{{current_song.cover }}</p>-->
 <!--                    这个后面改一下变成当前用户-->
                 </div>
+                <div class="scores">
+                    <p class="score_message" >评分详情：</p>
+                    <el-progress :stroke-width="10" :percentage=precise  class="score">
+                        音准：{{precise}}分
+                    </el-progress>
+                    <el-progress :stroke-width="10" :percentage=quality  class="score">
+                        音质：{{quality}}分
+                    </el-progress>
+                    <el-progress :stroke-width="10" :percentage=pitch  class="score">
+                        音高：{{pitch}}分
+                    </el-progress>
+                </div>
             </div>
 
 
@@ -51,6 +63,8 @@ import {baseForm, registerData} from "@/utils/Texts/registerText";
 import router from "@/router";
 import path from "@/service/path";
 import axios from "axios";
+import {commitWork} from "@/utils/Texts/work";
+import {getCookie} from "@/service/cookie";
 export default {
     name: "song_preview",
     functional: true,
@@ -64,6 +78,9 @@ export default {
         const current_song=ref([]);
         const LRC=ref("");
         const fullUrl = ref(router.currentRoute.value.query.url);
+        const precise=ref(100);
+        const quality=ref(80);
+        const pitch=ref(50);
 
 
         // const param = router.currentRoute.value.params
@@ -119,17 +136,23 @@ export default {
         };
 
         const publish =() => {
+            const user_id=getCookie("userNumber");
+            console.log(user_id)
+            commitWork(current_song.value.originName,"",user_id,current_song.value.originId,fullUrl.value,precise.value,quality.value,pitch.value).then(res=>{
+                console.log("debug1")
+                console.log(res)
+            })
             alert("发表成功！")
             router.replace({path: '/user/music_library'})
         }
 
         const cancel =() => {
-            router.replace({path: '/user/music_library'})
+            router.replace({path: '/music_square'})
         }
 
         onBeforeMount(() => {
             let form=new FormData()
-            form.append("originId","8")
+            form.append("originId",router.currentRoute.value.query.id)
             // audio.value = document.getElementById("audio");
             // audio.value.url = router.currentRoute.value.query.url
             axios.post(path.baseUrl + path.getOriginByOriginId, form).then((res) => {
@@ -146,6 +169,9 @@ export default {
             dataWords,
             data_index,
             evaluation,
+            precise,
+            quality,
+            pitch,
             formatLrc,
             formatTime,
             audioTime,
@@ -195,6 +221,19 @@ export default {
     margin-left:30px;
 }
 
+.score_message
+{
+    text-align: left;
+    font-size:20px;
+}
+
+.scores{
+    margin-top:20px;
+}
+
+.score{
+    margin-top:20px;
+}
 
 .right{
     margin: 0 auto;

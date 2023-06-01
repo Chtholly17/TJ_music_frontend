@@ -96,6 +96,22 @@ const api = {
                 workCommentContent:comment_content
             })
     },
+    postWork(work_name:any,work_comment:any,work_owner:any,work_origin_version:any,work_voice_file_name:any,work_precise_score:any,work_quality_score:any,work_pitch_score:any){
+        console.log("work_name:"+work_name)
+        console.log("work_owner:"+work_owner)
+        console.log("work_origin_version："+work_origin_version)
+        return axios.post(path.baseUrl+path.postWork,
+            {
+                workName:work_name,
+                workComment:work_comment,
+                workOwner:work_owner,
+                workOriginVersion:work_origin_version,
+                workVoiceFilename:work_voice_file_name,
+                workPreciseScore:work_precise_score,
+                workQualityScore:work_quality_score,
+                workPitchScore:work_pitch_score
+            })
+    },
     getSongList(user_id:any)//获取用户曲库
     {
         return axios.get(path.baseUrl+path.get_songList,{

@@ -43,7 +43,7 @@
                         </el-button>
                     </div>
                     <div class="btn">
-                        <el-button class="sub-btn" type="primary" @click="again">
+                        <el-button class="sub-btn" type="primary" :disabled=!startPlaying @click="again">
                             <el-icon style="vertical-align: middle">
                                 <Refresh />
                             </el-icon>
@@ -59,7 +59,7 @@
                         </el-button>
                     </div>
                     <div class="btn">
-                        <el-button class="sub-btn" type="primary" :disabled=pause_isDisabled @click="pause">
+                        <el-button class="sub-btn" type="primary" :disabled=pause_isDisabled||!startPlaying @click="pause">
                             <el-icon style="vertical-align: middle">
                                 <VideoPause />
                             </el-icon>
@@ -67,7 +67,7 @@
                         </el-button>
                     </div>
                     <div class="btn">
-                        <el-button class="sub-btn" type="primary" @click="enter_song_preview">
+                        <el-button class="sub-btn" type="primary" @click="enter_song_preview" :disabled=!startPlaying>
                             <el-icon style="vertical-align: middle">
                                 <Headset />
                             </el-icon>
@@ -103,6 +103,7 @@ import {Headset, Microphone, Refresh} from "@element-plus/icons-vue";
 import {fetchComment} from "@/utils/Texts/commentText";
 import {fetchOriginByOriginId} from "@/utils/Texts/origin";
 import Recoder from 'js-audio-recorder'
+import { ElLoading } from 'element-plus'
 
 
 export default {
@@ -126,6 +127,7 @@ export default {
         const LRC=ref("");
         const recoder = ref();
         const originId = ref(0);
+        const startPlaying=ref(false);
 //歌词数据转化为数组
         const formatLrc = () => {
             if (current_song.value.originLrcFilename) {
@@ -189,7 +191,8 @@ export default {
                 cur_mode_text.value="原唱";
                 audio.value.src = current_song.value.originBgmusicFilename;
                 audio.value.currentTime=temp.value;
-                audio.value.play()
+                if(startPlaying.value)
+                    audio.value.play()
             }
             else {
                 const temp=ref(audio.value.currentTime);
@@ -197,7 +200,8 @@ export default {
                 cur_mode_text.value="伴唱";
                 audio.value.src = current_song.value.originVoiceFilename;
                 audio.value.currentTime=temp.value;
-                audio.value.play()
+                if(startPlaying.value)
+                    audio.value.play()
             }
         };
 
@@ -208,6 +212,7 @@ export default {
             }, (err) =>{
                 console.log(err)
             });
+            startPlaying.value=true;
             duration.value = audio.value.duration
             audio.value.play();
             start_isDisabled.value=1;
@@ -234,6 +239,15 @@ export default {
         }
 
         const enter_song_preview = () => {
+            //在等待时加载动画
+            const loading = ElLoading.service({
+                lock: true,
+                text: '作品生成中，请稍后哟......',
+                background: 'rgba(0, 0, 0, 0.7)',
+            })
+            setTimeout(() => {
+                loading.close()
+            }, 10000)
             audio.value.pause()
             const blob = recoder.value.getWAVBlob()
             let formData = new FormData()
@@ -248,7 +262,8 @@ export default {
                 let scores = res.data.data.scores
                 // path.getComments,scores.preciseScore,scores.qualityScore,scores.pitchScore
                 console.log(scores)
-                router.push({path: '/song_preview',query:{score: scores, url: res.data.data.url}})
+                router.push({path: '/song_preview',query:{score: scores, url: res.data.data.url, id:"8"}})
+                // router.push({path: '/song_preview',query:{score: scores, url: res.data.data.url, id:router.currentRoute.value.query.id.toString()}})
             }).catch(err=>{
                 console.log(err);
             })
@@ -257,6 +272,7 @@ export default {
         onBeforeMount(() => {
             let form=new FormData()
             form.append("originId","8")
+            //form.append("originId",toString(router.currentRoute.value.query.id))//获取从music_player来的原唱ID编号
             axios.post(path.baseUrl + path.getOriginByOriginId, form).then((res) => {
                 current_song.value = res.data.data;
                 formatLrc();
@@ -282,6 +298,7 @@ export default {
             pause_isDisabled,
             percentage,
             duration,
+            startPlaying,
             chmod,
             again,
             formatLrc,
