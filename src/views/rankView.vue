@@ -69,7 +69,7 @@
               </div>
           </div>
         <rank-item v-for="(item,index) in all_rank" :key="item" :cover="item.workPrefaceFilename" :name="item.workName"
-                   :score="item.score" :index="index" :like="item.like" :nickname="item.workAuthorNickname"
+                   :score="item.score_ave" :index="index" :like="item.like" :nickname="item.workAuthorNickname"
                    :comments_num="item.workCommentCnt" :fans_num="item.workAuthorFans"
                     ></rank-item>
 
@@ -99,6 +99,10 @@ export default {
 
             fetchRankList(rank_name.value.substring(0,2),real_type.value).then(res=>{
                all_rank.value=res
+                for(const  item of all_rank.value){
+                    item.score_ave=(item.workQualityScore+item.workPreciseScore+item.workPitchScore)/3;
+                    item.score_ave=item.score_ave.toFixed(2)
+                }
 
             })
         })
