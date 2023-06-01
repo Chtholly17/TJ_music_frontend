@@ -4,21 +4,21 @@
             <el-aside class="user_aside" :style="{width: aside_width + 'vh'}"></el-aside>
             <el-main class="user_main" >
                 <div class="user_top">
-                    <el-row :gutter="20">
-                        <el-col :span="8">
+                    <div style="display: flex; width: 100vh">
+                        <div style="margin-right: 10%" >
                            <img :src=real_img_url class="user_photo" >
                             <div style="height: 10px"></div>
                             <el-button type="primary" @click="show_upload=true">更换头像</el-button>
-                        </el-col>
-                        <el-col :span="6">
+                        </div>
+                        <div >
                             <div style="height: 30px"></div>
                             <p style="font-size: 30px;text-align: left;font-family:SimHei;font-style: italic">{{userinfoData.userinfoForm.new_nickname}}</p>
                             <div style="height: 30px"></div>
                             <p style="text-align: left"> 学号: &nbsp; &nbsp;{{user_id}}</p>
                             <div style="height: 30px"></div>
                             <p style="text-align: left"> 个性签名: &nbsp; &nbsp;{{userinfoData.userinfoForm.new_signature}}</p>
-                        </el-col>
-                        <el-col :span="3">
+                        </div>
+                        <div >
                             <div style="height: 70px"></div>
                             <div style="color: darkgray;font-size: 25px;text-align: left">
                                 关注: {{ user_follow }}
@@ -28,8 +28,8 @@
                                 粉丝: {{user_fans}}
                             </div>
                             <div style="height: 30px"></div>
-                        </el-col>
-                        <el-col :span="7">
+                        </div>
+                        <div >
                             <div style="height: 10px"></div>
                             <el-button type="info" :icon="Edit" @click="show_info">个人资料</el-button>
                             <div style="height: 30px"></div>
@@ -38,8 +38,8 @@
                             <el-button type="primary" :icon="Search" @click="fan_router">我的粉丝</el-button>
                             <div style="height: 30px"></div>
                             <el-button type="primary" :icon="Share" @click="music_router" >我的曲库</el-button>
-                        </el-col>
-                    </el-row>
+                        </div>
+                    </div>
                 </div>
 
                 <router-view class="child_page" v-if="show_router"></router-view>
@@ -119,7 +119,7 @@ export default {
         }
         provide('reload',reload)
         const store = useStore()
-        const count = computed(() => store.getters.getUserID)   //用户头像
+        const count = computed(() => store.getters.getUserID)
         const user_info_control=ref(false)
         provide("user_info_show",user_info_control);
 
@@ -130,7 +130,7 @@ export default {
         watch(
             ()=>store.state.bar_pic_change,
             ()=>{
-                const user_id=computed(()=>store.getters.getUserID)
+                //const user_id=computed(()=>store.getters.getUserID)
                 const userNumber = getCookie("userNumber")
                 user_fetchUserImage( userNumber).then(res=>{
                     user_photo_url.value=res
