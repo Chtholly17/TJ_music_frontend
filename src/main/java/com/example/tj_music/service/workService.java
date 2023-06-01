@@ -125,11 +125,12 @@ public class workService {
      * insert work
      * @return
      */
-    public Result insertWork(String work_name, String work_comment, Integer work_owner, Integer work_origin_version, Integer work_like, String work_voice_filename, String work_tag, String work_preface_filename, Integer work_quality_score, Integer work_precise_score, Integer work_pitch_score) {
+    public Result insertWork(String work_name, String work_comment, String userStudentNumber, Integer work_origin_version, Integer work_like, String work_voice_filename, String work_tag, String work_preface_filename, Integer work_quality_score, Integer work_precise_score, Integer work_pitch_score) {
         Work work = new Work();
+        User user = userMapper.selectUserByStudentNumber(userStudentNumber);
         work.setWorkName(work_name);
         work.setWorkComment(work_comment);
-        work.setWorkOwner(work_owner);
+        work.setWorkOwner(user.getUserId());
         work.setWorkOriginVersion(work_origin_version);
         work.setWorkLike(work_like);
         work.setWorkVoiceFilename(work_voice_filename);

@@ -39,14 +39,14 @@ public class workCommentController {
      * code:1 represents add comment successfully.
      * code:0 represents add comment failed. The comment content is null.
      * @param workCommentTarget
-     * @param workCommentOwner
+     * @param userStudentNumber
      * @param workCommentContent
      * @return Result
      */
     @PostMapping("/addWorkComment")
     public Result addWorkComment(@RequestParam("workCommentTarget") Integer workCommentTarget,
-                                 @RequestParam("workCommentOwner") Integer workCommentOwner,
+                                 @RequestParam("workCommentOwner") String userStudentNumber,
                                  @RequestParam("workCommentContent") String workCommentContent) {
-        return workCommentService.addWorkComment(workCommentTarget, workCommentOwner, workCommentContent);
+        return workCommentService.addWorkComment(workCommentTarget, userStudentNumber, workCommentContent);
     }
 }

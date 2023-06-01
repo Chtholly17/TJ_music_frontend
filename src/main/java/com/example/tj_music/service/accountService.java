@@ -280,17 +280,17 @@ public class accountService {
      * update user status by user id.
      * code 1: update user status successfully
      * code 0: update user status failed
-     * @param userId
+     * @param userStudentNumber
      * @param userStatus
      * @return Result
      */
-    public Result updateUserStatusByUserId(Integer userId, String userStatus) {
+    public Result updateUserStatusByUserId(String userStudentNumber, String userStatus) {
         //check whether the user exists
-        User user = userMapper.selectUserById(userId);
+        User user = userMapper.selectUserByStudentNumber(userStudentNumber);
         if (user == null)
             return new Result(0, "Update user status failed. The user does not exist", null);
         else {
-            userMapper.updateUserStatusById(userStatus, userId);
+            userMapper.updateUserStatusById(userStatus, user.getUserId());
             return new Result(1, "Update user status successfully", null);
         }
     }

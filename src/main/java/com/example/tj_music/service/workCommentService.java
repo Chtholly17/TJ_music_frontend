@@ -50,29 +50,27 @@ public class workCommentService {
     /**
      * add comment to work.
      * code:4 represents work does not exist.
-     * code:3 represents user is not login.
      * code:2 represents user does not exist.
      * code:1 represents add comment successfully.
      * code:0 represents add comment failed. The comment content is null.
      * @param workCommentTarget
-     * @param workCommentOwner
+     * @param userStudentNumber
      * @param workCommentContent
      * @return Result
      */
-    public Result addWorkComment(Integer workCommentTarget, Integer workCommentOwner, String workCommentContent) {
-        User user = userMapper.selectUserById(workCommentOwner);
+    public Result addWorkComment(Integer workCommentTarget, String userStudentNumber, String workCommentContent) {
+        User user = userMapper.selectUserByStudentNumber(userStudentNumber);
         Work work = workMapper.selectWorkByWorkId(workCommentTarget);
-        if (user == null || Objects.equals(user.getUserStatus(), "unsigned"))
+        if (user == null || Objects.equals(user.getUserStatus(), "unsigned") ||
+                Objects.equals(user.getUserStatus(), "banned"))
             return new Result(2, "user does not exist.", null);
-        if (Objects.equals(user.getUserStatus(), "normal"))
-            return new Result(3, "user is not login.", null);
         if (work == null)
             return new Result(4, "work does not exist.", null);
         if (workCommentContent == null)
             return new Result(0, "work comment content is null.", null);
 
-        workCommentMapper.insertWorkComment(workCommentTarget, workCommentOwner, workCommentContent);
-        return Result.success("add work comment successfully.");
+        workCommentMapper.insertWorkComment(workCommentTarget, user.getUserId(), workCommentContent);
+        return new Result(1, "add work comment successfully.", null);
     }
 
     // delete work comment by work_comment_target

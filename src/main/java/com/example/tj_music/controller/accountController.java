@@ -166,12 +166,12 @@ public class accountController {
      * update user status by user id.
      * code:1 represents updating user status successfully.
      * code:0 represents updating user status failed. The account does not exist.
-     * @param userId
+     * @param userStudentNumber
      * @param status
      * @return Result
      */
     @PostMapping("/updateUserStatus")
-    public Result updateUserStatus(@RequestParam("userId") Integer userId, @RequestParam("status") String status) {
-        return accountService.updateUserStatusByUserId(userId, status);
+    public Result updateUserStatus(@RequestParam("userId") String userStudentNumber, @RequestParam("status") String status) {
+        return accountService.updateUserStatusByUserId(userStudentNumber, status);
     }
 }
