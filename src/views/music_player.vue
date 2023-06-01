@@ -8,11 +8,7 @@
                 <div class="song-info">
                     <p>歌手：{{current_song.originAuthor }}</p>
                     <p>歌曲：{{current_song.originName }}</p>
-                    
-
-                    <router-link :to="{ name: 'user_profile', params: { userId: current_work_user.userId } }">
-                        <p>翻唱：{{ current_work_user.userNickname }}</p>
-                    </router-link>
+                    <p @click="toWorkOwnerPage">翻唱：{{current_work_user.userNickname}}</p>
                 </div>
             </div>
 
@@ -126,6 +122,26 @@ export default {
             const parts = time.split(":"); //[03:00.000]==>[03,00.00]
             return +parts[0] * 60 + +parts[1]; //计算秒
         };
+
+        const toWorkOwnerPage=()=>
+        {
+            const userId =getCookie("userNumber");
+            if (userId == current_work_user.value.userStudentNumber)
+            {
+                router.push({
+                    path: "/user",
+                });
+            }
+            else {
+                router.push({
+                    path: "/otherinfo",
+                    query: {
+                        id: current_work_user.value.userStudentNumber,
+                    },
+                });
+            }
+            console.log(current_work_user);
+        }; 
         //获取当前播放时间
         const audioTime=(e)=>
         {
@@ -247,7 +263,8 @@ export default {
             formatTime,
             audioTime,
             handlerComment,
-            enter_k_song
+            enter_k_song,
+            toWorkOwnerPage
         }
 
     }

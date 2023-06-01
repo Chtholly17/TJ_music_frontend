@@ -265,7 +265,7 @@ export default {
                 // path.getComments,scores.preciseScore,scores.qualityScore,scores.pitchScore
                 console.log(scores)
                 loading.close()
-                router.push({path: '/song_preview',query:{score: scores, url: res.data.data.url, id:"8"}})
+                router.push({path: '/song_preview',query:{score: scores, url: res.data.data.url, id:originId.value}})
                 // router.push({path: '/song_preview',query:{score: scores, url: res.data.data.url, id:router.currentRoute.value.query.id.toString()}})
             }).catch(err=>{
                 console.log(err);
