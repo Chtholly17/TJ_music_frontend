@@ -21,7 +21,7 @@
           </div>
       </div>
       <music_library_item v-for="(item,index) in music_library" :key="item"
-                          :name="item.workName" :score="item.workScore"
+                          :name="item.workName" :score="item.score_ave"
                           :index="index" :like="item.workLike" :time="item.createTime.substr(0,10)" @click="player_router"></music_library_item>
   </div>
 </template>
@@ -44,7 +44,10 @@ export default {
         onBeforeMount(()=>{
             fetchMusicLibrary().then(res=>{
                 music_library.value=res
-                console.log(res)
+                for (const item of music_library.value) {
+                    item.score_ave=(item.workQualityScore+item.workPreciseScore+item.workPitchScore)/3;
+                    item.score_ave=item.score_ave.toFixed(2)
+                }
             })
         })
 
