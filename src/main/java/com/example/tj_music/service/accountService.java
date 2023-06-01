@@ -91,7 +91,7 @@ public class accountService {
         Random random = new Random();
         String verificationCode = String.valueOf(random.nextInt(89999) + 10000);
         if (user == null)
-            userMapper.insertUser(userNumber, "null", "unsigned", "user", "user", "user");
+            userMapper.insertUser(userNumber, "null", "unsigned", userNumber, "这个人很神秘，没有留下签名", "http://49.4.115.48:8888/admin/images/test_avatar.jpg");
 
         userMapper.updateUserVerificationCodeByStudentNumber(verificationCode, userNumber);
 
@@ -153,6 +153,9 @@ public class accountService {
                 return new Result(2, "Register failed. The password is not the same", null);
             userMapper.updateUserStatusById("normal", user.getUserId());
             userMapper.updateUserPasswordByStudentNumber(password, userNumber);
+            // we set the userNumber as the default nickname
+            userMapper.updateUserNicknameByStudentNumber(userNumber, userNumber);
+
             return new Result(1, "Register succeeded", null);
 
         } else
