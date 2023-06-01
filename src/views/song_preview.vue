@@ -78,13 +78,9 @@ export default {
         const current_song=ref([]);
         const LRC=ref("");
         const fullUrl = ref(router.currentRoute.value.query.url);
-<<<<<<< HEAD
         const precise=ref(100);
         const quality=ref(80);
         const pitch=ref(50);
-=======
-        console.log(router.currentRoute.value.query.url);
->>>>>>> front-end
 
 
         // const param = router.currentRoute.value.params

@@ -8,7 +8,11 @@
                 <div class="song-info">
                     <p>歌手：{{current_song.originAuthor }}</p>
                     <p>歌曲：{{current_song.originName }}</p>
-                    <p>翻唱：{{current_work_user.userNickname }}</p>
+                    
+
+                    <router-link :to="{ name: 'user_profile', params: { userId: current_work_user.userId } }">
+                        <p>翻唱：{{ current_work_user.userNickname }}</p>
+                    </router-link>
                 </div>
             </div>
 
@@ -164,7 +168,7 @@ export default {
         }
 
         const enter_k_song = () => {
-            router.replace({path: '/k_song'})
+            router.replace({path: '/k_song',query:{id:current_song.value.originId}})
         }
 
 

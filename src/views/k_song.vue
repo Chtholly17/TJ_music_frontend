@@ -51,7 +51,7 @@
                         </el-button>
                     </div>
                     <div class="btn">
-                        <el-button class="sub-btn" type="primary" :disabled=start_isDisabled @click="start">
+                        <el-button class="sub-btn" type="primary" :disabled=startPlaying @click="start">
                             <el-icon style="vertical-align: middle">
                                 <Microphone />
                             </el-icon>
@@ -118,15 +118,16 @@ export default {
         const cur_mode_text=ref("原唱");//当前模式按钮展示的文字
         const cur_time=ref(0);//当前时间
         const audio=ref();//audio对象
-        const start_isDisabled=ref(0);//播放按钮是否禁用
-        const pause_isDisabled=ref(0);//暂停按钮是否禁用
+        const start_isDisabled=ref(false);//播放按钮是否禁用
+        const pause_isDisabled=ref(false);//暂停按钮是否禁用
         const percentage=ref(0);//进度条属性
         const duration=ref(0);//当前歌曲时长
         const wave=ref();//波形图属性
         const current_song=ref([]);
         const LRC=ref("");
         const recoder = ref();
-        const originId = ref(0);
+        const originId = ref(router.currentRoute.value.query.id);
+        // console.log("originId",originId.value);
         const startPlaying=ref(false);
 //歌词数据转化为数组
         const formatLrc = () => {
@@ -196,7 +197,7 @@ export default {
             }
             else {
                 const temp=ref(audio.value.currentTime);
-                cur_mode.value = 1;//切换为原唱
+                cur_mode.value = 1;//切换为原唱 
                 cur_mode_text.value="伴唱";
                 audio.value.src = current_song.value.originVoiceFilename;
                 audio.value.currentTime=temp.value;
@@ -207,23 +208,24 @@ export default {
 
 
         const start = async () => {
+            console.log(start_isDisabled.value);
+            start_isDisabled.value=true;
+            pause_isDisabled.value=false;
             recoder.value.start().then(() => {
                 console.log('start recording')
+                startPlaying.value=true;
+                duration.value = audio.value.duration
+                audio.value.play();
+                wave.value.play();
             }, (err) =>{
                 console.log(err)
             });
-            startPlaying.value=true;
-            duration.value = audio.value.duration
-            audio.value.play();
-            start_isDisabled.value=1;
-            pause_isDisabled.value=0;
-            wave.value.play();
         }
 
         const pause = async () => {
             audio.value.pause();
-            start_isDisabled.value=0;
-            pause_isDisabled.value=1;
+            start_isDisabled.value=false;
+            pause_isDisabled.value=true;
             wave.value.currentTime=0;
             wave.value.pause();
         }
@@ -245,9 +247,9 @@ export default {
                 text: '作品生成中，请稍后哟......',
                 background: 'rgba(0, 0, 0, 0.7)',
             })
-            setTimeout(() => {
-                loading.close()
-            }, 10000)
+            // setTimeout(() => {
+            //     loading.close()
+            // }, 10000)
             audio.value.pause()
             const blob = recoder.value.getWAVBlob()
             let formData = new FormData()
@@ -262,6 +264,7 @@ export default {
                 let scores = res.data.data.scores
                 // path.getComments,scores.preciseScore,scores.qualityScore,scores.pitchScore
                 console.log(scores)
+                loading.close()
                 router.push({path: '/song_preview',query:{score: scores, url: res.data.data.url, id:"8"}})
                 // router.push({path: '/song_preview',query:{score: scores, url: res.data.data.url, id:router.currentRoute.value.query.id.toString()}})
             }).catch(err=>{
