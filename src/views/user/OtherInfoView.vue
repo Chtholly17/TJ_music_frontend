@@ -5,9 +5,7 @@
             <el-main class="user_main" >
                 <div class="user_top">
                     <div >
-                       <img :src=real_img_url class="user_photo" >
-                        <div style="height: 10px"></div>
-                        <el-button type="primary" @click="show_upload=true">更换头像</el-button>
+                        <img :src=real_img_url class="user_photo" >
                     </div>
                     <div >
                         <div style="height: 30px"></div>
@@ -30,27 +28,20 @@
                     </div>
                     <div style="float: right">
                         <div style="height: 10px"></div>
-                        <el-button type="info" :icon="Edit" @click="show_info">个人资料</el-button>
+                        <el-button type="info" :icon="Edit" @click="show_info" class="right_buttons">个人资料</el-button>
                         <div style="height: 30px"></div>
-                        <el-button type="primary" :icon="View" @click="follow_router">我的关注</el-button>
+                        <el-button type="primary" :icon="View" @click="follow_router" class="right_buttons">关注</el-button>
                         <div style="height: 30px"></div>
-                        <el-button type="primary" :icon="Search" @click="fan_router">我的粉丝</el-button>
+                        <el-button type="primary" :icon="Search" @click="fan_router" class="right_buttons">取消关注</el-button>
                         <div style="height: 30px"></div>
-                        <el-button type="primary" :icon="Share" @click="music_router" >我的曲库</el-button>
+                        <el-button type="primary" :icon="Share" @click="music_router" class="right_buttons">发起会话</el-button>
                     </div>
                 </div>
                 <router-view class="child_page" v-if="show_router"></router-view>
-<!--                <SongList></SongList>-->
+                <!--                <SongList></SongList>-->
             </el-main>
             <el-aside class="user_aside" :style="{width: aside_width + 'vh'}"></el-aside>
         </el-container>
-
-        <user-info-view @pass_nickname="get_nickname" @pass_signature="get_signature" ></user-info-view>
-
-        <el-dialog v-model="show_upload" title="修改头像">
-            <upload-pic></upload-pic>
-        </el-dialog>
-
     </div>
 </template>
 
@@ -68,10 +59,8 @@ import {getCookie} from "@/service/cookie";
 export default {
     name: "UserManagementView",
     components: {
-        UserInfoView,
-        uploadPic
     },
-   data(){
+    data(){
         return{
             aside_width:13,
             //user_photo_url:require("../../assets/profile.jpg"),
@@ -79,15 +68,6 @@ export default {
         }
     },
     methods:{
-        music_router(){
-            this.$router.push('/user/music_library')
-        },
-        fan_router(){
-            this.$router.push('/user/fan_list')
-        },
-        follow_router(){
-            this.$router.push('/user/follow_list')
-        },
         get_nickname(data){
             this.nickname=data;
         },
@@ -100,14 +80,13 @@ export default {
         const user_photo_url=ref()   //用户头像
         const show_router=ref(true)
         const show_upload=ref(false) //展示上传头像框
-
         const user_follow=ref(0)    //用户关注数
         const user_fans=ref(0)  //用户粉丝数
         const user_id=ref("")   //用户学号
 
         watch(user_photo_url,()=>{
             show_upload.value=false;
-            })
+        })
         const reload=()=>{
             show_router.value=false
             nextTick(()=>{
@@ -149,8 +128,8 @@ export default {
             console.log( userinfoData.userinfoForm.user_student_number)
 
             fetchUserInfo().then(res=>{
-               user_follow.value=res.userFollowCnt;
-               user_fans.value=res.userFansCnt;
+                user_follow.value=res.userFollowCnt;
+                user_fans.value=res.userFansCnt;
 
             })
 
@@ -220,6 +199,10 @@ export default {
     justify-content: space-between;
     align-items: center;
 
+}
+
+.right_buttons{
+    width: 100%;
 }
 
 
