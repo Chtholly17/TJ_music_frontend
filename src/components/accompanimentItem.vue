@@ -29,7 +29,8 @@ import router from "@/router";
 import {ElMessage} from "element-plus";
 const props = defineProps(['cover', 'name', 'singer', 'index', 'duration', 'id'])
 const isHover = ref(false)
-const itemMouseOverHandler = () => {
+const
+    itemMouseOverHandler = () => {
     isHover.value = true
 }
 const itemMouseLeaveHandler = () => {

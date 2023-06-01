@@ -21,7 +21,7 @@
                             :src="item.workPrefaceFilename"
                             class="image"
 
-                            @click="player_router"
+                            @click="player_router(item.workId)"
 
 
                         />
@@ -36,14 +36,17 @@
 </template>
 
 <script>
-import {onBeforeMount, ref} from 'vue'
+import {computed,onBeforeMount, ref} from 'vue'
 import {fetchMusicSquare} from "@/utils/Texts/musicSquare";
+import {store} from "@/store";
+import router from "@/router";
 export default {
     name: 'music_square',
     functional: true,
     methods:{
-        player_router(){
-            this.$router.push('/music_player')
+        player_router(id){
+            console.log(id)
+            router.push({path: '/music_player',query: {id: id}});
         }
     },
     setup() {
@@ -52,6 +55,7 @@ export default {
         onBeforeMount(()=>{
             fetchMusicSquare(100).then(res=>{
                 work_message.value=res
+                console.log(work_message.value)
                 })
         })
 
