@@ -71,7 +71,7 @@ const api = {
     //根据work_id获取work信息
     getWorkById(work_id:any)
     {
-        return axios.get(path.baseUrl+path.getComment,{
+        return axios.get(path.baseUrl+path.getWorkById,{
             params:{
                 workId:work_id
             }

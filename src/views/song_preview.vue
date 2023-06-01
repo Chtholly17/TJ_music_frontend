@@ -64,6 +64,7 @@ export default {
         const current_song=ref([]);
         const LRC=ref("");
         const fullUrl = ref(router.currentRoute.value.query.url);
+        console.log(router.currentRoute.value.query.url);
 
 
         // const param = router.currentRoute.value.params

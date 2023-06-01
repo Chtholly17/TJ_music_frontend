@@ -8,8 +8,7 @@
                 <div class="song-info">
                     <p>歌手：{{current_song.originAuthor }}</p>
                     <p>歌曲：{{current_song.originName }}</p>
-<!--                    <p>翻唱：{{current_work_user.userNickname }}</p>-->
-                    <p>翻唱：刘安民</p>
+                    <p>翻唱：{{current_work_user.userNickname }}</p>
                 </div>
             </div>
 
@@ -48,7 +47,7 @@
         </div>
         <el-affix position="bottom">
             <div class="bottom"><!--进度条-->
-                <audio id = "audio" @timeupdate="audioTime" autoplay controls loop :src="current_song.vocal_url"  style="width:100%;"></audio>
+                <audio id = "audio" @timeupdate="audioTime" autoplay controls loop  style="width:100%;"></audio>
             </div>
         </el-affix>
 
@@ -59,7 +58,7 @@
 
 
 <script>
-import {onBeforeMount, onBeforeUpdate, onMounted, ref, watch} from "vue";
+import {computed,onBeforeMount, onBeforeUpdate, onMounted, ref, watch} from "vue";
 import {commitComment, fetchComment} from "@/utils/Texts/commentText";
 
 import {fetchWork} from "@/utils/Texts/work";
@@ -72,6 +71,8 @@ import {baseForm, registerData} from "@/utils/Texts/registerText";
 import router from "@/router";
 import path from "@/service/path";
 import axios from "axios";
+import {store} from "@/store";
+import {getCookie} from "@/service/cookie";
 
 export default {
     name: "music_player",
@@ -83,10 +84,13 @@ export default {
         const data_index=ref(0);//当前歌词索引
         const audio=ref();//audio对象
         const new_comment=ref("");
-        const current_song=ref([]);
         const LRC=ref("");
-        const current_work=ref([]);
-        const current_work_user=ref([]);
+        console.log(router.currentRoute.value.query.id);
+        const current_work_id = ref(router.currentRoute.value.query.id);
+        const current_work=ref();
+        const current_work_user=ref();
+        const LrcFile = ref();
+        const current_song=ref([]);
 
 
         //歌词数据转化为数组
@@ -123,8 +127,8 @@ export default {
         {
             let time = e.target.currentTime; //当前播放器时间
 
-            console.log(time)
-            console.log(data_index.value)
+            // console.log(time)
+            // console.log(data_index.value)
             for (let i = 0; i < lrcData.value.length; i++)
             {
                 if (time < lrcData.value[i].time)
@@ -141,9 +145,20 @@ export default {
 
         const handlerComment = async () => {
             console.log(new_comment.value);
-            commitComment(1,16,new_comment.value);
-            if(new_comment.value)
-                new_comment.value.clear()
+            console.log("1234");
+            const userId =getCookie("userNumber");
+            console.log(userId.value)
+            console.log(current_work_id.value)
+            await commitComment(current_work_id.value, userId.value, new_comment.value).then(res => {
+                if (res.code === 200) {
+                    ElMessage.success("评论成功")
+                } else {
+                    ElMessage.error("评论失败")
+                    console.log(res)
+                }
+                if(new_comment.value)
+                  new_comment.value = "";
+            })
         }
 
         const enter_k_song = () => {
@@ -152,36 +167,62 @@ export default {
 
 
         onBeforeUpdate(()=> {
-            fetchComment(1).then(res => {
-                comment_list.value = res;
-                for (let i = 0; i < comment_list.value.length; i++) {
-                    comment_list.value[i].workComment.createTime = comment_list.value[i].workComment.createTime.split("T")[0];
-                }
-            })
+            //  fetchComment(1).then(res => {
+            //     comment_list.value = res;
+            //     for (let i = 0; i < comment_list.value.length; i++) {
+            //         comment_list.value[i].workComment.createTime = comment_list.value[i].workComment.createTime.split("T")[0];
+            //     }
+            // })
         })
 
 
         onBeforeMount(() => {
-            fetchComment(1).then(res => {
+            fetchComment(current_work_id.value).then(res => {
+                console.log(res)
                 comment_list.value = res;
                 for (let i = 0; i < comment_list.value.length; i++) {
                     comment_list.value[i].workComment.createTime = comment_list.value[i].workComment.createTime.split("T")[0];
                 }
             })
-            fetchWork(57).then(res => {
+            fetchWork(current_work_id.value).then(res => {
+                console.log(current_work_id.value)
+                console.log(res)
+                console.log("fetchWork")
                 current_work.value = res;
-            })
-            fetchUserById(current_work.value.workOwner).then(res => {
-                current_work_user.value = res;
-                console.log(current_work_user.value)
-            })
-            let form=new FormData()
-            form.append("workId","57")
-            axios.post(path.baseUrl + path.getOriginByWorkId, form).then((res) => {
-                current_song.value = res.data.data;
-                formatLrc();
+                console.log(current_work.value.workVoiceFilename)
+                // get user by Id
+                let userForm = new FormData();
+                console.log(current_work.value.workOwner)
+                userForm.append("userId", current_work.value.workOwner);
+                // convert workOwner to string
+
+                console.log(userForm)
+                axios.get(path.baseUrl+ path.selectUserById, {params:{userId : current_work.value.workOwner}}).then((res) => {
+                    console.log(res)
+                    current_work_user.value = res.data.data;
+                    console.log(current_work_user.value)
+                    
+                }).catch(err => {
+                    console.log(err)
+                })
+                //formatLrc();
                 audio.value = document.getElementById("audio");
-                audio.value.src = current_song.value.originVoiceFilename;
+                audio.value.src = current_work.value.workVoiceFilename;
+                // get lyric
+                let form = new FormData();
+                form.append("workId", current_work_id.value);
+                axios.post(path.baseUrl+path.getOriginByWorkId,form).then((res) => {
+                    console.log(res)
+                    current_song.value = res.data.data;
+                    console.log(current_song.value)
+                    LrcFile.value = res.data.data.originLrcFilename
+                    console.log(LrcFile.value)
+                    formatLrc();
+                }).catch(err => {
+                    console.log(err)
+                })
+            }).catch(err => {
+                console.log(err)
             })
         })
 
