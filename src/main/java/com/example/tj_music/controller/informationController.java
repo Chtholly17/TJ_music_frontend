@@ -9,11 +9,13 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Date;
 
 
@@ -52,6 +54,7 @@ public class informationController {
         if (user == null) {
             return Result.fail("user not found");
         }
+        System.out.println("user id is " + user.getUserId());
         return Result.success(user.getUserProfileImageFilename());
     }
 
@@ -76,10 +79,14 @@ public class informationController {
                                  @RequestParam("new_major") String new_major,
                                  @RequestParam("new_area1") String new_area1,
                                  @RequestParam("new_area2") String new_area2,
-                                 @RequestParam("new_birthday") Date new_birthday,
+                                 @RequestParam("new_birthday")@DateTimeFormat(pattern = "yyyy-MM-dd") Date new_birthday,
                                  @RequestParam("new_gender") String new_gender,
                                  @RequestParam("new_signature") String new_signature) {
         User user = informationService.getInformationByStudentNumber(user_student_number);
+        // print out the user_student_number and new_nickname
+//        System.out.println("get the user_student_number: " + user_student_number);
+//        System.out.println("get the new_nickname: " + new_nickname);
+//        System.out.println("get the birthday: " + new_birthday);
         if (user == null) {
             return Result.fail("user not found");
         }
