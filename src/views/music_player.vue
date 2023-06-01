@@ -147,17 +147,19 @@ export default {
             console.log(new_comment.value);
             console.log("1234");
             const userId =getCookie("userNumber");
-            console.log(userId.value)
+            console.log(userId)
             console.log(current_work_id.value)
-            await commitComment(current_work_id.value, userId.value, new_comment.value).then(res => {
-                if (res.code === 200) {
-                    ElMessage.success("评论成功")
-                } else {
-                    ElMessage.error("评论失败")
-                    console.log(res)
-                }
+            await commitComment(current_work_id.value, userId, new_comment.value).then(res => {
+                fetchComment(current_work_id.value).then(res => {
+                        comment_list.value = res;
+                        for (let i = 0; i < comment_list.value.length; i++) {
+                            comment_list.value[i].workComment.createTime = comment_list.value[i].workComment.createTime.split("T")[0];
+                        }
+                    })
                 if(new_comment.value)
                   new_comment.value = "";
+            }).catch(err => {
+                console.log(err)
             })
         }
 
