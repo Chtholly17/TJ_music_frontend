@@ -7,15 +7,15 @@ export const baseForm = ref<FormInstance>();
 
 export const userinfoData=reactive({
     userinfoForm:{
-        user_student_number:0,
-        new_nickname:'日本天皇',   //昵称
-        new_college:"电子与信息工程学院",  //学院
-        new_major:"计算机科学与技术",
-        new_area1:'120000',
-        new_area2:'120100',
-        new_birthday: '2001/6/30',    //生日
-        new_gender: '男',   //性别
-        new_signature: '我是天皇，我最强！',   //签名
+        user_student_number:"",
+        new_nickname:'',   //昵称
+        new_college:"",  //学院
+        new_major:"",
+        new_area1:'',
+        new_area2:'',
+        new_birthday: '',    //生日
+        new_gender: '',   //性别
+        new_signature: '',   //签名
     }
 })
 
@@ -39,6 +39,8 @@ export const commitUserInfo=async ()=>{
     await submitForm.validate( async (valid: any) => {
         if (valid) {
             try {
+                console.log("提交用户信息")
+                console.log(userinfoData.userinfoForm)
                 const response = await api.postUserInfo(userinfoData.userinfoForm); // 不能传入submitForm！
                 console.log(response.data);
             } catch (error: any) {
@@ -53,38 +55,21 @@ export const commitUserInfo=async ()=>{
 //获取用户信息
 export const fetchUserInfo=async ()=>{
 
-    const submitForm = unref(baseForm)
-    if (!submitForm)
-    {
-        return
-    }
-    await submitForm.validate( async (valid: any) => {
-        if (valid) {
-            try {
-                const response = await api.getUserInfo(userinfoData.userinfoForm.user_student_number); // 不能传入submitForm！
-                console.log(response.data);
-            } catch (error: any) {
-                ElMessage.error(error.code+': 获取失败，请检查网络或联系管理员')
-            }
-        } else {
-            ElMessage.error('验证失败，请检查数据是否完整且正确')
-        }
-    })
-}
-
-export const commitUserImage=async (file:any)=>{
     try {
-        const response = await api.postUserImage(file)
-        console.log("头像上传成功")
-        console.log(response)
-        ElMessage.success("头像修改成功")
-
-        //const image_response=await  api.getUserImage()
-        console.log("头像获取")
-        //console.log(image_response)
-
-    }catch (error: any) {
-        ElMessage.error(error.code+': 提交失败，请检查网络或联系管理员')
+        console.log("获取用户学号")
+        console.log(userinfoData.userinfoForm.user_student_number)
+        const response = await api.getUserInfo(userinfoData.userinfoForm.user_student_number); // 不能传入submitForm！
+        userinfoData.userinfoForm.new_nickname=response.data.data.userNickname
+        userinfoData.userinfoForm.new_college=response.data.data.userCollege
+        userinfoData.userinfoForm.new_major=response.data.data.userMajor
+        userinfoData.userinfoForm.new_area1=response.data.data.userArea1
+        userinfoData.userinfoForm.new_area2=response.data.data.userArea2
+        userinfoData.userinfoForm.new_birthday=response.data.data.userBirthday
+        userinfoData.userinfoForm.new_gender=response.data.data.userGender
+        userinfoData.userinfoForm.new_signature=response.data.data.userSignature
+        return response.data.data
+    } catch (error: any) {
+        ElMessage.error(error.code+': 获取失败，请检查网络或联系管理员')
     }
 }
 
