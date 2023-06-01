@@ -1,6 +1,8 @@
 import {reactive, ref, unref} from "vue";
 import {ElMessage, FormInstance} from "element-plus";
 import api from "@/service";
+import {show_update_password} from "@/utils/DialogVisible";
+
 
 export const baseForm = ref<FormInstance>();
 
@@ -18,6 +20,16 @@ const pwdAgainCheck = async(rule: any, value: any, callback: any) => {
     else
         callback()
 }
+
+export const pwdCheck =  async(rule: any, value: any, callback: any) => {
+    // const reg = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[~@#$%*-+=:,\\?[\]{}]).{6,16}$/ // TODO：修改这个正则表达式
+    const reg = /\d/
+    if (!reg.test(value))
+        callback(Error("密码不合法"))
+    else
+        callback() // callback回调函数得到的信息将会输出，类似rules里面的message
+}
+
 export const updatePasswordRule=reactive({
     old_password:[
         {
@@ -31,6 +43,15 @@ export const updatePasswordRule=reactive({
             required:true,
             trigger:"blur",
             message:"新密码不能为空"
+        },
+        {   min: 6,
+            max: 16,
+            message: '长度在 6 到 16 个字符',
+            trigger: 'blur'
+        },
+        {
+            validator: pwdCheck,
+            trigger: 'blur'
         }
     ],
     check_password:[
@@ -57,7 +78,14 @@ export const commitUpdatePassword=async ()=>{
         if (valid) {
             try {
                 const response = await api.postUpdatePassword(updatePasswordData.updatePasswordForm.user_id,updatePasswordData.updatePasswordForm.new_password); // 不能传入submitForm！
-                console.log(response.data);
+                if(response.data.code==1) {
+                    ElMessage.success("修改成功")
+                    show_update_password.value=false
+                }
+                else {
+                    ElMessage.error("修改失败")
+                    return false
+                }
             } catch (error: any) {
                 ElMessage.error(error.code+': 提交失败，请检查网络或联系管理员')
             }

@@ -208,7 +208,7 @@ const api = {
                 user2_student_number: id2
             }
         })
-    }
+    },
 
 }
 

@@ -19,6 +19,7 @@ import { defineComponent, ref, computed, getCurrentInstance } from "vue";
 import { useStore } from "vuex";
 import axios from "axios";
 import path from "@/service/path";
+import {ElMessage} from "element-plus";
 
 export default defineComponent({
     components: {
@@ -43,10 +44,10 @@ export default defineComponent({
             const isExistFileType = uploadTypes.value.includes(file.type.replace(/image\//, ""));
 
             if (isLt10M > ltCode || isLt10M <= 0) {
-                (proxy as any).$message.error(`图片大小范围是 0~${ltCode}MB!`);
+                ElMessage.error(`图片大小范围是 0~${ltCode}MB!`)
             }
             if (!isExistFileType) {
-                (proxy as any).$message.error(`图片只支持 ${uploadTypes.value.join("、")} 格式!`);
+                ElMessage.error(`图片只支持 ${uploadTypes.value.join("、")} 格式!`)
             }
 
             let pic_form=new FormData();
@@ -54,8 +55,11 @@ export default defineComponent({
             pic_form.append("user_student_number",userId.value);
             pic_form.append("file",file);
 
-            axios.post(path.baseUrl+path.update_user_image,pic_form).then(()=>{
-               delay()
+            axios.post(path.baseUrl+path.update_user_image,pic_form).then(res=>{
+
+               delay();
+               console.log("用户头像修改")
+               console.log(res);
                store.state.bar_pic_change=!store.state.bar_pic_change;
             })
 
