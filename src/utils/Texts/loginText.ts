@@ -5,7 +5,7 @@ import api from "@/service";
 import store from "@/store";
 import {closeAllDialogs} from "@/utils/DialogVisible";
 import router from "@/router";
-import {setCookie} from "@/service/cookie";
+import {getCookie, setCookie} from "@/service/cookie";
 import {visible} from "@/utils/BarVisible";
 
 export const baseForm = ref<FormInstance>();
@@ -85,8 +85,11 @@ export const commitLogin_cookie = async () => {
 
 const getUserProfile = async () => {
     const userID = computed(() => store.getters.getUserID).value
+    const user_id=getCookie("")
     const response = await api.getUserImage({user_student_number: userID})
     if (response.data.code == 1){
         store.commit('setUserPhoto', response.data.data)
+        // console.log("获取用户头像")
+        // console.log(response.data.data)
     }
 }

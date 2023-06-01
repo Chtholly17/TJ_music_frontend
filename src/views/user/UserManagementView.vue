@@ -14,7 +14,7 @@
                             <div style="height: 30px"></div>
                             <p style="font-size: 30px;text-align: left;font-family:SimHei;font-style: italic">{{userinfoData.userinfoForm.new_nickname}}</p>
                             <div style="height: 30px"></div>
-                            <p style="text-align: left"> 学号: &nbsp; &nbsp;{{userinfoData.userinfoForm.user_student_number}}</p>
+                            <p style="text-align: left"> 学号: &nbsp; &nbsp;{{user_id}}</p>
                             <div style="height: 30px"></div>
                             <p style="text-align: left"> 个性签名: &nbsp; &nbsp;{{userinfoData.userinfoForm.new_signature}}</p>
                         </el-col>
@@ -64,9 +64,10 @@ import {computed, onBeforeMount, provide, ref, nextTick, watch} from "vue";
 import { useStore } from 'vuex'
 import {userinfoData} from "@/utils/Texts/userinfoText";
 import uploadPic from "@/components/user/uploadPic.vue";
-import {user_fetchUserImage} from "@/utils/Texts/userinfoText";
+import {user_fetchUserImage,fetchUserInfo} from "@/utils/Texts/userinfoText";
+import {getCookie} from "@/service/cookie";
 
-// import {ElMessage} from "element-plus";
+
 export default {
     name: "UserManagementView",
     components: {
@@ -77,14 +78,6 @@ export default {
         return{
             aside_width:13,
             //user_photo_url:require("../../assets/profile.jpg"),
-            nickname:"日本天皇",
-            user_name:"孙笑川",
-            user_brithday:"1945-8-15",
-            user_home:"上海市",
-            user_follow:20,
-            user_fans:10,
-            user_post:15,
-            user_signature:"我是天皇，我最强！",
             user_info_show_control:0    //控制是否展示个人信息界面
         }
     },
@@ -111,6 +104,10 @@ export default {
         const show_router=ref(true)
         const show_upload=ref(false) //展示上传头像框
 
+        const user_follow=ref(0)    //用户关注数
+        const user_fans=ref(0)  //用户粉丝数
+        const user_id=ref("")   //用户学号
+
         watch(user_photo_url,()=>{
             show_upload.value=false;
             })
@@ -134,7 +131,8 @@ export default {
             ()=>store.state.bar_pic_change,
             ()=>{
                 const user_id=computed(()=>store.getters.getUserID)
-                user_fetchUserImage(user_id.value).then(res=>{
+                const userNumber = getCookie("userNumber")
+                user_fetchUserImage( userNumber).then(res=>{
                     user_photo_url.value=res
                     const random_num=Math.random()*100+1;
                     real_img_url.value=`${user_photo_url.value}?timestamp=${random_num}`;
@@ -143,9 +141,23 @@ export default {
         )
 
         onBeforeMount(()=>{
-            //这里其实不写也没关系，因为渲染完这个组件之后就会紧接着渲染下一�?
-            userinfoData.userinfoForm.user_student_number = count.value;
-            user_fetchUserImage(count.value).then(res=>{
+            const userNumber=ref();
+            userNumber.value = getCookie("userNumber")
+            // const user_id=computed(() => store.getters.getUserID)
+            // 先获取用户学号
+            userinfoData.userinfoForm.user_student_number = userNumber.value;
+            user_id.value=userNumber.value;
+
+            console.log("获取用户学号1")
+            console.log( userinfoData.userinfoForm.user_student_number)
+
+            fetchUserInfo().then(res=>{
+               user_follow.value=res.userFollowCnt;
+               user_fans.value=res.userFansCnt;
+
+            })
+
+            user_fetchUserImage( userNumber.value).then(res=>{
                 user_photo_url.value=res
                 const random_num=Math.random()*100+1;
                 real_img_url.value= `${user_photo_url.value}?timestamp=${random_num}`;
@@ -168,7 +180,7 @@ export default {
             onBeforeMount,
             show_router,
             reload,user_photo_url,show_upload,
-            real_img_url
+            real_img_url,user_follow,user_fans,user_id
         }
     }
 }

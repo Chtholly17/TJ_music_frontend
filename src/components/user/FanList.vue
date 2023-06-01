@@ -1,4 +1,5 @@
 <template>
+    <h1 style="margin-bottom: 5vh;margin-top: 5vh">我的粉丝</h1>
     <div  v-for="item in fan_list" :key="item.userId">
         <div class="fan_block">
           <div class="user_photo">

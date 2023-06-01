@@ -1,11 +1,5 @@
 <template>
     <el-form ref="baseForm"  :model="updatePasswordData.updatePasswordForm" label-width="120px" :rules="updatePasswordRule">
-        <el-form-item label="请输入旧密码" prop="old_password">
-            <el-input v-model="updatePasswordData.updatePasswordForm.old_password"
-                      placeholder="旧密码"
-                      prefix-icon="Lock"
-                      show-password></el-input>
-        </el-form-item>
         <el-form-item label="请输入新密码" prop="new_password">
             <el-input v-model="updatePasswordData.updatePasswordForm.new_password"
                       placeholder="新密码"
@@ -28,6 +22,7 @@
 import {baseForm,updatePasswordData,updatePasswordRule,commitUpdatePassword} from "@/utils/Texts/UpdatePassword";
 import {computed, onBeforeMount} from "vue";
 import {useStore} from "vuex";
+import {show_update_password} from "@/utils/DialogVisible";
 
 export default {
     name: "UpdatePassword",
@@ -36,8 +31,7 @@ export default {
         function changePassword()
         {
             commitUpdatePassword()
-            //show_update_password.value=true
-            //show_update_password.value=true;
+
         }
 
         onBeforeMount(()=>{
