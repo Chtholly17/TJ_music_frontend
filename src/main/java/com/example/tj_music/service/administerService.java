@@ -52,6 +52,7 @@ public class administerService {
         // get the user's id using the user's student number
         int userId = userMapper.selectUserByStudentNumber(userStudentNumber).getUserId();
         // update the user's status to normal
+        appealMapper.deleteAppealByAppealOwner(userId);
         userMapper.updateUserStatusById("normal",userId);
         // delete the appeal
         appealMapper.deleteAppealById(appealId);

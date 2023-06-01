@@ -34,6 +34,10 @@ public interface AppealMapper {
     @Select("delete from appeal where appeal_id = #{id}")
     public void deleteAppealById(Integer id);
 
+    // delete appeal by appeal owner
+    @Select("delete from appeal where appeal_owner = #{appealOwner}")
+    public void deleteAppealByAppealOwner(Integer appealOwner);
+
     // update appeal status by id
     @Select("update appeal set appeal_status = #{appealStatus} where appeal_id = #{id}")
     public void updateAppealStatusById(String appealStatus, Integer id);
