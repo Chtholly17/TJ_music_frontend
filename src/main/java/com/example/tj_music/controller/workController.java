@@ -7,6 +7,7 @@ import com.example.tj_music.db.entity.Origin;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -78,7 +79,7 @@ public class workController {
      * @param workPitchScore
      * @return
      */
-    @GetMapping("/insertWork")
+    @PostMapping("/insertWork")
     public Result insertWork(@RequestParam("workName") String workName, @RequestParam("workComment") String workComment, @RequestParam("workOwner") int workOwner, @RequestParam("workOriginVersion") int workOriginVersion, @RequestParam("workVoiceFilename") String workVoiceFilename, @RequestParam("workPreciseScore") int workPreciseScore, @RequestParam("workQualityScore") int workQualityScore, @RequestParam("workPitchScore") int workPitchScore) {
         String workPrefaceFilename;
         Origin origin = originService.getOriginByOriginId(workOriginVersion);
