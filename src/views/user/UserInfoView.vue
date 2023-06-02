@@ -11,7 +11,7 @@
             <el-input v-model="userinfoData.userinfoForm.new_major" />
          </el-form-item>
          <el-form-item label="地区">
-            <el-cascader size='mid' :options='options' v-model='area'></el-cascader>
+            <el-cascader  size='mid' :options='options' v-model='area'></el-cascader>
          </el-form-item>
 
          <el-form-item label="生日">
@@ -76,6 +76,8 @@ export default {
       const user_info_show=inject("user_info_show");
 
       const onSubmit = () => {
+         userinfoData.userinfoForm.new_area1=area.value[0]
+         userinfoData.userinfoForm.new_area2=area.value[1]
          commitUserInfo();
          cxt.emit("pass_nickname",userinfoData.userinfoForm.new_nickname);  //向父组件传递昵称参数
          cxt.emit("pass_signature",userinfoData.userinfoForm.new_signature);  //向父组件传递签名参数

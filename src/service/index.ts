@@ -138,6 +138,15 @@ const api = {
             }
         })
     },
+    //关注某用户
+    follow(user_id:any,follow_id:any)
+    {
+        return axios.post(path.baseUrl+path.follow,
+            {
+                user_student_number:user_id,
+                target_student_number:follow_id
+            })
+    },
     //取消关注某用户
     deleteFollow(user_id:string,follow_id:string)
     {
@@ -225,6 +234,15 @@ const api = {
             }
         })
     },
+    //查看是否关注某人
+    checkFollow(user_id:any,target_id:any){
+        return axios.get(path.baseUrl+path.check_follow,{
+            params:{
+                user_student_number:user_id,
+                target_student_number:target_id
+            }
+        })
+    }
 
 }
 

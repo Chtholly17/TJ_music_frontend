@@ -14,6 +14,7 @@ const base = {
     get_songList:'/songList',   //获取用户曲库
     get_fanList:"/display_user_follower",   //获取用户粉丝
     get_followList:"/display_user_following",    //获取用户关注
+    follow:'/follow',    //关注某用户
     delete_follow:"/unfollow",  //取消关注某人
     postSearch_keyword: '/searchOriginByTag',
     getWorksById: '/relatedWork',
@@ -35,8 +36,8 @@ const base = {
     selectUserById:'/selectUserById',
     postMusic:'/getScores',
     postWork:'/insertWork',//提交作品,
-    getAiComment:'/getComments'
-
+    getAiComment:'/getComments',
+    check_follow:'/check_follow',   //查看是否已经关注某人
 }
 
 export default base;

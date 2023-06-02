@@ -1,12 +1,15 @@
 <template>
     <div class="header">
-        <el-menu :router="true" mode="horizontal"  :default-active=default_index>
-            <img src="@/assets/logo/logo_rec.png" class="logo">
-            <el-menu-item index="/music_square">首页</el-menu-item>
-            <el-menu-item index="/rank">榜单</el-menu-item>
+        <el-menu :router="true" mode="horizontal"  :default-active=default_index class="top_bar">
+            <div style="display: flex">
+                <img src="@/assets/logo/logo_rec.png" class="logo">
+                <el-menu-item index="/music_square">首页</el-menu-item>
+                <el-menu-item index="/rank">榜单</el-menu-item>
+            </div>
             <search-bar></search-bar>
-            <el-dropdown trigger="hover">
-                <el-image :src=real_img_url class="user_photo" />
+            <el-dropdown trigger="hover" style="margin-right: 5%">
+                <el-avatar :src="real_img_url " :size="50" fit="cover" class="user_photo"></el-avatar>
+<!--                <el-image :src=real_img_url class="user_photo" />-->
                 <template #dropdown>
                     <el-dropdown-menu >
                         <el-dropdown-item @click="user_router" >个人主页</el-dropdown-item>
@@ -41,7 +44,7 @@ export default {
             router.push('/user')
         },
         user_message(){
-            router.push('/message')
+            router.push({path:'/message',query:{target_id:''}})
         }
     },
     setup() {
@@ -139,7 +142,12 @@ export default {
     border-radius: 50%;
     height: 50px;
     width: 50px;
-    align-items: center;
+    align-items:center;
     cursor: pointer;
+}
+.top_bar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 </style>

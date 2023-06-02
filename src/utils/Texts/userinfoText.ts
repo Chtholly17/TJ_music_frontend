@@ -31,6 +31,8 @@ export const userinfoRules=reactive({
 
 export const commitUserInfo=async ()=>{
 
+    console.log("获取用户学号2")
+    console.log( userinfoData.userinfoForm.user_student_number)
     const submitForm = unref(baseForm)
     if (!submitForm)
     {
@@ -56,8 +58,6 @@ export const commitUserInfo=async ()=>{
 export const fetchUserInfo=async ()=>{
 
     try {
-        console.log("获取用户学号")
-        console.log(userinfoData.userinfoForm.user_student_number)
         const response = await api.getUserInfo(userinfoData.userinfoForm.user_student_number); // 不能传入submitForm！
         userinfoData.userinfoForm.new_nickname=response.data.data.userNickname
         userinfoData.userinfoForm.new_college=response.data.data.userCollege
@@ -75,7 +75,16 @@ export const fetchUserInfo=async ()=>{
 
 export const user_fetchUserImage=async (user_id:any)=>{
     const  response=await api.getUserImage({user_student_number:user_id})
-    // console.log("用户主页获取头像")
-    // console.log(response.data)
     return response.data.data
+}
+
+//获取其他人的信息
+export const fetchOtherInfo=async (user_id:any)=>{
+    try {
+        const response = await api.getUserInfo(user_id);
+        return response.data.data
+    } catch (error:any){
+        ElMessage.error(error.code+': 获取失败，请检查网络或联系管理员')
+    }
+
 }
