@@ -125,9 +125,15 @@ public class workService {
      * insert work
      * @return
      */
-    public Result insertWork(String work_name, String work_comment, String userStudentNumber, Integer work_origin_version, Integer work_like, String work_voice_filename, String work_tag, String work_preface_filename, Integer work_quality_score, Integer work_precise_score, Integer work_pitch_score) {
+    public Result insertWork(String work_name, String work_comment, String user_student_number, Integer work_origin_version, Integer work_like, String work_voice_filename, String work_tag, String work_preface_filename, Integer work_quality_score, Integer work_precise_score, Integer work_pitch_score) {
+        // construct a temp work
         Work work = new Work();
-        User user = userMapper.selectUserByStudentNumber(userStudentNumber);
+        // use the student number to find the user id
+        User user = userMapper.selectUserByStudentNumber(user_student_number);
+        if(user == null) {
+            return Result.fail("user not found with student number " + user_student_number);
+        }
+        // fill the work
         work.setWorkName(work_name);
         work.setWorkComment(work_comment);
         work.setWorkOwner(user.getUserId());
@@ -139,7 +145,9 @@ public class workService {
         work.setWorkQualityScore(work_quality_score);
         work.setWorkPreciseScore(work_precise_score);
         work.setWorkPitchScore(work_pitch_score);
+
         workMapper.insertWork(work.getWorkName(), work.getWorkComment(), work.getWorkOwner(), work.getWorkOriginVersion(), work.getWorkLike(), work.getWorkVoiceFilename(), work.getWorkTag(), work.getWorkPrefaceFilename(), work.getWorkQualityScore(), work.getWorkPreciseScore(), work.getWorkPitchScore());
+
         return Result.success(work);
     }
 }

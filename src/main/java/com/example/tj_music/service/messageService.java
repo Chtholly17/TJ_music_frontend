@@ -46,7 +46,7 @@ public class messageService {
         List<GetMessageBriefListVO> getMessageBriefListVOList=new ArrayList<>();
 
         // get all the users that have messages with current user(receiver)
-        Set<User> partnerList = new HashSet<>();
+        Set<User> partnerList = new LinkedHashSet<>();
         List<Message> relatedMessage = messageMapper.selectMessageContainUserIdTimeDesc(receiver.getUserId());
         for(int i=0;i<relatedMessage.size();i++){
             if(relatedMessage.get(i).getSenderId()==receiver.getUserId()){
