@@ -1,3 +1,3 @@
 import {ref} from "vue";
 
-export const visible = ref<boolean>(false)
+export const isLoggedIn = ref<boolean>(false)

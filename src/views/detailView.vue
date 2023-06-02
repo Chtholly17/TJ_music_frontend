@@ -12,25 +12,29 @@
                         <el-text truncated class="singerText">{{songDetails.originAuthor}}</el-text></div>
                     <div class="introBox">{{songDetails.originIntroduction}}</div>
                     <div style="height: 100%"></div>
-                    <div class="singBox"><el-button type="primary">我 也 要 唱</el-button></div>
+                    <div class="singBox"><el-button type="primary" @click="wantSingHandler">我 也 要 唱</el-button></div>
                 </div>
             </div>
         </div>
-        <div style="height:20px"></div>
+        <div style="height:40px"></div>
     </div>
-    <div class="frameBox" v-loading="loadingWorks">
+    <div class="frameBox">
         <div class="worksItemBox">
             <el-divider></el-divider>
             <div class="worksItemTitleBox">
                 <el-text class="worksItemTitleText">翻唱作品</el-text>
             </div>
             <el-divider></el-divider>
-            <works-item v-for="(works, index) in songWorksInfoList" :key="works"
-                        :profile="works.work.workPrefaceFilename"
-                        :nickname="works.userNickname" :score="works.work.workScore"
-                        :likes="works.work.workLike" :date="works.work.createTime"
-                        :index="index"></works-item>
+            <div  v-loading="loadingWorks">
+                <el-empty description="还没有人翻唱过这首歌呢~" v-if="itemsLength === 0" />
+                <works-item v-else v-for="(works, index) in songWorksInfoList" :key="works"
+                            :profile="works.work.workPrefaceFilename"
+                            :nickname="works.userNickname" :score="works.work.workScore"
+                            :likes="works.work.workLike" :date="works.work.createTime"
+                            :index="index"></works-item>
+            </div>
         </div>
+        <div style="height:20px"></div>
     </div>
 </template>
 
@@ -42,14 +46,19 @@ import api from "@/service";
 import {ElMessage} from "element-plus";
 import {accompanimentInfoList, songWorksInfoList} from "@/utils/Texts/accompanimentText";
 import {onBeforeMount, ref} from "vue";
+import router from "@/router";
 
 export default {
     name: "detailView",
     components: {WorksItem, User},
     setup() {
+        const itemsLength = ref(0);
         const loadingDetail = ref(true);
         const loadingWorks = ref(true);
         const queryParams = useRoute().query;
+        const wantSingHandler = () => {
+            router.push({ path: '/k_song', query: { id: songDetails.originId }})
+        }
         const getSongDetail = () => {
             loadingDetail.value = true;
             for(let i = 0; i < accompanimentInfoList.length; ++i) {
@@ -62,10 +71,10 @@ export default {
         }
         const getSongWorks = () => {
             api.getWorksById(queryParams).then((response) => {
+                while (songWorksInfoList.length > 0) {
+                    songWorksInfoList.pop()
+                }
                 if (response.data.code === 1) {
-                    while (songWorksInfoList.length > 0) {
-                        songWorksInfoList.pop()
-                    }
                     // console.log(response.data.data.length)
                     for (let i = 0; i < response.data.data.length; ++i) {
                         const iter = response.data.data[i];
@@ -75,17 +84,23 @@ export default {
                         const iter = songWorksInfoList[i];
                         iter.work.createTime = iter.work.createTime.substring(0,10)
                     }
+                    itemsLength.value = songWorksInfoList.length
+                }
+                else if (response.data.code === 0){
+                    // 没有查找到相关的翻唱结果
+                    itemsLength.value = 0
                 }
                 else {
                     ElMessage.error(response.data.msg)
                 }
+
+                loadingWorks.value = false;
             })
         }
         let songDetails = getSongDetail()
         onBeforeMount(()=>{
             loadingWorks.value = true;
             getSongWorks();
-            loadingWorks.value = false;
         })
         onBeforeRouteLeave(() => {
             // 离开时，清空数组
@@ -97,10 +112,12 @@ export default {
         //     songDetails = getSongDetail()
         // })
         return {
+            itemsLength,
             loadingDetail,
             loadingWorks,
             songWorksInfoList,
-            songDetails
+            songDetails,
+            wantSingHandler,
         }
     }
 }

@@ -14,7 +14,7 @@
             </el-form-item>
         </el-form>
         <el-button class=AccountDialogButton type="primary"
-                   @click="commitLogin" round>登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录</el-button>
+                   @click="commitLogin" round :disabled="loginDisabled">登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录</el-button>
     </div>
     <el-row>
         <el-col :span="10">
@@ -34,17 +34,19 @@
 
 <script lang="ts">
 import {User, Lock} from "@element-plus/icons-vue";
-import {defineComponent} from "vue";
+import {defineComponent, ref} from "vue";
 import {baseForm, loginData, loginRules, commitLogin} from "@/utils/Texts/loginText";
 import {showRegisterDialog, showRetrieveDialog, LoginDialogVisible} from "@/utils/DialogVisible";
 
 export default defineComponent({
     name: "LoginForm",
     setup(){
+        const loginDisabled = ref(false);
         return {
             User,
             Lock,
             // loginForm,
+            loginDisabled,
             loginData,
             loginRules,
             baseForm,

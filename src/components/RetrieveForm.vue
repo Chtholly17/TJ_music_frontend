@@ -21,7 +21,9 @@
                 <el-col :span="2">
                     <div class="tip_icon">
                         <el-tooltip content="向同济邮箱（学号@tongji.edu.cn）发送验证码">
-                            <el-icon :size="15"><QuestionFilled /></el-icon>
+                            <el-icon :size="20">
+                                <icon-question-circle :stroke-width="2" style="color: #505050"/>
+                            </el-icon>
                         </el-tooltip>
                     </div>
                 </el-col>
@@ -50,7 +52,6 @@
 </template>
 
 <script lang="ts">
-import { QuestionFilled } from "@element-plus/icons";
 import {retrieveData, commitRetrieve, sendRetrieveVRCode, baseForm} from "@/utils/Texts/retrieveText";
 import {retrieveRules} from "@/utils/Texts/retrieveText";
 import {RetrieveDialogVisible, showLoginDialog} from "@/utils/DialogVisible";
@@ -60,7 +61,6 @@ import {Lock, Message, User} from "@element-plus/icons-vue";
 
 export default {
     name: "RetrieveForm",
-    components: {QuestionFilled},
     setup() {
         let sendVRCodeButtonCount = 0;
         const sendVRCodeButtonMessage = ref("获取验证码"); // 必须要ref才能实现按钮的更改！！

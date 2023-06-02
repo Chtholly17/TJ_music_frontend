@@ -30,7 +30,7 @@ import {user_fetchUserImage} from "@/utils/Texts/userinfoText";
 import api from "@/service";
 import {delCookie} from "@/service/cookie";
 import router from "@/router";
-import {visible} from "@/utils/BarVisible";
+import {isLoggedIn} from "@/utils/BarVisible";
 
 export default {
     name: "NavigationMenu",
@@ -97,7 +97,7 @@ export default {
             api.userLogout(user_id.value)
             delCookie("userNumber")
             delCookie("password")
-            visible.value=false;
+            isLoggedIn.value=false;
             router.push('/')
         }
         return {

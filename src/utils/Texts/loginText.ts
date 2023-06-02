@@ -6,7 +6,8 @@ import store from "@/store";
 import {closeAllDialogs} from "@/utils/DialogVisible";
 import router from "@/router";
 import {setCookie} from "@/service/cookie";
-import {visible} from "@/utils/BarVisible";
+import {isLoggedIn} from "@/utils/BarVisible";
+import loginDisabled from "@/components/LoginForm.vue";
 
 export const baseForm = ref<FormInstance>();
 export const loginData = reactive({
@@ -36,6 +37,7 @@ export const commitLogin = async () => {
         return
     // 注意：这个await很可能并没有处于等待状态！
     await baseForm.value.validate( async (valid: any) => {
+        loginDisabled.value = true;
         if (valid) {
             try {
                 const response = await api.postLogin(loginData.loginForm); // 不能传入submitForm！
@@ -43,7 +45,7 @@ export const commitLogin = async () => {
                     store.commit('setUserID', loginData.loginForm.userNumber)
                     // ElMessage.success("登陆成功！")
                     await getUserProfile()
-                    visible.value = true;
+                    isLoggedIn.value = true;
                     closeAllDialogs()
                     // 存储cookie
                     setCookie("userNumber", loginData.loginForm.userNumber, 7)
@@ -77,7 +79,7 @@ export const commitLogin_cookie = async () => {
     const response = await api.postLogin(loginData.loginForm);
     if (response.data.code == 1){
         store.commit('setUserID', loginData.loginForm.userNumber)
-        visible.value = true;
+        isLoggedIn.value = true;
         closeAllDialogs()
         await getUserProfile()
         // 手动清空表单

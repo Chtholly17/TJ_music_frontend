@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-affix v-if="visible">
+        <el-affix v-if="isLoggedIn">
             <navigation-menu></navigation-menu>
         </el-affix>
         <router-view></router-view>
@@ -49,9 +49,11 @@ import NavigationMenu from "@/components/NavigationMenu.vue";
 import UpdatePassword from "@/components/user/UpdatePassword.vue";
 import {show_update_password} from "@/utils/DialogVisible";
 import {onBeforeMount} from "vue";
-import {visible} from "@/utils/BarVisible";
+import {isLoggedIn} from "@/utils/BarVisible";
 import {getCookie} from "@/service/cookie";
 import {loginData, commitLogin_cookie} from "@/utils/Texts/loginText";
+import router from "@/router";
+import {ElMessage} from "element-plus";
 
 onBeforeMount(() => {
     // 05.26 work list：
@@ -70,6 +72,25 @@ onBeforeMount(() => {
         loginData.loginForm.password = password
         commitLogin_cookie()
     }
+    else{
+        router.replace("/hello")
+    }
+
+    router.beforeEach((to, from, next) => {
+        if(isLoggedIn.value){
+            next()
+        }
+        else{
+            // from.path === '/' 说明是刷新
+            if(to.path !== '/hello' && from.path !== '/'){
+                ElMessage.warning("您还没有登录，请先登录")
+                next(false)
+            }
+            else{
+                next()
+            }
+        }
+    })
 })
 
 </script>
