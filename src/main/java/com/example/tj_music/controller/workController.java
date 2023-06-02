@@ -101,4 +101,15 @@ public class workController {
         );
     }
 
+    /**
+     * 通过workId给作品点赞
+     * 需要提供workId
+     * @param workId 作品id
+     * @return 成功返回success，失败返回fail(code:0)
+     */
+    @PostMapping("/addLikeToWork")
+    public Result addLikeToWork(@RequestParam("workId") int workId) {
+        return workService.addLikeToWork(workId);
+    }
+
 }

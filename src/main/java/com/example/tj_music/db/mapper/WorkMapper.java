@@ -75,4 +75,8 @@ public interface WorkMapper {
     @Insert("insert into work (work_name, work_comment, work_owner, work_origin_version, work_like, work_voice_filename, work_tag, work_preface_filename, work_quality_score, work_precise_score, work_pitch_score) values (#{workName}, #{workComment}, #{workOwner}, #{workOriginVersion}, #{workLike}, #{workVoiceFilename}, #{workTag}, #{workPrefaceFilename}, #{workQualityScore}, #{workPreciseScore}, #{workPitchScore})")
     public void insertWork(String workName, String workComment, Integer workOwner, Integer workOriginVersion, Integer workLike, String workVoiceFilename, String workTag, String workPrefaceFilename, Integer workQualityScore, Integer workPreciseScore, Integer workPitchScore);
 
+
+    // add like to work
+    @Insert("update work set work_like = work_like + 1 where work_id = #{workId}")
+    public void addLikeToWork(Integer workId);
 }

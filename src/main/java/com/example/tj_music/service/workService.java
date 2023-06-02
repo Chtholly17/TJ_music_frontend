@@ -150,4 +150,14 @@ public class workService {
 
         return Result.success(work);
     }
+
+    // add like to work
+    public Result addLikeToWork(int workId) {
+        Work work = workMapper.selectWorkByWorkId(workId);
+        if(work == null) {
+            return Result.fail("no work with id " + workId);
+        }
+        workMapper.addLikeToWork(workId);
+        return Result.success();
+    }
 }
