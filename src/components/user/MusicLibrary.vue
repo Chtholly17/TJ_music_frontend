@@ -20,9 +20,9 @@
               <el-text truncated size="large"> <h3> 创建时间</h3>  </el-text>
           </div>
       </div>
-      <music_library_item v-for="(item,index) in music_library" :key="item"
+      <music_library_item style="cursor: pointer" v-for="(item,index) in music_library" :key="item"
                           :name="item.workName" :score="item.score_ave"
-                          :index="index" :like="item.workLike" :time="item.createTime.substr(0,10)" @click="player_router"></music_library_item>
+                          :index="index" :like="item.workLike" :time="item.createTime.substr(0,10)" @click="player_router(item.workId)"></music_library_item>
   </div>
 </template>
 
@@ -30,13 +30,14 @@
 import {onBeforeMount, ref} from "vue";
 import {fetchMusicLibrary} from "@/utils/Texts/MusicLibrary";
 import music_library_item from "@/components/user/musicLibraryItem.vue"
+import router from "@/router";
 
 export default {
     name: "MusicLibrary",
     components:{music_library_item},
     methods:{
-        player_router(){
-                this.$router.push('/music_player')
+        player_router(id){
+            router.push({path: '/music_player',query: {id: id}});
         }
     },
     setup(){

@@ -68,9 +68,9 @@
                   <el-text truncated size="large"> 粉丝数 </el-text>
               </div>
           </div>
-        <rank-item v-for="(item,index) in all_rank" :key="item" :cover="item.workPrefaceFilename" :name="item.workName"
+        <rank-item style="cursor: pointer" v-for="(item,index) in all_rank" :key="item" :cover="item.workPrefaceFilename" :name="item.workName"
                    :score="item.score_ave" :index="index" :like="item.like" :nickname="item.workAuthorNickname"
-                   :comments_num="item.workCommentCnt" :fans_num="item.workAuthorFans"
+                   :comments_num="item.workCommentCnt" :fans_num="item.workAuthorFans" @click="play_router(item.workId)"
                     ></rank-item>
 
       </div>
@@ -81,6 +81,7 @@
 import {onBeforeMount, ref} from "vue";
 import {fetchRankList} from "@/utils/Texts/rankList";
 import RankItem from "@/components/rankItem.vue";
+import router from "@/router";
 
 export default {
     name: "rankView",
@@ -169,12 +170,17 @@ export default {
            }
         }
 
+        function play_router(id:any){
+            router.push({path: '/music_player',query: {id: id}});
+        }
+
         return{
             rank_name,
             change_list,
             rank_type,
             all_rank,
-            change_type
+            change_type,
+            play_router
 
         }
     }
