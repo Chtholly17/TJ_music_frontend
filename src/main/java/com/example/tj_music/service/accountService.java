@@ -294,4 +294,12 @@ public class accountService {
             return new Result(1, "Update user status successfully", null);
         }
     }
+
+    public Result getUserByStudentNumber(String userStudentNumber){
+        User user = userMapper.selectUserByStudentNumber(userStudentNumber);
+        if (user == null)
+            return new Result(0, "Get user failed. The user does not exist", null);
+        else
+            return new Result(1, "Get user successfully", user);
+    }
 }

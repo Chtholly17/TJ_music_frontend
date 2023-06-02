@@ -80,7 +80,7 @@ public class workController {
      * @return
      */
     @PostMapping("/insertWork")
-    public Result insertWork(@RequestParam("workName") String workName, @RequestParam("workComment") String workComment, @RequestParam("workOwner") int workOwner, @RequestParam("workOriginVersion") int workOriginVersion, @RequestParam("workVoiceFilename") String workVoiceFilename, @RequestParam("workPreciseScore") int workPreciseScore, @RequestParam("workQualityScore") int workQualityScore, @RequestParam("workPitchScore") int workPitchScore) {
+    public Result insertWork(@RequestParam("workName") String workName, @RequestParam("workComment") String workComment, @RequestParam("workOwner") String workOwner, @RequestParam("workOriginVersion") int workOriginVersion, @RequestParam("workVoiceFilename") String workVoiceFilename, @RequestParam("workPreciseScore") int workPreciseScore, @RequestParam("workQualityScore") int workQualityScore, @RequestParam("workPitchScore") int workPitchScore) {
         String workPrefaceFilename;
         Origin origin = originService.getOriginByOriginId(workOriginVersion);
         return workService.insertWork(
