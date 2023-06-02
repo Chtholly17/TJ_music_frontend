@@ -261,11 +261,31 @@ export default {
                 console.log(res);
                 console.log(res.data.data.scores)
                 console.log(res.data.data.url)
+                let url = res.data.data.url
                 let scores = res.data.data.scores
                 // path.getComments,scores.preciseScore,scores.qualityScore,scores.pitchScore
                 console.log(scores)
                 loading.close()
-                router.push({path: '/song_preview',query:{score: scores, url: res.data.data.url, id:originId.value}})
+                let scoreForm = new FormData()
+                scoreForm.append("preciseScore",scores.preciseScore)
+                scoreForm.append("qualityScore",scores.qualityScore)
+                scoreForm.append("pitchScore",scores.pitchScore)
+                const loading_comment = ElLoading.service({
+                  lock: true,
+                  text: '生成评价中......',
+                  background: 'rgba(0, 0, 0, 0.7)',
+                })
+                axios.post(path.baseUrl+path.getAiComment,scoreForm).then(res=>{
+                    loading_comment.close()
+                    console.log(res)
+                    let comments = res.data.data
+                    console.log(comments)
+                    router.push({path: '/song_preview',query:{precise: scores.preciseScore, quality: scores.qualityScore , pitch: scores.pitchScore, url: url, id:originId.value, comments: comments}})
+                }).catch(err=>{
+                    console.log(err);
+                  router.push({path: '/song_preview',query:{precise: scores.preciseScore, quality: scores.qualityScore , pitch: scores.pitchScore, url: url, id:originId.value, comments: "获取评价失败"}})
+                })
+              
                 // router.push({path: '/song_preview',query:{score: scores, url: res.data.data.url, id:router.currentRoute.value.query.id.toString()}})
             }).catch(err=>{
                 console.log(err);

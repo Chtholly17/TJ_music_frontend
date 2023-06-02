@@ -72,15 +72,25 @@ export default {
         const lrcData=ref([]);//歌词数据数组
         const dataWords=ref("");//当前歌词
         const data_index=ref(0);//当前歌词索引
-        const evaluation="你的歌唱表现非常优秀，尤其是情感方面，达到了满分的分数。你的音准表现也非常出色，"+
-            "达到了90分的高分。此外，你的音色也非常好，获得了80分的高分。虽然你的节奏分数较低，但这并不影响你的整体表现。"+
-            "建议你可以多加练习节奏感，并且注重口腔肌肉的控制，以提高唱歌技巧。继续保持！";//评分评价
+        // const evaluation="你的歌唱表现非常优秀，尤其是情感方面，达到了满分的分数。你的音准表现也非常出色，"+
+        //     "达到了90分的高分。此外，你的音色也非常好，获得了80分的高分。虽然你的节奏分数较低，但这并不影响你的整体表现。"+
+        //     "建议你可以多加练习节奏感，并且注重口腔肌肉的控制，以提高唱歌技巧。继续保持！";//评分评价
+        const evaluation=ref(router.currentRoute.value.query.comments);
         const current_song=ref([]);
         const LRC=ref("");
+        console.log(router.currentRoute.value.query.url);
         const fullUrl = ref(router.currentRoute.value.query.url);
-        const precise=ref(100);
-        const quality=ref(80);
-        const pitch=ref(50);
+        console.log(router.currentRoute.value.query.precise);
+        const precise=ref(router.currentRoute.value.query.precise);
+        const quality=ref(router.currentRoute.value.query.quality);
+        const pitch=ref(router.currentRoute.value.query.pitch);
+        // transfer precise to int
+        precise.value=parseInt(precise.value);
+        quality.value=parseInt(quality.value);
+        pitch.value=parseInt(pitch.value);
+        console.log(precise.value);
+        console.log(quality.value);
+        console.log(pitch.value);
 
 
         // const param = router.currentRoute.value.params
@@ -135,15 +145,30 @@ export default {
             }
         };
 
+
         const publish =() => {
             const user_id=getCookie("userNumber");
             console.log(user_id)
+            const formData = new FormData();
+            console.log(current_song.value.originName)
+            formData.append('workName', current_song.value.originName);
+            formData.append('workComment', "");
+            formData.append('workOwner', user_id);
+            formData.append('workOriginVersion', current_song.value.originId);
+            formData.append('workVoiceFilename', fullUrl.value);
+            formData.append('workPreciseScore', precise.value);
+            formData.append('workQualityScore', quality.value);
+            formData.append('workPitchScore', pitch.value);
+
             commitWork(current_song.value.originName,"",user_id,current_song.value.originId,fullUrl.value,precise.value,quality.value,pitch.value).then(res=>{
                 console.log("debug1")
                 console.log(res)
+                router.replace({path: '/user/music_library'})
+            }).then(res=>{
+                alert("发表成功！")
+            }).catch(err=>{
+                alert("发表失败！")
             })
-            alert("发表成功！")
-            router.replace({path: '/user/music_library'})
         }
 
         const cancel =() => {
