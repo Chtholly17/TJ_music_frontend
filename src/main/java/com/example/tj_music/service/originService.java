@@ -166,11 +166,11 @@ public class originService {
         // search whether the given origin id exist
         boolean exist = originMapper.selectOriginByOriginId(originId) != null;
 
-        if(exist == false ) {
-            originMapper.insertOrigin(origin.getOriginName(), origin.getOriginAuthor(), origin.getOriginBgmusicFilename(), origin.getOriginVoiceFilename(), origin.getOriginDuration(), origin.getOriginPrefaceFilename(), origin.getOriginIntroduction(),origin.getOriginLrcFilename());
+        if(!exist) {
+            originMapper.insertOrigin(origin.getOriginName(), origin.getOriginAuthor(), origin.getOriginBgmusicFilename(), origin.getOriginVoiceFilename(), origin.getOriginDuration(), origin.getOriginPrefaceFilename(), origin.getOriginIntroduction(),origin.getOriginLrcFilename(), "null");
             return;
         }
-        originMapper.updateOriginById(originId, origin.getOriginName(), origin.getOriginAuthor(), origin.getOriginBgmusicFilename(), origin.getOriginVoiceFilename(), origin.getOriginDuration(), origin.getOriginPrefaceFilename(), origin.getOriginIntroduction());
+        originMapper.updateOriginById(originId, origin.getOriginName(), origin.getOriginAuthor(), origin.getOriginBgmusicFilename(), origin.getOriginVoiceFilename(), origin.getOriginDuration(), origin.getOriginPrefaceFilename(), origin.getOriginIntroduction(), "null");
     }
 
     public Result deleteOrigin(Integer originId) {
@@ -190,5 +190,14 @@ public class originService {
         // delete the origin
         originMapper.deleteOriginById(originId);
         return Result.success("delete origin successfully.");
+    }
+
+    /**
+     * update origin tag by origin id
+     * @param originId
+     * @param originTag
+     */
+    public void updateOriginTag(Integer originId, String originTag) {
+        originMapper.updateOriginTagById(originId, originTag);
     }
 }

@@ -90,7 +90,7 @@ public class workController {
                 workOriginVersion,
                 0,
                 workVoiceFilename,
-                "null",
+                origin.getOriginTag(),
                 origin.getOriginPrefaceFilename(),
                 workPreciseScore,
                 workQualityScore,

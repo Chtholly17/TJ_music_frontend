@@ -31,4 +31,6 @@ public class Origin {
 
     private String originIntroduction;
 
+    private String originTag;
+
 }
