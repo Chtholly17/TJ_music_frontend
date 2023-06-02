@@ -21,7 +21,15 @@
                     </div>
                 </div>
 
-                <div class="btn"><el-button class="sub-btn" type="primary" @click="enter_k_song">我也要唱</el-button></div>
+                <div class="btn">
+                    <el-button class="sub-btn" type="primary" @click="add_present">
+                        <el-icon style="vertical-align: middle">
+                            <Present />
+                        </el-icon>
+                        <span style="vertical-align: middle">{{present_num}}</span>
+                    </el-button>
+                    <el-button class="sub-btn" type="primary" @click="enter_k_song">我也要唱</el-button>
+                </div>
                 <div class="comment">
                     <h2 class="comment-title">
                         <span>评论</span>
@@ -91,6 +99,7 @@ export default {
         const current_work_user=ref();
         const LrcFile = ref();
         const current_song=ref([]);
+        const present_num=ref(0);//礼物数量
 
 
         //歌词数据转化为数组
@@ -123,6 +132,16 @@ export default {
             return +parts[0] * 60 + +parts[1]; //计算秒
         };
 
+        const add_present = () =>{
+            present_num.value = present_num.value + 1
+            console.log(current_work_id.value)
+            let data = new FormData();
+            data.append("workId", current_work_id.value)
+            axios.post(path.baseUrl + path.postPresent,data).then((res) =>{
+                console.log(res)
+            })
+        }
+
         const toWorkOwnerPage=()=>
         {
             const userId =getCookie("userNumber");
@@ -141,7 +160,7 @@ export default {
                 });
             }
             console.log(current_work_user);
-        }; 
+        };
         //获取当前播放时间
         const audioTime=(e)=>
         {
@@ -171,13 +190,13 @@ export default {
             console.log(current_work_id.value)
             await commitComment(current_work_id.value, userId, new_comment.value).then(res => {
                 fetchComment(current_work_id.value).then(res => {
-                        comment_list.value = res;
-                        for (let i = 0; i < comment_list.value.length; i++) {
-                            comment_list.value[i].workComment.createTime = comment_list.value[i].workComment.createTime.split("T")[0];
-                        }
-                    })
+                    comment_list.value = res;
+                    for (let i = 0; i < comment_list.value.length; i++) {
+                        comment_list.value[i].workComment.createTime = comment_list.value[i].workComment.createTime.split("T")[0];
+                    }
+                })
                 if(new_comment.value)
-                  new_comment.value = "";
+                    new_comment.value = "";
             }).catch(err => {
                 console.log(err)
             })
@@ -211,19 +230,20 @@ export default {
                 console.log(res)
                 console.log("fetchWork")
                 current_work.value = res;
+                present_num.value = current_work.value.workLike
                 console.log(current_work.value.workVoiceFilename)
                 // get user by Id
                 let userForm = new FormData();
                 console.log(current_work.value.workOwner)
                 userForm.append("userId", current_work.value.workOwner);
                 // convert workOwner to string
-                
+
                 console.log(userForm)
                 axios.get(path.baseUrl+ path.selectUserById, {params:{userId : current_work.value.workOwner}}).then((res) => {
                     console.log(res)
                     current_work_user.value = res.data.data;
                     console.log(current_work_user.value)
-                    
+
                 }).catch(err => {
                     console.log(err)
                 })
@@ -259,12 +279,14 @@ export default {
             new_comment,
             current_work,
             current_work_user,
+            present_num,
             formatLrc,
             formatTime,
             audioTime,
             handlerComment,
             enter_k_song,
-            toWorkOwnerPage
+            toWorkOwnerPage,
+            add_present
         }
 
     }
@@ -277,44 +299,52 @@ export default {
 <style scoped>
 .wrapper{
     padding:0;
-    margin:0;
+    margin:0 auto;
+    width: 100%;
+    background: linear-gradient(to right bottom, rgba(255, 133, 234, 0.5), rgba(0, 255, 236, 0.5));
 }
 
 .cont{
     margin: 0 auto;
-    width: 1200px;
+    width: 100%;
     display:flex;
 }
 
 .left{
-    margin: 0 auto;
-    padding-top:40px;
-    padding-left:40px;
-    width: 250px;
+    margin: 40px auto;
+    /*padding-top:40px;*/
+    padding-left:5%;
+    padding-right:5%;
+    /*width: 250px;*/
+    width:25%;
     height:800px;
     display:flex;
     flex-direction:column;
+
+    .song-pic
+    {
+        border-radius:5px;
+        width:80%;
+    }
+
+    .song-info {
+        font-size:17px;
+        line-height:15px;
+        text-align:left;
+        /*margin-left:30px;*/
+    }
 }
 
 
-.song-pic
-{
-    border-radius:5px;
-}
-
-.song-info {
-    font-size:17px;
-    line-height:15px;
-    text-align:left;
-    margin-left:30px;
-}
 
 
 .right{
     margin: 0 auto;
     padding-top:40px;
-    padding-right:40px;
-    width: 800px;
+    /*padding-right:10vh;*/
+    /*width: 800px;*/
+    padding-right:5%;
+    width:60%;
     display:flex;
     flex-direction:column;
 }
@@ -322,7 +352,7 @@ export default {
 .right .lyric
 {
     margin: 0 auto;
-    width: 800px;
+    width:100%;
     height: 300px;
     background-color: rgba(0,0,0,0.05);
     overflow: hidden;
@@ -330,7 +360,7 @@ export default {
 
 .right .btn
 {
-    width: 800px;
+    width:100%;
     height: 30px;
     top:30px;
     margin-top:30px;
@@ -341,7 +371,7 @@ export default {
 /*评论*/
 .right .comment {
     margin: 20px auto;
-    width: 800px;
+    width:100%;
     .comment-title {
         height: 50px;
         line-height: 50px;

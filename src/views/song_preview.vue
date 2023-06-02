@@ -33,7 +33,7 @@
                         <p v-if="index>=data_index" style="color:black">{{item.words}}</p>
                     </div>
                 </div>
-                <div class="score">
+                <div class="evaluation">
                     <p>{{evaluation}}</p>
                 </div>
                 <div class="option">
@@ -72,9 +72,6 @@ export default {
         const lrcData=ref([]);//歌词数据数组
         const dataWords=ref("");//当前歌词
         const data_index=ref(0);//当前歌词索引
-        // const evaluation="你的歌唱表现非常优秀，尤其是情感方面，达到了满分的分数。你的音准表现也非常出色，"+
-        //     "达到了90分的高分。此外，你的音色也非常好，获得了80分的高分。虽然你的节奏分数较低，但这并不影响你的整体表现。"+
-        //     "建议你可以多加练习节奏感，并且注重口腔肌肉的控制，以提高唱歌技巧。继续保持！";//评分评价
         const evaluation=ref(router.currentRoute.value.query.comments);
         const current_song=ref([]);
         const LRC=ref("");
@@ -214,36 +211,41 @@ export default {
 .wrapper{
     padding:0;
     margin:0;
+    width: 100%;
     position:fixed;
+    background: linear-gradient(to right bottom, rgba(255, 133, 234, 0.5), rgba(0, 255, 236, 0.5));
 }
 
 .cont{
     margin: 0 auto;
     width: 1200px;
+    width: 100%;
     display:flex;
 }
 
 .left{
-    margin: 0 auto;
-    padding-top:40px;
-    padding-left:40px;
-    width: 250px;
+    margin: 40px auto;
+    /*padding-top:40px;*/
+    padding-left:5%;
+    padding-right:5%;
+    /*width: 250px;*/
+    width:25%;
     height:800px;
     display:flex;
     flex-direction:column;
-}
 
+    .song-pic
+    {
+        border-radius:5px;
+        width:80%;
+    }
 
-.song-pic
-{
-    border-radius:5px;
-}
-
-.song-info {
-    font-size:17px;
-    line-height:15px;
-    text-align:left;
-    margin-left:30px;
+    .song-info {
+        font-size:17px;
+        line-height:15px;
+        text-align:left;
+        /*margin-left:30px;*/
+    }
 }
 
 .score_message
@@ -263,15 +265,17 @@ export default {
 .right{
     margin: 0 auto;
     padding-top:40px;
-    padding-right:20px;
-    width: 800px;
+    /*padding-right:10vh;*/
+    /*width: 800px;*/
+    padding-right:5%;
+    width:60%;
     display:flex;
     flex-direction:column;
 }
 
 .right .option
 {
-    width:800px;
+    width:100%;
     height:30px;
     margin-top:30px;
     display:flex;
@@ -285,20 +289,22 @@ export default {
 .right .lyric
 {
     margin: 0 auto;
-    width: 800px;
+    width: 100%;
     height: 350px;
     background-color: rgba(0,0,0,0.05);
     overflow: hidden;
 }
 
-.right .score
+.evaluation
 {
     margin-top:20px;
-    width: 780px;
-    height: 80px;
-    padding:10px;
+    width: 90%;
+    height: 110px;
+    padding-left:5%;
+    padding-right:5%;
     background-color: rgba(0,0,0,0.05);
     text-align: left;
+    overflow:auto;
 }
 
 .bottom {
