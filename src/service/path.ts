@@ -34,7 +34,8 @@ const base = {
     getWorkById:'/getWorkById',//根据work_id获取work信息
     selectUserById:'/selectUserById',
     postMusic:'/getScores',
-    postWork:'/insertWork'//提交作品
+    postWork:'/insertWork',//提交作品,
+    getAiComment:'/getComments'
 
 }
 

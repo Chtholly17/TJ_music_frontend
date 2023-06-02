@@ -217,7 +217,7 @@ export default {
                 console.log(current_work.value.workOwner)
                 userForm.append("userId", current_work.value.workOwner);
                 // convert workOwner to string
-
+                
                 console.log(userForm)
                 axios.get(path.baseUrl+ path.selectUserById, {params:{userId : current_work.value.workOwner}}).then((res) => {
                     console.log(res)
