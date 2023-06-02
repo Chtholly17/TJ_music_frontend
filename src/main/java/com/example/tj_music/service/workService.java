@@ -65,6 +65,8 @@ public class workService {
     }
 
     public Result getWorkList(String tag, String order) {
+        // print out the tag and order
+//        System.out.println("tag: " + tag + " order: " + order);
         List<Work> works = null;
         List<GetWorkListVO> works_vo = new ArrayList<>();
         if (order.equals("like")) {
@@ -77,6 +79,9 @@ public class workService {
         if(works == null) {
             return Result.fail("no work with tag " + tag);
         }
+
+        // print out the works
+//        System.out.println("works: " + works);
 
         // iterate works
         for(Work work : works) {
@@ -133,6 +138,13 @@ public class workService {
         if(user == null) {
             return Result.fail("user not found with student number " + user_student_number);
         }
+
+        Origin origin=originMapper.selectOriginByOriginId(work_origin_version);
+        if(origin==null){
+            return Result.fail("origin not found with origin id " + work_origin_version);
+        }
+
+
         // fill the work
         work.setWorkName(work_name);
         work.setWorkComment(work_comment);
@@ -145,6 +157,11 @@ public class workService {
         work.setWorkQualityScore(work_quality_score);
         work.setWorkPreciseScore(work_precise_score);
         work.setWorkPitchScore(work_pitch_score);
+        work.setWorkTag(origin.getOriginTag());
+
+
+        // print out all the attributes
+        System.out.println(work.toString());
 
         workMapper.insertWork(work.getWorkName(), work.getWorkComment(), work.getWorkOwner(), work.getWorkOriginVersion(), work.getWorkLike(), work.getWorkVoiceFilename(), work.getWorkTag(), work.getWorkPrefaceFilename(), work.getWorkQualityScore(), work.getWorkPreciseScore(), work.getWorkPitchScore());
 

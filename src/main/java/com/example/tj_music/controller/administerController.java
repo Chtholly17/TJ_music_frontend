@@ -121,6 +121,7 @@ public class administerController {
         originFrontEnd.setOriginPrefaceFile(request.getFile("originPrefaceFile"));
         originFrontEnd.setOriginIntroduction(request.getParameter("originIntroduction"));
         originFrontEnd.setOriginLrcFile(request.getFile("originLrcFile"));
+        originFrontEnd.setOriginMusicTag(request.getParameter("originMusicTag"));
         originService.insertOrigin(originFrontEnd,originIdInt);
         return Result.success();
     }

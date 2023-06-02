@@ -106,6 +106,7 @@ public class originService {
         origin.setOriginAuthor(originFrontEnd.getOriginAuthor());
         origin.setOriginDuration(10);
         origin.setOriginIntroduction(originFrontEnd.getOriginIntroduction());
+        origin.setOriginTag(originFrontEnd.getOriginMusicTag());
 
 //         save the file to the server
 //         MusicUtils musicUtils = new MusicUtils();
@@ -153,24 +154,28 @@ public class originService {
 
 
          // get the duration
-        int duration = round(musicUtils.getMp3Duration(ret.get(MusicUtils.UploadResult.PATH).toString()));
-        origin.setOriginDuration(duration);
+//        int duration = round(musicUtils.getMp3Duration(ret.get(MusicUtils.UploadResult.PATH).toString()));
+//        origin.setOriginDuration(duration);
+          int duration=0;
         // print the duration
-        System.out.println(origin.getOriginDuration());
+//        System.out.println(origin.getOriginDuration());
 
         // print the filenames
 //        System.out.println(origin.getOriginBgmusicFilename());
 //        System.out.println(origin.getOriginVoiceFilename());
 //        System.out.println(origin.getOriginPrefaceFilename());
-        
+
+        // print all
+        System.out.println(origin.toString());
+
         // search whether the given origin id exist
         boolean exist = originMapper.selectOriginByOriginId(originId) != null;
 
         if(!exist) {
-            originMapper.insertOrigin(origin.getOriginName(), origin.getOriginAuthor(), origin.getOriginBgmusicFilename(), origin.getOriginVoiceFilename(), origin.getOriginDuration(), origin.getOriginPrefaceFilename(), origin.getOriginIntroduction(),origin.getOriginLrcFilename(), "null");
+            originMapper.insertOrigin(origin.getOriginName(), origin.getOriginAuthor(), origin.getOriginBgmusicFilename(), origin.getOriginVoiceFilename(), origin.getOriginDuration(), origin.getOriginPrefaceFilename(), origin.getOriginIntroduction(),origin.getOriginLrcFilename(), origin.getOriginTag());
             return;
         }
-        originMapper.updateOriginById(originId, origin.getOriginName(), origin.getOriginAuthor(), origin.getOriginBgmusicFilename(), origin.getOriginVoiceFilename(), origin.getOriginDuration(), origin.getOriginPrefaceFilename(), origin.getOriginIntroduction(), "null");
+        originMapper.updateOriginById(originId, origin.getOriginName(), origin.getOriginAuthor(), origin.getOriginBgmusicFilename(), origin.getOriginVoiceFilename(), origin.getOriginDuration(), origin.getOriginPrefaceFilename(), origin.getOriginIntroduction(), origin.getOriginTag());
     }
 
     public Result deleteOrigin(Integer originId) {

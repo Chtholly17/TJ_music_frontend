@@ -21,5 +21,6 @@ public class OriginFrontEnd {
     MultipartFile originPrefaceFile;
     MultipartFile originLrcFile;
     String originIntroduction;
+    String originMusicTag;
 //    MultipartFile[] file;
 }
