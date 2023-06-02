@@ -89,7 +89,7 @@ public class workController {
         return workService.insertWork(
                 workName,
                 workComment,
-                userStudentNumber,
+                workOwner,
                 workOriginVersion,
                 0,
                 workVoiceFilename,
