@@ -186,7 +186,8 @@ export default {
             //判断是否关注
             user_id.value = getCookie("userNumber")
             api.checkFollow(user_id.value,other_id.value).then(res=>{
-                if(res.data===0)    //未关注
+
+                if(res.data.code===0)    //未关注
                 {
                     is_follow.value=false
                 }
