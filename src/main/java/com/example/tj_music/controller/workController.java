@@ -80,9 +80,12 @@ public class workController {
      * @return
      */
     @PostMapping("/insertWork")
-    public Result insertWork(@RequestParam("workName") String workName, @RequestParam("workComment") String workComment, @RequestParam("userStudentNumber") String userStudentNumber, @RequestParam("workOriginVersion") int workOriginVersion, @RequestParam("workVoiceFilename") String workVoiceFilename, @RequestParam("workPreciseScore") int workPreciseScore, @RequestParam("workQualityScore") int workQualityScore, @RequestParam("workPitchScore") int workPitchScore) {
+    public Result insertWork(@RequestParam("workName") String workName, @RequestParam("workComment") String workComment, @RequestParam("workOwner") String workOwner, @RequestParam("workOriginVersion") int workOriginVersion, @RequestParam("workVoiceFilename") String workVoiceFilename, @RequestParam("workPreciseScore") int workPreciseScore, @RequestParam("workQualityScore") int workQualityScore, @RequestParam("workPitchScore") int workPitchScore) {
         String workPrefaceFilename;
         Origin origin = originService.getOriginByOriginId(workOriginVersion);
+        if (origin == null) {
+            return Result.fail("origin does not exist.");
+        }
         return workService.insertWork(
                 workName,
                 workComment,

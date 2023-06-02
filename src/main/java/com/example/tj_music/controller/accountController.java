@@ -174,4 +174,16 @@ public class accountController {
     public Result updateUserStatus(@RequestParam("userId") String userStudentNumber, @RequestParam("status") String status) {
         return accountService.updateUserStatusByUserId(userStudentNumber, status);
     }
+
+    /**
+     * 通过学号查找用户
+     * code 0: 用户不存在
+     * code 1: 成功
+     * @param userStudentNumber 学号
+     * @return 用户信息
+     */
+    @GetMapping("/getUserByStudentNumber")
+    public Result getUserByStudentNumber(@RequestParam("userStudentNumber") String userStudentNumber) {
+        return accountService.getUserByStudentNumber(userStudentNumber);
+    }
 }
