@@ -85,8 +85,17 @@ export const commitRegister = async () => {
                     if(baseForm.value)
                         baseForm.value.resetFields() // 清空表单，打开登录弹窗
                 }
+                else if (response.data.code == 0) {
+                    ElMessage.error("验证码错误！")
+                    return false
+                }
+                else if (response.data.code == 2) {
+                    ElMessage.error("两次密码不相同！")
+                    return false
+                }
                 else {
-                    ElMessage.error(response.data.msg)
+                    ElMessage.error("未知错误！错误码："+response.data.code)
+                    return false
                 }
             } catch (error: any) {
                 ElMessage.error(error.code+': 提交失败，请检查网络或联系管理员')
@@ -109,15 +118,16 @@ export const sendRegisterVRCode = async (userInfo: any): Promise<boolean> => {
     if (FormValid) {
         try {
             const response = await api.post_sendRegisterVRCode(userInfo);
-            console.log(response.data);
-            if (response.data.code == 1)
-            {
+            if (response.data.code == 1) {
                 ElMessage.success("验证码发送成功，请注意查收")
                 return true
             }
-            else // 发送失败，可能是账号已经存在
-            {
-                ElMessage.error("注册失败，请检查账号是否已经存在")
+            else if (response.data.code == 0) {
+                ElMessage.error("验证码发送失败，账号已存在！")
+                return false
+            }
+            else {
+                ElMessage.error("未知错误！错误码："+response.data.code)
                 return false
             }
         } catch (error: any) {

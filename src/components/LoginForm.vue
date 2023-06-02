@@ -9,7 +9,7 @@
             <el-form-item prop="password">
                 <el-input v-model="loginData.loginForm.password"
                           placeholder="密码" class="preface_input"
-                          prefix-icon="Lock"
+                          prefix-icon="Lock" @keyup.enter="commitLogin()"
                           show-password></el-input>
             </el-form-item>
         </el-form>

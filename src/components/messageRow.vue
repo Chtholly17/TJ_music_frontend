@@ -1,9 +1,7 @@
 <template>
     <div class="rowBox">
         <div class="profileColumn">
-            <div class="userImageBox">
-                <el-image :src="profilePath" class="userImage" fit="scale-down"></el-image>
-            </div>
+            <el-avatar :size="50" :src="profilePath" fit="cover"></el-avatar>
         </div>
         <div class="bubbleColumn">
             <div class="bubbleBox">
@@ -61,17 +59,6 @@ const textColor = props.senderId === chatStudentNumber.value? "#222222": "#fafaf
     width: 30%;
     height: 100%;
     margin: 5px;
-}
-.userImageBox{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.userImage{
-    border-radius: 50%;
-    height: 50px;
-    width: 50px;
-    align-items: center;
 }
 .rowBox{
     display: flex;

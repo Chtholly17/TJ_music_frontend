@@ -5,7 +5,7 @@ import api from "@/service";
 import store from "@/store";
 import {closeAllDialogs} from "@/utils/DialogVisible";
 import router from "@/router";
-import {getCookie, setCookie} from "@/service/cookie";
+import {setCookie} from "@/service/cookie";
 import {visible} from "@/utils/BarVisible";
 
 export const baseForm = ref<FormInstance>();
@@ -41,7 +41,7 @@ export const commitLogin = async () => {
                 const response = await api.postLogin(loginData.loginForm); // 不能传入submitForm！
                 if (response.data.code == 1){
                     store.commit('setUserID', loginData.loginForm.userNumber)
-                    ElMessage.success("登陆成功！")
+                    // ElMessage.success("登陆成功！")
                     await getUserProfile()
                     visible.value = true;
                     closeAllDialogs()
@@ -52,10 +52,18 @@ export const commitLogin = async () => {
                         baseForm.value.resetFields() // 清空表单，关闭所有弹窗
                     await router.replace({path: '/music_square'})
                 }
-                else{
-                    ElMessage.error(response.data.msg)
+                else if(response.data.code == 0){
+                    ElMessage.error("用户不存在，请检查是否已经注册~")
                 }
-
+                else if(response.data.code == 2){
+                    ElMessage.error("密码错误！")
+                }
+                else if(response.data.code == 3){
+                    ElMessage.error("登陆失败，账号被封禁！")
+                }
+                else {
+                    ElMessage.error("未知错误！错误码："+response.data.code)
+                }
             } catch (error: any) {
                 ElMessage.error(error.code+': 提交失败，请检查网络或联系管理员')
             }
@@ -72,20 +80,19 @@ export const commitLogin_cookie = async () => {
         visible.value = true;
         closeAllDialogs()
         await getUserProfile()
-        if(baseForm.value)
-            baseForm.value.resetFields() // 清空表单，关闭所有弹窗
+        // 手动清空表单
+        loginData.loginForm.userNumber = "";
+        loginData.loginForm.password = "";
         if(router.currentRoute.value.path == "/hello")
             await router.replace("/music_square")
     }
     else {
-        ElMessage.warning("您还没有登录，请先登录")
         await router.replace("/hello")
     }
 }
 
 const getUserProfile = async () => {
     const userID = computed(() => store.getters.getUserID).value
-    const user_id=getCookie("")
     const response = await api.getUserImage({user_student_number: userID})
     if (response.data.code == 1){
         store.commit('setUserPhoto', response.data.data)

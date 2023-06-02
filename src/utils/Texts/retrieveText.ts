@@ -108,8 +108,21 @@ export const commitRetrieve = async () => {
                     if(baseForm.value)
                         baseForm.value.resetFields() // 清空表单，打开登录弹窗
                 }
-                else{
-                    ElMessage.error(response.data.msg)
+                else if (response.data.code == 0) {
+                    ElMessage.error("验证码错误！")
+                    return false
+                }
+                else if (response.data.code == 2) {
+                    ElMessage.error("两次密码不相同！")
+                    return false
+                }
+                else if (response.data.code == 3) {
+                    ElMessage.error("用户不存在！")
+                    return false
+                }
+                else {
+                    ElMessage.error("未知错误！错误码："+response.data.code)
+                    return false
                 }
             } catch (error: any) {
                 ElMessage.error(error.code+': 提交失败，请检查网络或联系管理员')
@@ -132,15 +145,17 @@ export const sendRetrieveVRCode = async (userInfo: any): Promise<boolean> => {
     if (FormValid) {
         try {
             const response = await api.post_sendRetrieveVRCode(userInfo);
-            console.log(response.data);
             if (response.data.code == 1)
             {
                 ElMessage.success("验证码发送成功，请注意查收")
                 return true
             }
-            else // 发送失败，可能是账号未注册
-            {
-                ElMessage.error("找回失败，请检查账号是否未注册")
+            else if (response.data.code == 0) {
+                ElMessage.error("验证码发送失败，账号不存在！")
+                return false
+            }
+            else {
+                ElMessage.error("未知错误！错误码："+response.data.code)
                 return false
             }
         } catch (error: any) {

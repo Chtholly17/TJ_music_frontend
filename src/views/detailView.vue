@@ -1,5 +1,5 @@
 <template>
-    <div id="detailFrame">
+    <div id="detailFrame" v-loading="loadingDetail">
         <div style="height:20px"></div>
         <div class="frameBox detailDiv">
             <div class="songDetailBox">
@@ -18,7 +18,7 @@
         </div>
         <div style="height:20px"></div>
     </div>
-    <div class="frameBox">
+    <div class="frameBox" v-loading="loadingWorks">
         <div class="worksItemBox">
             <el-divider></el-divider>
             <div class="worksItemTitleBox">
@@ -41,19 +41,24 @@ import {onBeforeRouteLeave, useRoute} from "vue-router";
 import api from "@/service";
 import {ElMessage} from "element-plus";
 import {accompanimentInfoList, songWorksInfoList} from "@/utils/Texts/accompanimentText";
-import {onBeforeMount} from "vue";
+import {onBeforeMount, ref} from "vue";
 
 export default {
     name: "detailView",
     components: {WorksItem, User},
     setup() {
+        const loadingDetail = ref(true);
+        const loadingWorks = ref(true);
         const queryParams = useRoute().query;
         const getSongDetail = () => {
+            loadingDetail.value = true;
             for(let i = 0; i < accompanimentInfoList.length; ++i) {
                 if (String(accompanimentInfoList[i].originId) === queryParams.originId){
+                    loadingDetail.value = false;
                     return accompanimentInfoList[i]
                 }
             }
+            ElMessage.error("找不到这条伴奏信息")
         }
         const getSongWorks = () => {
             api.getWorksById(queryParams).then((response) => {
@@ -70,44 +75,18 @@ export default {
                         const iter = songWorksInfoList[i];
                         iter.work.createTime = iter.work.createTime.substring(0,10)
                     }
-                } else {
+                }
+                else {
                     ElMessage.error(response.data.msg)
                 }
             })
-            // return ref(
-            //     {
-            //         name: '雪distance',
-            //         cover: 'profile.jpg',
-            //         singer: 'capper',
-            //         intro: '太好听了呜呜呜呜呜呜呜呜，你听：在这么冷的天别离我那么远再靠近我一点可是雪 飘进双眼看不见你桥牌的谎言心甘情愿囚禁在深渊舔舐着伤口和刀尖可是雪 飘进双眼看不见你桥牌的谎言心甘情愿囚禁在深渊烧一捧雪花做硝烟',
-            //         works: [
-            //             {
-            //                 profile: 'profile.jpg',
-            //                 nickname: '孙笑川',
-            //                 date: '2023-02-03',
-            //                 score: '5.28',
-            //                 likes: '114'
-            //             },
-            //             {
-            //                 profile: 'profile.jpg',
-            //                 nickname: '孙笑川不爱吃香菜',
-            //                 date: '2020-02-03',
-            //                 score: '99.90',
-            //                 likes: '1145999'
-            //             },
-            //             {
-            //                 profile: 'profile.jpg',
-            //                 nickname: '孙笑川已黑化已有闺hhhhhh哈哈哈哈哈哈',
-            //                 date: '2022-02-03',
-            //                 score: '88.90',
-            //                 likes: '1145'
-            //             }
-            //         ]
-            //     }
-            // )
         }
         let songDetails = getSongDetail()
-        onBeforeMount(getSongWorks)
+        onBeforeMount(()=>{
+            loadingWorks.value = true;
+            getSongWorks();
+            loadingWorks.value = false;
+        })
         onBeforeRouteLeave(() => {
             // 离开时，清空数组
             for(let i = 0; i < songWorksInfoList.length; ++i)
@@ -118,6 +97,8 @@ export default {
         //     songDetails = getSongDetail()
         // })
         return {
+            loadingDetail,
+            loadingWorks,
             songWorksInfoList,
             songDetails
         }
