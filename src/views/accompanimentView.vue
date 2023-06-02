@@ -1,14 +1,15 @@
 <template>
     <div id="accompanimentFrame">
-        <div id="accompanimentBox">
+        <div id="accompanimentBox" v-loading="loading">
             <div style="height: 10px"></div>
             <div id="searchResult">搜索结果</div>
             <div id="searchResultNumber">
-                <el-divider content-position="left">共找到&nbsp;{{itemsLength}}&nbsp;条结果</el-divider>
+                <el-divider content-position="left">{{answerKeyWord}}：共找到&nbsp;{{itemsLength}}&nbsp;条结果</el-divider>
             </div>
-            <accompaniment-item v-for="(item, index) in accompanimentInfoList" :key="item.originId"
-                                :cover="item.originPrefaceFilename" :name="item.originName" :singer="item.originAuthor"
-                                :index="index" :duration="'4:30'" :id="item.originId"></accompaniment-item>
+                <el-empty description="什么也没有查到..." v-if="itemsLength === 0" />
+                <accompaniment-item v-else v-for="(item, index) in accompanimentInfoList" :key="item.originId"
+                                    :cover="item.originPrefaceFilename" :name="item.originName" :singer="item.originAuthor"
+                                    :index="index" :duration="'4:30'" :id="item.originId"></accompaniment-item>
             <div style="height: 10px"></div>
         </div>
     </div>
@@ -26,30 +27,36 @@ export default {
     name: "accompanimentView",
     components: {AccompanimentItem},
     setup() {
-
+        const answerKeyWord = ref("");
         const itemsLength = ref(0);
+        const loading = ref(true);
         //首先在setup中定义
         const getAccompanimentInfo = async () => {
             try {
+                loading.value = true;
                 const response = await api.postSearchAccompanimentByKeyword(keyWord)
+                while (accompanimentInfoList.length > 0) {
+                    accompanimentInfoList.pop()
+                }
+                itemsLength.value = 0
                 if (response.data.code === 1) {
-                    ElMessage.success("查找成功！");
-
-                    while (accompanimentInfoList.length > 0) {
-                        accompanimentInfoList.pop()
-                    }
                     for (let i = 0; i < response.data.data.length; ++i) {
                         const iter = response.data.data[i];
                         accompanimentInfoList.push(iter)
                     }
                     itemsLength.value = response.data.data.length;
-                } else {
-                    ElMessage.error(response.data.msg)
+                }
+                else if (response.data.code === 0) {
+                    // 什么也没查到
+                }
+                else {
+                    ElMessage.error("未知错误！错误码："+response.data.code)
                 }
             } catch (error) {
                 console.log(error)
                 ElMessage.error(error.code + ': 提交失败，请检查网络或联系管理员')
             }
+            loading.value = false;
         }
         const route = useRoute();
         let keyWord = route.query;
@@ -58,6 +65,7 @@ export default {
             if(to.name === from.name) {
                 next()
                 keyWord = to.query;
+                answerKeyWord.value = keyWord.originTag;
                 getAccompanimentInfo()
             }
             else {
@@ -66,8 +74,10 @@ export default {
         })
         return {
             keyWord,
+            answerKeyWord,
             accompanimentInfoList,
             itemsLength,
+            loading,
         }
     }
 }
