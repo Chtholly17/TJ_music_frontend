@@ -5,7 +5,7 @@
             <el-main class="user_main" >
                 <div class="user_top">
                     <div >
-                       <img :src=real_img_url class="user_photo" >
+                        <el-avatar :src="real_img_url " :size="280" fit="cover"></el-avatar>
                         <div style="height: 10px"></div>
                         <el-button type="primary" @click="show_upload=true">更换头像</el-button>
                     </div>
@@ -140,7 +140,6 @@ export default {
         onBeforeMount(()=>{
             const userNumber=ref();
             userNumber.value = getCookie("userNumber")
-            // const user_id=computed(() => store.getters.getUserID)
             // 先获取用户学号
             userinfoData.userinfoForm.user_student_number = userNumber.value;
             user_id.value=userNumber.value;

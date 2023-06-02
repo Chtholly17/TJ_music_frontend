@@ -1,10 +1,9 @@
 <template>
-  <div class="a_message" :class="isHover? 'hoverItem':  'oddItem'"
+  <div class="a_message" :class="isFouse?'hoverItem':isHover? 'hoverItem':  'oddItem'"
        @mouseover="itemMouseOverHandler" @mouseleave="itemMouseLeaveHandler" @click="itemClickHandler">
 <!--  <div class="a_message">-->
       <div class="user_image_box">
-          <el-image :src="props.userImage" class="user_image"
-                    ></el-image>
+          <el-avatar :src="props.userImage" class="user_image"></el-avatar>
       </div>
       <div class="name_last_box">
           <div class="nicknamebox">
@@ -19,24 +18,34 @@
 </template>
 
 <script setup>
-import {defineProps, ref} from "vue";
+import {defineProps, onBeforeMount, ref} from "vue";
 import {chatNickname, chatProfile, chatStudentNumber} from "@/utils/chatParams";
 
 const props = defineProps(['nickname','userImage','last_message','index','user_id'])  //昵称，头像，最后一条消息,下标
 
 
 const isHover = ref(false)
+const isFouse=ref(false)
 const itemMouseOverHandler = () => {
     isHover.value = true
 }
 const itemMouseLeaveHandler = () => {
-    isHover.value = false
+    if(chatStudentNumber.value!==props.user_id)
+        isHover.value = false
 }
 const itemClickHandler = () => {
     chatNickname.value = props.nickname;
     chatProfile.value = props.userImage;
     chatStudentNumber.value = props.user_id;
+    isFouse.value=true
 }
+
+onBeforeMount(()=>{
+    if(chatStudentNumber.value===props.user_id)
+        isFouse.value=true
+    console.log(props.nickname)
+    console.log(isFouse.value)
+})
 
 </script>
 
