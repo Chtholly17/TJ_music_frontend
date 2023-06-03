@@ -3,7 +3,7 @@
 
         <div class="cont">
             <div class="left"><!--歌曲图片、歌曲名称、歌手、翻唱-->
-                <el-image class="song-pic" fit="fill" :src="current_song.originPrefaceFilename"/>
+                <el-image class="song-pic" fit="fill" :src="current_work.workPrefaceFilename"/>
                 <br/>
                 <div class="song-info">
                     <p>歌手：{{current_song.originAuthor }}</p>
