@@ -10,10 +10,7 @@
                   <h3>摇滚榜</h3>
               </el-menu-item>
               <el-menu-item class="rank_item" @click="change_list(3)">
-                  <h3>金属榜</h3>
-              </el-menu-item>
-              <el-menu-item class="rank_item" @click="change_list(4)">
-                  <h3>古典榜</h3>
+                  <h3>流行榜</h3>
               </el-menu-item>
               <el-menu-item class="rank_item" @click="change_list(5)">
                   <h3>电子榜</h3>
@@ -112,7 +109,6 @@ export default {
         {
             fetchRankList(name.substring(0,2),type).then(res=>{
                 all_rank.value=res
-                //console.log(all_rank.value)
             })
         }
 
@@ -125,10 +121,7 @@ export default {
                 rank_name.value="摇滚榜"
             }
             else if(id===3){
-                rank_name.value="金属榜"
-            }
-            else if(id===4){
-                rank_name.value="古典榜"
+                rank_name.value="流行榜"
             }
             else if(id===5){
                 rank_name.value="电子榜"
