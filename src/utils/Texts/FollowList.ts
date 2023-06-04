@@ -14,10 +14,10 @@ export const fetchFollowList=async (user_id:string)=>{
 }
 
 export const deleteFollow=async (user_id:string,follow_id:string)=>{
-    console.log(user_id,follow_id)
+    // console.log(user_id,follow_id)
     try {
         const response = await api.deleteFollow(user_id, follow_id)
-        console.log(response)
+        // console.log(response)
     }catch (error: any) {
         ElMessage.error(error.code+': 提交失败，请检查网络或联系管理员')
     }

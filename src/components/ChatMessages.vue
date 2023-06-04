@@ -5,7 +5,7 @@
                 {{chatNickname}}
             </div>
         </div>
-        <div id="chatBox">
+        <div id="chatBox" v-loading="chatLoading">
           <message-row v-for="item in messageList" :key="item"
               :sender-profile="chatProfile" :sender-id="item.sender_student_number" :content="item.message_content"></message-row>
         </div>
@@ -13,10 +13,9 @@
 </template>
 
 <script setup lang="ts">
-import {chatNickname, messageList, chatProfile, getDetailMessage} from "@/utils/chatParams";
+import {chatNickname, messageList, chatProfile, getDetailMessage, chatLoading} from "@/utils/chatParams";
 import MessageRow from "@/components/messageRow.vue";
 import {onBeforeMount} from "vue";
-
 onBeforeMount(getDetailMessage);
 </script>
 

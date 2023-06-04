@@ -7,7 +7,9 @@ export const chatNickname = ref("")
 export const chatProfile = ref("")
 export const chatStudentNumber = ref("")
 
+export const chatLoading = ref(true);
 export const getDetailMessage = async () => {
+    chatLoading.value = true;
     const response = await api.getDetailMessage(chatStudentNumber.value,
         computed(() => store.getters.getUserID).value)
     if(response.data.code != 1){
@@ -21,6 +23,7 @@ export const getDetailMessage = async () => {
         for(let i = 0; i < length2; ++i)
             messageList.push(response.data.data.shift())
     }
+    chatLoading.value = false;
 }
 
 interface messageType {
