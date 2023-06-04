@@ -43,8 +43,8 @@ const itemClickHandler = () => {
 onBeforeMount(()=>{
     if(chatStudentNumber.value===props.user_id)
         isFouse.value=true
-    console.log(props.nickname)
-    console.log(isFouse.value)
+    // console.log(props.nickname)
+    // console.log(isFouse.value)
 })
 
 </script>

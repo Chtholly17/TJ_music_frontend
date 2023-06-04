@@ -43,7 +43,7 @@ export default {
             user_id=count.value
             fetchFollowList(user_id).then(res=>{
                 follow_list.value=res
-                console.log(res)
+                // console.log(res)
             })
 
         })

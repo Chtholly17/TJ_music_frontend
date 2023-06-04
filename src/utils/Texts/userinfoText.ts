@@ -31,8 +31,8 @@ export const userinfoRules=reactive({
 
 export const commitUserInfo=async ()=>{
 
-    console.log("获取用户学号2")
-    console.log( userinfoData.userinfoForm.user_student_number)
+    // console.log("获取用户学号2")
+    // console.log( userinfoData.userinfoForm.user_student_number)
     const submitForm = unref(baseForm)
     if (!submitForm)
     {
@@ -41,10 +41,10 @@ export const commitUserInfo=async ()=>{
     await submitForm.validate( async (valid: any) => {
         if (valid) {
             try {
-                console.log("提交用户信息")
-                console.log(userinfoData.userinfoForm)
+                // console.log("提交用户信息")
+                // console.log(userinfoData.userinfoForm)
                 const response = await api.postUserInfo(userinfoData.userinfoForm); // 不能传入submitForm！
-                console.log(response.data);
+                // console.log(response.data);
             } catch (error: any) {
                 ElMessage.error(error.code+': 提交失败，请检查网络或联系管理员')
             }

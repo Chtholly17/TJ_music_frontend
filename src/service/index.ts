@@ -86,9 +86,9 @@ const api = {
         })
     },
     postComment(comment_target:any,comment_owner:any,comment_content:any){
-        console.log("target:"+typeof(comment_target))
-        console.log("owner:"+comment_owner)
-        console.log("content:"+comment_content)
+        // console.log("target:"+typeof(comment_target))
+        // console.log("owner:"+comment_owner)
+        // console.log("content:"+comment_content)
         return axios.post(path.baseUrl+path.postComment,
             {
                 workCommentTarget:comment_target,
@@ -97,9 +97,9 @@ const api = {
             })
     },
     postWork(work_name:any,work_comment:any,work_owner:any,work_origin_version:any,work_voice_file_name:any,work_precise_score:any,work_quality_score:any,work_pitch_score:any){
-        console.log("work_name:"+work_name)
-        console.log("work_owner:"+work_owner)
-        console.log("work_origin_version："+work_origin_version)
+        // console.log("work_name:"+work_name)
+        // console.log("work_owner:"+work_owner)
+        // console.log("work_origin_version："+work_origin_version)
         return axios.post(path.baseUrl+path.postWork,
             {
                 workName:work_name,
@@ -222,7 +222,7 @@ const api = {
     },
     postMessage(message: any)
     {
-        console.log(message)
+        // console.log(message)
         return axios.post(path.baseUrl + path.sendMessage, message)
     },
     getDetailMessage(id1: any, id2: any)

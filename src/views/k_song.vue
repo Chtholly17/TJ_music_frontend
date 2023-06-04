@@ -197,7 +197,7 @@ export default {
             }
             else {
                 const temp=ref(audio.value.currentTime);
-                cur_mode.value = 1;//切换为原唱 
+                cur_mode.value = 1;//切换为原唱
                 cur_mode_text.value="伴唱";
                 audio.value.src = current_song.value.originVoiceFilename;
                 audio.value.currentTime=temp.value;
@@ -208,11 +208,11 @@ export default {
 
 
         const start = async () => {
-            console.log(start_isDisabled.value);
+            // console.log(start_isDisabled.value);
             start_isDisabled.value=true;
             pause_isDisabled.value=false;
             recoder.value.start().then(() => {
-                console.log('start recording')
+                // console.log('start recording')
                 startPlaying.value=true;
                 duration.value = audio.value.duration
                 audio.value.play();
@@ -233,7 +233,7 @@ export default {
         const again = async () => {
             recoder.value.stop()
             recoder.value.start().then(() => {
-                console.log('start recording')
+                // console.log('start recording')
             }, (err) =>{
                 console.log(err)
             });
@@ -257,14 +257,14 @@ export default {
             formData.append("originId",originId.value);
             formData.append("userStudentNumber",'20000')
             axios.post(path.baseUrl+path.postMusic,formData).then(res=>{
-                console.log("上传成功");
-                console.log(res);
-                console.log(res.data.data.scores)
-                console.log(res.data.data.url)
+                // console.log("上传成功");
+                // console.log(res);
+                // console.log(res.data.data.scores)
+                // console.log(res.data.data.url)
                 let url = res.data.data.url
                 let scores = res.data.data.scores
                 // path.getComments,scores.preciseScore,scores.qualityScore,scores.pitchScore
-                console.log(scores)
+                // console.log(scores)
                 loading.close()
                 let scoreForm = new FormData()
                 scoreForm.append("preciseScore",scores.preciseScore)
@@ -277,15 +277,15 @@ export default {
                 })
                 axios.post(path.baseUrl+path.getAiComment,scoreForm).then(res=>{
                     loading_comment.close()
-                    console.log(res)
+                    // console.log(res)
                     let comments = res.data.data
-                    console.log(comments)
+                    // console.log(comments)
                     router.push({path: '/song_preview',query:{precise: scores.preciseScore, quality: scores.qualityScore , pitch: scores.pitchScore, url: url, id:originId.value, comments: comments}})
                 }).catch(err=>{
                     console.log(err);
                   router.push({path: '/song_preview',query:{precise: scores.preciseScore, quality: scores.qualityScore , pitch: scores.pitchScore, url: url, id:originId.value, comments: "获取评价失败"}})
                 })
-              
+
                 // router.push({path: '/song_preview',query:{score: scores, url: res.data.data.url, id:router.currentRoute.value.query.id.toString()}})
             }).catch(err=>{
                 console.log(err);
@@ -294,8 +294,8 @@ export default {
 
         onBeforeMount(() => {
             let form=new FormData()
-            form.append("originId","8")
-            //form.append("originId",toString(router.currentRoute.value.query.id))//获取从music_player来的原唱ID编号
+            //form.append("originId","8")
+            form.append("originId",router.currentRoute.value.query.id.toString())//获取从music_player来的原唱ID编号
             axios.post(path.baseUrl + path.getOriginByOriginId, form).then((res) => {
                 current_song.value = res.data.data;
                 formatLrc();
@@ -303,7 +303,7 @@ export default {
                 wave.value=document.getElementById("video");
                 audio.value.src = current_song.value.originBgmusicFilename;
                 originId.value = current_song.value.originId;
-                console.log(current_song.value.originId)
+                // console.log(current_song.value.originId)
                 recoder.value = new Recoder();
             })
         })

@@ -101,7 +101,7 @@ export const commitRetrieve = async () => {
         if (valid) {
             try { // TODO: 剥离checkPassword，使用新的对象进行传送
                 const response = await api.postRetrieve(retrieveData.retrieveForm); // 不能传入submitForm！
-                console.log(response.data);
+                // console.log(response.data);
                 if (response.data.code == 1){
                     ElMessage.success("修改成功！请保存好新密码")
                     showLoginDialog()
