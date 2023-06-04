@@ -12,7 +12,10 @@
                         <el-text truncated class="singerText">{{songDetails.originAuthor}}</el-text></div>
                     <div class="introBox">{{songDetails.originIntroduction}}</div>
                     <div style="height: 100%"></div>
-                    <div class="singBox"><el-button type="primary" @click="wantSingHandler">我 也 要 唱</el-button></div>
+                    <div class="singBox">
+                        <el-button type="primary" color="#e879bc" :icon="Microphone"
+                                   class="wantButton" @click="wantSingHandler" round>我 也 要 唱 !</el-button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -47,6 +50,7 @@ import {ElMessage} from "element-plus";
 import {accompanimentInfoList, songWorksInfoList} from "@/utils/Texts/accompanimentText";
 import {onBeforeMount, ref} from "vue";
 import router from "@/router";
+import {Microphone} from "@element-plus/icons-vue";
 
 export default {
     name: "detailView",
@@ -112,6 +116,7 @@ export default {
         //     songDetails = getSongDetail()
         // })
         return {
+            Microphone,
             itemsLength,
             loadingDetail,
             loadingWorks,
@@ -212,5 +217,11 @@ export default {
 .worksItemTitleText{
     font-size: 20px;
     letter-spacing: 2em;
+}
+.wantButton{
+    color: #ffffff;
+    font-weight: bolder;
+    font-family: '微软雅黑', sans-serif;
+    height: 40px !important;
 }
 </style>
