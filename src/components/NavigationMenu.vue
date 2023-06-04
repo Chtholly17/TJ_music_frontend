@@ -88,7 +88,7 @@ export default {
 
         })
         onBeforeUpdate(()=>{
-            console.log("bar更新")
+            // console.log("bar更新")
         })
         function show_update()
         {

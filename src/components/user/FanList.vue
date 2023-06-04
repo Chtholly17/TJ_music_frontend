@@ -44,7 +44,7 @@ export default {
             user_id=count.value
             fetchFanList().then(res=>{
                 fan_list.value=res
-                console.log(res)
+                // console.log(res)
                 })
         })
         function delete_fan(fan_id){

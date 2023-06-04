@@ -58,8 +58,8 @@ export default defineComponent({
             axios.post(path.baseUrl+path.update_user_image,pic_form).then(res=>{
 
                delay();
-               console.log("用户头像修改")
-               console.log(res);
+               // console.log("用户头像修改")
+               // console.log(res);
                store.state.bar_pic_change=!store.state.bar_pic_change;
             })
 
@@ -69,7 +69,7 @@ export default defineComponent({
         }
 
         function handleAvatarSuccess() {
-            console.log("上传成功！")
+            // console.log("上传成功！")
         }
 
         return {

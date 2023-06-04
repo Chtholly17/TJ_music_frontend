@@ -78,7 +78,7 @@ export const commitRegister = async () => {
         if (valid) {
             try { // TODO: 剥离checkPassword，使用新的对象进行传送
                 const response = await api.postRegister(registerData.registerForm); // 不能传入submitForm！
-                console.log(response.data);
+                // console.log(response.data);
                 if (response.data.code == 1) {
                     ElMessage.success("注册成功！")
                     showLoginDialog()
