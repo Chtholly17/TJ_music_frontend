@@ -51,9 +51,9 @@
               <div class="nameBox">
                   <el-text truncated size="large"> 作者 </el-text>
               </div>
-              <div class="nameBox">
-                  <el-text truncated size="large"> 评分 </el-text>
-              </div>
+<!--              <div class="nameBox">-->
+<!--                  <el-text truncated size="large"> 评分 </el-text>-->
+<!--              </div>-->
 
               <div class="singerBox">
                   <el-text truncated size="large"> 点赞数 </el-text>
@@ -98,7 +98,8 @@ export default {
             fetchRankList(rank_name.value.substring(0,2),real_type.value).then(res=>{
                all_rank.value=res
                 for(const  item of all_rank.value){
-                    item.score_ave=(item.workQualityScore+item.workPreciseScore+item.workPitchScore)/3;
+                    console.log(item)
+                    item.score_ave=(item.work_quality_score+item.work_precise_score+item.work_pitch_score)/3;
                     item.score_ave=item.score_ave.toFixed(2)
                 }
 
@@ -109,6 +110,11 @@ export default {
         {
             fetchRankList(name.substring(0,2),type).then(res=>{
                 all_rank.value=res
+                for(const  item of all_rank.value){
+                    console.log(item)
+                    item.score_ave=(item.work_quality_score+item.work_precise_score+item.work_pitch_score)/3;
+                    item.score_ave=item.score_ave.toFixed(2)
+                }
             })
         }
 
