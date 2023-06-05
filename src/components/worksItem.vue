@@ -1,7 +1,7 @@
 <template>
     <div class="worksItem"
          :class="isHover? 'hoverItem': (props.index % 2) ? 'oddItem' : 'evenItem'"
-         @mouseover="itemMouseOverHandler" @mouseleave="itemMouseLeaveHandler">
+         @mouseover="itemMouseOverHandler" @mouseleave="itemMouseLeaveHandler" @click="workClickHandler">
         <div class="itemIndexBox">
             {{props.index + 1}}
         </div>
@@ -32,13 +32,17 @@
 
 <script setup>
 import {defineProps, ref} from 'vue'
-const props = defineProps(['profile', 'nickname', 'score', 'likes', 'date', 'index'])
+import router from "@/router";
+const props = defineProps(['profile', 'nickname', 'score', 'likes', 'date', 'index', 'workId'])
 let isHover = ref(false)
 const itemMouseOverHandler = () => {
     isHover.value = true
 }
 const itemMouseLeaveHandler = () => {
     isHover.value = false
+}
+const workClickHandler = () => {
+    router.push({path: '/music_player',query: {id: props.workId}});
 }
 </script>
 
