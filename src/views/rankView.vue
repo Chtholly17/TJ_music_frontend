@@ -10,10 +10,7 @@
                   <h3>摇滚榜</h3>
               </el-menu-item>
               <el-menu-item class="rank_item" @click="change_list(3)">
-                  <h3>金属榜</h3>
-              </el-menu-item>
-              <el-menu-item class="rank_item" @click="change_list(4)">
-                  <h3>古典榜</h3>
+                  <h3>流行榜</h3>
               </el-menu-item>
               <el-menu-item class="rank_item" @click="change_list(5)">
                   <h3>电子榜</h3>
@@ -54,9 +51,9 @@
               <div class="nameBox">
                   <el-text truncated size="large"> 作者 </el-text>
               </div>
-              <div class="nameBox">
-                  <el-text truncated size="large"> 评分 </el-text>
-              </div>
+<!--              <div class="nameBox">-->
+<!--                  <el-text truncated size="large"> 评分 </el-text>-->
+<!--              </div>-->
 
               <div class="singerBox">
                   <el-text truncated size="large"> 点赞数 </el-text>
@@ -101,7 +98,8 @@ export default {
             fetchRankList(rank_name.value.substring(0,2),real_type.value).then(res=>{
                all_rank.value=res
                 for(const  item of all_rank.value){
-                    item.score_ave=(item.workQualityScore+item.workPreciseScore+item.workPitchScore)/3;
+                    console.log(item)
+                    item.score_ave=(item.work_quality_score+item.work_precise_score+item.work_pitch_score)/3;
                     item.score_ave=item.score_ave.toFixed(2)
                 }
 
@@ -112,7 +110,11 @@ export default {
         {
             fetchRankList(name.substring(0,2),type).then(res=>{
                 all_rank.value=res
-                //console.log(all_rank.value)
+                for(const  item of all_rank.value){
+                    console.log(item)
+                    item.score_ave=(item.work_quality_score+item.work_precise_score+item.work_pitch_score)/3;
+                    item.score_ave=item.score_ave.toFixed(2)
+                }
             })
         }
 
@@ -125,10 +127,7 @@ export default {
                 rank_name.value="摇滚榜"
             }
             else if(id===3){
-                rank_name.value="金属榜"
-            }
-            else if(id===4){
-                rank_name.value="古典榜"
+                rank_name.value="流行榜"
             }
             else if(id===5){
                 rank_name.value="电子榜"

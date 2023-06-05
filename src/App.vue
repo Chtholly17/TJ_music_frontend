@@ -65,8 +65,8 @@ onBeforeMount(() => {
     // 在输入路由时，会重新渲染页面，因此会触发这个函数
     const userNumber = getCookie("userNumber")
     const password = getCookie("password")
-    console.log(userNumber)
-    console.log(password)
+    // console.log(userNumber)
+    // console.log(password)
     if(userNumber != false && password != false) {
         loginData.loginForm.userNumber = userNumber
         loginData.loginForm.password = password

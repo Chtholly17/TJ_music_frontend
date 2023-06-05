@@ -15,9 +15,9 @@
         <div class="nameBox">
             <el-text truncated size="large"> {{props.nickname}} </el-text>
         </div>
-        <div class="nameBox">
-            <el-text truncated size="large"> {{props.score}} </el-text>
-        </div>
+<!--        <div class="nameBox">-->
+<!--            <el-text truncated size="large"> {{props.score}} </el-text>-->
+<!--        </div>-->
 <!--        <div class="durationBox">-->
 <!--            <el-text truncated size="large"> {{props.time}} </el-text>-->
 <!--        </div>-->

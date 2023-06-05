@@ -85,7 +85,7 @@ export default {
         const audio=ref();//audio对象
         const new_comment=ref("");
         const LRC=ref("");
-        console.log(router.currentRoute.value.query.id);
+        // console.log(router.currentRoute.value.query.id);
         const current_work_id = ref(router.currentRoute.value.query.id);
         const current_work=ref();
         const current_work_user=ref();
@@ -140,8 +140,8 @@ export default {
                     },
                 });
             }
-            console.log(current_work_user);
-        }; 
+            // console.log(current_work_user);
+        };
         //获取当前播放时间
         const audioTime=(e)=>
         {
@@ -164,11 +164,11 @@ export default {
         };
 
         const handlerComment = async () => {
-            console.log(new_comment.value);
-            console.log("1234");
+            // console.log(new_comment.value);
+            // console.log("1234");
             const userId =getCookie("userNumber");
-            console.log(userId)
-            console.log(current_work_id.value)
+            // console.log(userId)
+            // console.log(current_work_id.value)
             await commitComment(current_work_id.value, userId, new_comment.value).then(res => {
                 fetchComment(current_work_id.value).then(res => {
                         comment_list.value = res;
@@ -200,30 +200,30 @@ export default {
 
         onBeforeMount(() => {
             fetchComment(current_work_id.value).then(res => {
-                console.log(res)
+                // console.log(res)
                 comment_list.value = res;
                 for (let i = 0; i < comment_list.value.length; i++) {
                     comment_list.value[i].workComment.createTime = comment_list.value[i].workComment.createTime.split("T")[0];
                 }
             })
             fetchWork(current_work_id.value).then(res => {
-                console.log(current_work_id.value)
-                console.log(res)
-                console.log("fetchWork")
+                // console.log(current_work_id.value)
+                // console.log(res)
+                // console.log("fetchWork")
                 current_work.value = res;
-                console.log(current_work.value.workVoiceFilename)
+                // console.log(current_work.value.workVoiceFilename)
                 // get user by Id
                 let userForm = new FormData();
-                console.log(current_work.value.workOwner)
+                // console.log(current_work.value.workOwner)
                 userForm.append("userId", current_work.value.workOwner);
                 // convert workOwner to string
-                
-                console.log(userForm)
+
+                // console.log(userForm)
                 axios.get(path.baseUrl+ path.selectUserById, {params:{userId : current_work.value.workOwner}}).then((res) => {
-                    console.log(res)
+                    // console.log(res)
                     current_work_user.value = res.data.data;
-                    console.log(current_work_user.value)
-                    
+                    // console.log(current_work_user.value)
+
                 }).catch(err => {
                     console.log(err)
                 })
@@ -234,11 +234,11 @@ export default {
                 let form = new FormData();
                 form.append("workId", current_work_id.value);
                 axios.post(path.baseUrl+path.getOriginByWorkId,form).then((res) => {
-                    console.log(res)
+                    // console.log(res)
                     current_song.value = res.data.data;
-                    console.log(current_song.value)
+                    // console.log(current_song.value)
                     LrcFile.value = res.data.data.originLrcFilename
-                    console.log(LrcFile.value)
+                    // console.log(LrcFile.value)
                     formatLrc();
                 }).catch(err => {
                     console.log(err)

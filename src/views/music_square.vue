@@ -45,7 +45,7 @@ export default {
     functional: true,
     methods:{
         player_router(id){
-            console.log(id)
+            // console.log(id)
             router.push({path: '/music_player',query: {id: id}});
         }
     },
@@ -55,7 +55,7 @@ export default {
         onBeforeMount(()=>{
             fetchMusicSquare(100).then(res=>{
                 work_message.value=res
-                console.log(work_message.value)
+                // console.log(work_message.value)
                 })
         })
 

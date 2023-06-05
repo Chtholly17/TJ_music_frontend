@@ -78,9 +78,9 @@ export default {
         const evaluation=ref(router.currentRoute.value.query.comments);
         const current_song=ref([]);
         const LRC=ref("");
-        console.log(router.currentRoute.value.query.url);
+        // console.log(router.currentRoute.value.query.url);
         const fullUrl = ref(router.currentRoute.value.query.url);
-        console.log(router.currentRoute.value.query.precise);
+        // console.log(router.currentRoute.value.query.precise);
         const precise=ref(router.currentRoute.value.query.precise);
         const quality=ref(router.currentRoute.value.query.quality);
         const pitch=ref(router.currentRoute.value.query.pitch);
@@ -88,9 +88,9 @@ export default {
         precise.value=parseInt(precise.value);
         quality.value=parseInt(quality.value);
         pitch.value=parseInt(pitch.value);
-        console.log(precise.value);
-        console.log(quality.value);
-        console.log(pitch.value);
+        // console.log(precise.value);
+        // console.log(quality.value);
+        // console.log(pitch.value);
 
 
         // const param = router.currentRoute.value.params
@@ -148,9 +148,9 @@ export default {
 
         const publish =() => {
             const user_id=getCookie("userNumber");
-            console.log(user_id)
+            // console.log(user_id)
             const formData = new FormData();
-            console.log(current_song.value.originName)
+            // console.log(current_song.value.originName)
             formData.append('workName', current_song.value.originName);
             formData.append('workComment', "");
             formData.append('workOwner', user_id);
@@ -161,8 +161,8 @@ export default {
             formData.append('workPitchScore', pitch.value);
 
             commitWork(current_song.value.originName,"",user_id,current_song.value.originId,fullUrl.value,precise.value,quality.value,pitch.value).then(res=>{
-                console.log("debug1")
-                console.log(res)
+                // console.log("debug1")
+                // console.log(res)
                 router.replace({path: '/user/music_library'})
             }).then(res=>{
                 alert("发表成功！")
