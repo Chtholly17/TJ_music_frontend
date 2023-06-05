@@ -10,7 +10,7 @@
                     <div class="singerBox">
                         <el-icon :size="17" class="userIcon"><User /></el-icon>
                         <el-text truncated class="singerText">{{songDetails.originAuthor}}</el-text></div>
-                    <div class="introBox">{{songDetails.originIntroduction}}</div>
+                    <div class="introBox"><el-scrollbar>{{songDetails.originIntroduction}}</el-scrollbar></div>
                     <div style="height: 100%"></div>
                     <div class="singBox">
                         <el-button type="primary" color="#e879bc" :icon="Microphone"
@@ -193,7 +193,7 @@ export default {
             }
         }
         .introBox{
-            height: 100px;
+            height: 130px;
             text-align: left;
             font-size: 14px;
         }
