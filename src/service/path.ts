@@ -38,6 +38,16 @@ const base = {
     postWork:'/insertWork',//提交作品,
     getAiComment:'/getComments',
     check_follow:'/check_follow',   //查看是否已经关注某人
+    getOriginMusic:'/getOriginList',   //获取原创音乐
+    getOriginMusicById:'/getOriginByOriginId',   //获取原创音乐
+    deleteOriginMusic:'/deleteOrigin', //删除原创音乐
+    createOriginMusic:'/insertOrigin', //上传图片
+    getUserManager:'/getAllUsers',   //获取用户管理
+    getAppeal:'/allAppealContent',   //获取申诉管理
+    deleteUserById:'/deleteUserByStudentNumber',   //删除用户
+    allowAppealById:'/deleteAppealById',   //删除申诉
+    rejectAppealById:'/rejectAppealById',   //拒绝申诉
+    sendService:'/sendMessage',   //发送邮件
 }
 
 export default base;

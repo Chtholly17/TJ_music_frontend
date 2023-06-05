@@ -49,6 +49,29 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
+    redirect:'/admin/orign_music',
+    path:'/admin',
+    name:'admin',
+    component:()=>import('@/views/user/AdminManagementView.vue'),
+    children:[
+      {
+        path:'orign_music',
+        name:'user_orign_music',
+        component:() =>import('../components/user/UserOriginMusic.vue')
+      },
+      {
+        path:'manager',
+        name:'user_manager',
+        component:()=>import('../components/user/UserManagerView.vue')
+      },
+      {
+        path:'inform',
+        name:'user_inform',
+        component:()=>import('../components/user/UserInformView.vue')
+      }
+    ]
+  },
+  {
     path:'/hello',
     name:'hello',
     component:()=>import('@/views/PrefaceView.vue'),

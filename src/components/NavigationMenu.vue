@@ -41,7 +41,11 @@ export default {
     methods:{
         //跳转到个人主页
         user_router(){
-            router.push('/user')
+            const user_id=computed(()=>store.getters.getUserID)
+            if (user_id.value== 'admin')
+                router.push('/admin')
+            else    
+                router.push('/user')
         },
         user_message(){
             router.push({path:'/message',query:{target_id:''}})

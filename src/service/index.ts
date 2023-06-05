@@ -27,6 +27,17 @@ const api = {
     getUserImage(user_id: any){
         return axios.get(path.baseUrl + path.getUserImage, {params: user_id})
     },
+
+    getOriginMusic() {
+        return axios.get(path.baseUrl + path.getOriginMusic)
+    },
+    getUserManager() {
+        return axios.get(path.baseUrl + path.getUserManager)
+    },
+    getAppeal() {
+        return axios.get(path.baseUrl + path.getAppeal)
+    },
+    
     getUserInfo(user_id:any)  //获取用户信息
     {
         return axios.get(path.baseUrl + path.getuserinfo,{
