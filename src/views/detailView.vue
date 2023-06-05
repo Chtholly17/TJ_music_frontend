@@ -31,7 +31,7 @@
             <div  v-loading="loadingWorks">
                 <el-empty description="还没有人翻唱过这首歌呢~" v-if="itemsLength === 0" />
                 <works-item v-else v-for="(works, index) in songWorksInfoList" :key="works"
-                            :profile="works.work.workPrefaceFilename"
+                            :profile="works.work.workPrefaceFilename" :workId="works.work.workId"
                             :nickname="works.userNickname" :score="works.work.workScore"
                             :likes="works.work.workLike" :date="works.work.createTime"
                             :index="index"></works-item>
@@ -89,6 +89,7 @@ export default {
                         iter.work.createTime = iter.work.createTime.substring(0,10)
                     }
                     itemsLength.value = songWorksInfoList.length
+                    console.log(songWorksInfoList)
                 }
                 else if (response.data.code === 0){
                     // 没有查找到相关的翻唱结果
