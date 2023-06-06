@@ -100,7 +100,7 @@ export default {
         const formatLrc = () => {
             if (current_song.value.originLrcFilename) {
                 //在props.originPrefaceFilename去掉前面的path.baseUrl
-                let url = current_song.value.originLrcFilename.replace(path.baseUrl, "");
+                let url = current_song.value.originLrcFilename.replace(path.serverUrl, "");
                 axios.get(path.baseUrl + url, {
                 }).then((res) => {
                     const strLrc = res.data.split("\n");

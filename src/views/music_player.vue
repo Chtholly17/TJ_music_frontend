@@ -47,7 +47,7 @@
         </div>
         <el-affix position="bottom">
             <div class="bottom"><!--进度条-->
-                <audio id = "audio" @timeupdate="audioTime" autoplay controls loop  style="width:100%;"></audio>
+                <audio id = "audio" @timeupdate="audioTime" autoplay controls loop :src = "current_work.workVoiceFilename" style="width:100%;"></audio>
             </div>
         </el-affix>
 
@@ -58,7 +58,7 @@
 
 
 <script>
-import {computed,onBeforeMount, onBeforeUpdate, onMounted, ref, watch} from "vue";
+import {computed,onBeforeMount, onBeforeUpdate, onMounted, ref, watch,nextTick} from "vue";
 import {commitComment, fetchComment} from "@/utils/Texts/commentText";
 
 import {fetchWork} from "@/utils/Texts/work";
@@ -97,8 +97,9 @@ export default {
         const formatLrc = () => {
             if (current_song.value.originLrcFilename) {
                 //在props.originPrefaceFilename去掉前面的path.baseUrl
-                let url = current_song.value.originLrcFilename.replace(path.baseUrl, "");
-                axios.get(path.baseUrl + url, {
+                // console.log(current_song.value.originLrcFilename);
+                let url = current_song.value.originLrcFilename.replace(path.serverUrl, "");
+                axios.get(path.baseUrl+ url, {
                 }).then((res) => {
                     const strLrc = res.data.split("\n");
                     let arr = [];
@@ -112,7 +113,9 @@ export default {
                         };
                         arr.push(obj);
                     }
+
                     lrcData.value = arr;
+                    // console.log(lrcData.value)
                 });
             }
         };
@@ -197,6 +200,24 @@ export default {
             // })
         })
 
+        onMounted(()=>{
+          let form = new FormData();
+          form.append("workId", current_work_id.value);
+          axios.post(path.baseUrl+path.getOriginByWorkId,form).then((res) => {
+            // console.log(res)
+            current_song.value = res.data.data;
+
+            LrcFile.value = res.data.data.originLrcFilename
+            formatLrc();
+            nextTick().then(()=>{
+              console.log("nextTick")
+            })
+          }).catch(err => {
+            console.log(err)
+          })
+
+        })
+
 
         onBeforeMount(() => {
             fetchComment(current_work_id.value).then(res => {
@@ -208,10 +229,12 @@ export default {
             })
             fetchWork(current_work_id.value).then(res => {
                 // console.log(current_work_id.value)
-                // console.log(res)
+                console.log(res)
                 // console.log("fetchWork")
                 current_work.value = res;
+                
                 // console.log(current_work.value.workVoiceFilename)
+                //formatLrc();
                 // get user by Id
                 let userForm = new FormData();
                 // console.log(current_work.value.workOwner)
@@ -223,26 +246,17 @@ export default {
                     // console.log(res)
                     current_work_user.value = res.data.data;
                     // console.log(current_work_user.value)
-
                 }).catch(err => {
                     console.log(err)
                 })
-                //formatLrc();
-                audio.value = document.getElementById("audio");
-                audio.value.src = current_work.value.workVoiceFilename;
+                // //formatLrc();
+                // audio.value = document.getElementById("audio");
+                console.log(res.workVoiceFilename)
+                // audio.value = document.getElementById("audio");
+                console.log(current_work.value)
+                // audio.value.src = current_work.value.workVoiceFilename;
                 // get lyric
-                let form = new FormData();
-                form.append("workId", current_work_id.value);
-                axios.post(path.baseUrl+path.getOriginByWorkId,form).then((res) => {
-                    // console.log(res)
-                    current_song.value = res.data.data;
-                    // console.log(current_song.value)
-                    LrcFile.value = res.data.data.originLrcFilename
-                    // console.log(LrcFile.value)
-                    formatLrc();
-                }).catch(err => {
-                    console.log(err)
-                })
+
             }).catch(err => {
                 console.log(err)
             })
