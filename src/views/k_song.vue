@@ -233,14 +233,20 @@ export default {
         }
 
         const pause = async () => {
+            isPause.value = true
+            recoder.value.pause();
             audio.value.pause();
             recoder.value.pause();
             isPausing.value = true;
             start_isDisabled.value=false;
             pause_isDisabled.value=true;
+            wave.value.currentTime=0;
+            wave.value.pause();
+
         }
 
         const again = async () => {
+            isPause.value = false
             recoder.value.stop()
             recoder.value.start().then(() => {
                 // console.log('start recording')
@@ -353,52 +359,53 @@ export default {
 
 <style scoped>
 
-.-webkit-media-controls-pause-button {
-    display: none !important;
-    -webkit-appearance: none;
-}
-
 .wrapper{
     padding:0;
     margin:0;
+    width: 100%;
     position:fixed;
+    background: linear-gradient(to right bottom, rgba(255, 133, 234, 0.5), rgba(0, 255, 236, 0.5));
 }
 
 .cont{
     margin: 0 auto;
-    width: 1200px;
+    width: 100%;
     display:flex;
 }
 
 .left{
-    margin: 0 auto;
-    padding-top:40px;
-    padding-left:40px;
-    width: 250px;
+    margin: 40px auto;
+    /*padding-top:40px;*/
+    padding-left:5%;
+    padding-right:5%;
+    /*width: 250px;*/
+    width:25%;
     height:800px;
     display:flex;
     flex-direction:column;
-}
 
+    .song-pic
+    {
+        border-radius:5px;
+        width:80%;
+    }
 
-.song-pic
-{
-    border-radius:5px;
-}
-
-.song-info {
-    font-size:17px;
-    line-height:15px;
-    text-align:left;
-    margin-left:30px;
+    .song-info {
+        font-size:17px;
+        line-height:15px;
+        text-align:left;
+        /*margin-left:30px;*/
+    }
 }
 
 
 .right{
     margin: 0 auto;
     padding-top:40px;
-    padding-right:20px;
-    width: 800px;
+    /*padding-right:10vh;*/
+    /*width: 800px;*/
+    padding-right:5%;
+    width:60%;
     display:flex;
     flex-direction:column;
 }
@@ -406,7 +413,7 @@ export default {
 .right .lyric
 {
     margin: 0 auto;
-    width: 800px;
+    width:100%;
     height: 400px;
     background-color: rgba(0,0,0,0.05);
     overflow: hidden;
@@ -414,10 +421,10 @@ export default {
 
 .right .option
 {
-    width:800px;
+    width:100%;
     height:30px;
     margin-top:10px;
-    margin-left:100px;
+    margin-left:10%;
     display:flex;
     .btn
     {
@@ -434,7 +441,7 @@ export default {
 
 .demo-progress
 {
-    margin-left:80px;
+    margin-left:10%;
     /*position: fixed;*/
     /*bottom: 10px;*/
     margin-top:80px;

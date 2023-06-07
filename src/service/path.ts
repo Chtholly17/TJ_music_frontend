@@ -25,6 +25,9 @@ const base = {
     getMainPageWorks:'/mainPageWorks',  //获取首页作品
     getComment:'/getWorkCommentByWorkId',  //获取作品评论
     postComment:'/addWorkComment',//提交评论
+
+    postPresent:'/addLikeToWork',//提交礼物数量
+    
     getRank:'/getWorkList', //获取榜单
     getUserImage:'/getUserImage',  //获取用户头像
     sendMessage: '/sendMessage',
