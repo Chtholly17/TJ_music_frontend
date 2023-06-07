@@ -4,7 +4,7 @@ module.exports = defineConfig({
     https: false,
     proxy: {
       '/api': {
-        target: 'http://49.4.115.48:8888',
+        target: 'http://120.46.60.40:8888',
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''      //相当于用api代替target里面的地址，后面组件中调用接口时直接用api代替

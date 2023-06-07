@@ -37,7 +37,7 @@ const api = {
     getAppeal() {
         return axios.get(path.baseUrl + path.getAppeal)
     },
-    
+
     getUserInfo(user_id:any)  //获取用户信息
     {
         return axios.get(path.baseUrl + path.getuserinfo,{
@@ -233,7 +233,6 @@ const api = {
     },
     postMessage(message: any)
     {
-        // console.log(message)
         return axios.post(path.baseUrl + path.sendMessage, message)
     },
     getDetailMessage(id1: any, id2: any)

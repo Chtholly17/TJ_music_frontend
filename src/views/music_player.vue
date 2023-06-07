@@ -41,8 +41,6 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
         <el-affix position="bottom">
@@ -232,7 +230,7 @@ export default {
                 console.log(res)
                 // console.log("fetchWork")
                 current_work.value = res;
-                
+
                 // console.log(current_work.value.workVoiceFilename)
                 //formatLrc();
                 // get user by Id

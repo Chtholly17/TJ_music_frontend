@@ -51,9 +51,6 @@
               <div class="nameBox">
                   <el-text truncated size="large"> 作者 </el-text>
               </div>
-<!--              <div class="nameBox">-->
-<!--                  <el-text truncated size="large"> 评分 </el-text>-->
-<!--              </div>-->
 
               <div class="singerBox">
                   <el-text truncated size="large"> 点赞数 </el-text>
