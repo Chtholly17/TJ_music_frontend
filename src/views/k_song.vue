@@ -51,7 +51,7 @@
                         </el-button>
                     </div>
                     <div class="btn">
-                        <el-button class="sub-btn" type="primary" :disabled=startPlaying @click="start">
+                        <el-button class="sub-btn" type="primary" :disabled=start_isDisabled @click="start">
                             <el-icon style="vertical-align: middle">
                                 <Microphone />
                             </el-icon>
@@ -129,6 +129,7 @@ export default {
         const originId = ref(router.currentRoute.value.query.id);
         // console.log("originId",originId.value);
         const startPlaying=ref(false);
+        const isPausing = ref(false);
 //歌词数据转化为数组
         const formatLrc = () => {
             if (current_song.value.originLrcFilename) {
@@ -211,33 +212,43 @@ export default {
             // console.log(start_isDisabled.value);
             start_isDisabled.value=true;
             pause_isDisabled.value=false;
-            recoder.value.start().then(() => {
-                // console.log('start recording')
-                startPlaying.value=true;
-                duration.value = audio.value.duration
+            startPlaying.value=true;
+            if(isPausing.value === false)
+            {         
+                recoder.value.start().then(() => {
+                    // console.log('start recording')
+                    duration.value = audio.value.duration
+                    audio.value.play();
+                    wave.value.play();
+                }, (err) =>{
+                    console.log(err)
+                });
+            }
+            else
+            {
                 audio.value.play();
-                wave.value.play();
-            }, (err) =>{
-                console.log(err)
-            });
+                recoder.value.resume();
+                isPausing.value=false;
+            }
         }
 
         const pause = async () => {
             audio.value.pause();
+            recoder.value.pause();
+            isPausing.value = true;
             start_isDisabled.value=false;
             pause_isDisabled.value=true;
-            wave.value.currentTime=0;
-            wave.value.pause();
         }
 
         const again = async () => {
             recoder.value.stop()
             recoder.value.start().then(() => {
                 // console.log('start recording')
+                startPlaying.value=true;
+                audio.value.currentTime=0;
             }, (err) =>{
                 console.log(err)
             });
-            audio.value.currentTime=0;
         }
 
         const enter_song_preview = () => {
