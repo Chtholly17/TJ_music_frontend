@@ -78,6 +78,9 @@ export default {
       const onSubmit = () => {
          userinfoData.userinfoForm.new_area1=area.value[0]
          userinfoData.userinfoForm.new_area2=area.value[1]
+         //console.log(userinfoData.userinfoForm.new_birthday)
+         if(userinfoData.userinfoForm.new_birthday===null)
+            userinfoData.userinfoForm.new_birthday=''
          commitUserInfo();
          cxt.emit("pass_nickname",userinfoData.userinfoForm.new_nickname);  //向父组件传递昵称参数
          cxt.emit("pass_signature",userinfoData.userinfoForm.new_signature);  //向父组件传递签名参数

@@ -41,8 +41,6 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
         <el-affix position="bottom">
@@ -227,18 +225,15 @@ export default {
                 }).catch(err => {
                     console.log(err)
                 })
-                //formatLrc();
+
                 audio.value = document.getElementById("audio");
                 audio.value.src = current_work.value.workVoiceFilename;
                 // get lyric
                 let form = new FormData();
                 form.append("workId", current_work_id.value);
                 axios.post(path.baseUrl+path.getOriginByWorkId,form).then((res) => {
-                    // console.log(res)
                     current_song.value = res.data.data;
-                    // console.log(current_song.value)
                     LrcFile.value = res.data.data.originLrcFilename
-                    // console.log(LrcFile.value)
                     formatLrc();
                 }).catch(err => {
                     console.log(err)

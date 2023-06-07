@@ -13,7 +13,7 @@ export const userinfoData=reactive({
         new_major:"",
         new_area1:'',
         new_area2:'',
-        new_birthday: '',    //生日
+        new_birthday:'',    //生日
         new_gender: '',   //性别
         new_signature: '',   //签名
     }
@@ -41,8 +41,8 @@ export const commitUserInfo=async ()=>{
     await submitForm.validate( async (valid: any) => {
         if (valid) {
             try {
-                // console.log("提交用户信息")
-                // console.log(userinfoData.userinfoForm)
+                console.log("提交用户信息")
+                console.log(userinfoData.userinfoForm.new_birthday)
                 const response = await api.postUserInfo(userinfoData.userinfoForm); // 不能传入submitForm！
                 // console.log(response.data);
             } catch (error: any) {
