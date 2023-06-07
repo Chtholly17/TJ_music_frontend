@@ -167,28 +167,28 @@ export default defineComponent({
           if (props.originId != "-1") {
             if (props.originPrefaceFilename) {
               //在props.originPrefaceFilename去掉前面的path.baseUrl
-              let url = props.originPrefaceFilename.replace(path.baseUrl, "");
+              let url = props.originPrefaceFilename.replace(path.serverUrl, "");
               axios.get(path.baseUrl + url, {
               }).then((res) => {
                 imageFile = res.data
               });
             }
             if (props.originVoiceFilename) {
-              let url = props.originVoiceFilename.replace(path.baseUrl, "");
+              let url = props.originVoiceFilename.replace(path.serverUrl, "");
               axios.get(path.baseUrl + url, {
               }).then((res) => {
                 voiceFile = res.data;
               });
             }
             if (props.originBgmusicFilename) {
-              let url = props.originBgmusicFilename.replace(path.baseUrl, "");
+              let url = props.originBgmusicFilename.replace(path.serverUrl, "");
               axios.get(path.baseUrl + url, {
               }).then((res) => {
                 bgFile = res.data;
               });
             }
             if (props.originLyricFilename) {
-              let url = props.originLyricFilename.replace(path.baseUrl, "");
+              let url = props.originLyricFilename.replace(path.serverUrl, "");
               axios.get(path.baseUrl + url, {
               }).then((res) => {
                 lyricFile = res.data;

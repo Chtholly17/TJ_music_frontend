@@ -2,6 +2,7 @@
 
 const base = {
     baseUrl: '/api',
+    serverUrl: 'http://120.46.60.40:8888',
     // postTest: '/test_return_string',
     // getTest: '/get_hello_world',
     login: '/login',
