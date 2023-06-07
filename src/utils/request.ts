@@ -5,7 +5,7 @@ import qs from 'qs';
 
 
 const axiosInstance: AxiosInstance = axios.create({
-    timeout: 10000,
+    timeout: 20000,
 });
 
 const errorHandle = (status: number, info: any) => {
