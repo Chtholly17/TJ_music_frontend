@@ -67,6 +67,20 @@ public class workService {
     public Result getWorkList(String tag, String order) {
         // print out the tag and order
 //        System.out.println("tag: " + tag + " order: " + order);
+
+        // update the data of work with given tag
+        List<Work> works_to_update = workMapper.getWorksByTag(tag);
+        for(Work work : works_to_update) {
+            int workId = work.getWorkId();
+            int workLike = work.getWorkLike();
+            int workCommentCnt = workMapper.getWorkCommentCntById(workId);
+            User user = userMapper.selectUserById(work.getWorkOwner());
+            int userFansCnt = user.getUserFansCnt();
+            workMapper.updateWorkCommentCnt(workId, workCommentCnt);
+            workMapper.updateWorkOwnerFans(workId, userFansCnt);
+        }
+
+
         List<Work> works = null;
         List<GetWorkListVO> works_vo = new ArrayList<>();
         if (order.equals("like")) {
@@ -158,6 +172,8 @@ public class workService {
         work.setWorkPreciseScore(work_precise_score);
         work.setWorkPitchScore(work_pitch_score);
         work.setWorkTag(origin.getOriginTag());
+        work.setWorkCommentCnt(0);
+        work.setWorkOwnerFansCnt(user.getUserFansCnt());
 
 
         // print out all the attributes

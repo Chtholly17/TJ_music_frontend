@@ -1,9 +1,6 @@
 package com.example.tj_music.db.mapper;
 
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import com.example.tj_music.db.entity.Work;
 
 import java.util.List;
@@ -33,26 +30,17 @@ public interface WorkMapper {
 
 
     //按work的评论数量降序排列
-    @Select("SELECT * FROM work LEFT JOIN " +
-            "(SELECT work_comment_id, COUNT(work_comment_id) AS work_comment_number " +
-            "FROM work_comment " +
-            "GROUP BY work_comment_id) AS wc " +
-            "ON work.work_id = wc.work_comment_id " +
-            "WHERE work_tag LIKE CONCAT('%', #{tag}, '%')" +
-            "ORDER BY wc.work_comment_number DESC")
+    @Select("SELECT * FROM work WHERE work_tag LIKE CONCAT('%', #{tag}, '%')" +
+            "ORDER BY work_comment_cnt DESC,work_like DESC,work_owner_fans_cnt DESC")
     public List<Work> selectWorkByTagCommentNumberDesc(String tag);
 
     //按work的作者的粉丝数降序排列
-    @Select("SELECT * FROM work LEFT JOIN " +
-            "(SELECT user_id, user_fans_cnt " +
-            "FROM user) AS usr " +
-            "ON work.work_owner = usr.user_id " +
-            "WHERE work_tag LIKE CONCAT('%', #{tag}, '%')" +
-            "ORDER BY usr.user_fans_cnt DESC")
+    @Select("SELECT * FROM work WHERE work_tag LIKE CONCAT('%', #{tag}, '%')" +
+            "ORDER BY work_owner_fans_cnt DESC,work_like DESC,work_comment_cnt DESC")
     public List<Work> selectWorkByTagUserFansDesc(String tag);
 
     @Select("SELECT * FROM work WHERE work_tag LIKE CONCAT('%', #{tag}, '%')" +
-            "ORDER BY work_like DESC")
+            "ORDER BY work_like DESC,work_comment_cnt DESC,work_owner_fans_cnt DESC")
     public List<Work> selectWorkByTagWorkLikeDesc(String tag);
 
     // remove all the work of given id
@@ -60,7 +48,7 @@ public interface WorkMapper {
         public void deleteWorkAndCommentById(Integer workId);
 
     // get the work comment cnt by work id
-    @Select("select count(*) from work_comment where work_comment_id = #{workId}")
+    @Select("select count(*) from work_comment where work_comment_target = #{workId}")
     public Integer getWorkCommentCntById(Integer workId);
 
     // get the works by work_origin_version
@@ -88,4 +76,16 @@ public interface WorkMapper {
     // add like to work
     @Insert("update work set work_like = work_like + 1 where work_id = #{workId}")
     public void addLikeToWork(Integer workId);
+
+    // update work comment cnt
+    @Update("update work set work_comment_cnt = #{workCommentCnt} where work_id = #{workId}")
+    public void updateWorkCommentCnt(Integer workId, Integer workCommentCnt);
+
+    // update work owner fans
+    @Update("update work set work_owner_fans_cnt = #{workOwnerFans} where work_id = #{workId}")
+    public void updateWorkOwnerFans(Integer workId, Integer workOwnerFans);
+
+    // get works with given tag
+    @Select("select * from work where work_tag like CONCAT('%', #{tag}, '%')")
+    public List<Work> getWorksByTag(String tag);
 }

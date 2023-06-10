@@ -50,5 +50,14 @@ public class Work {
     @Basic
     @Column(name = "work_pitch_score", nullable = false)
     private int workPitchScore;
+
+    @Basic
+    @Column(name = "work_comment_cnt", nullable = false)
+    private int workCommentCnt;
+
+    @Basic
+    @Column(name = "work_owner_fans_cnt", nullable = false)
+    private int workOwnerFansCnt;
+
 }
 
