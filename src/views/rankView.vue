@@ -158,7 +158,6 @@ export default {
                //console.log("change_type发送")
                //console.log(real_type.value)
                real_change(rank_name.value, real_type.value)
-               console.log(rank_name.value,real_type.value)
                tpye_send.value=false
            }
            else {
