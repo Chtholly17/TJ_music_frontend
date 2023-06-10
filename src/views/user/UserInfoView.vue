@@ -53,6 +53,7 @@ import {mapGetters} from "vuex";
 import store from "@/store";
 import { useStore } from 'vuex'
 import {getCookie} from "@/service/cookie";
+import {user_nickname} from "@/utils/Texts/userinfoText";
 
 export default {
    name: "UserInfoView",
@@ -100,6 +101,9 @@ export default {
          userinfoData.userinfoForm.new_area1=area.value[0]
          userinfoData.userinfoForm.new_area2=area.value[1]
          //console.log(userinfoData.userinfoForm.new_birthday)
+
+         user_nickname.value=userinfoData.userinfoForm.new_nickname;
+
          if(userinfoData.userinfoForm.new_birthday===null)
             userinfoData.userinfoForm.new_birthday=''
          commitUserInfo();

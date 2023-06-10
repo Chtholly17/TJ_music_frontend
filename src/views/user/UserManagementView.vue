@@ -11,7 +11,7 @@
                     </div>
                     <div >
                         <div style="height: 30px"></div>
-                        <p style="font-size: 30px;text-align: left;font-family:SimHei;font-style: italic">{{userinfoData.userinfoForm.new_nickname}}</p>
+                        <p style="font-size: 30px;text-align: left;font-family:SimHei;font-style: italic">{{user_nickname}}</p>
                         <div style="height: 30px"></div>
                         <p style="text-align: left"> 学号: &nbsp; &nbsp;{{user_id}}</p>
                         <div style="height: 30px"></div>
@@ -63,7 +63,7 @@ import {userinfoData} from "@/utils/Texts/userinfoText";
 import uploadPic from "@/components/user/uploadPic.vue";
 import {user_fetchUserImage,fetchUserInfo} from "@/utils/Texts/userinfoText";
 import {getCookie} from "@/service/cookie";
-
+import {user_nickname} from "@/utils/Texts/userinfoText";
 
 export default {
     name: "UserManagementView",
@@ -159,6 +159,7 @@ export default {
                     userinfoData.userinfoForm.new_birthday=res.userBirthday
                     userinfoData.userinfoForm.new_gender=res.userGender
                     userinfoData.userinfoForm.new_signature=res.userSignature
+                    user_nickname.value=res.userNickname;
                     user_follow.value=res.userFollowCnt;
                     user_fans.value=res.userFansCnt;
                 })
@@ -198,7 +199,7 @@ export default {
             show_router,
             reload,user_photo_url,show_upload,
             real_img_url,user_follow,user_fans,user_id,
-            loading,de_follow,de_fan
+            loading,de_follow,de_fan,user_nickname
         }
     }
 }
