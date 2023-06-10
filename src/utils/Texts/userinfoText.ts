@@ -605,3 +605,5 @@ export const college_major=[
         ]
     }
 ]
+
+export const user_nickname=ref();
