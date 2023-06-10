@@ -108,7 +108,6 @@ export default {
             fetchRankList(name.substring(0,2),type).then(res=>{
                 all_rank.value=res
                 for(const  item of all_rank.value){
-                    console.log(item)
                     item.score_ave=(item.work_quality_score+item.work_precise_score+item.work_pitch_score)/3;
                     item.score_ave=item.score_ave.toFixed(2)
                 }
@@ -153,12 +152,13 @@ export default {
            }
            else if(id==3)
            {
-               rank_type.value="fans"
+               real_type.value="fans"
            }
            if(tpye_send.value==true) {
                //console.log("change_type发送")
                //console.log(real_type.value)
                real_change(rank_name.value, real_type.value)
+               console.log(rank_name.value,real_type.value)
                tpye_send.value=false
            }
            else {
