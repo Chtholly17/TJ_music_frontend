@@ -76,7 +76,7 @@ public class scoringController {
         String origin_bgm_name = parts[parts.length - 1];
 
         scoringService.saveTmpMp3(file, userStudentNumber);
-        String url = "http://49.4.115.48:8888" + "/" + userStudentNumber +"/music/" + origin_name;
+        String url = "http://120.46.60.40:8888" + "/" + userStudentNumber +"/music/" + origin_name;
 
 
         String work_voice_path = "/root/TJ_music/static/" + userStudentNumber + "/music/vocal.wav";

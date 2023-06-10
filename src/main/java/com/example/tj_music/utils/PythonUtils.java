@@ -86,6 +86,7 @@ public class PythonUtils {
             File workingDirectory = new File("/root/gpt_call/");
             ProcessBuilder pb = new ProcessBuilder("/root/miniconda3/envs/music/bin/python3", "main.py", preciseScore, qualityScore, pitchScore);
             pb.directory(workingDirectory);
+            pb.environment().put("PYTHONIOENCODING", "UTF-8");
             Process process = pb.start();
             InputStream inputStream = process.getInputStream();
 

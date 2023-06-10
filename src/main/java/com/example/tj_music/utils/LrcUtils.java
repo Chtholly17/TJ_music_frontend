@@ -52,7 +52,7 @@ public class LrcUtils {
         }
         try {
             file.transferTo(dest);
-            String url = "http://49.4.115.48:"+ port + "/" + userName +"/lrc/" + fileName + ".lrc";
+            String url = "http://120.46.60.40:"+ port + "/" + userName +"/lrc/" + fileName + ".lrc";
             en.put(LrcUtils.UploadResult.URL,url);
             return en;
         }

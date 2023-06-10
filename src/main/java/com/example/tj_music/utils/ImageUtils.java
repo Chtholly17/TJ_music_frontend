@@ -48,7 +48,7 @@ public class ImageUtils {
         }
         try {
             file.transferTo(dest);
-            String url = "http://49.4.115.48:" + port + "/" + userName + "/images/" + fileName + ".jpg";
+            String url = "http://120.46.60.40:" + port + "/" + userName + "/images/" + fileName + ".jpg";
             return url;
         } catch (IllegalStateException e) {
             throw e;

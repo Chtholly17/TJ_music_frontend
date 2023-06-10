@@ -15,8 +15,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Objects;
 
 
 @RestController // @RestController = @Controller + @ResponseBody (return json)
@@ -79,9 +83,9 @@ public class informationController {
                                  @RequestParam("new_major") String new_major,
                                  @RequestParam("new_area1") String new_area1,
                                  @RequestParam("new_area2") String new_area2,
-                                 @RequestParam("new_birthday")@DateTimeFormat(pattern = "yyyy-MM-dd") Date new_birthday,
+                                 @RequestParam("new_birthday")String new_birthday,
                                  @RequestParam("new_gender") String new_gender,
-                                 @RequestParam("new_signature") String new_signature) {
+                                 @RequestParam("new_signature") String new_signature) throws ParseException {
         User user = informationService.getInformationByStudentNumber(user_student_number);
         // print out the user_student_number and new_nickname
 //        System.out.println("get the user_student_number: " + user_student_number);
@@ -90,12 +94,17 @@ public class informationController {
         if (user == null) {
             return Result.fail("user not found");
         }
+//        System.out.println(new_birthday);
         informationService.updateUserNickName(new_nickname, user_student_number);
         informationService.updateUserCollege(new_college, user_student_number);
         informationService.updateUserMajor(new_major, user_student_number);
         informationService.updateUserArea1(new_area1, user_student_number);
         informationService.updateUserArea2(new_area2, user_student_number);
-        informationService.updateUserBirthday(new_birthday, user_student_number);
+        if (!Objects.equals(new_birthday, "")) {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = formatter.parse(new_birthday);
+            informationService.updateUserBirthday(date, user_student_number);
+        }
         informationService.updateUserGender(new_gender, user_student_number);
         informationService.updateUserSignature(new_signature, user_student_number);
         return Result.success();

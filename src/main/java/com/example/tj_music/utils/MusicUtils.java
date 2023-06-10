@@ -61,7 +61,7 @@ public class MusicUtils {
         }
         try {
             file.transferTo(dest);
-            String url = "http://49.4.115.48:"+ port + "/" + userStudentNumber +"/music/" + fileName + ".wav";
+            String url = "http://120.46.60.40:"+ port + "/" + userStudentNumber +"/music/" + fileName + ".wav";
             en.put(UploadResult.URL,url);
             return en;
         }
