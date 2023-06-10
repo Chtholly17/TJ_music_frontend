@@ -26,7 +26,6 @@
 
                             @click="player_router(item.workId)"
 
-
                         />
                         <div><span>{{item.workName}}</span></div>
                     </el-card>

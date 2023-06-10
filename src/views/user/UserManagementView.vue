@@ -1,5 +1,5 @@
 <template>
-    <div class="common-layout">
+    <div class="common-layout" v-loading="loading">
         <el-container style="height: 100%">
             <el-aside class="user_aside" :style="{width: aside_width + 'vh'}"></el-aside>
             <el-main class="user_main" >
@@ -39,7 +39,7 @@
                         <el-button type="primary" :icon="Share" @click="music_router" >我的曲库</el-button>
                     </div>
                 </div>
-                <router-view class="child_page" v-if="show_router"></router-view>
+                <router-view @de_fan="de_fan" @de_follow="de_follow" class="child_page" v-if="show_router"></router-view>
 <!--                <SongList></SongList>-->
             </el-main>
             <el-aside class="user_aside" :style="{width: aside_width + 'vh'}"></el-aside>
@@ -97,6 +97,8 @@ export default {
     }
     ,
     setup(){
+        const loading=ref(true);
+
         const user_photo_url=ref()   //用户头像
         const show_router=ref(true)
         const show_upload=ref(false) //展示上传头像框
@@ -137,28 +139,47 @@ export default {
             }
         )
 
+
+
         onBeforeMount(()=>{
+            loading.value=true
             const userNumber=ref();
             userNumber.value = getCookie("userNumber")
             // 先获取用户学号
             userinfoData.userinfoForm.user_student_number = userNumber.value;
             user_id.value=userNumber.value;
 
-            console.log("获取用户学号1")
-            console.log( userinfoData.userinfoForm.user_student_number)
+            setTimeout(()=>{
+                fetchUserInfo().then(res=>{
+                    userinfoData.userinfoForm.new_nickname=res.userNickname
+                    userinfoData.userinfoForm.new_college=res.userCollege
+                    userinfoData.userinfoForm.new_major=res.userMajor
+                    userinfoData.userinfoForm.new_area1=res.userArea1
+                    userinfoData.userinfoForm.new_area2=res.userArea2
+                    userinfoData.userinfoForm.new_birthday=res.userBirthday
+                    userinfoData.userinfoForm.new_gender=res.userGender
+                    userinfoData.userinfoForm.new_signature=res.userSignature
+                    user_follow.value=res.userFollowCnt;
+                    user_fans.value=res.userFansCnt;
+                })
 
-            fetchUserInfo().then(res=>{
-               user_follow.value=res.userFollowCnt;
-               user_fans.value=res.userFansCnt;
+                user_fetchUserImage( userNumber.value).then(res=>{
+                    user_photo_url.value=res
+                    const random_num=Math.random()*100+1;
+                    real_img_url.value= `${user_photo_url.value}?timestamp=${random_num}`;
+                })
+                loading.value=false
+            },1000)
 
-            })
-
-            user_fetchUserImage( userNumber.value).then(res=>{
-                user_photo_url.value=res
-                const random_num=Math.random()*100+1;
-                real_img_url.value= `${user_photo_url.value}?timestamp=${random_num}`;
-            })
         })
+
+        function de_follow(){
+            user_follow.value--;
+        }
+
+        function de_fan(){
+            user_fans.value--;
+        }
 
 
         function show_info(){
@@ -176,7 +197,8 @@ export default {
             onBeforeMount,
             show_router,
             reload,user_photo_url,show_upload,
-            real_img_url,user_follow,user_fans,user_id
+            real_img_url,user_follow,user_fans,user_id,
+            loading,de_follow,de_fan
         }
     }
 }

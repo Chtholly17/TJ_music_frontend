@@ -45,10 +45,11 @@
 <script>
 import {computed, inject, onBeforeMount, ref} from "vue";
 import { provinceAndCityData } from 'element-china-area-data'
-import {baseForm,userinfoData,userinfoRules,commitUserInfo} from "@/utils/Texts/userinfoText";
+import {baseForm, userinfoData, userinfoRules, commitUserInfo, fetchUserInfo} from "@/utils/Texts/userinfoText";
 import {mapGetters} from "vuex";
 import store from "@/store";
 import { useStore } from 'vuex'
+import {getCookie} from "@/service/cookie";
 
 export default {
    name: "UserInfoView",
@@ -68,11 +69,17 @@ export default {
       const options=provinceAndCityData
       const area=ref([])
       const count = computed(() => store.getters.getUserID)
+
       onBeforeMount(()=>{
-         userinfoData.userinfoForm.user_student_number= count.value;
-         area.value.push(userinfoData.userinfoForm.new_area1)
-         area.value.push(userinfoData.userinfoForm.new_area2)
+         //userinfoData.userinfoForm.user_student_number= count.value;
+         userinfoData.userinfoForm.user_student_number=getCookie("userNumber");
+         const user_id=getCookie("userNumber");
+         fetchUserInfo(user_id).then(res=>{
+            area.value.push(res.userArea1)
+            area.value.push(res.userArea2)
+         })
       })
+
       const user_info_show=inject("user_info_show");
 
       const onSubmit = () => {

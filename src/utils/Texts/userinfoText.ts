@@ -59,14 +59,14 @@ export const fetchUserInfo=async ()=>{
 
     try {
         const response = await api.getUserInfo(userinfoData.userinfoForm.user_student_number); // 不能传入submitForm！
-        userinfoData.userinfoForm.new_nickname=response.data.data.userNickname
-        userinfoData.userinfoForm.new_college=response.data.data.userCollege
-        userinfoData.userinfoForm.new_major=response.data.data.userMajor
-        userinfoData.userinfoForm.new_area1=response.data.data.userArea1
-        userinfoData.userinfoForm.new_area2=response.data.data.userArea2
-        userinfoData.userinfoForm.new_birthday=response.data.data.userBirthday
-        userinfoData.userinfoForm.new_gender=response.data.data.userGender
-        userinfoData.userinfoForm.new_signature=response.data.data.userSignature
+        // userinfoData.userinfoForm.new_nickname=response.data.data.userNickname
+        // userinfoData.userinfoForm.new_college=response.data.data.userCollege
+        // userinfoData.userinfoForm.new_major=response.data.data.userMajor
+        // userinfoData.userinfoForm.new_area1=response.data.data.userArea1
+        // userinfoData.userinfoForm.new_area2=response.data.data.userArea2
+        // userinfoData.userinfoForm.new_birthday=response.data.data.userBirthday
+        // userinfoData.userinfoForm.new_gender=response.data.data.userGender
+        // userinfoData.userinfoForm.new_signature=response.data.data.userSignature
         return response.data.data
     } catch (error: any) {
         ElMessage.error(error.code+': 获取失败，请检查网络或联系管理员')

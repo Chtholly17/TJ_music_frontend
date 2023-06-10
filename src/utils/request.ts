@@ -38,7 +38,6 @@ const errorHandle = (status: number, info: any) => {
 axiosInstance.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
         if (config.method === 'post') {
-            console.log("jl3");
             //console.log(config.data.get('file'))
             config.data = qs.stringify(config.data) // THIS IS A MUST!!!
         }
