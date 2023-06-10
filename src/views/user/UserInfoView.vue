@@ -4,11 +4,14 @@
          <el-form-item label="昵称" prop="new_nickname">
             <el-input v-model="userinfoData.userinfoForm.new_nickname" />
          </el-form-item>
-         <el-form-item label="学院">
-            <el-input v-model="userinfoData.userinfoForm.new_college" />
-         </el-form-item>
-         <el-form-item label="专业">
-            <el-input v-model="userinfoData.userinfoForm.new_major" />
+<!--         <el-form-item label="学院">-->
+<!--            <el-input v-model="userinfoData.userinfoForm.new_college" />-->
+<!--         </el-form-item>-->
+<!--         <el-form-item label="专业">-->
+<!--            <el-input v-model="userinfoData.userinfoForm.new_major" />-->
+<!--         </el-form-item>-->
+         <el-form-item label="学院和专业">
+            <el-cascader style="width: 80%" v-model="colma" :options="college_major" :props="colma_props" @change="colma_change"></el-cascader>
          </el-form-item>
          <el-form-item label="地区">
             <el-cascader  size='mid' :options='options' v-model='area'></el-cascader>
@@ -45,10 +48,11 @@
 <script>
 import {computed, inject, onBeforeMount, ref} from "vue";
 import { provinceAndCityData } from 'element-china-area-data'
-import {baseForm,userinfoData,userinfoRules,commitUserInfo} from "@/utils/Texts/userinfoText";
+import {baseForm, userinfoData, userinfoRules, commitUserInfo, fetchUserInfo,college_major} from "@/utils/Texts/userinfoText";
 import {mapGetters} from "vuex";
 import store from "@/store";
 import { useStore } from 'vuex'
+import {getCookie} from "@/service/cookie";
 
 export default {
    name: "UserInfoView",
@@ -68,11 +72,28 @@ export default {
       const options=provinceAndCityData
       const area=ref([])
       const count = computed(() => store.getters.getUserID)
+
+      const colma=ref([]);
+      const colma_props = {
+         expandTrigger: 'hover',
+      }
+      function colma_change(){
+         userinfoData.userinfoForm.new_college=colma.value[0]
+         userinfoData.userinfoForm.new_major=colma.value[1]
+      }
+
       onBeforeMount(()=>{
-         userinfoData.userinfoForm.user_student_number= count.value;
-         area.value.push(userinfoData.userinfoForm.new_area1)
-         area.value.push(userinfoData.userinfoForm.new_area2)
+         //userinfoData.userinfoForm.user_student_number= count.value;
+         userinfoData.userinfoForm.user_student_number=getCookie("userNumber");
+         const user_id=getCookie("userNumber");
+         fetchUserInfo(user_id).then(res=>{
+            area.value.push(res.userArea1)
+            area.value.push(res.userArea2)
+            colma.value.push(res.userCollege)
+            colma.value.push(res.userMajor)
+         })
       })
+
       const user_info_show=inject("user_info_show");
 
       const onSubmit = () => {
@@ -94,7 +115,7 @@ export default {
          baseForm,
          area,
          onBeforeMount,
-         options
+         options,college_major,colma,colma_props,colma_change
       }
    }
 }
