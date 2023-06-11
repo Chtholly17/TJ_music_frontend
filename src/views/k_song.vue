@@ -215,7 +215,7 @@ export default {
             pause_isDisabled.value=false;
             startPlaying.value=true;
             if(isPausing.value === false)
-            {         
+            {
                 recoder.value.start().then(() => {
                     // console.log('start recording')
                     duration.value = audio.value.duration
@@ -234,7 +234,7 @@ export default {
         }
 
         const pause = async () => {
-            isPause.value = true
+            isPausing.value = true
             recoder.value.pause();
             audio.value.pause();
             recoder.value.pause();
@@ -247,7 +247,8 @@ export default {
         }
 
         const again = async () => {
-            isPause.value = false
+            isPausing.value = false
+
             recoder.value.stop()
             recoder.value.start().then(() => {
                 // console.log('start recording')

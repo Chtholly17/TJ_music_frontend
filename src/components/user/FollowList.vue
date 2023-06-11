@@ -4,7 +4,8 @@
         <div class="fan_block">
             <div class="user_photo">
                 <!--            <el-image :src="require(item.userProfileImageFilename)" class="photo" fit="scale-down"> </el-image>-->
-                <img class="photo" :src="item.userProfileImageFilename">
+<!--                <img class="photo" :src="item.userProfileImageFilename">-->
+                <el-avatar class="photo" :src="item.userProfileImageFilename " @click="to_other(item.userStudentNumber)"></el-avatar>
             </div>
             <div class="name_signature">
                 <p>{{item.userNickname}}</p>
@@ -26,10 +27,12 @@ import {computed, onBeforeMount, ref, inject} from "vue";
 import {fetchFollowList} from "@/utils/Texts/FollowList";
 import {deleteFollow} from "@/utils/Texts/FollowList";
 import {useStore} from "vuex";
+import {getCookie} from "@/service/cookie";
+import router from "@/router";
 
 export default {
     name:'FollowList',
-    setup()
+    setup(_,{emit})
     {
         const reload=inject('reload')
         const store = useStore()
@@ -38,25 +41,30 @@ export default {
         let follow_list;
         follow_list=ref()
         onBeforeMount(()=>{
-            const count = computed(() => store.getters.getUserID)
+            // const count = computed(() => store.getters.getUserID)
+            // user_id=count.value
+            user_id=getCookie("userNumber");
 
-            user_id=count.value
             fetchFollowList(user_id).then(res=>{
                 follow_list.value=res
-                // console.log(res)
+                //console.log(res)
             })
 
         })
         function delete_follow(follow_id){
+            emit('de_follow')
             deleteFollow(user_id,follow_id).then(()=>{
                 reload()
             })
+        }
+        function to_other(user_id){
+            router.push({path:'/otherinfo',query:{id:user_id}})
         }
         return{
             onBeforeMount,
             follow_list,
             delete_follow,
-            user_id
+            user_id,to_other
         }
     }
 }
@@ -75,6 +83,7 @@ export default {
     height: 100px;
     width: 100px;
     border-radius: 50%;
+    cursor: pointer;
 }
 
 .fan_block>.name_signature{

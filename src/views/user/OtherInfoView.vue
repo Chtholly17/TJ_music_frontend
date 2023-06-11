@@ -1,5 +1,5 @@
 <template>
-    <div class="common-layout">
+    <div class="common-layout" v-loading="loading">
         <el-container style="height: 100%">
             <el-aside class="user_aside" :style="{width: aside_width + 'vh'}"></el-aside>
             <el-main class="user_main" >
@@ -35,8 +35,7 @@
                             <span v-else>关注</span>
                         </el-button>
                         <div style="height: 30px"></div>
-<!--                        <el-button type="primary" :icon="Search" @click="fan_router" class="right_buttons">取消关注</el-button>-->
-<!--                        <div style="height: 30px"></div>-->
+
                         <el-button type="primary" :icon="Share" @click="to_chat" class="right_buttons">发起会话</el-button>
                     </div>
                 </div>
@@ -120,6 +119,7 @@ export default {
         }
     },
     setup() {
+        const loading=ref(false)
         const other_id = ref(router.currentRoute.value.query.id)
         const other_nickname = ref("")    //其他人的昵称
         const other_signature = ref("")   //其他人的签名
@@ -198,33 +198,43 @@ export default {
 
         })
 
+
+
         function follow_change(){
-            if(is_follow.value===true)
-            {
-                api.deleteFollow(user_id.value,other_id.value).then(res=>{
-                    if(res.status===200){
-                        is_follow.value=false
-                        ElMessage.success("已取消关注")
-                    }
-                    else{
-                        ElMessage.error("出现错误")
-                    }
+            loading.value=true
 
-                })
+            setTimeout(()=>{
+                if(is_follow.value===true)
+                {
+                    user_fans.value--;
+                    api.deleteFollow(user_id.value,other_id.value).then(res=>{
+                        if(res.status===200){
+                            is_follow.value=false
+                            ElMessage.success("已取消关注")
+                        }
+                        else{
+                            ElMessage.error("出现错误")
+                        }
 
-            }
-            else{
-                api.follow(user_id.value,other_id.value).then(res=>{
-                    if(res.status===200){
-                        is_follow.value=true
-                        ElMessage.success("已关注")
-                    }
-                    else{
-                        ElMessage.error("出现错误")
-                    }
+                    })
 
-                })
-            }
+                }
+                else{
+                    user_fans.value++;
+                    api.follow(user_id.value,other_id.value).then(res=>{
+                        if(res.status===200){
+                            is_follow.value=true
+                            ElMessage.success("已关注")
+                        }
+                        else{
+                            ElMessage.error("出现错误")
+                        }
+
+                    })
+                }
+                loading.value=false
+            },500)
+
         }
 
         function to_chat(){
@@ -244,7 +254,8 @@ export default {
             real_img_url, user_follow, user_fans, other_id,
             other_nickname, other_signature, other_colledge,
             other_major, other_area1, other_area2, other_birthday, other_gender,
-            show_info, other_music_library,is_follow,follow_change,to_chat
+            show_info, other_music_library,is_follow,follow_change,to_chat,
+            loading
         }
     }
 }

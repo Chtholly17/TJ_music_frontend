@@ -52,8 +52,10 @@ const textColor = props.senderId === chatStudentNumber.value? "#222222": "#fafaf
     color: v-bind(textColor);
 }
 .bubbleText{
+    width: 100%;
     padding: 15px 10px; // 使用text内容将高度撑起来
     text-align: left;
+    word-break:break-all;
 }
 .marginColumn{
     width: 30%;
