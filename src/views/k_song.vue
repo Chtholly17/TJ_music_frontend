@@ -104,6 +104,7 @@ import {fetchComment} from "@/utils/Texts/commentText";
 import {fetchOriginByOriginId} from "@/utils/Texts/origin";
 import Recoder from 'js-audio-recorder'
 import { ElLoading } from 'element-plus'
+import {getCookie} from "@/service/cookie";
 
 
 export default {
@@ -234,7 +235,7 @@ export default {
 
         const pause = async () => {
             isPausing.value = true
-            recoder.value.pause();
+            // recoder.value.pause();
             audio.value.pause();
             recoder.value.pause();
             isPausing.value = true;
@@ -273,7 +274,8 @@ export default {
             let formData = new FormData()
             formData.append("file", blob,'test.wav');
             formData.append("originId",originId.value);
-            formData.append("userStudentNumber",'20000')
+            const userId =getCookie("userNumber");
+            formData.append("userStudentNumber",userId)
             axios.post(path.baseUrl+path.postMusic,formData).then(res=>{
                 // console.log("上传成功");
                 // console.log(res);
