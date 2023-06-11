@@ -131,6 +131,7 @@ export default {
         // console.log("originId",originId.value);
         const startPlaying=ref(false);
         const isPausing = ref(false);
+        const isPause = ref(false);
 //歌词数据转化为数组
         const formatLrc = () => {
             if (current_song.value.originLrcFilename) {

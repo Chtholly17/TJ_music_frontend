@@ -41,7 +41,7 @@
 
                 <div class="popular">
                     <div class="popular_comment" v-for="(item, index) in comment_list" :key="index">
-                        <el-image class="popular-img" fit="fill" :src="item.workCommentUser.userProfileImageFilename" />
+                        <el-avatar class="popular-img" shape="square" fit="cover" :src="item.workCommentUser.userProfileImageFilename" />
                         <div class="popular-msg">
                             <span class="name">{{ item.workCommentUser.userNickname }}&nbsp;&nbsp;</span>
                             <span class="time">{{ item.workComment.createTime}}</span>

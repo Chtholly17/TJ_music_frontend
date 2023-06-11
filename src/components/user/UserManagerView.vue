@@ -1,5 +1,7 @@
 <template>
-  <h1 style="margin-bottom: 5vh;margin-top: 5vh">用户列表</h1>
+  <h1 style="margin-bottom: 5vh;margin-top: 5vh">用户列表
+  <el-button type="primary" @click="groupSend()" style="padding: auto;">群发</el-button>
+</h1>
 <div>
     <div class="accompanimentItem">
         <div class="itemIndexBox">
@@ -37,7 +39,7 @@
 </template>
 
 <script>
-import {onBeforeMount, ref} from "vue";
+import {onBeforeMount, ref, getCurrentInstance} from "vue";
 import {fetchUserManager} from "@/utils/Texts/UserManager";
 import user_manager_item from "@/components/user/UserManagerItem.vue"
 
@@ -45,16 +47,24 @@ export default {
   name: "UserManager",
   components:{user_manager_item},
   setup(){
-      const user_manager=ref();
-      onBeforeMount(()=>{
-          fetchUserManager().then(res=>{
-              user_manager.value=res.data
-              console.log(res)
-          })
-      })
+
+    const { proxy } = getCurrentInstance();
+
+    const user_manager=ref();
+    onBeforeMount(()=>{
+        fetchUserManager().then(res=>{
+            user_manager.value=res.data
+            console.log(res)
+        })
+    })
+
+    const groupSend=()=>{
+        proxy.$EventBus.emit('postUser', {userStudentNumber: "all"});
+    }
 
       return {
-        user_manager
+        user_manager,
+        groupSend
       }
   }
 }
