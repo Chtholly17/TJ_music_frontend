@@ -52,6 +52,7 @@ const base = {
     allowAppealById:'/deleteAppealById',   //删除申诉
     rejectAppealById:'/rejectAppealById',   //拒绝申诉
     sendService:'/sendMessage',   //发送邮件
+    sendMessageAll:'/sendMessageAll',   //发送邮件
 }
 
 export default base;

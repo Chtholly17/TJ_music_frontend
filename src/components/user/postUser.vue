@@ -33,6 +33,17 @@ export default defineComponent({
     console.log(name.value);
     let description = ref("");
     const submit = () => {
+      if(name.value=="all"){
+        let form = new FormData();
+        form.append("content", description.value);
+        axios.post(path.baseUrl + path.sendMessageAll, form).then((res) => {
+          console.log(res);
+          alert("发送成功");
+        }).catch((err) => {
+          console.log(err);
+        })
+        return;
+      }
       if (name.value == "") {
         alert("请输入用户名");
         return;
