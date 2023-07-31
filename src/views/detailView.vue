@@ -43,7 +43,7 @@
 
 <script>
 import {User} from "@element-plus/icons";
-import WorksItem from "@/components/worksItem.vue";
+import WorksItem from "@/components/item/worksItem.vue";
 import {onBeforeRouteLeave, useRoute} from "vue-router";
 import api from "@/service";
 import {ElMessage} from "element-plus";

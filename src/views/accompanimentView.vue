@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import AccompanimentItem from "@/components/accompanimentItem.vue";
+import AccompanimentItem from "@/components/item/accompanimentItem.vue";
 import {onBeforeRouteUpdate, useRoute} from 'vue-router'
 import api from "@/service";
 import {ElMessage} from "element-plus";

@@ -19,10 +19,10 @@
 </template>
 
 <script lang="ts">
-import LoginForm from "@/components/LoginForm.vue";
+import LoginForm from "@/components/preface/LoginForm.vue";
 import {defineComponent} from "vue";
-import RegisterForm from "@/components/RegisterForm.vue";
-import RetrieveForm from "@/components/RetrieveForm.vue";
+import RegisterForm from "@/components/preface/RegisterForm.vue";
+import RetrieveForm from "@/components/preface/RetrieveForm.vue";
 import {LoginDialogVisible, RegisterDialogVisible, RetrieveDialogVisible, showLoginDialog} from "@/utils/DialogVisible";
 import {onMounted} from "vue";
 

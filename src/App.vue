@@ -45,7 +45,7 @@
 </style>
 
 <script setup lang="ts">
-import NavigationMenu from "@/components/NavigationMenu.vue";
+import NavigationMenu from "@/components/bar/NavigationMenu.vue";
 import UpdatePassword from "@/components/user/UpdatePassword.vue";
 import {show_update_password} from "@/utils/DialogVisible";
 import {onBeforeMount} from "vue";

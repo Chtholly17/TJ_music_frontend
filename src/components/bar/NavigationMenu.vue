@@ -2,7 +2,7 @@
     <div class="header">
         <el-menu :router="true" mode="horizontal"  :default-active=default_index class="top_bar">
             <div style="display: flex">
-                <img src="@/assets/logo/logo_rec.png" class="logo">
+                <img src="../../assets/logo/logo_rec.png" class="logo">
                 <el-menu-item index="/music_square">首页</el-menu-item>
                 <el-menu-item index="/rank">榜单</el-menu-item>
             </div>
@@ -25,7 +25,7 @@
 
 <script>
 import {showLoginDialog} from "@/utils/DialogVisible";
-import SearchBar from "@/components/searchBar.vue";
+import SearchBar from "@/components/bar/searchBar.vue";
 import {computed, onBeforeMount, onBeforeUpdate, ref, watch} from "vue";
 import store from "@/store";
 import {show_update_password} from "@/utils/DialogVisible";
@@ -44,7 +44,7 @@ export default {
             const user_id=computed(()=>store.getters.getUserID)
             if (user_id.value== 'admin')
                 router.push('/admin')
-            else    
+            else
                 router.push('/user')
         },
         user_message(){

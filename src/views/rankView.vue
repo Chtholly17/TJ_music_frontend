@@ -74,7 +74,7 @@
 <script lang="ts">
 import {onBeforeMount, ref} from "vue";
 import {fetchRankList} from "@/utils/Texts/rankList";
-import RankItem from "@/components/rankItem.vue";
+import RankItem from "@/components/item/rankItem.vue";
 import router from "@/router";
 
 export default {

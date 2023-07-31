@@ -7,7 +7,7 @@ import {closeAllDialogs} from "@/utils/DialogVisible";
 import router from "@/router";
 import {setCookie} from "@/service/cookie";
 import {isLoggedIn} from "@/utils/BarVisible";
-import loginDisabled from "@/components/LoginForm.vue";
+import loginDisabled from "@/components/preface/LoginForm.vue";
 
 export const baseForm = ref<FormInstance>();
 export const loginData = reactive({
