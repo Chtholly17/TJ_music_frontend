@@ -17,8 +17,8 @@
 </template>
 
 <script lang="ts">
-import MessageItem from "@/components/MessageItem.vue";
-import MessageDetail from "@/components/MessageDetail.vue";
+import MessageItem from "@/components/message/MessageItem.vue";
+import MessageDetail from "@/components/message/MessageDetail.vue";
 import {onBeforeMount, reactive, ref} from "vue";
 import api from "@/service";
 import store from "@/store";

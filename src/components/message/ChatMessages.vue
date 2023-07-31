@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import {chatNickname, messageList, chatProfile, getDetailMessage, chatLoading} from "@/utils/chatParams";
-import MessageRow from "@/components/messageRow.vue";
+import MessageRow from "@/components/message/messageRow.vue";
 import {onBeforeMount} from "vue";
 onBeforeMount(getDetailMessage);
 </script>

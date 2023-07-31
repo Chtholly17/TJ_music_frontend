@@ -8,8 +8,8 @@
 </template>
 
 <script lang="ts" setup>
-import ChatMessageBuffer from "@/components/ChatMessageBuffer.vue";
-import ChatMessages from "@/components/ChatMessages.vue";
+import ChatMessageBuffer from "@/components/message/ChatMessageBuffer.vue";
+import ChatMessages from "@/components/message/ChatMessages.vue";
 
 </script>
 
