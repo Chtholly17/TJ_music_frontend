@@ -135,7 +135,7 @@ export default {
 
         const add_present = () =>{
             present_num.value = present_num.value + 1
-            console.log(current_work_id.value)
+            //console.log(current_work_id.value)
             let data = new FormData();
             data.append("workId", current_work_id.value)
             axios.post(path.baseUrl + path.postPresent,data).then((res) =>{
@@ -227,7 +227,7 @@ export default {
             LrcFile.value = res.data.data.originLrcFilename
             formatLrc();
             nextTick().then(()=>{
-              console.log("nextTick")
+              //console.log("nextTick")
             })
           }).catch(err => {
             console.log(err)

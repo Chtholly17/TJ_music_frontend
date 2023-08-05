@@ -1,8 +1,8 @@
 <template>
-  <div class="upload">   
+  <div class="upload">
 
     <el-form-item label="To User">{{name}}</el-form-item>
-  
+
     <el-form-item label="通知信息" prop="description" style="margin-top: 10px;">
       <el-input
         v-model="description"
@@ -16,7 +16,7 @@
     <el-form-item style="margin-top: 15px;">
       <el-button type="primary" @click="submit">提交</el-button>
     </el-form-item>
-    
+
   </div>
 </template>
 
@@ -30,7 +30,7 @@ export default defineComponent({
     },
   setup(props) {
     let name = ref(props.originName);
-    console.log(name.value);
+    //console.log(name.value);
     let description = ref("");
     const submit = () => {
       if(name.value=="all"){

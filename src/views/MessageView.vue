@@ -38,7 +38,7 @@ export default {
             student_number:string
         }
 
-        console.log(chatStudentNumber.value)
+        //console.log(chatStudentNumber.value)
         const chat_object:chat_object_type[]=reactive([])
         //const chat_object=ref()
         const user_id=ref()

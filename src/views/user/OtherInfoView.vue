@@ -102,7 +102,7 @@ import {userinfoData} from "@/utils/Texts/userinfoText";
 import {user_fetchUserImage,fetchOtherInfo} from "@/utils/Texts/userinfoText";
 import { provinceAndCityData } from 'element-china-area-data'
 import music_library_item from "@/components/user/musicLibraryItem.vue"
-import {fetchOtherMusicLibrary} from "@/utils/Texts/MusicLibrary";
+import {fetchMusicLibrary} from "@/utils/Texts/MusicLibrary";
 import api from "@/service/index"
 import {getCookie} from "@/service/cookie";
 import {ElMessage} from "element-plus";
@@ -176,7 +176,7 @@ export default {
             }))
 
             //获取曲库
-            fetchOtherMusicLibrary(other_id.value).then(res=>{
+            fetchMusicLibrary(other_id.value).then(res=>{
                 other_music_library.value=res
                 for (const item of other_music_library.value) {
                     item.score_ave=(item.workQualityScore+item.workPreciseScore+item.workPitchScore)/3;

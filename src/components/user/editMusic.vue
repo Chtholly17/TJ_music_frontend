@@ -2,7 +2,7 @@
   <div class="upload">
     <el-upload
         class="avatar-uploader"
-        limit="1"   
+        limit="1"
         action="#"
         :on-change="onChangeImage"
         :show-file-list="false"
@@ -12,19 +12,19 @@
       <i v-else class="avatar-uploader-icon" style="border: 2px solid black;" ></i>
     </el-upload>
     <div class="container">
-      <div class="sidebar"> 
-        
+      <div class="sidebar">
+
         <el-form-item label="名称" prop="name" style="margin-top: 20px;">
           <el-input v-model="form.name" placeholder="请输入名称" style="width: 300px;"></el-input>
         </el-form-item>
-        
+
         <el-form-item label="作者" prop="author">
           <el-input v-model="form.author" placeholder="请输入作者" style="width: 300px;"></el-input>
         </el-form-item>
-        
+
         <el-upload label="背景音乐"
             class="avatar-uploader"
-            limit="1"   
+            limit="1"
             action="#"
             :on-change="onChangeBg"
             :show-file-list="false"
@@ -34,10 +34,10 @@
             <i v-else></i>
             <div class="el-upload__text">Click to upload</div>
         </el-upload>
-        
+
         <el-upload label="原唱音乐"
             class="avatar-uploader"
-            limit="1"   
+            limit="1"
             action="#"
             :on-change="onChangeVoice"
             :show-file-list="false"
@@ -49,10 +49,10 @@
             <i v-else></i>
             <div class="el-upload__text">Click to upload</div>
         </el-upload>
-        
+
         <el-upload label="音乐歌词"
             class="avatar-uploader"
-            limit="1"   
+            limit="1"
             action="#"
             :on-change="onChangeLyric"
             :show-file-list="false"
@@ -151,8 +151,8 @@ export default defineComponent({
               { required: true, message: "请输入时长", trigger: "blur" },
           ],
       };
-    
-      
+
+
       // const imageUrl = ref('https://th.bing.com/th/id/R.466bb61cd7cf4e8b7d9cdf645add1d6e?rik=YRZKRLNWLutoZA&riu=http://222.186.12.239:10010/wmxs_161205/002.jpg&ehk=WEy01YhyfNzzQNe1oIqxwgbTnzY7dMfmZZHkqpZB5WI=&risl=&pid=ImgRaw&r=0');
       // const voiceMusicUrl = ref('https://www.runoob.com/try/demo_source/horse.mp3')
       // const bgMusicUrl = ref('https://www.runoob.com/try/demo_source/horse.mp3')
@@ -197,7 +197,7 @@ export default defineComponent({
           }
       });
       const onChangeImage = (file: any) => {
-          console.log(file);
+          // console.log(file);
           imageFile = file.raw;
           const reader = new FileReader();
           reader.readAsDataURL(file.raw);
@@ -206,7 +206,7 @@ export default defineComponent({
           };
       };
       const onChangeVoice = (file: any) => {
-          console.log(file);
+          //console.log(file);
           voiceFile = file.raw;
           const reader = new FileReader();
           reader.readAsDataURL(file.raw);
@@ -215,7 +215,7 @@ export default defineComponent({
           };
       };
       const onChangeBg = (file: any) => {
-          console.log(file);
+          //console.log(file);
           bgFile = file.raw;
           const reader = new FileReader();
           reader.readAsDataURL(file.raw);
@@ -224,12 +224,12 @@ export default defineComponent({
           };
       };
       const onChangeLyric = (file: any) => {
-          console.log(file);
+          //console.log(file);
           lyricFile = file.raw;
           form.value.lyricFilename = file.name;
       };
       const submit = () => {
-          console.log(props.originId);
+          //console.log(props.originId);
           let pack = new FormData();
           pack.append("originId", "-1");
           if (form.value.name) {
@@ -254,18 +254,18 @@ export default defineComponent({
               pack.append("originIntroduction", form.value.description);
           }
           let type = "";
-          console.log(selectedOptions.value);
+          //console.log(selectedOptions.value);
           selectedOptions.value.forEach((item: any) => {
               type += item + "/";
           });
-          console.log(type);
+          //console.log(type);
           if (type == "") {
             alert("请选择类型");
             return;
           } else {
             pack.append("originMusicTag", type);
           }
-          console.log(pack);
+          //console.log(pack);
           axios.post(path.baseUrl + path.createOriginMusic, pack).then((res) => {
               console.log(res);
           }).catch((err) => {

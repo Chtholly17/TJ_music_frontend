@@ -49,7 +49,7 @@
             :originVoiceFilename="music.originVoiceFilename"
             :originPrefaceFilename="music.originPrefaceFilename"
             :originDescription="music.originDescription"
-            :key="show_edit_music" 
+            :key="show_edit_music"
             ></edit-music>
         </el-dialog>
 
@@ -83,7 +83,7 @@ import postUser from "@/components/user/postUser.vue";
 import editMusic from "@/components/user/editMusic.vue";
 import musicIntroduction from "@/components/user/musicIntroduction.vue";
 import { getCurrentInstance } from 'vue'
-import axios from "axios"; 
+import axios from "axios";
 import path from "@/service/path";
 import {user_fetchUserImage,fetchUserInfo} from "@/utils/Texts/userinfoText";
 import {getCookie} from "@/service/cookie";
@@ -161,7 +161,7 @@ export default{
                 music.value.originVoiceFilename=res.data.data.originVoiceFilename;
                 music.value.originPrefaceFilename=res.data.data.originPrefaceFilename;
                 music.value.originDescription=res.data.data.originIntroduction;
-                console.log(music.value);
+                //console.log(music.value);
             }).catch((err) => {
                 console.log(err);
             })
