@@ -26,7 +26,7 @@
         <div class="buttonBox">
             <!-- <el-button v-if="props.userStatus==1" type="warning" @click="updateUserStatus()">禁用</el-button>
             <el-button v-if="props.userStatus==0" type="primary" @click="updateUserStatus()">启用</el-button> -->
-            <el-button type="info" @click="sendmsg()">发送信息</el-button>
+            <el-button type="info" @click="sendMsg()">发送信息</el-button>
             <el-button type="warning" @click="deleteUser()">删除</el-button>
         </div>
     </div>
@@ -48,7 +48,7 @@ const deleteUser = () => {
         console.log(err);
     })
 }
-const sendmsg = () => {
+const sendMsg = () => {
     proxy.$EventBus.emit('postUser', {userStudentNumber: props.userStudentNumber});
 }
 const itemMouseOverHandler = () => {

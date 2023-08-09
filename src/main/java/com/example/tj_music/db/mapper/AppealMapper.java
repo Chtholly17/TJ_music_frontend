@@ -11,7 +11,7 @@ import java.util.List;
 public interface AppealMapper {
 
     // select all appeal content, appeal status and user student number
-    @Select("select appeal_content, appeal_status, user_student_number from appeal, user where appeal_owner = user_id")
+    @Select("select appeal_content, appeal_status, user_student_number from appeal, user where appeal_owner = userId")
     public List<AppealContent> selectAllAppealContentAndStatusAndStudentNumber();
 
     // select appeal by owner

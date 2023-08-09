@@ -1,18 +1,18 @@
 <template>
     <h1 style="margin-bottom: 5vh;margin-top: 5vh">我的粉丝</h1>
-    <div  v-for="item in fan_list" :key="item.userId">
+    <div  v-for="item in fanList" :key="item.userId">
         <div class="fan_block">
           <div class="user_photo">
 <!--              <vue-avatar :name="item.userNickname" :src="item.userProfileImageFilename"></vue-avatar>-->
 <!--              <img class="photo" :src="item.userProfileImageFilename">-->
-              <el-avatar class="photo" :src="item.userProfileImageFilename" @click="to_other(item.userStudentNumber)"></el-avatar>
+              <el-avatar class="photo" :src="item.userProfileImageFilename" @click="toOther(item.userStudentNumber)"></el-avatar>
           </div>
           <div class="name_signature">
               <p>{{item.userNickname}}</p>
               <p>{{item.userSignature}}</p>
           </div>
-          <div class="delete_fan">
-              <el-button @click="delete_fan(item.userStudentNumber)">删除粉丝</el-button>
+          <div class="deleteFan">
+              <el-button @click="deleteFan(item.userStudentNumber)">删除粉丝</el-button>
           </div>
         </div>
         <el-divider></el-divider>
@@ -37,31 +37,31 @@ export default {
         const reload=inject('reload')
         const store = useStore()
 
-        let user_id;
-        let fan_list;
-        fan_list=ref()
+        let userId;
+        let fanList;
+        fanList=ref()
         onBeforeMount(()=>{
             const count = computed(() => store.getters.getUserID)
-            user_id=count.value
+            userId = count.value
             fetchFanList().then(res=>{
-                fan_list.value=res
+                fanList.value=res
                 //console.log(res)
                 })
         })
-        function delete_fan(fan_id){
+        function deleteFan(fanId){
             emit('de_fan')
-            deleteFollow(fan_id,user_id).then(()=>{
+            deleteFollow(fanId,userId).then(()=>{
                 reload()
             })
         }
-        function to_other(user_id){
-            router.push({path:'/otherinfo',query:{id:user_id}})
+        function toOther(userId){
+            router.push({path:'/otherinfo',query:{id:userId}})
         }
         return{
             onBeforeMount,
-            fan_list,
-            delete_fan,
-            to_other
+            fanList: fanList,
+            deleteFan: deleteFan,
+            toOther: toOther
         }
     }
 }
@@ -88,21 +88,21 @@ export default {
     text-align: left;
     margin-left: 5%;
 }
-.fan_block>.delete_fan{
+.fan_block>.deleteFan{
     width: 10%;
 }
 
-.fan_block>.delete_fan>.el-button:focus{
+.fan_block>.deleteFan>.el-button:focus{
     background: #CC2288 ;
     border-color: #CC2288 ;
     color: #ffffff ;
 }
-.fan_block>.delete_fan>.el-button:hover{
+.fan_block>.deleteFan>.el-button:hover{
     background: #c965a2 ;
     border-color: #c965a2 ;
     color: #ffffff;
 }
-.fan_block>.delete_fan>.el-button{
+.fan_block>.deleteFan>.el-button{
     background: #CC2288 ;
     border-color: #CC2288 ;
     color: #ffffff ;

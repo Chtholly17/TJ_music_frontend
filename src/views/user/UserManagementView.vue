@@ -5,7 +5,7 @@
             <el-main class="user_main" >
                 <div class="user_top">
                     <div >
-                        <el-avatar :src="real_img_url " :size="280" fit="cover"></el-avatar>
+                        <el-avatar :src="realImgUrl " :size="280" fit="cover"></el-avatar>
                         <div style="height: 10px"></div>
                         <el-button type="primary" @click="show_upload=true">更换头像</el-button>
                     </div>
@@ -13,7 +13,7 @@
                         <div style="height: 30px"></div>
                         <p style="font-size: 30px;text-align: left;font-family:SimHei;font-style: italic">{{user_nickname}}</p>
                         <div style="height: 30px"></div>
-                        <p style="text-align: left"> 学号: &nbsp; &nbsp;{{user_id}}</p>
+                        <p style="text-align: left"> 学号: &nbsp; &nbsp;{{userId}}</p>
                         <div style="height: 30px"></div>
                         <p style="text-align: left"> 个性签名: &nbsp; &nbsp;{{userinfoData.userinfoForm.new_signature}}</p>
                     </div>
@@ -61,7 +61,7 @@ import {computed, onBeforeMount, provide, ref, nextTick, watch} from "vue";
 import { useStore } from 'vuex'
 import {userinfoData} from "@/utils/Texts/userinfoText";
 import uploadPic from "@/components/user/uploadPic.vue";
-import {user_fetchUserImage,fetchUserInfo} from "@/utils/Texts/userinfoText";
+import {userFetchUserImage,fetchUserInfo} from "@/utils/Texts/userinfoText";
 import {getCookie} from "@/service/cookie";
 import {user_nickname} from "@/utils/Texts/userinfoText";
 
@@ -74,19 +74,19 @@ export default {
    data(){
         return{
             aside_width:13,
-            //user_photo_url:require("../../assets/profile.jpg"),
+            //userPhotoUrl:require("../../assets/profile.jpg"),
             user_info_show_control:0    //控制是否展示个人信息界面
         }
     },
     methods:{
         music_router(){
-            this.$router.push('/user/music_library')
+            this.$router.push('/user/musicLibrary')
         },
         fan_router(){
-            this.$router.push('/user/fan_list')
+            this.$router.push('/user/fanList')
         },
         follow_router(){
-            this.$router.push('/user/follow_list')
+            this.$router.push('/user/followList')
         },
         get_nickname(data){
             this.nickname=data;
@@ -99,15 +99,15 @@ export default {
     setup(){
         const loading=ref(true);
 
-        const user_photo_url=ref()   //用户头像
+        const userPhotoUrl=ref()   //用户头像
         const show_router=ref(true)
         const show_upload=ref(false) //展示上传头像框
 
         const user_follow=ref(0)    //用户关注数
         const user_fans=ref(0)  //用户粉丝数
-        const user_id=ref("")   //用户学号
+        const userId=ref("")   //用户学号
 
-        watch(user_photo_url,()=>{
+        watch(userPhotoUrl,()=>{
             show_upload.value=false;
             })
         const reload=()=>{
@@ -122,19 +122,19 @@ export default {
         const user_info_control=ref(false)
         provide("user_info_show",user_info_control);
 
-        const real_img_url=ref('');
+        const realImgUrl=ref('');
 
 
 
         watch(
             ()=>store.state.bar_pic_change,
             ()=>{
-                //const user_id=computed(()=>store.getters.getUserID)
+                //const userId=computed(()=>store.getters.getUserID)
                 const userNumber = getCookie("userNumber")
-                user_fetchUserImage( userNumber).then(res=>{
-                    user_photo_url.value=res
+                userFetchUserImage( userNumber).then(res=>{
+                    userPhotoUrl.value=res
                     const random_num=Math.random()*100+1;
-                    real_img_url.value=`${user_photo_url.value}?timestamp=${random_num}`;
+                    realImgUrl.value=`${userPhotoUrl.value}?timestamp=${random_num}`;
                 })
             }
         )
@@ -147,7 +147,7 @@ export default {
             userNumber.value = getCookie("userNumber")
             // 先获取用户学号
             userinfoData.userinfoForm.user_student_number = userNumber.value;
-            user_id.value=userNumber.value;
+            userId.value=userNumber.value;
 
             setTimeout(()=>{
                 fetchUserInfo().then(res=>{
@@ -164,10 +164,10 @@ export default {
                     user_fans.value=res.userFansCnt;
                 })
 
-                user_fetchUserImage( userNumber.value).then(res=>{
-                    user_photo_url.value=res
+                userFetchUserImage( userNumber.value).then(res=>{
+                    userPhotoUrl.value=res
                     const random_num=Math.random()*100+1;
-                    real_img_url.value= `${user_photo_url.value}?timestamp=${random_num}`;
+                    realImgUrl.value= `${userPhotoUrl.value}?timestamp=${random_num}`;
                 })
                 loading.value=false
             },1000)
@@ -197,8 +197,8 @@ export default {
             userinfoData,
             onBeforeMount,
             show_router,
-            reload,user_photo_url,show_upload,
-            real_img_url,user_follow,user_fans,user_id,
+            reload,userPhotoUrl,show_upload,
+            realImgUrl,user_follow,user_fans,userId,
             loading,de_follow,de_fan,user_nickname
         }
     }

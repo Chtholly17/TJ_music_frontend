@@ -1,19 +1,19 @@
 <template>
     <h1 style="margin-bottom: 5vh;margin-top: 5vh">我的关注</h1>
-    <div   v-for="item in follow_list" :key="item.userId">
+    <div   v-for="item in followList" :key="item.userId">
         <div class="fan_block">
             <div class="user_photo">
                 <!--            <el-image :src="require(item.userProfileImageFilename)" class="photo" fit="scale-down"> </el-image>-->
 <!--                <img class="photo" :src="item.userProfileImageFilename">-->
-                <el-avatar class="photo" :src="item.userProfileImageFilename " @click="to_other(item.userStudentNumber)"></el-avatar>
+                <el-avatar class="photo" :src="item.userProfileImageFilename " @click="toOther(item.userStudentNumber)"></el-avatar>
             </div>
             <div class="name_signature">
                 <p>{{item.userNickname}}</p>
                 <div style="height: 20px"></div>
                 <p>{{item.userSignature}}</p>
             </div>
-            <div class="delete_fan">
-                <el-button @click="delete_follow(item.userStudentNumber)">取消关注</el-button>
+            <div class="deleteFan">
+                <el-button @click="deleteFollows(item.userStudentNumber)">取消关注</el-button>
             </div>
         </div>
         <el-divider></el-divider>
@@ -37,34 +37,34 @@ export default {
         const reload=inject('reload')
         const store = useStore()
 
-        let user_id;
-        let follow_list;
-        follow_list=ref()
+        let userId;
+        let followList;
+        followList=ref()
         onBeforeMount(()=>{
             // const count = computed(() => store.getters.getUserID)
-            // user_id=count.value
-            user_id=getCookie("userNumber");
+            // userId=count.value
+            userId=getCookie("userNumber");
 
-            fetchFollowList(user_id).then(res=>{
-                follow_list.value=res
+            fetchFollowList(userId).then(res=>{
+                followList.value=res
                 //console.log(res)
             })
 
         })
-        function delete_follow(follow_id){
+        function deleteFollows(followId){
             emit('de_follow')
-            deleteFollow(user_id,follow_id).then(()=>{
+            deleteFollow(userId,followId).then(()=>{
                 reload()
             })
         }
-        function to_other(user_id){
-            router.push({path:'/otherinfo',query:{id:user_id}})
+        function toOther(userId){
+            router.push({path:'/otherinfo',query:{id:userId}})
         }
         return{
             onBeforeMount,
-            follow_list,
-            delete_follow,
-            user_id,to_other
+            followList: followList,
+            deleteFollows: deleteFollows,
+            userId: userId,toOther
         }
     }
 }
@@ -91,21 +91,21 @@ export default {
     text-align: left;
     margin-left: 5%;
 }
-.fan_block>.delete_fan{
+.fan_block>.deleteFan{
     width: 10%;
 }
 
-.fan_block>.delete_fan>.el-button:focus{
+.fan_block>.deleteFan>.el-button:focus{
     background: #CC2288 ;
     border-color: #CC2288 ;
     color: #ffffff ;
 }
-.fan_block>.delete_fan>.el-button:hover{
+.fan_block>.deleteFan>.el-button:hover{
     background: #c965a2 ;
     border-color: #c965a2 ;
     color: #ffffff;
 }
-.fan_block>.delete_fan>.el-button{
+.fan_block>.deleteFan>.el-button{
     background: #CC2288 ;
     border-color: #CC2288 ;
     color: #ffffff ;

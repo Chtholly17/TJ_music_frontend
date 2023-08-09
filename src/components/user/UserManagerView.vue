@@ -31,9 +31,9 @@
             <el-text truncated size="large"> <h3> 操作 </h3>  </el-text>
         </div>
     </div>
-    <user_manager_item v-for="(item,index) in user_manager" :key="item"
+    <user_manager_item v-for="(item,index) in userManager" :key="item"
                         :userStudentNumber="item.userStudentNumber" :userNickname="item.userNickname" :userGender="item.userGender"
-                        :userProfileImageFilename = "item.userProfileImageFilename" :userStatus="item.userStatus" 
+                        :userProfileImageFilename = "item.userProfileImageFilename" :userStatus="item.userStatus"
                         :index="index" :createTime="item.createTime.substr(0,10)"></user_manager_item>
 </div>
 </template>
@@ -50,10 +50,10 @@ export default {
 
     const { proxy } = getCurrentInstance();
 
-    const user_manager=ref();
+    const userManager=ref();
     onBeforeMount(()=>{
         fetchUserManager().then(res=>{
-            user_manager.value=res.data
+            userManager.value=res.data
             console.log(res)
         })
     })
@@ -63,7 +63,7 @@ export default {
     }
 
       return {
-        user_manager,
+        userManager: userManager,
         groupSend
       }
   }

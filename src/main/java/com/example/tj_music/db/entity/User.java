@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  * @author rkr
  * @date 2021/4/18
  * @description: user entity
- * user_id
+ * userId
  * create_time
  * user_student_number
  * user_nickname

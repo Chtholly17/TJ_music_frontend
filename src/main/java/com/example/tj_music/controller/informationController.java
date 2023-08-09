@@ -142,7 +142,7 @@ public class informationController {
      * 用这个API可以修改用户密码
      * @param user_student_number: 用户的学号
      * @param new_password: 用户的新密码
-     * @return: list of objects: [user_id, user_name, user_signature, user_profile_image]
+     * @return: list of objects: [userId, user_name, user_signature, user_profile_image]
      */
     @PostMapping("/updateUserPassword")
     public Result updateUserPassword(@RequestParam("user_student_number") String user_student_number,

@@ -73,7 +73,7 @@ export const fetchUserInfo=async ()=>{
     }
 }
 
-export const user_fetchUserImage=async (user_id:any)=>{
+export const userFetchUserImage=async (user_id:any)=>{
     const  response=await api.getUserImage({user_student_number:user_id})
     return response.data.data
 }

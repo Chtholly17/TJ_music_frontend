@@ -86,8 +86,8 @@ export default {
       onBeforeMount(()=>{
          //userinfoData.userinfoForm.user_student_number= count.value;
          userinfoData.userinfoForm.user_student_number=getCookie("userNumber");
-         const user_id=getCookie("userNumber");
-         fetchUserInfo(user_id).then(res=>{
+         const userId=getCookie("userNumber");
+         fetchUserInfo(userId).then(res=>{
             area.value.push(res.userArea1)
             area.value.push(res.userArea2)
             colma.value.push(res.userCollege)

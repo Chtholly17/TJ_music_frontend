@@ -20,16 +20,16 @@ public interface UserMapper {
     public User selectUserByStudentNumber(String user_student_number);
 
     // select id by student number
-    @Select("select user_id from user where user_student_number=#{user_student_number}")
+    @Select("select userId from user where user_student_number=#{user_student_number}")
     public Integer selectIdByStudentNumber(String user_student_number);
 
     // select user by id
-    @Select("select * from user where user_id=#{user_id}")
-    public User selectUserById(Integer user_id);
+    @Select("select * from user where userId=#{userId}")
+    public User selectUserById(Integer userId);
 
     // update user status by id
-    @Update("update user set user_status=#{user_status} where user_id=#{user_id}")
-    public void updateUserStatusById(String user_status, Integer user_id);
+    @Update("update user set user_status=#{user_status} where userId=#{userId}")
+    public void updateUserStatusById(String user_status, Integer userId);
 
     // update user password by StudentNumber
     @Update("update user set user_password=#{user_password} where user_student_number=#{user_student_number}")
@@ -76,24 +76,24 @@ public interface UserMapper {
     public void updateUserProfileImageByStudentNumber(String user_profile_image, String user_student_number);
 
     // update the user follow cnt by id
-    @Update("update user set user_follow_cnt=#{user_follow_cnt} where user_id=#{user_id}")
-    public void updateUserFollowCntById(Integer user_follow_cnt, Integer user_id);
+    @Update("update user set user_follow_cnt=#{user_follow_cnt} where userId=#{userId}")
+    public void updateUserFollowCntById(Integer user_follow_cnt, Integer userId);
 
     // update the user fans cnt by id
-    @Update("update user set user_fans_cnt=#{user_fans_cnt} where user_id=#{user_id}")
-    public void updateUserFansCntById(Integer user_fans_cnt, Integer user_id);
+    @Update("update user set user_fans_cnt=#{user_fans_cnt} where userId=#{userId}")
+    public void updateUserFansCntById(Integer user_fans_cnt, Integer userId);
 
     // update the user post cnt by id
-    @Update("update user set user_posts_cnt=#{user_post_cnt} where user_id=#{user_id}")
-    public void updateUserPostsCntById(Integer user_posts_cnt, Integer user_id);
+    @Update("update user set user_posts_cnt=#{user_post_cnt} where userId=#{userId}")
+    public void updateUserPostsCntById(Integer user_posts_cnt, Integer userId);
 
     // get the fans cnt by id
-    @Select("select count(*) from user_follow where user_followed_id=#{user_id}")
-    public Integer selectFansCntById(Integer user_id);
+    @Select("select count(*) from user_follow where user_followed_id=#{userId}")
+    public Integer selectFansCntById(Integer userId);
 
     // delete the user by id
-    @Delete("delete from user where user_id=#{user_id}")
-    public void deleteUserById(Integer user_id);
+    @Delete("delete from user where userId=#{userId}")
+    public void deleteUserById(Integer userId);
 
     // delete the user by student number
     @Delete("delete from user where user_student_number=#{user_student_number}")

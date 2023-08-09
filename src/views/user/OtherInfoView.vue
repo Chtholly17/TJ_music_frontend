@@ -5,7 +5,7 @@
             <el-main class="user_main" >
                 <div class="user_top">
                     <div >
-                        <el-avatar :src="real_img_url " :size="280" fit="cover"></el-avatar>
+                        <el-avatar :src="realImgUrl " :size="280" fit="cover"></el-avatar>
                     </div>
                     <div >
                         <div style="height: 30px"></div>
@@ -99,7 +99,7 @@ import { Edit, Search, Share, Upload,View } from '@element-plus/icons-vue';
 import {computed, onBeforeMount, provide, ref} from "vue";
 import { useStore } from 'vuex'
 import {userinfoData} from "@/utils/Texts/userinfoText";
-import {user_fetchUserImage,fetchOtherInfo} from "@/utils/Texts/userinfoText";
+import {userFetchUserImage,fetchOtherInfo} from "@/utils/Texts/userinfoText";
 import { provinceAndCityData } from 'element-china-area-data'
 import music_library_item from "@/components/user/musicLibraryItem.vue"
 import {fetchMusicLibrary} from "@/utils/Texts/MusicLibrary";
@@ -136,22 +136,22 @@ export default {
 
 
         const options = provinceAndCityData   //所有地区的可选项
-        const user_photo_url = ref("")
+        const userPhotoUrl = ref("")
         const user_follow = ref(0)    //用户关注数
         const user_fans = ref(0)  //用户粉丝数
-        const user_id = ref("")   //用户学号
+        const userId = ref("")   //用户学号
 
 
 
         const store = useStore()
-        const real_img_url = ref('');
+        const realImgUrl = ref('');
 
         onBeforeMount(() => {
             //获取头像
-            user_fetchUserImage(other_id.value).then(res => {
-                user_photo_url.value = res
+            userFetchUserImage(other_id.value).then(res => {
+                userPhotoUrl.value = res
                 const random_num = Math.random() * 100 + 1;
-                real_img_url.value = `${user_photo_url.value}?timestamp=${random_num}`;
+                realImgUrl.value = `${userPhotoUrl.value}?timestamp=${random_num}`;
             })
 
             //获取个人信息
@@ -184,8 +184,8 @@ export default {
             }})
 
             //判断是否关注
-            user_id.value = getCookie("userNumber")
-            api.checkFollow(user_id.value,other_id.value).then(res=>{
+            userId.value = getCookie("userNumber")
+            api.checkFollow(userId.value,other_id.value).then(res=>{
 
                 if(res.data.code===0)    //未关注
                 {
@@ -207,7 +207,7 @@ export default {
                 if(is_follow.value===true)
                 {
                     user_fans.value--;
-                    api.deleteFollow(user_id.value,other_id.value).then(res=>{
+                    api.deleteFollow(userId.value,other_id.value).then(res=>{
                         if(res.status===200){
                             is_follow.value=false
                             ElMessage.success("已取消关注")
@@ -221,7 +221,7 @@ export default {
                 }
                 else{
                     user_fans.value++;
-                    api.follow(user_id.value,other_id.value).then(res=>{
+                    api.follow(userId.value,other_id.value).then(res=>{
                         if(res.status===200){
                             is_follow.value=true
                             ElMessage.success("已关注")
@@ -251,7 +251,7 @@ export default {
             Edit,
             userinfoData,
             onBeforeMount,
-            real_img_url, user_follow, user_fans, other_id,
+            realImgUrl, user_follow, user_fans, other_id,
             other_nickname, other_signature, other_colledge,
             other_major, other_area1, other_area2, other_birthday, other_gender,
             show_info, other_music_library,is_follow,follow_change,to_chat,

@@ -31,10 +31,10 @@
               <el-text truncated size="large"> <h3> 操作 </h3> </el-text>
           </div>
       </div>
-      <music_library_item v-for="(item,index) in music_library" :key="item"
+      <music_library_item v-for="(item,index) in musicLibrary" :key="item"
                           :originId = "item.originId"
-                          :originName = "item.originName" :originAuthor = "item.originAuthor" 
-                          :originVoiceFilename = "item.originVoiceFilename" :originBgmusicFilename = "item.originBgmusicFilename" 
+                          :originName = "item.originName" :originAuthor = "item.originAuthor"
+                          :originVoiceFilename = "item.originVoiceFilename" :originBgmusicFilename = "item.originBgmusicFilename"
                           :originIntroduction = "item.originIntroduction" :originPrefaceFilename = "item.originPrefaceFilename" :index="index"></music_library_item>
   </div>
 </template>
@@ -47,14 +47,14 @@ export default {
     name: "MusicLibrary",
     components:{music_library_item},
     setup(){
-        const music_library=ref();
+        const musicLibrary=ref();
 
         const { proxy } = getCurrentInstance();
         onBeforeMount(()=>{
             fetchOriginMusic().then(res=>{
-                music_library.value=res.data
+                musicLibrary.value=res.data
                 print(res)
-                console.log(res)
+                // console.log(res)
             })
         })
 
@@ -62,7 +62,7 @@ export default {
             proxy.$EventBus.emit('editMusic',{originId:"-1"})
         }
         return {
-            music_library,
+            musicLibrary,
             createMusic
         }
     }

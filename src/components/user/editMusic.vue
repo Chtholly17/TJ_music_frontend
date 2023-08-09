@@ -99,7 +99,6 @@
 
 <script lang="ts">
 import { defineComponent, h, ref, onMounted } from "vue";
-import {} from '@element-plus/icons'
 import axios from "axios";
 import path from "@/service/path";
 export default defineComponent({
