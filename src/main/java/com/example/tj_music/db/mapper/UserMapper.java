@@ -88,7 +88,7 @@ public interface UserMapper {
     public void updateUserPostsCntById(Integer user_posts_cnt, Integer userId);
 
     // get the fans cnt by id
-    @Select("select count(*) from user_follow where user_followed_id=#{userId}")
+    @Select("select count(*) from userFollow where user_followed_id=#{userId}")
     public Integer selectFansCntById(Integer userId);
 
     // delete the user by id

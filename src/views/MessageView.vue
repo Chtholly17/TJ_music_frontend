@@ -1,9 +1,9 @@
 <template>
     <div class="user_message">
         <div class="message_list">
-           <message-item  v-if="new_chat" :nickname="target_nickname" :user-image="target_img" last_message=""
-                          index="0" :userId="now_chat_id"></message-item>
-           <message-item v-for="(item,index) in chat_object" :key="item"
+           <message-item  v-if="newChat" :nickname="targetNickname" :user-image="targetImg" last_message=""
+                          index="0" :userId="nowChatId"></message-item>
+           <message-item v-for="(item,index) in chatObject" :key="item"
                         :nickname="item.nickname" :userImage="item.profile_image_filename"
                         :last_message="item.last_message_content" :index="index"
                         :userId="item.student_number">
@@ -31,7 +31,7 @@ export default {
     components: {MessageDetail, MessageItem},
     setup()
     {
-        interface chat_object_type{
+        interface chatObjectType {
             last_message_content:string,
             nickname:string,
             profile_image_filename:string,
@@ -39,67 +39,67 @@ export default {
         }
 
         //console.log(chatStudentNumber.value)
-        const chat_object:chat_object_type[]=reactive([])
-        //const chat_object=ref()
+        const chatObject:chatObjectType[]=reactive([])
+        //const chatObject=ref()
         const userId=ref()
-        const new_chat=ref(true)
-        const now_chat_id=ref(router.currentRoute.value.query.target_id)
-        const target_nickname=ref()
-        const target_img=ref()
+        const newChat=ref(true)
+        const nowChatId=ref(router.currentRoute.value.query.target_id)
+        const targetNickname=ref()
+        const targetImg=ref()
 
         onBeforeMount(()=>{
             userId.value=store.getters.getUserID
             api.getMessageObject(userId.value).then(res=>{
-                //chat_object.value=res.data.data
+                //chatObject.value=res.data.data
                 // console.log("获取数据")
                 // console.log(res.data.data)
 
-                while (chat_object.length>0){
-                    chat_object.pop()
+                while (chatObject.length>0){
+                    chatObject.pop()
                 }
                 for (let i=0;i<res.data.data.length;i++){
                     const iter=res.data.data[i];
-                    chat_object.push(iter)
+                    chatObject.push(iter)
                 }
 
 
-                if(now_chat_id.value==='')
-                    new_chat.value=false
-                if(new_chat.value===true) {
-                    for (const item of chat_object) {
-                        if (item.student_number === now_chat_id.value) {
-                            new_chat.value = false
+                if(nowChatId.value==='')
+                    newChat.value=false
+                if(newChat.value===true) {
+                    for (const item of chatObject) {
+                        if (item.student_number === nowChatId.value) {
+                            newChat.value = false
                             break
                         }
                     }
                 }
                 // console.log("获取完消息队列")
             })
-            api.getUserInfo(now_chat_id.value).then(res=>{
-                target_nickname.value=res.data.data.userNickname;
-                target_img.value=res.data.data.userProfileImageFilename;
+            api.getUserInfo(nowChatId.value).then(res=>{
+                targetNickname.value=res.data.data.userNickname;
+                targetImg.value=res.data.data.userProfileImageFilename;
             })
             // console.log("onBeforeMount执行完毕")
         })
         setInterval(()=>{
             userId.value=store.getters.getUserID
             api.getMessageObject(userId.value).then(res=>{
-                while (chat_object.length>0){
-                    chat_object.pop()
+                while (chatObject.length>0){
+                    chatObject.pop()
                 }
                 for (let i=0;i<res.data.data.length;i++){
                     const iter=res.data.data[i];
-                    chat_object.push(iter)
+                    chatObject.push(iter)
                 }
 
-                if(now_chat_id.value==='')
-                    new_chat.value=false
+                if(nowChatId.value==='')
+                    newChat.value=false
                 // console.log("获取聊天用户列表")
-                // console.log(chat_object.value)
-                if(new_chat.value===true) {
-                    for (const item of chat_object) {
-                        if (item.student_number === now_chat_id.value) {
-                            new_chat.value = false
+                // console.log(chatObject.value)
+                if(newChat.value===true) {
+                    for (const item of chatObject) {
+                        if (item.student_number === nowChatId.value) {
+                            newChat.value = false
                             break
                         }
                     }
@@ -112,10 +112,10 @@ export default {
             chatStudentNumber.value = "";
         })
         return{
-            chat_object,
+            chatObject: chatObject,
             chatStudentNumber,
-            new_chat,
-            target_nickname,target_img,now_chat_id
+            newChat: newChat,
+            targetNickname: targetNickname,targetImg: targetImg,nowChatId: nowChatId
         }
     }
 }

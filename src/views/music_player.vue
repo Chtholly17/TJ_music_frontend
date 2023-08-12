@@ -3,12 +3,12 @@
 
         <div class="cont">
             <div class="left"><!--歌曲图片、歌曲名称、歌手、翻唱-->
-                <el-image class="song-pic" fit="fill" :src="current_work.workPrefaceFilename"/>
+                <el-image class="song-pic" fit="fill" :src="currenWork.workPrefaceFilename"/>
                 <br/>
                 <div class="song-info">
-                    <p>歌手：{{current_song.originAuthor }}</p>
-                    <p>歌曲：{{current_song.originName }}</p>
-                    <p @click="toWorkOwnerPage">翻唱：{{current_work_user.userNickname}}</p>
+                    <p>歌手：{{currentSong.originAuthor }}</p>
+                    <p>歌曲：{{currentSong.originName }}</p>
+                    <p @click="toWorkOwnerPage">翻唱：{{currentWorkUser.userNickname}}</p>
                 </div>
             </div>
 
@@ -17,30 +17,30 @@
                 <div class="lyric">
                     <div v-for="(item, index) in lrcData" :key="index">
                         <!--大于当前索引的歌词才能被展示；当前播放的歌词才能被高亮-->
-                        <p v-if="index>=data_index" style="color:black">{{item.words}}</p>
+                        <p v-if="index>=dataIndex" style="color:black">{{item.words}}</p>
                     </div>
                 </div>
 
                 <div class="btn">
-                    <el-button class="sub-btn" type="primary" @click="add_present">
+                    <el-button class="sub-btn" type="primary" @click="addPresent">
                         <el-icon style="vertical-align: middle">
                             <Present />
                         </el-icon>
-                        <span style="vertical-align: middle">{{present_num}}</span>
+                        <span style="vertical-align: middle">{{presentNum}}</span>
                     </el-button>
-                    <el-button class="sub-btn" type="primary" @click="enter_k_song">我也要唱</el-button>
+                    <el-button class="sub-btn" type="primary" @click="enterKSong">我也要唱</el-button>
                 </div>
                 <div class="comment">
                     <h2 class="comment-title">
                         <span>评论</span>
-                        <span class="comment-desc">共 {{ comment_list.length }} 条评论</span>
+                        <span class="comment-desc">共 {{ commentList.length }} 条评论</span>
                     </h2>
-                    <el-input class="comment-input" type="textarea" placeholder="期待您的精彩评论..." :rows="2" v-model="new_comment" clearable/>
+                    <el-input class="comment-input" type="textarea" placeholder="期待您的精彩评论..." :rows="2" v-model="newComment" clearable/>
                     <div class="btn"><el-button class="sub-btn" type="primary" @click="handlerComment">发表评论</el-button></div>
                 </div>
 
                 <div class="popular">
-                    <div class="popular_comment" v-for="(item, index) in comment_list" :key="index">
+                    <div class="popular_comment" v-for="(item, index) in commentList" :key="index">
                         <el-avatar class="popular-img" shape="square" fit="cover" :src="item.workCommentUser.userProfileImageFilename" />
                         <div class="popular-msg">
                             <span class="name">{{ item.workCommentUser.userNickname }}&nbsp;&nbsp;</span>
@@ -53,7 +53,7 @@
         </div>
         <el-affix position="bottom">
             <div class="bottom"><!--进度条-->
-                <audio id = "audio" @timeupdate="audioTime" autoplay controls loop :src = "current_work.workVoiceFilename" style="width:100%;"></audio>
+                <audio id = "audio" @timeupdate="audioTime" autoplay controls loop :src = "currenWork.workVoiceFilename" style="width:100%;"></audio>
             </div>
         </el-affix>
 
@@ -84,28 +84,28 @@ export default {
     name: "music_player",
     functional: true,
     setup(){
-        const comment_list=ref([]);
+        const commentList=ref([]);
         const lrcData=ref([]);//歌词数据数组
         const dataWords=ref("");//当前歌词
-        const data_index=ref(0);//当前歌词索引
+        const dataIndex=ref(0);//当前歌词索引
         const audio=ref();//audio对象
-        const new_comment=ref("");
-        const LRC=ref("");
+        const newComment=ref("");
+        const lrc=ref("");
         // console.log(router.currentRoute.value.query.id);
-        const current_work_id = ref(router.currentRoute.value.query.id);
-        const current_work=ref();
-        const current_work_user=ref();
-        const LrcFile = ref();
-        const current_song=ref([]);
-        const present_num=ref(0);//礼物数量
+        const currentWorkId = ref(router.currentRoute.value.query.id);
+        const currenWork=ref();
+        const currentWorkUser=ref();
+        const lrcFile = ref();
+        const currentSong=ref([]);
+        const presentNum=ref(0);//礼物数量
 
 
         //歌词数据转化为数组
         const formatLrc = () => {
-            if (current_song.value.originLrcFilename) {
+            if (currentSong.value.originLrcFilename) {
                 //在props.originPrefaceFilename去掉前面的path.baseUrl
-                // console.log(current_song.value.originLrcFilename);
-                let url = current_song.value.originLrcFilename.replace(path.serverUrl, "");
+                // console.log(currentSong.value.originLrcFilename);
+                let url = currentSong.value.originLrcFilename.replace(path.serverUrl, "");
                 axios.get(path.baseUrl+ url, {
                 }).then((res) => {
                     const strLrc = res.data.split("\n");
@@ -133,11 +133,11 @@ export default {
             return +parts[0] * 60 + +parts[1]; //计算秒
         };
 
-        const add_present = () =>{
-            present_num.value = present_num.value + 1
-            //console.log(current_work_id.value)
+        const addPresent = () =>{
+            presentNum.value = presentNum.value + 1
+            //console.log(currentWorkId.value)
             let data = new FormData();
-            data.append("workId", current_work_id.value)
+            data.append("workId", currentWorkId.value)
             axios.post(path.baseUrl + path.postPresent,data).then((res) =>{
                 console.log(res)
             })
@@ -146,7 +146,7 @@ export default {
         const toWorkOwnerPage=()=>
         {
             const userId =getCookie("userNumber");
-            if (userId == current_work_user.value.userStudentNumber)
+            if (userId == currentWorkUser.value.userStudentNumber)
             {
                 router.push({
                     path: "/user",
@@ -156,11 +156,11 @@ export default {
                 router.push({
                     path: "/otherinfo",
                     query: {
-                        id: current_work_user.value.userStudentNumber,
+                        id: currentWorkUser.value.userStudentNumber,
                     },
                 });
             }
-            // console.log(current_work_user);
+            // console.log(currentWorkUser);
         };
         //获取当前播放时间
         const audioTime=(e)=>
@@ -168,14 +168,14 @@ export default {
             let time = e.target.currentTime; //当前播放器时间
 
             // console.log(time)
-            // console.log(data_index.value)
+            // console.log(dataIndex.value)
             for (let i = 0; i < lrcData.value.length; i++)
             {
                 if (time < lrcData.value[i].time)
                 {
                     //循环歌词数组，当播放器当前时间第一次小于歌词时间时当前数组下标减一即为当前时间数组所对应歌词下标
                     dataWords.value = lrcData.value[i - 1].words;
-                    data_index.value=i-1;
+                    dataIndex.value=i-1;
                     // //保存当前歌词动画执行事件
                     // lrcTime = lrcData.value[i].time - lrcData.value[i - 1].time;
                     return i - 1;
@@ -184,47 +184,47 @@ export default {
         };
 
         const handlerComment = async () => {
-            // console.log(new_comment.value);
+            // console.log(newComment.value);
             // console.log("1234");
             const userId =getCookie("userNumber");
             // console.log(userId)
-            // console.log(current_work_id.value)
-            await commitComment(current_work_id.value, userId, new_comment.value).then(res => {
-                fetchComment(current_work_id.value).then(res => {
-                    comment_list.value = res;
-                    for (let i = 0; i < comment_list.value.length; i++) {
-                        comment_list.value[i].workComment.createTime = comment_list.value[i].workComment.createTime.split("T")[0];
+            // console.log(currentWorkId.value)
+            await commitComment(currentWorkId.value, userId, newComment.value).then(res => {
+                fetchComment(currentWorkId.value).then(res => {
+                    commentList.value = res;
+                    for (let i = 0; i < commentList.value.length; i++) {
+                        commentList.value[i].workComment.createTime = commentList.value[i].workComment.createTime.split("T")[0];
                     }
                 })
-                if(new_comment.value)
-                    new_comment.value = "";
+                if(newComment.value)
+                    newComment.value = "";
             }).catch(err => {
                 console.log(err)
             })
         }
 
-        const enter_k_song = () => {
-            router.replace({path: '/k_song',query:{id:current_song.value.originId}})
+        const enterKSong = () => {
+            router.replace({path: '/k_song',query:{id:currentSong.value.originId}})
         }
 
 
         onBeforeUpdate(()=> {
             //  fetchComment(1).then(res => {
-            //     comment_list.value = res;
-            //     for (let i = 0; i < comment_list.value.length; i++) {
-            //         comment_list.value[i].workComment.createTime = comment_list.value[i].workComment.createTime.split("T")[0];
+            //     commentList.value = res;
+            //     for (let i = 0; i < commentList.value.length; i++) {
+            //         commentList.value[i].workComment.createTime = commentList.value[i].workComment.createTime.split("T")[0];
             //     }
             // })
         })
 
         onMounted(()=>{
           let form = new FormData();
-          form.append("workId", current_work_id.value);
+          form.append("workId", currentWorkId.value);
           axios.post(path.baseUrl+path.getOriginByWorkId,form).then((res) => {
             // console.log(res)
-            current_song.value = res.data.data;
+            currentSong.value = res.data.data;
 
-            LrcFile.value = res.data.data.originLrcFilename
+            lrcFile.value = res.data.data.originLrcFilename
             formatLrc();
             nextTick().then(()=>{
               //console.log("nextTick")
@@ -237,31 +237,31 @@ export default {
 
 
         onBeforeMount(() => {
-            fetchComment(current_work_id.value).then(res => {
+            fetchComment(currentWorkId.value).then(res => {
                 // console.log(res)
-                comment_list.value = res;
-                for (let i = 0; i < comment_list.value.length; i++) {
-                    comment_list.value[i].workComment.createTime = comment_list.value[i].workComment.createTime.split("T")[0];
+                commentList.value = res;
+                for (let i = 0; i < commentList.value.length; i++) {
+                    commentList.value[i].workComment.createTime = commentList.value[i].workComment.createTime.split("T")[0];
                 }
             })
-            fetchWork(current_work_id.value).then(res => {
-                // console.log(current_work_id.value)
+            fetchWork(currentWorkId.value).then(res => {
+                // console.log(currentWorkId.value)
                 console.log(res)
                 // console.log("fetchWork")
-                current_work.value = res;
-                present_num.value = current_work.value.workLike
-                console.log(current_work.value.workVoiceFilename)
+                currenWork.value = res;
+                presentNum.value = currenWork.value.workLike
+                console.log(currenWork.value.workVoiceFilename)
                 // get user by Id
                 let userForm = new FormData();
-                // console.log(current_work.value.workOwner)
-                userForm.append("userId", current_work.value.workOwner);
+                // console.log(currenWork.value.workOwner)
+                userForm.append("userId", currenWork.value.workOwner);
                 // convert workOwner to string
 
                 // console.log(userForm)
-                axios.get(path.baseUrl+ path.selectUserById, {params:{userId : current_work.value.workOwner}}).then((res) => {
+                axios.get(path.baseUrl+ path.selectUserById, {params:{userId : currenWork.value.workOwner}}).then((res) => {
                     // console.log(res)
-                    current_work_user.value = res.data.data;
-                    // console.log(current_work_user.value)
+                    currentWorkUser.value = res.data.data;
+                    // console.log(currentWorkUser.value)
                 }).catch(err => {
                     console.log(err)
                 })
@@ -269,8 +269,8 @@ export default {
                 // audio.value = document.getElementById("audio");
                 console.log(res.workVoiceFilename)
                 // audio.value = document.getElementById("audio");
-                console.log(current_work.value)
-                // audio.value.src = current_work.value.workVoiceFilename;
+                console.log(currenWork.value)
+                // audio.value.src = currenWork.value.workVoiceFilename;
                 // get lyric
 
             }).catch(err => {
@@ -280,23 +280,23 @@ export default {
 
 
         return {
-            current_song,
-            comment_list,
-            LRC,
+            currentSong,
+            commentList: commentList,
+            lrc,
             lrcData,
             dataWords,
-            data_index,
-            new_comment,
-            current_work,
-            current_work_user,
-            present_num,
+            dataIndex,
+            newComment: newComment,
+            currenWork: currenWork,
+            currentWorkUser: currentWorkUser,
+            presentNum: presentNum,
             formatLrc,
             formatTime,
             audioTime,
             handlerComment,
-            enter_k_song,
+            enterKSong: enterKSong,
             toWorkOwnerPage,
-            add_present
+            addPresent: addPresent
         }
 
     }

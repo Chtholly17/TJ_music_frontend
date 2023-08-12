@@ -5,7 +5,7 @@
         <div style="height: 30px"></div>
             <div class="carousel"><!--轮播图-->
                 <el-carousel height="300px" type="card">
-                    <el-carousel-item v-for="(item, index) in carousel_img" :key="index">
+                    <el-carousel-item v-for="(item, index) in carouselImg" :key="index">
                         <h3 class="small">
                             <img :src="item.url" alt />
                         </h3>
@@ -18,13 +18,13 @@
             <div><span style="font-size:25px;">动态广场</span></div>
             <el-divider />
             <el-row :gutter="10" v-for="item in 1" :key="item">
-                <el-col :span="200" v-for="(item, index) in work_message" :key="index">
+                <el-col :span="200" v-for="(item, index) in workMessage" :key="index">
                     <el-card shadow="hover" style="background:rgba(255,255,255,0.5);">
                         <img
                             :src="item.workPrefaceFilename"
                             class="image"
 
-                            @click="player_router(item.workId)"
+                            @click="playerRouter(item.workId)"
 
                         />
                         <div><span>{{item.workName}}</span></div>
@@ -46,23 +46,23 @@ export default {
     name: 'music_square',
     functional: true,
     methods:{
-        player_router(id){
+        playerRouter(id){
             // console.log(id)
             router.push({path: '/music_player',query: {id: id}});
         }
     },
     setup() {
-        const work_message=ref();
+        const workMessage=ref();
 
         onBeforeMount(()=>{
             fetchMusicSquare(100).then(res=>{
-                work_message.value=res
-                // console.log(work_message.value)
+                workMessage.value=res
+                // console.log(workMessage.value)
                 })
         })
 
         //轮播图图片
-        const carousel_img= [
+        const carouselImg= [
             { url: require('../assets/material/img1.jpg') },
             { url: require('../assets/material/img2.jpg') },
             { url: require('../assets/material/img3.jpg') },
@@ -71,8 +71,8 @@ export default {
             { url: require('../assets/material/img6.jpg') },
         ];
         return{
-            carousel_img,
-            work_message
+            carouselImg: carouselImg,
+            workMessage: workMessage
         }
     }
 }

@@ -1,17 +1,17 @@
 <template>
-   <el-dialog class="user_info" v-model="user_info_show" title="修改个人信息" width="50%" :lock-scroll="false">
-      <el-form ref="baseForm"  :model="userinfoData.userinfoForm" label-width="120px" :rules="userinfoRules">
+   <el-dialog class="user_info" v-model="userInfoShow" title="修改个人信息" width="50%" :lock-scroll="false">
+      <el-form ref="baseForm" :model="userInfoData.userinfoForm" label-width="120px" :rules="userinfoRules">
          <el-form-item label="昵称" prop="new_nickname">
-            <el-input v-model="userinfoData.userinfoForm.new_nickname" />
+            <el-input v-model="userInfoData.userinfoForm.new_nickname" />
          </el-form-item>
 <!--         <el-form-item label="学院">-->
-<!--            <el-input v-model="userinfoData.userinfoForm.new_college" />-->
+<!--            <el-input v-model="userInfoData.userinfoForm.new_college" />-->
 <!--         </el-form-item>-->
 <!--         <el-form-item label="专业">-->
-<!--            <el-input v-model="userinfoData.userinfoForm.new_major" />-->
+<!--            <el-input v-model="userInfoData.userinfoForm.new_major" />-->
 <!--         </el-form-item>-->
          <el-form-item label="学院和专业">
-            <el-cascader style="width: 80%" v-model="colma" :options="college_major" :props="colma_props" @change="colma_change"></el-cascader>
+            <el-cascader style="width: 80%" v-model="colma" :options="college_major" :props="colmaProps" @change="colmaChange"></el-cascader>
          </el-form-item>
          <el-form-item label="地区">
             <el-cascader  size='mid' :options='options' v-model='area'></el-cascader>
@@ -20,7 +20,7 @@
          <el-form-item label="生日">
             <el-col :span="11">
                <el-date-picker
-                   v-model="userinfoData.userinfoForm.new_birthday"
+                   v-model="userInfoData.userinfoForm.new_birthday"
                    type="date"
                    placeholder="选择你的生日"
                    style="width: 100%"
@@ -29,14 +29,14 @@
          </el-form-item>
 
          <el-form-item label="性别">
-            <el-radio-group v-model="userinfoData.userinfoForm.new_gender">
+            <el-radio-group v-model="userInfoData.userinfoForm.new_gender">
                <el-radio label="男" />
                <el-radio label="女" />
             </el-radio-group>
 
          </el-form-item>
          <el-form-item label="个性签名">
-            <el-input v-model="userinfoData.userinfoForm.new_signature" type="textarea" />
+            <el-input v-model="userInfoData.userinfoForm.new_signature" type="textarea" />
          </el-form-item>
          <el-form-item>
             <el-button type="primary" @click="onSubmit" >提交</el-button>
@@ -61,7 +61,7 @@ export default {
       store() {
          return store
       },
-      userinfoData() {
+      userInfoData() {
          return userinfoData
       },
       ...mapGetters(['getUserID'])
@@ -75,16 +75,16 @@ export default {
       const count = computed(() => store.getters.getUserID)
 
       const colma=ref([]);
-      const colma_props = {
+      const colmaProps = {
          expandTrigger: 'hover',
       }
-      function colma_change(){
+      function colmaChange(){
          userinfoData.userinfoForm.new_college=colma.value[0]
          userinfoData.userinfoForm.new_major=colma.value[1]
       }
 
       onBeforeMount(()=>{
-         //userinfoData.userinfoForm.user_student_number= count.value;
+         //userInfoData.userinfoForm.user_student_number= count.value;
          userinfoData.userinfoForm.user_student_number=getCookie("userNumber");
          const userId=getCookie("userNumber");
          fetchUserInfo(userId).then(res=>{
@@ -95,12 +95,12 @@ export default {
          })
       })
 
-      const user_info_show=inject("user_info_show");
+      const userInfoShow=inject("userInfoShow");
 
       const onSubmit = () => {
          userinfoData.userinfoForm.new_area1=area.value[0]
          userinfoData.userinfoForm.new_area2=area.value[1]
-         //console.log(userinfoData.userinfoForm.new_birthday)
+         //console.log(userInfoData.userinfoForm.new_birthday)
 
          user_nickname.value=userinfoData.userinfoForm.new_nickname;
 
@@ -109,17 +109,17 @@ export default {
          commitUserInfo();
          cxt.emit("pass_nickname",userinfoData.userinfoForm.new_nickname);  //向父组件传递昵称参数
          cxt.emit("pass_signature",userinfoData.userinfoForm.new_signature);  //向父组件传递签名参数
-         user_info_show.value=false;
+         userInfoShow.value=false;
       }
       return{
-         user_info_show,
+         userInfoShow: userInfoShow,
          // form,
          onSubmit,
          userinfoRules,
          baseForm,
          area,
          onBeforeMount,
-         options,college_major,colma,colma_props,colma_change
+         options,college_major,colma,colmaProps: colmaProps,colmaChange: colmaChange
       }
    }
 }

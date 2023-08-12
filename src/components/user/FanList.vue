@@ -49,7 +49,7 @@ export default {
                 })
         })
         function deleteFan(fanId){
-            emit('de_fan')
+            emit('deFan')
             deleteFollow(fanId,userId).then(()=>{
                 reload()
             })

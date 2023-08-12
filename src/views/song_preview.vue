@@ -3,12 +3,12 @@
 
         <div class="cont">
             <div class="left"><!--歌曲图片、歌曲名称、歌手、翻唱-->
-                <el-image class="song-pic" fit="fill" :src="current_song.originPrefaceFilename"/>
+                <el-image class="song-pic" fit="fill" :src="currentSong.originPrefaceFilename"/>
                 <br/>
                 <div class="song-info">
-                    <p>歌手：{{current_song.originAuthor }}</p>
-                    <p>歌曲：{{current_song.originName }}</p>
-<!--                    <p>翻唱：{{current_song.cover }}</p>-->
+                    <p>歌手：{{currentSong.originAuthor }}</p>
+                    <p>歌曲：{{currentSong.originName }}</p>
+<!--                    <p>翻唱：{{currentSong.cover }}</p>-->
 <!--                    这个后面改一下变成当前用户-->
                 </div>
                 <div class="scores">
@@ -30,7 +30,7 @@
                 <div class="lyric">
                     <div v-for="(item, index) in lrcData" :key="index">
                         <!--大于当前索引的歌词才能被展示；当前播放的歌词才能被高亮-->
-                        <p v-if="index>=data_index" style="color:black">{{item.words}}</p>
+                        <p v-if="index>=dataIndex" style="color:black">{{item.words}}</p>
                     </div>
                 </div>
                 <div class="evaluation">
@@ -71,10 +71,10 @@ export default {
     setup(){
         const lrcData=ref([]);//歌词数据数组
         const dataWords=ref("");//当前歌词
-        const data_index=ref(0);//当前歌词索引
+        const dataIndex=ref(0);//当前歌词索引
         const evaluation=ref(router.currentRoute.value.query.comments);
-        const current_song=ref([]);
-        const LRC=ref("");
+        const currentSong=ref([]);
+        const lrc=ref("");
         // console.log(router.currentRoute.value.query.url);
         const fullUrl = ref(router.currentRoute.value.query.url);
         // console.log(router.currentRoute.value.query.precise);
@@ -95,9 +95,9 @@ export default {
 
         //歌词数据转化为数组
         const formatLrc = () => {
-            if (current_song.value.originLrcFilename) {
+            if (currentSong.value.originLrcFilename) {
                 //在props.originPrefaceFilename去掉前面的path.baseUrl
-                let url = current_song.value.originLrcFilename.replace(path.serverUrl, "");
+                let url = currentSong.value.originLrcFilename.replace(path.serverUrl, "");
                 axios.get(path.baseUrl + url, {
                 }).then((res) => {
                     const strLrc = res.data.split("\n");
@@ -134,7 +134,7 @@ export default {
                 {
                     //循环歌词数组，当播放器当前时间第一次小于歌词时间时当前数组下标减一即为当前时间数组所对应歌词下标
                     dataWords.value = lrcData.value[i - 1].words;
-                    data_index.value=i-1;
+                    dataIndex.value=i-1;
                     // //保存当前歌词动画执行事件
                     // lrcTime = lrcData.value[i].time - lrcData.value[i - 1].time;
                     return i - 1;
@@ -147,17 +147,17 @@ export default {
             const userId=getCookie("userNumber");
             // console.log(userId)
             const formData = new FormData();
-            // console.log(current_song.value.originName)
-            formData.append('workName', current_song.value.originName);
+            // console.log(currentSong.value.originName)
+            formData.append('workName', currentSong.value.originName);
             formData.append('workComment', "");
             formData.append('workOwner', userId);
-            formData.append('workOriginVersion', current_song.value.originId);
+            formData.append('workOriginVersion', currentSong.value.originId);
             formData.append('workVoiceFilename', fullUrl.value);
             formData.append('workPreciseScore', precise.value);
             formData.append('workQualityScore', quality.value);
             formData.append('workPitchScore', pitch.value);
 
-            commitWork(current_song.value.originName,"",userId,current_song.value.originId,fullUrl.value,precise.value,quality.value,pitch.value).then(res=>{
+            commitWork(currentSong.value.originName,"",userId,currentSong.value.originId,fullUrl.value,precise.value,quality.value,pitch.value).then(res=>{
                 // console.log("debug1")
                 // console.log(res)
                 router.replace({path: '/user/musicLibrary'})
@@ -178,18 +178,18 @@ export default {
             // audio.value = document.getElementById("audio");
             // audio.value.url = router.currentRoute.value.query.url
             axios.post(path.baseUrl + path.getOriginByOriginId, form).then((res) => {
-                current_song.value = res.data.data;
+                currentSong.value = res.data.data;
                 formatLrc();
             })
         })
 
         return {
             fullUrl,
-            current_song,
-            LRC,
+            currentSong,
+            lrc: lrc,
             lrcData,
             dataWords,
-            data_index,
+            dataIndex,
             evaluation,
             precise,
             quality,

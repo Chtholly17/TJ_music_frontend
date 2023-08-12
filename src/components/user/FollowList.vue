@@ -52,7 +52,7 @@ export default {
 
         })
         function deleteFollows(followId){
-            emit('de_follow')
+            emit('deFollow')
             deleteFollow(userId,followId).then(()=>{
                 reload()
             })
