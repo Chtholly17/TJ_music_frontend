@@ -12,15 +12,15 @@ public interface WorkMapper {
     public List<Work> getAllWork();
 
     // select work by owner Id
-    @Select("select * from work where work_owner = #{ownerId}")
+    @Select("select * from work where workOwner = #{ownerId}")
     public List<Work> selectWorkByOwnerId(Integer ownerId);
 
     // select work by origin Id
-    @Select("select * from work where work_origin_version = #{originId}")
+    @Select("select * from work where workOriginVersion = #{originId}")
     public List<Work> selectWorkByOriginId(Integer originId);
 
-    // select work by work_id
-    @Select("select * from work where work_id = #{workId}")
+    // select work by workId
+    @Select("select * from work where workId = #{workId}")
     public Work selectWorkByWorkId(Integer workId);
 
     // select n works with highest n work_like value
@@ -44,25 +44,25 @@ public interface WorkMapper {
     public List<Work> selectWorkByTagWorkLikeDesc(String tag);
 
     // remove all the work of given id
-    @Delete("delete from work where work_id = #{workId}")
+    @Delete("delete from work where workId = #{workId}")
         public void deleteWorkAndCommentById(Integer workId);
 
     // get the work comment cnt by work id
-    @Select("select count(*) from work_comment where work_comment_target = #{workId}")
+    @Select("select count(*) from workComment where work_comment_target = #{workId}")
     public Integer getWorkCommentCntById(Integer workId);
 
-    // get the works by work_origin_version
-    @Select("select * from work where work_origin_version = #{originId}")
+    // get the works by workOriginVersion
+    @Select("select * from work where workOriginVersion = #{originId}")
     public List<Work> getWorksByOriginId(Integer originId);
 
-    // delete work by work_id
-    @Delete("delete from work where work_id = #{workId}")
+    // delete work by workId
+    @Delete("delete from work where workId = #{workId}")
     public void deleteWorkById(Integer workId);
 
     // insert new work
-    @Insert("insert into work (work_name, work_comment, work_owner, work_origin_version, " +
+    @Insert("insert into work (workName, workComment, workOwner, workOriginVersion, " +
             "work_like, work_voice_filename, work_tag, work_preface_filename," +
-            " work_quality_score, work_precise_score, work_pitch_score)" +
+            " workQualityScore, workPreciseScore, workPitchScore)" +
             " values (#{workName}, #{workComment}, #{workOwner}, " +
             "#{workOriginVersion}, #{workLike}, #{workVoiceFilename}, " +
             "#{workTag}, #{workPrefaceFilename}, #{workQualityScore}, " +
@@ -74,15 +74,15 @@ public interface WorkMapper {
 
 
     // add like to work
-    @Insert("update work set work_like = work_like + 1 where work_id = #{workId}")
+    @Insert("update work set work_like = work_like + 1 where workId = #{workId}")
     public void addLikeToWork(Integer workId);
 
     // update work comment cnt
-    @Update("update work set work_comment_cnt = #{workCommentCnt} where work_id = #{workId}")
+    @Update("update work set work_comment_cnt = #{workCommentCnt} where workId = #{workId}")
     public void updateWorkCommentCnt(Integer workId, Integer workCommentCnt);
 
     // update work owner fans
-    @Update("update work set work_owner_fans_cnt = #{workOwnerFans} where work_id = #{workId}")
+    @Update("update work set work_owner_fans_cnt = #{workOwnerFans} where workId = #{workId}")
     public void updateWorkOwnerFans(Integer workId, Integer workOwnerFans);
 
     // get works with given tag

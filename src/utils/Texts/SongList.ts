@@ -7,11 +7,11 @@ export const baseForm = ref<FormInstance>();
 
 export const SongListData=reactive({
     SongListForm:{
-        user_student_number:0,  //用户id
-        song_name:"",   //歌名
-        song_singer:"", //歌手
-        song_grade:"",  //评分
-        song_date:"",   //日期
+        userStudentNumber:0,  //用户id
+        songName:"",   //歌名
+        songSinger:"", //歌手
+        songGrade:"",  //评分
+        songDate:"",   //日期
     }
 })
 

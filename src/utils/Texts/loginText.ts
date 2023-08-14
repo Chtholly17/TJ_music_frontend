@@ -95,7 +95,7 @@ export const commitLogin_cookie = async () => {
 
 const getUserProfile = async () => {
     const userID = computed(() => store.getters.getUserID).value
-    const response = await api.getUserImage({user_student_number: userID})
+    const response = await api.getUserImage({userStudentNumber: userID})
     if (response.data.code == 1){
         store.commit('setUserPhoto', response.data.data)
         // console.log("获取用户头像")

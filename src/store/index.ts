@@ -4,7 +4,7 @@ export default createStore({
   state:{
     userID: "",
     userPhoto: "",
-    bar_pic_change: false,
+    barPicChange: false,
   },
   getters: {
     getUserID (state) {

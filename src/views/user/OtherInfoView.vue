@@ -136,10 +136,10 @@ export default {
 
 
         const options = provinceAndCityData   //所有地区的可选项
-        const user_photo_url = ref("")
+        const userPhotoUrl = ref("")
         const user_follow = ref(0)    //用户关注数
         const user_fans = ref(0)  //用户粉丝数
-        const user_id = ref("")   //用户学号
+        const userId = ref("")   //用户学号
 
 
 
@@ -149,9 +149,9 @@ export default {
         onBeforeMount(() => {
             //获取头像
             user_fetchUserImage(other_id.value).then(res => {
-                user_photo_url.value = res
+                userPhotoUrl.value = res
                 const random_num = Math.random() * 100 + 1;
-                real_img_url.value = `${user_photo_url.value}?timestamp=${random_num}`;
+                real_img_url.value = `${userPhotoUrl.value}?timestamp=${random_num}`;
             })
 
             //获取个人信息
@@ -184,8 +184,8 @@ export default {
             }})
 
             //判断是否关注
-            user_id.value = getCookie("userNumber")
-            api.checkFollow(user_id.value,other_id.value).then(res=>{
+            userId.value = getCookie("userNumber")
+            api.checkFollow(userId.value,other_id.value).then(res=>{
 
                 if(res.data.code===0)    //未关注
                 {
@@ -207,7 +207,7 @@ export default {
                 if(is_follow.value===true)
                 {
                     user_fans.value--;
-                    api.deleteFollow(user_id.value,other_id.value).then(res=>{
+                    api.deleteFollow(userId.value,other_id.value).then(res=>{
                         if(res.status===200){
                             is_follow.value=false
                             ElMessage.success("已取消关注")
@@ -221,7 +221,7 @@ export default {
                 }
                 else{
                     user_fans.value++;
-                    api.follow(user_id.value,other_id.value).then(res=>{
+                    api.follow(userId.value,other_id.value).then(res=>{
                         if(res.status===200){
                             is_follow.value=true
                             ElMessage.success("已关注")

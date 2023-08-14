@@ -144,20 +144,20 @@ export default {
 
 
         const publish =() => {
-            const user_id=getCookie("userNumber");
-            // console.log(user_id)
+            const userId=getCookie("userNumber");
+            // console.log(userId)
             const formData = new FormData();
             // console.log(current_song.value.originName)
             formData.append('workName', current_song.value.originName);
             formData.append('workComment', "");
-            formData.append('workOwner', user_id);
+            formData.append('workOwner', userId);
             formData.append('workOriginVersion', current_song.value.originId);
             formData.append('workVoiceFilename', fullUrl.value);
             formData.append('workPreciseScore', precise.value);
             formData.append('workQualityScore', quality.value);
             formData.append('workPitchScore', pitch.value);
 
-            commitWork(current_song.value.originName,"",user_id,current_song.value.originId,fullUrl.value,precise.value,quality.value,pitch.value).then(res=>{
+            commitWork(current_song.value.originName,"",userId,current_song.value.originId,fullUrl.value,precise.value,quality.value,pitch.value).then(res=>{
                 // console.log("debug1")
                 // console.log(res)
                 router.replace({path: '/user/music_library'})

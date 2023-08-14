@@ -6,14 +6,14 @@
                 <div class="user_top">
                     <el-row :gutter="20">
                         <el-col :span="8">
-                           <img :src=user_photo_url class="user_photo" >
-    <!--                        <el-image class="personal-img" fit="contain" :src=user_photo_url @click="dialogTableVisible = true" />-->
+                           <img :src=userPhotoUrl class="user_photo" >
+    <!--                        <el-image class="personal-img" fit="contain" :src=userPhotoUrl @click="dialogTableVisible = true" />-->
                             <div style="height: 10px"></div>
                             <el-button type="primary" @click="show_upload=true">更换头像</el-button>
                         </el-col>
                         <el-col :span="6">
                             <div style="height: 30px"></div>
-                            <p style="font-size: 30px;text-align: left;font-family:SimHei;font-style: italic">{{userinfoData.userinfoForm.new_nickname}}</p>
+                            <p style="font-size: 30px;text-align: left;font-family:SimHei;font-style: italic">{{ userinfoData.userinfoForm.newNickname }}</p>
                            <p style="text-align: left;font-size=20px;">Admin</p>
 
                         </el-col>
@@ -49,7 +49,7 @@
             :originVoiceFilename="music.originVoiceFilename"
             :originPrefaceFilename="music.originPrefaceFilename"
             :originDescription="music.originDescription"
-            :key="show_edit_music" 
+            :key="show_edit_music"
             ></edit-music>
         </el-dialog>
 
@@ -83,7 +83,7 @@ import postUser from "@/components/user/postUser.vue";
 import editMusic from "@/components/user/editMusic.vue";
 import musicIntroduction from "@/components/user/musicIntroduction.vue";
 import { getCurrentInstance } from 'vue'
-import axios from "axios"; 
+import axios from "axios";
 import path from "@/service/path";
 import {user_fetchUserImage,fetchUserInfo} from "@/utils/Texts/userinfoText";
 import {getCookie} from "@/service/cookie";
@@ -122,7 +122,7 @@ export default{
     },
     setup(){
         const { proxy } = getCurrentInstance()
-        const user_photo_url=ref()   //用户头像
+        const userPhotoUrl=ref()   //用户头像
         const show_router=ref(true)
         let show_upload=ref(false)
         let show_edit_music=ref(false)
@@ -190,7 +190,7 @@ export default{
             editMusic(data);
         });
 
-        watch(user_photo_url,()=>{
+        watch(userPhotoUrl,()=>{
             show_upload.value=false;
             })
         const reload=()=>{
@@ -212,12 +212,12 @@ export default{
         watch(
             ()=>store.state.bar_pic_change,
             ()=>{
-                //const user_id=computed(()=>store.getters.getUserID)
+                //const userId=computed(()=>store.getters.getUserID)
                 const userNumber = getCookie("userNumber")
                 user_fetchUserImage( userNumber).then(res=>{
-                    user_photo_url.value=res
+                    userPhotoUrl.value=res
                     const random_num=Math.random()*100+1;
-                    real_img_url.value=`${user_photo_url.value}?timestamp=${random_num}`;
+                    real_img_url.value=`${userPhotoUrl.value}?timestamp=${random_num}`;
                 })
             }
         )
@@ -226,12 +226,12 @@ export default{
             const userNumber=ref();
             userNumber.value = getCookie("userNumber")
             // 先获取用户学号
-            userinfoData.userinfoForm.user_student_number = userNumber.value;
+            userinfoData.userinfoForm.userStudentNumber = userNumber.value;
 
             user_fetchUserImage( userNumber.value).then(res=>{
-                user_photo_url.value=res
+                userPhotoUrl.value=res
                 const random_num=Math.random()*100+1;
-                real_img_url.value= `${user_photo_url.value}?timestamp=${random_num}`;
+                real_img_url.value= `${userPhotoUrl.value}?timestamp=${random_num}`;
             })
         })
 
@@ -250,7 +250,7 @@ export default{
             userinfoData,
             onBeforeMount,
             show_router,
-            user_photo_url,
+            userPhotoUrl,
             show_upload,
             show_edit_music,
             show_music_introduction,

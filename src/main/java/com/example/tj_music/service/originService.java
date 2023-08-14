@@ -187,7 +187,7 @@ public class originService {
         List<Work> workIdList = workMapper.selectWorkByOriginId(originId);
         // traverse the work list
         for (Work work : workIdList) {
-            // delete the work_comment of the work
+            // delete the workComment of the work
             workCommentMapper.deleteWorkCommentByTarget(work.getWorkId());
             // delete the work
             workMapper.deleteWorkById(work.getWorkId());

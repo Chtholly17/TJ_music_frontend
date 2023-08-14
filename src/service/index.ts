@@ -7,22 +7,22 @@ const api = {
     postLogin(loginForm: any) {
         return axios.post(path.baseUrl + path.login, loginForm)
     },
-    post_sendRegisterVRCode(userInfo: any) {
-        return axios.post(path.baseUrl + path.register_sendVRCode, userInfo)
+    postSendRegisterVRCode(userInfo: any) {
+        return axios.post(path.baseUrl + path.registerSendVRCode, userInfo)
     },
     postRegister(registerForm: any) {
         return axios.post(path.baseUrl + path.register, registerForm)
     },
-    post_sendRetrieveVRCode(userInfo: any) {
+    postSendRetrieveVRCode(userInfo: any) {
         // console.log("SEND!")
-        return axios.post(path.baseUrl + path.retrieve_sendVRCode, userInfo)
+        return axios.post(path.baseUrl + path.retrieveSendVRCode, userInfo)
     },
     postRetrieve(retrieveForm: any)
     {
         return axios.post(path.baseUrl + path.retrieve, retrieveForm)
     },
     postUserInfo(userInfo:any){
-        return axios.post(path.baseUrl+path.postuserinfo,userInfo)
+        return axios.post(path.baseUrl+path.postUserInfo,userInfo)
     },
     getUserImage(user_id: any){
         return axios.get(path.baseUrl + path.getUserImage, {params: user_id})
@@ -40,16 +40,16 @@ const api = {
 
     getUserInfo(user_id:any)  //获取用户信息
     {
-        return axios.get(path.baseUrl + path.getuserinfo,{
+        return axios.get(path.baseUrl + path.getUserInfo,{
             params:{
-                user_student_number:user_id
+                userStudentNumber:user_id
             }
             })
     },
 
     postSearchAccompanimentByKeyword(keyword: any)
     {
-        return axios.post(path.baseUrl + path.postSearch_keyword, keyword)
+        return axios.post(path.baseUrl + path.postSearchKeyword, keyword)
     },
 
     //获取首页作品
@@ -125,27 +125,27 @@ const api = {
     },
     getSongList(user_id:any)//获取用户曲库
     {
-        return axios.get(path.baseUrl+path.get_songList,{
+        return axios.get(path.baseUrl+path.getSongList,{
             params:{
-                user_student_number:user_id
+                userStudentNumber:user_id
             }
         })
     },
     //获取粉丝列表
     getFanList(user_id:any)//获取用户粉丝列表
     {
-        return axios.get(path.baseUrl+path.get_fanList,{
+        return axios.get(path.baseUrl+path.getFanList,{
             params:{
-                user_student_number:user_id
+                userStudentNumber:user_id
             }
         })
     },
     //获取关注列表
     getFollowList(user_id:any)
     {
-        return axios.get(path.baseUrl+path.get_followList,{
+        return axios.get(path.baseUrl+path.getFollowList,{
             params:{
-                user_student_number:user_id
+                userStudentNumber:user_id
             }
         })
     },
@@ -154,16 +154,16 @@ const api = {
     {
         return axios.post(path.baseUrl+path.follow,
             {
-                user_student_number:user_id,
+                userStudentNumber:user_id,
                 target_student_number:follow_id
             })
     },
     //取消关注某用户
     deleteFollow(user_id:string,follow_id:string)
     {
-        return axios.delete(path.baseUrl+path.delete_follow,{
+        return axios.delete(path.baseUrl+path.deleteFollow,{
             params:{    //这里必须用params，不能用data，否则无法正确删除
-                user_student_number:user_id,
+                userStudentNumber:user_id,
                 target_student_number:follow_id
             }
         })
@@ -171,7 +171,7 @@ const api = {
     //获取用户曲库
     getMusicLibrary(user_id:any)
     {
-        return axios.get(path.baseUrl+path.get_musicLibrary,{
+        return axios.get(path.baseUrl+path.getMusicLibrary,{
             params:{
                 userNumber:user_id
             }
@@ -187,12 +187,12 @@ const api = {
         //console.log(file)
         //axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
 
-        return axios.post(path.baseUrl+path.update_user_image, file
+        return axios.post(path.baseUrl+path.updateUserImage, file
         );
     },
     //修改密码
     postUpdatePassword(user_id:any,password:any) {
-        return axios.post(path.baseUrl + path.update_password, {
+        return axios.post(path.baseUrl + path.updatePassword, {
                 userNumber: user_id,
                 password: password
         })
@@ -227,7 +227,7 @@ const api = {
     {
         return axios.get(path.baseUrl+path.getMessageBrief,{
             params:{
-                user_student_number:user_id
+                userStudentNumber:user_id
             }
         })
     },
@@ -246,9 +246,9 @@ const api = {
     },
     //查看是否关注某人
     checkFollow(user_id:any,target_id:any){
-        return axios.get(path.baseUrl+path.check_follow,{
+        return axios.get(path.baseUrl+path.checkFollow,{
             params:{
-                user_student_number:user_id,
+                userStudentNumber:user_id,
                 target_student_number:target_id
             }
         })

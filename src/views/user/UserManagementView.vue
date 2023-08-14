@@ -13,9 +13,9 @@
                         <div style="height: 30px"></div>
                         <p style="font-size: 30px;text-align: left;font-family:SimHei;font-style: italic">{{user_nickname}}</p>
                         <div style="height: 30px"></div>
-                        <p style="text-align: left"> 学号: &nbsp; &nbsp;{{user_id}}</p>
+                        <p style="text-align: left"> 学号: &nbsp; &nbsp;{{userId}}</p>
                         <div style="height: 30px"></div>
-                        <p style="text-align: left"> 个性签名: &nbsp; &nbsp;{{userinfoData.userinfoForm.new_signature}}</p>
+                        <p style="text-align: left"> 个性签名: &nbsp; &nbsp;{{ userinfoData.userinfoForm.newSignature }}</p>
                     </div>
                     <div >
                         <div style="height: 70px"></div>
@@ -74,7 +74,7 @@ export default {
    data(){
         return{
             aside_width:13,
-            //user_photo_url:require("../../assets/profile.jpg"),
+            //userPhotoUrl:require("../../assets/profile.jpg"),
             user_info_show_control:0    //控制是否展示个人信息界面
         }
     },
@@ -99,15 +99,15 @@ export default {
     setup(){
         const loading=ref(true);
 
-        const user_photo_url=ref()   //用户头像
+        const userPhotoUrl=ref()   //用户头像
         const show_router=ref(true)
         const show_upload=ref(false) //展示上传头像框
 
         const user_follow=ref(0)    //用户关注数
         const user_fans=ref(0)  //用户粉丝数
-        const user_id=ref("")   //用户学号
+        const userId=ref("")   //用户学号
 
-        watch(user_photo_url,()=>{
+        watch(userPhotoUrl,()=>{
             show_upload.value=false;
             })
         const reload=()=>{
@@ -129,12 +129,12 @@ export default {
         watch(
             ()=>store.state.bar_pic_change,
             ()=>{
-                //const user_id=computed(()=>store.getters.getUserID)
+                //const userId=computed(()=>store.getters.getUserID)
                 const userNumber = getCookie("userNumber")
                 user_fetchUserImage( userNumber).then(res=>{
-                    user_photo_url.value=res
+                    userPhotoUrl.value=res
                     const random_num=Math.random()*100+1;
-                    real_img_url.value=`${user_photo_url.value}?timestamp=${random_num}`;
+                    real_img_url.value=`${userPhotoUrl.value}?timestamp=${random_num}`;
                 })
             }
         )
@@ -146,28 +146,28 @@ export default {
             const userNumber=ref();
             userNumber.value = getCookie("userNumber")
             // 先获取用户学号
-            userinfoData.userinfoForm.user_student_number = userNumber.value;
-            user_id.value=userNumber.value;
+            userinfoData.userinfoForm.userStudentNumber = userNumber.value;
+            userId.value=userNumber.value;
 
             setTimeout(()=>{
                 fetchUserInfo().then(res=>{
-                    userinfoData.userinfoForm.new_nickname=res.userNickname
-                    userinfoData.userinfoForm.new_college=res.userCollege
-                    userinfoData.userinfoForm.new_major=res.userMajor
-                    userinfoData.userinfoForm.new_area1=res.userArea1
-                    userinfoData.userinfoForm.new_area2=res.userArea2
-                    userinfoData.userinfoForm.new_birthday=res.userBirthday
-                    userinfoData.userinfoForm.new_gender=res.userGender
-                    userinfoData.userinfoForm.new_signature=res.userSignature
+                    userinfoData.userinfoForm.newNickname=res.userNickname
+                    userinfoData.userinfoForm.newCollege=res.userCollege
+                    userinfoData.userinfoForm.newMajor=res.userMajor
+                    userinfoData.userinfoForm.newArea1=res.userArea1
+                    userinfoData.userinfoForm.newArea2=res.userArea2
+                    userinfoData.userinfoForm.newBirthday=res.userBirthday
+                    userinfoData.userinfoForm.newGender=res.userGender
+                    userinfoData.userinfoForm.newSignature=res.userSignature
                     user_nickname.value=res.userNickname;
                     user_follow.value=res.userFollowCnt;
                     user_fans.value=res.userFansCnt;
                 })
 
                 user_fetchUserImage( userNumber.value).then(res=>{
-                    user_photo_url.value=res
+                    userPhotoUrl.value=res
                     const random_num=Math.random()*100+1;
-                    real_img_url.value= `${user_photo_url.value}?timestamp=${random_num}`;
+                    real_img_url.value= `${userPhotoUrl.value}?timestamp=${random_num}`;
                 })
                 loading.value=false
             },1000)
@@ -197,8 +197,8 @@ export default {
             userinfoData,
             onBeforeMount,
             show_router,
-            reload,user_photo_url,show_upload,
-            real_img_url,user_follow,user_fans,user_id,
+            reload,userPhotoUrl,show_upload,
+            real_img_url,user_follow,user_fans,userId,
             loading,de_follow,de_fan,user_nickname
         }
     }

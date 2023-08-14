@@ -38,8 +38,8 @@ public class messageService {
     }
 
     // get message brief by user's student number
-    public Result getMessageBrief(String user_student_number) {
-        User receiver=userMapper.selectUserByStudentNumber(user_student_number);
+    public Result getMessageBrief(String userStudentNumber) {
+        User receiver=userMapper.selectUserByStudentNumber(userStudentNumber);
         if(receiver==null){
             return Result.fail("user does not exist");
         }
@@ -72,12 +72,12 @@ public class messageService {
     }
 
     // get the message list by sender and receiver's student number and descending time
-    public Result getMessageListSenderReceiver(String sender_student_number, String receiver_student_number) {
-        User sender=userMapper.selectUserByStudentNumber(sender_student_number);
+    public Result getMessageListSenderReceiver(String senderStudentNumber, String receiverStudentNumber) {
+        User sender=userMapper.selectUserByStudentNumber(senderStudentNumber);
         if(sender==null){
             return Result.fail("sender does not exist");
         }
-        User receiver=userMapper.selectUserByStudentNumber(receiver_student_number);
+        User receiver=userMapper.selectUserByStudentNumber(receiverStudentNumber);
         if(receiver==null){
             return Result.fail("receiver does not exist");
         }
@@ -86,12 +86,12 @@ public class messageService {
     }
 
     // get the message list by sender and receiver's student number and ascending time with limit
-    public Result getMessageListSenderReceiverLimit(String sender_student_number, String receiver_student_number, int limit) {
-        User sender=userMapper.selectUserByStudentNumber(sender_student_number);
+    public Result getMessageListSenderReceiverLimit(String senderStudentNumber, String receiverStudentNumber, int limit) {
+        User sender=userMapper.selectUserByStudentNumber(senderStudentNumber);
         if(sender==null){
             return Result.fail("sender does not exist");
         }
-        User receiver=userMapper.selectUserByStudentNumber(receiver_student_number);
+        User receiver=userMapper.selectUserByStudentNumber(receiverStudentNumber);
         if(receiver==null){
             return Result.fail("receiver does not exist");
         }

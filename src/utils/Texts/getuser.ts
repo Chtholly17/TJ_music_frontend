@@ -2,8 +2,8 @@ import {computed} from "vue";
 import api from "@/service";
 
 
-export const fetchUserById=async (user_id:any)=>{
-    const response=await api.selectUserById(user_id)
+export const fetchUserById=async (userId:any)=>{
+    const response=await api.selectUserById(userId)
 
     // console.log(response.data)
     if(response.data.data==null)

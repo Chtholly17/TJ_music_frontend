@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class GetMessageListVO {
-    String sender_student_number;
+    String senderStudentNumber;
     String message_content;
     LocalDateTime message_time;
 }

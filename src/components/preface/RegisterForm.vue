@@ -54,7 +54,7 @@
 import {registerData, baseForm, sendRegisterVRCode, commitRegister} from "@/utils/Texts/registerText";
 import {registerRules} from "@/utils/Texts/registerText";
 import {defineComponent, ref} from "vue";
-import {RegisterDialogVisible, showLoginDialog} from "@/utils/DialogVisible";
+import {registerDialogVisible, showLoginDialog} from "@/utils/DialogVisible";
 import {ElMessage} from "element-plus";
 import {User, Lock, Message} from "@element-plus/icons-vue";
 
@@ -99,7 +99,7 @@ export default defineComponent({
             registerRules,
             baseForm,
             commitRegister,
-            RegisterDialogVisible,
+            RegisterDialogVisible: registerDialogVisible,
             showLoginDialog,
             sendRegisterVRCode,
             getVRCodeHandler,

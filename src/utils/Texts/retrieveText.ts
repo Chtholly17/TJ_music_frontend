@@ -144,7 +144,7 @@ export const sendRetrieveVRCode = async (userInfo: any): Promise<boolean> => {
     // 不要在回调函数里声明异步……
     if (FormValid) {
         try {
-            const response = await api.post_sendRetrieveVRCode(userInfo);
+            const response = await api.postSendRetrieveVRCode(userInfo);
             if (response.data.code == 1)
             {
                 ElMessage.success("验证码发送成功，请注意查收")

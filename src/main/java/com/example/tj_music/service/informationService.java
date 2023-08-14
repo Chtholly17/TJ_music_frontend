@@ -135,11 +135,11 @@ public class informationService {
      * get user information.
      * code:1 represents getting user information successfully.
      * code:0 represents getting user information failed. The account does not exist.
-     * @param user_student_number
+     * @param userStudentNumber
      * @return Result, data is a dictionary consist two keys: 'user' and 'workList'
      */
-    public Result getUserInformation(String user_student_number) {
-        User user = userMapper.selectUserByStudentNumber(user_student_number);
+    public Result getUserInformation(String userStudentNumber) {
+        User user = userMapper.selectUserByStudentNumber(userStudentNumber);
         // if the user exists
         if(user != null) {
             Integer userId = user.getUserId();

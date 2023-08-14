@@ -54,7 +54,7 @@
 <script lang="ts">
 import {retrieveData, commitRetrieve, sendRetrieveVRCode, baseForm} from "@/utils/Texts/retrieveText";
 import {retrieveRules} from "@/utils/Texts/retrieveText";
-import {RetrieveDialogVisible, showLoginDialog} from "@/utils/DialogVisible";
+import {retrieveDialogVisible, showLoginDialog} from "@/utils/DialogVisible";
 import {ElMessage} from "element-plus";
 import {ref} from "vue";
 import {Lock, Message, User} from "@element-plus/icons-vue";
@@ -101,7 +101,7 @@ export default {
             retrieveRules,
             baseForm,
             commitRetrieve,
-            RetrieveDialogVisible,
+            RetrieveDialogVisible: retrieveDialogVisible,
             showLoginDialog,
             getVRCodeHandler,
             sendVRCodeButtonMessage,

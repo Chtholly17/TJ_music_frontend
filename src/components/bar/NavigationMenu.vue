@@ -28,7 +28,7 @@ import {showLoginDialog} from "@/utils/DialogVisible";
 import SearchBar from "@/components/bar/searchBar.vue";
 import {computed, onBeforeMount, onBeforeUpdate, ref, watch} from "vue";
 import store from "@/store";
-import {show_update_password} from "@/utils/DialogVisible";
+import {showUpdatePassword} from "@/utils/DialogVisible";
 import {user_fetchUserImage} from "@/utils/Texts/userinfoText";
 import api from "@/service";
 import {delCookie} from "@/service/cookie";
@@ -41,8 +41,8 @@ export default {
     methods:{
         //跳转到个人主页
         user_router(){
-            const user_id=computed(()=>store.getters.getUserID)
-            if (user_id.value== 'admin')
+            const userId=computed(()=>store.getters.getUserID)
+            if (userId.value== 'admin')
                 router.push('/admin')
             else
                 router.push('/user')
@@ -52,36 +52,36 @@ export default {
         }
     },
     setup() {
-        const user_photo_url=ref()   //用户头像
+        const userPhotoUrl=ref()   //用户头像
         const default_index=ref()
         const real_img_url=ref('')
 
         watch(
             ()=>store.state.bar_pic_change,
             ()=>{
-                const user_id=computed(()=>store.getters.getUserID)
-                user_fetchUserImage(user_id.value).then(res=>{
-                    user_photo_url.value=res
+                const userId=computed(()=>store.getters.getUserID)
+                user_fetchUserImage(userId.value).then(res=>{
+                    userPhotoUrl.value=res
                     const random_num=Math.random()*100+1;
-                    real_img_url.value=`${user_photo_url.value}?timestamp=${random_num}`;
+                    real_img_url.value=`${userPhotoUrl.value}?timestamp=${random_num}`;
                 })
             }
         )
 
-        //const user_id=ref()
+        //const userId=ref()
         onBeforeMount(()=>{
 
             const root_path = 'http://localhost:8080';   //用这个消去href的前一段
             const href = window.location.href;
             default_index.value=href.substring(root_path.length)
-            const user_id=computed(()=>store.getters.getUserID)
+            const userId=computed(()=>store.getters.getUserID)
             if (default_index.value==='/hello')
                 default_index.value='/music_square'
 
-            user_fetchUserImage(user_id.value).then(res=>{
-                user_photo_url.value=res
+            user_fetchUserImage(userId.value).then(res=>{
+                userPhotoUrl.value=res
                 const random_num=Math.random()*100+1;
-                real_img_url.value=`${user_photo_url.value}?timestamp=${random_num}`;
+                real_img_url.value=`${userPhotoUrl.value}?timestamp=${random_num}`;
                 // store.commit('setUserPhoto',real_img_url)
                 // user_photo.value=store.getters.getUserPhoto
 
@@ -96,12 +96,12 @@ export default {
         })
         function show_update()
         {
-            show_update_password.value=true
+            showUpdatePassword.value=true
         }
 
         function user_logout(){
-            const user_id=computed(()=>store.getters.getUserID)
-            api.userLogout(user_id.value)
+            const userId=computed(()=>store.getters.getUserID)
+            api.userLogout(userId.value)
             delCookie("userNumber")
             delCookie("password")
             isLoggedIn.value=false;
@@ -109,7 +109,7 @@ export default {
         }
         return {
             showLoginDialog,
-            user_photo_url,
+            userPhotoUrl: userPhotoUrl,
             show_update,
             default_index,
             user_logout,

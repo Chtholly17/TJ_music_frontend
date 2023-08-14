@@ -36,7 +36,7 @@
 import {User, Lock} from "@element-plus/icons-vue";
 import {defineComponent, ref} from "vue";
 import {baseForm, loginData, loginRules, commitLogin} from "@/utils/Texts/loginText";
-import {showRegisterDialog, showRetrieveDialog, LoginDialogVisible} from "@/utils/DialogVisible";
+import {showRegisterDialog, showRetrieveDialog, loginDialogVisible} from "@/utils/DialogVisible";
 
 export default defineComponent({
     name: "LoginForm",
@@ -51,7 +51,7 @@ export default defineComponent({
             loginRules,
             baseForm,
             commitLogin,
-            LoginDialogVisible,
+            LoginDialogVisible: loginDialogVisible,
             showRegisterDialog,
             showRetrieveDialog
         }

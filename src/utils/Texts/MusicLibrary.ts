@@ -12,7 +12,7 @@ export const fetchMusicLibrary=async ()=>{
     return response.data.data.workList
 }
 
-export const fetchOtherMusicLibrary=async (user_id:any)=>{
-    const response=await api.getMusicLibrary(user_id)
+export const fetchOtherMusicLibrary=async (userId:any)=>{
+    const response=await api.getMusicLibrary(userId)
     return response.data.data.workList
 }

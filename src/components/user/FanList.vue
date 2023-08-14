@@ -37,12 +37,12 @@ export default {
         const reload=inject('reload')
         const store = useStore()
 
-        let user_id;
+        let userId;
         let fan_list;
         fan_list=ref()
         onBeforeMount(()=>{
             const count = computed(() => store.getters.getUserID)
-            user_id=count.value
+            userId=count.value
             fetchFanList().then(res=>{
                 fan_list.value=res
                 //console.log(res)
@@ -50,12 +50,12 @@ export default {
         })
         function delete_fan(fan_id){
             emit('de_fan')
-            deleteFollow(fan_id,user_id).then(()=>{
+            deleteFollow(fan_id,userId).then(()=>{
                 reload()
             })
         }
-        function to_other(user_id){
-            router.push({path:'/otherinfo',query:{id:user_id}})
+        function to_other(userId){
+            router.push({path:'/otherinfo',query:{id:userId}})
         }
         return{
             onBeforeMount,

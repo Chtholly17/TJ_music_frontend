@@ -7,20 +7,20 @@ export const baseForm = ref<FormInstance>();
 
 export const userinfoData=reactive({
     userinfoForm:{
-        user_student_number:"",
-        new_nickname:'',   //昵称
-        new_college:"",  //学院
-        new_major:"",
-        new_area1:'',
-        new_area2:'',
-        new_birthday:'',    //生日
-        new_gender: '',   //性别
-        new_signature: '',   //签名
+        userStudentNumber:"",
+        newNickname:'',   //昵称
+        newCollege:"",  //学院
+        newMajor:"",
+        newArea1:'',
+        newArea2:'',
+        newBirthday:'',    //生日
+        newGender: '',   //性别
+        newSignature: '',   //签名
     }
 })
 
 export const userinfoRules=reactive({
-    new_nickname:[
+    newNickname:[
         {
             required:true,
             trigger:"blur",
@@ -42,7 +42,7 @@ export const commitUserInfo=async ()=>{
         if (valid) {
             try {
                 console.log("提交用户信息")
-                console.log(userinfoData.userinfoForm.new_birthday)
+                console.log(userinfoData.userinfoForm.newBirthday)
                 const response = await api.postUserInfo(userinfoData.userinfoForm); // 不能传入submitForm！
                 // console.log(response.data);
             } catch (error: any) {
@@ -58,7 +58,7 @@ export const commitUserInfo=async ()=>{
 export const fetchUserInfo=async ()=>{
 
     try {
-        const response = await api.getUserInfo(userinfoData.userinfoForm.user_student_number); // 不能传入submitForm！
+        const response = await api.getUserInfo(userinfoData.userinfoForm.userStudentNumber); // 不能传入submitForm！
         // userinfoData.userinfoForm.new_nickname=response.data.data.userNickname
         // userinfoData.userinfoForm.new_college=response.data.data.userCollege
         // userinfoData.userinfoForm.new_major=response.data.data.userMajor
@@ -73,15 +73,15 @@ export const fetchUserInfo=async ()=>{
     }
 }
 
-export const user_fetchUserImage=async (user_id:any)=>{
-    const  response=await api.getUserImage({user_student_number:user_id})
+export const user_fetchUserImage=async (userId:any)=>{
+    const  response=await api.getUserImage({userStudentNumber:userId})
     return response.data.data
 }
 
 //获取其他人的信息
-export const fetchOtherInfo=async (user_id:any)=>{
+export const fetchOtherInfo=async (userId:any)=>{
     try {
-        const response = await api.getUserInfo(user_id);
+        const response = await api.getUserInfo(userId);
         return response.data.data
     } catch (error:any){
         ElMessage.error(error.code+': 获取失败，请检查网络或联系管理员')

@@ -19,18 +19,18 @@ public class messageController {
     /**
      * 发送消息
      * 通过调用该接口以通过发送者和接收者的学号发送消息
-     * @param sender_student_number 发送者学号
-     * @param receiver_student_number 接收者学号
+     * @param senderStudentNumber 发送者学号
+     * @param receiverStudentNumber 接收者学号
      * @param content 消息内容
      * @return 可能出现的错误信息
      */
     @PostMapping("/sendMessage")
-    public Result sendMessage(@RequestParam String sender_student_number,
-                              @RequestParam String receiver_student_number,
+    public Result sendMessage(@RequestParam String senderStudentNumber,
+                              @RequestParam String receiverStudentNumber,
                               @RequestParam String content) {
         sendMessageDTO sendMessageDTO=new sendMessageDTO();
-        sendMessageDTO.setSender_student_number(sender_student_number);
-        sendMessageDTO.setReceiver_student_number(receiver_student_number);
+        sendMessageDTO.setSender_student_number(senderStudentNumber);
+        sendMessageDTO.setReceiver_student_number(receiverStudentNumber);
         sendMessageDTO.setContent(content);
         return messageService.insertMessage(sendMessageDTO);
     }
@@ -38,12 +38,12 @@ public class messageController {
     /**
      * 获取简略消息列表
      * 通过用户学号来获得该用户的简略消息列表：包含发送者昵称、发送者头像、最后一条消息内容
-     * @param user_student_number 用户学号
+     * @param userStudentNumber 用户学号
      * @return
      */
     @GetMapping("/getMessageBrief")
-    public Result getMessageBrief(@RequestParam String user_student_number) {
-        return messageService.getMessageBrief(user_student_number);
+    public Result getMessageBrief(@RequestParam String userStudentNumber) {
+        return messageService.getMessageBrief(userStudentNumber);
     }
 
 

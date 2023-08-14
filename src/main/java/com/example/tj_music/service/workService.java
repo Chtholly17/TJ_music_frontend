@@ -144,33 +144,33 @@ public class workService {
      * insert work
      * @return
      */
-    public Result insertWork(String work_name, String work_comment, String user_student_number, Integer work_origin_version, Integer work_like, String work_voice_filename, String work_tag, String work_preface_filename, Integer work_quality_score, Integer work_precise_score, Integer work_pitch_score) {
+    public Result insertWork(String workName, String workComment, String userStudentNumber, Integer workOriginVersion, Integer work_like, String work_voice_filename, String work_tag, String work_preface_filename, Integer workQualityScore, Integer workPreciseScore, Integer workPitchScore) {
         // construct a temp work
         Work work = new Work();
         // use the student number to find the user id
-        User user = userMapper.selectUserByStudentNumber(user_student_number);
+        User user = userMapper.selectUserByStudentNumber(userStudentNumber);
         if(user == null) {
-            return Result.fail("user not found with student number " + user_student_number);
+            return Result.fail("user not found with student number " + userStudentNumber);
         }
 
-        Origin origin=originMapper.selectOriginByOriginId(work_origin_version);
+        Origin origin=originMapper.selectOriginByOriginId(workOriginVersion);
         if(origin==null){
-            return Result.fail("origin not found with origin id " + work_origin_version);
+            return Result.fail("origin not found with origin id " + workOriginVersion);
         }
 
 
         // fill the work
-        work.setWorkName(work_name);
-        work.setWorkComment(work_comment);
+        work.setWorkName(workName);
+        work.setWorkComment(workComment);
         work.setWorkOwner(user.getUserId());
-        work.setWorkOriginVersion(work_origin_version);
+        work.setWorkOriginVersion(workOriginVersion);
         work.setWorkLike(work_like);
         work.setWorkVoiceFilename(work_voice_filename);
         work.setWorkTag(work_tag);
         work.setWorkPrefaceFilename(work_preface_filename);
-        work.setWorkQualityScore(work_quality_score);
-        work.setWorkPreciseScore(work_precise_score);
-        work.setWorkPitchScore(work_pitch_score);
+        work.setWorkQualityScore(workQualityScore);
+        work.setWorkPreciseScore(workPreciseScore);
+        work.setWorkPitchScore(workPitchScore);
         work.setWorkTag(origin.getOriginTag());
         work.setWorkCommentCnt(0);
         work.setWorkOwnerFansCnt(user.getUserFansCnt());

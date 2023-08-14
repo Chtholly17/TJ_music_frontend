@@ -2,11 +2,11 @@
     <div class="user_message">
         <div class="message_list">
            <message-item  v-if="new_chat" :nickname="target_nickname" :user-image="target_img" last_message=""
-                          index="0" :user_id="now_chat_id"></message-item>
+                          index="0" :userId="now_chat_id"></message-item>
            <message-item v-for="(item,index) in chat_object" :key="item"
                         :nickname="item.nickname" :userImage="item.profile_image_filename"
                         :last_message="item.last_message_content" :index="index"
-                        :user_id="item.student_number">
+                        :userId="item.student_number">
 
            </message-item>
         </div>
@@ -41,15 +41,15 @@ export default {
         console.log(chatStudentNumber.value)
         const chat_object:chat_object_type[]=reactive([])
         //const chat_object=ref()
-        const user_id=ref()
+        const userId=ref()
         const new_chat=ref(true)
         const now_chat_id=ref(router.currentRoute.value.query.target_id)
         const target_nickname=ref()
         const target_img=ref()
 
         onBeforeMount(()=>{
-            user_id.value=store.getters.getUserID
-            api.getMessageObject(user_id.value).then(res=>{
+            userId.value=store.getters.getUserID
+            api.getMessageObject(userId.value).then(res=>{
                 //chat_object.value=res.data.data
                 // console.log("获取数据")
                 // console.log(res.data.data)
@@ -82,8 +82,8 @@ export default {
             // console.log("onBeforeMount执行完毕")
         })
         setInterval(()=>{
-            user_id.value=store.getters.getUserID
-            api.getMessageObject(user_id.value).then(res=>{
+            userId.value=store.getters.getUserID
+            api.getMessageObject(userId.value).then(res=>{
                 while (chat_object.length>0){
                     chat_object.pop()
                 }

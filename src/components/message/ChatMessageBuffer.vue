@@ -24,9 +24,9 @@ const inputHandler = () => {
     sendDisable.value = (messageContent.value == "");
 }
 const sendMessage = async () => {
-    message.receiver_student_number = chatStudentNumber.value;
-    // message.sender_student_number = computed(()=>store.getters.getUserID).value;
-    message.sender_student_number = computed(()=>store.getters.getUserID).value;
+    message.receiverStudentNumber = chatStudentNumber.value;
+    // message.senderStudentNumber = computed(()=>store.getters.getUserID).value;
+    message.senderStudentNumber = computed(()=>store.getters.getUserID).value;
     message.content = messageContent.value;
     messageContent.value = "";  // 清空消息
     const response = await api.postMessage(message);

@@ -35,12 +35,12 @@ public class informationController {
     /**
      * 获取用户信息
      * 用这个API可以获取用户信息
-     * @param user_student_number
+     * @param userStudentNumber
      * @return
      */
     @GetMapping("/getUserInfo")
-    public Result getUserInfo(@RequestParam("user_student_number") String user_student_number) {
-        User user = informationService.getInformationByStudentNumber(user_student_number);
+    public Result getUserInfo(@RequestParam("userStudentNumber") String userStudentNumber) {
+        User user = informationService.getInformationByStudentNumber(userStudentNumber);
         if (user == null) {
             return Result.fail("user not found");
         }
@@ -49,12 +49,12 @@ public class informationController {
 
     /**
      * 获取用户头像
-     * @param user_student_number
+     * @param userStudentNumber
      * @return
      */
     @GetMapping("/getUserImage")
-    public Result getUserImage(@RequestParam("user_student_number") String user_student_number) {
-        User user = informationService.getInformationByStudentNumber(user_student_number);
+    public Result getUserImage(@RequestParam("userStudentNumber") String userStudentNumber) {
+        User user = informationService.getInformationByStudentNumber(userStudentNumber);
         if (user == null) {
             return Result.fail("user not found");
         }
@@ -65,48 +65,48 @@ public class informationController {
     /**
      * 修改用户信息
      * 用这个API可以修改用户信息
-     * @param user_student_number
-     * @param new_nickname
-     * @param new_college
-     * @param new_major
-     * @param new_area1
-     * @param new_area2
-     * @param new_birthday
-     * @param new_gender
-     * @param new_signature
+     * @param userStudentNumber
+     * @param newNickname
+     * @param newCollege
+     * @param newMajor
+     * @param newArea1
+     * @param newArea2
+     * @param newBirthday
+     * @param newGender
+     * @param newSignature
      * @return
      */
     @PostMapping("/updateUserinfo")
-    public Result updateUserinfo(@RequestParam("user_student_number") String user_student_number,
-                                 @RequestParam("new_nickname") String new_nickname,
-                                 @RequestParam("new_college") String new_college,
-                                 @RequestParam("new_major") String new_major,
-                                 @RequestParam("new_area1") String new_area1,
-                                 @RequestParam("new_area2") String new_area2,
-                                 @RequestParam("new_birthday")String new_birthday,
-                                 @RequestParam("new_gender") String new_gender,
-                                 @RequestParam("new_signature") String new_signature) throws ParseException {
-        User user = informationService.getInformationByStudentNumber(user_student_number);
-        // print out the user_student_number and new_nickname
-//        System.out.println("get the user_student_number: " + user_student_number);
-//        System.out.println("get the new_nickname: " + new_nickname);
-//        System.out.println("get the birthday: " + new_birthday);
+    public Result updateUserinfo(@RequestParam("userStudentNumber") String userStudentNumber,
+                                 @RequestParam("newNickname") String newNickname,
+                                 @RequestParam("newCollege") String newCollege,
+                                 @RequestParam("newMajor") String newMajor,
+                                 @RequestParam("newArea1") String newArea1,
+                                 @RequestParam("newArea2") String newArea2,
+                                 @RequestParam("newBirthday")String newBirthday,
+                                 @RequestParam("newGender") String newGender,
+                                 @RequestParam("newSignature") String newSignature) throws ParseException {
+        User user = informationService.getInformationByStudentNumber(userStudentNumber);
+        // print out the userStudentNumber and newNickname
+//        System.out.println("get the userStudentNumber: " + userStudentNumber);
+//        System.out.println("get the newNickname: " + newNickname);
+//        System.out.println("get the birthday: " + newBirthday);
         if (user == null) {
             return Result.fail("user not found");
         }
-//        System.out.println(new_birthday);
-        informationService.updateUserNickName(new_nickname, user_student_number);
-        informationService.updateUserCollege(new_college, user_student_number);
-        informationService.updateUserMajor(new_major, user_student_number);
-        informationService.updateUserArea1(new_area1, user_student_number);
-        informationService.updateUserArea2(new_area2, user_student_number);
-        if (!Objects.equals(new_birthday, "")) {
+//        System.out.println(newBirthday);
+        informationService.updateUserNickName(newNickname, userStudentNumber);
+        informationService.updateUserCollege(newCollege, userStudentNumber);
+        informationService.updateUserMajor(newMajor, userStudentNumber);
+        informationService.updateUserArea1(newArea1, userStudentNumber);
+        informationService.updateUserArea2(newArea2, userStudentNumber);
+        if (!Objects.equals(newBirthday, "")) {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            Date date = formatter.parse(new_birthday);
-            informationService.updateUserBirthday(date, user_student_number);
+            Date date = formatter.parse(newBirthday);
+            informationService.updateUserBirthday(date, userStudentNumber);
         }
-        informationService.updateUserGender(new_gender, user_student_number);
-        informationService.updateUserSignature(new_signature, user_student_number);
+        informationService.updateUserGender(newGender, userStudentNumber);
+        informationService.updateUserSignature(newSignature, userStudentNumber);
         return Result.success();
     }
 
@@ -119,18 +119,18 @@ public class informationController {
      */
     @PostMapping("/updateUserImage")
     public Result updateUserImage(Image image) {
-        // print out the user_student_number and file
+        // print out the userStudentNumber and file
         System.out.println(image.getUser_student_number());
         System.out.println(image.getFile());
-        String user_student_number = image.getUser_student_number();
+        String userStudentNumber = image.getUser_student_number();
         MultipartFile file = image.getFile();
-        User user = informationService.getInformationByStudentNumber(user_student_number);
+        User user = informationService.getInformationByStudentNumber(userStudentNumber);
         if (user == null) {
             return Result.fail("user not found");
         }
         try{
-            String url = imageUtils.upload(file, user_student_number, "avatar");
-            informationService.updateUserProfileImage(url, user_student_number);
+            String url = imageUtils.upload(file, userStudentNumber, "avatar");
+            informationService.updateUserProfileImage(url, userStudentNumber);
             return Result.success("upload success");
         } catch (IOException e) {
             return Result.fail("upload failed");
@@ -140,18 +140,18 @@ public class informationController {
     /**
      * 修改用户密码
      * 用这个API可以修改用户密码
-     * @param user_student_number: 用户的学号
-     * @param new_password: 用户的新密码
-     * @return: list of objects: [user_id, user_name, user_signature, user_profile_image]
+     * @param userStudentNumber: 用户的学号
+     * @param newPassword: 用户的新密码
+     * @return: list of objects: [userId, user_name, user_signature, user_profile_image]
      */
     @PostMapping("/updateUserPassword")
-    public Result updateUserPassword(@RequestParam("user_student_number") String user_student_number,
-                                     @RequestParam("new_password") String new_password) {
-        User user = informationService.getInformationByStudentNumber(user_student_number);
+    public Result updateUserPassword(@RequestParam("userStudentNumber") String userStudentNumber,
+                                     @RequestParam("newPassword") String newPassword) {
+        User user = informationService.getInformationByStudentNumber(userStudentNumber);
         if (user == null) {
             return Result.fail("user not found");
         }
-        informationService.updateUserPassword(new_password, user_student_number);
+        informationService.updateUserPassword(newPassword, userStudentNumber);
         return Result.success();
     }
 

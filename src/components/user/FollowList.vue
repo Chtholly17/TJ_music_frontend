@@ -37,34 +37,34 @@ export default {
         const reload=inject('reload')
         const store = useStore()
 
-        let user_id;
+        let userId;
         let follow_list;
         follow_list=ref()
         onBeforeMount(()=>{
             // const count = computed(() => store.getters.getUserID)
-            // user_id=count.value
-            user_id=getCookie("userNumber");
+            // userId=count.value
+            userId=getCookie("userNumber");
 
-            fetchFollowList(user_id).then(res=>{
+            fetchFollowList(userId).then(res=>{
                 follow_list.value=res
                 //console.log(res)
             })
 
         })
-        function delete_follow(follow_id){
+        function deleteFollow(followId){
             emit('de_follow')
-            deleteFollow(user_id,follow_id).then(()=>{
+            deleteFollow(userId,followId).then(()=>{
                 reload()
             })
         }
-        function to_other(user_id){
-            router.push({path:'/otherinfo',query:{id:user_id}})
+        function to_other(userId){
+            router.push({path:'/otherinfo',query:{id:userId}})
         }
         return{
             onBeforeMount,
             follow_list,
             delete_follow,
-            user_id,to_other
+            userId,to_other
         }
     }
 }

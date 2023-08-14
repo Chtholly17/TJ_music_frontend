@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class sendMessageDTO {
-    String sender_student_number;
-    String receiver_student_number;
+    String senderStudentNumber;
+    String receiverStudentNumber;
     String content;
 }

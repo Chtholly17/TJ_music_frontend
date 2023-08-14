@@ -5,7 +5,7 @@
         </el-affix>
         <router-view></router-view>
     </div>
-    <el-dialog v-model="show_update_password" title="修改密码" width="30%" :lock-scroll="false">
+    <el-dialog v-model="showUpdatePassword" title="修改密码" width="30%" :lock-scroll="false">
         <update-password></update-password>
     </el-dialog>
 </template>
@@ -47,7 +47,7 @@
 <script setup lang="ts">
 import NavigationMenu from "@/components/bar/NavigationMenu.vue";
 import UpdatePassword from "@/components/user/UpdatePassword.vue";
-import {show_update_password} from "@/utils/DialogVisible";
+import {showUpdatePassword} from "@/utils/DialogVisible";
 import {onBeforeMount} from "vue";
 import {isLoggedIn} from "@/utils/BarVisible";
 import {getCookie} from "@/service/cookie";

@@ -23,7 +23,7 @@ import LoginForm from "@/components/preface/LoginForm.vue";
 import {defineComponent} from "vue";
 import RegisterForm from "@/components/preface/RegisterForm.vue";
 import RetrieveForm from "@/components/preface/RetrieveForm.vue";
-import {LoginDialogVisible, RegisterDialogVisible, RetrieveDialogVisible, showLoginDialog} from "@/utils/DialogVisible";
+import {loginDialogVisible, registerDialogVisible, retrieveDialogVisible, showLoginDialog} from "@/utils/DialogVisible";
 import {onMounted} from "vue";
 
 export default defineComponent({
@@ -40,9 +40,9 @@ export default defineComponent({
         //     }
         // })
         return {
-            LoginDialogVisible,
-            RegisterDialogVisible,
-            RetrieveDialogVisible
+            LoginDialogVisible: loginDialogVisible,
+            RegisterDialogVisible: registerDialogVisible,
+            RetrieveDialogVisible: retrieveDialogVisible
         }
     }
 })

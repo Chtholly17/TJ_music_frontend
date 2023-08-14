@@ -23,20 +23,20 @@ public class followController {
     /**
      * 关注某人
      * 通过调用这个API来关注某人 code 0:成功 code 1:用户不存在 code 2:关注已存在 code3:自己关注自己
-     * @param user_student_number 当前发起关注用户的学号
+     * @param userStudentNumber 当前发起关注用户的学号
      * @param target_student_number 被关注的用户的学号
      * @return Result 成功返回success，失败返回fail,可能出现的message有： user or target does not exist
      */
     @PostMapping("/follow")
-    public Result follow(@NotNull String user_student_number,@NotNull String target_student_number) {
+    public Result follow(@NotNull String userStudentNumber,@NotNull String target_student_number) {
 
         // check whether the user and target are the same
-        if (user_student_number.equals(target_student_number)) {
+        if (userStudentNumber.equals(target_student_number)) {
             return new Result(3, "user and target are the same", null);
         }
 
         // this api should be called after login so the user does exist
-        User user = followService.selectUserByStudentNumber(user_student_number);
+        User user = followService.selectUserByStudentNumber(userStudentNumber);
         User target = followService.selectUserByStudentNumber(target_student_number);
 
         if (user == null || target == null) {
@@ -58,14 +58,14 @@ public class followController {
     /**
      * 取消关注某人
      * 通过这个api来取消关注某人 code: 0:成功 code: 1:用户不存在 code: 2:关注不存在
-     * @param user_student_number 当前发起取消关注用户的学号
+     * @param userStudentNumber 当前发起取消关注用户的学号
      * @param target_student_number 被取消关注的用户的学号
      * @return Result 成功返回success，失败返回fail,可能出现的message有： user or target does not exist/follow does not exist
      */
     @DeleteMapping("/unfollow")
-    public Result unfollow(@NotNull String user_student_number, @NotNull String target_student_number) {
+    public Result unfollow(@NotNull String userStudentNumber, @NotNull String target_student_number) {
         // this api should be called after login so the user does exist
-        User user = followService.selectUserByStudentNumber(user_student_number);
+        User user = followService.selectUserByStudentNumber(userStudentNumber);
         User target = followService.selectUserByStudentNumber(target_student_number);
         if (user == null || target == null) {
             return new Result(1, "user or target does not exist", null);
@@ -86,13 +86,13 @@ public class followController {
     /**
      * 查看某人的关注列表
      * 通过这个api来查看某人的关注列表,成功返回的是一个list，list中的每一个元素是一个user code: 0:成功 code: 1:用户不存在
-     * @param user_student_number 当前发起查看关注列表用户的学号
+     * @param userStudentNumber 当前发起查看关注列表用户的学号
      * @return Result 成功返回success，失败返回fail,可能出现的message有： user does not exist
      */
     @GetMapping("/display_user_following")
-    public Result displayUserFollowing(@NotNull String user_student_number) {
+    public Result displayUserFollowing(@NotNull String userStudentNumber) {
         // this api should be called after login so the user does exist
-        User user = followService.selectUserByStudentNumber(user_student_number);
+        User user = followService.selectUserByStudentNumber(userStudentNumber);
         if(user == null) {
             return new Result(1, "user does not exist", null);
         }
@@ -103,13 +103,13 @@ public class followController {
     /**
      * 查看某人的粉丝列表 code 0:成功 code 1:用户不存在
      * 通过这个api来查看某人的粉丝列表,成功返回的是一个list，list中的每一个元素是一个user
-     * @param user_student_number 当前发起查看粉丝列表用户的学号
+     * @param userStudentNumber 当前发起查看粉丝列表用户的学号
      * @return Result 成功返回success，失败返回fail,可能出现的message有： user does not exist
      */
     @GetMapping("/display_user_follower")
-    public Result displayUserFollower(@NotNull String user_student_number) {
+    public Result displayUserFollower(@NotNull String userStudentNumber) {
         // this api should be called after login so the user does exist
-        User user = followService.selectUserByStudentNumber(user_student_number);
+        User user = followService.selectUserByStudentNumber(userStudentNumber);
         if(user == null) {
             return new Result(1, "user does not exist", null);
         }
@@ -120,14 +120,14 @@ public class followController {
     /**
      * 查看是否已经关注某人
      * 通过这个api来查看是否已经关注某人 code 0:未关注 code 1:已关注 code 2:用户不存在
-     * @param user_student_number 当前发起查看是否已经关注某人用户的学号
+     * @param userStudentNumber 当前发起查看是否已经关注某人用户的学号
      * @param target_student_number 查看是否已经关注的用户的学号
      * @return Result 成功返回success，失败返回fail,可能出现的message有： user or target does not exist/follow does not exist
      */
-    @GetMapping("/check_follow")
-    public Result checkFollow(@NotNull String user_student_number, @NotNull String target_student_number) {
+    @GetMapping("/checkFollow")
+    public Result checkFollow(@NotNull String userStudentNumber, @NotNull String target_student_number) {
         // this api should be called after login so the user does exist
-        User user = followService.selectUserByStudentNumber(user_student_number);
+        User user = followService.selectUserByStudentNumber(userStudentNumber);
         User target = followService.selectUserByStudentNumber(target_student_number);
         if (user == null || target == null) {
             return new Result(2, "user or target does not exist", null);

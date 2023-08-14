@@ -1,17 +1,17 @@
 import {reactive, ref, unref} from "vue";
 import {ElMessage, FormInstance} from "element-plus";
 import api from "@/service";
-import {show_update_password} from "@/utils/DialogVisible";
+import {showUpdatePassword} from "@/utils/DialogVisible";
 
 
 export const baseForm = ref<FormInstance>();
 
 export const updatePasswordData=reactive({
     updatePasswordForm:{
-        user_id:"", //用户id
-        old_password:"",    //旧密码
-        new_password:"",    //新密码
-        check_password:""   //确认密码
+        userId:"", //用户id
+        oldPassword:"",    //旧密码
+        newPassword:"",    //新密码
+        checkPassword:""   //确认密码
     }
 })
 const pwdAgainCheck = async(rule: any, value: any, callback: any) => {
@@ -31,7 +31,7 @@ export const pwdCheck =  async(rule: any, value: any, callback: any) => {
 }
 
 export const updatePasswordRule=reactive({
-    old_password:[
+    oldPassword:[
         {
             required:true,
             trigger:"blur",
@@ -80,7 +80,7 @@ export const commitUpdatePassword=async ()=>{
                 const response = await api.postUpdatePassword(updatePasswordData.updatePasswordForm.user_id,updatePasswordData.updatePasswordForm.new_password); // 不能传入submitForm！
                 if(response.data.code==1) {
                     ElMessage.success("修改成功")
-                    show_update_password.value=false
+                    showUpdatePassword.value=false
                 }
                 else {
                     ElMessage.error("修改失败")

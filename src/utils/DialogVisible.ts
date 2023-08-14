@@ -4,29 +4,29 @@
 
 import {ref} from "vue";
 
-export const RegisterDialogVisible = ref<boolean>(false)
-export const LoginDialogVisible = ref<boolean>(false)
-export const RetrieveDialogVisible = ref<boolean>(false)
+export const registerDialogVisible = ref<boolean>(false)
+export const loginDialogVisible = ref<boolean>(false)
+export const retrieveDialogVisible = ref<boolean>(false)
 export const showRegisterDialog = ()=> {
-    RegisterDialogVisible.value = true
-    LoginDialogVisible.value = false
-    RetrieveDialogVisible.value = false
+    registerDialogVisible.value = true
+    loginDialogVisible.value = false
+    retrieveDialogVisible.value = false
 }
 export const showLoginDialog = ()=> {
-    RegisterDialogVisible.value = false
-    LoginDialogVisible.value = true
-    RetrieveDialogVisible.value = false
+    registerDialogVisible.value = false
+    loginDialogVisible.value = true
+    retrieveDialogVisible.value = false
 }
 export const showRetrieveDialog = ()=> {
-    RegisterDialogVisible.value = false
-    LoginDialogVisible.value = false
-    RetrieveDialogVisible.value = true
+    registerDialogVisible.value = false
+    loginDialogVisible.value = false
+    retrieveDialogVisible.value = true
 }
 export const closeAllDialogs = () => {
-    RegisterDialogVisible.value = false
-    LoginDialogVisible.value = false
-    RetrieveDialogVisible.value = false
+    registerDialogVisible.value = false
+    loginDialogVisible.value = false
+    retrieveDialogVisible.value = false
 }
 
 //用于管理显示修改密码页面
-export const show_update_password=ref(false)
+export const showUpdatePassword=ref(false)

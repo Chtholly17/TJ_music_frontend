@@ -6,28 +6,28 @@ const base = {
     // postTest: '/test_return_string',
     // getTest: '/get_hello_world',
     login: '/login',
-    register_sendVRCode: '/register',
+    registerSendVRCode: '/register',
     register: '/registerCheck',
-    retrieve_sendVRCode: '/forgetPassword',
+    retrieveSendVRCode: '/forgetPassword',
     retrieve: '/forgetPasswordCheck',
-    getuserinfo:'/getUserInfo',    //获取用户信息
-    postuserinfo:'/updateUserinfo',  //提交用户信息
-    get_songList:'/songList',   //获取用户曲库
-    get_fanList:"/display_user_follower",   //获取用户粉丝
-    get_followList:"/display_user_following",    //获取用户关注
+    getUserInfo:'/getUserInfo',    //获取用户信息
+    postUserInfo:'/updateUserinfo',  //提交用户信息
+    getSongList:'/songList',   //获取用户曲库
+    getFanList:"/display_user_follower",   //获取用户粉丝
+    getFollowList:"/display_user_following",    //获取用户关注
     follow:'/follow',    //关注某用户
-    delete_follow:"/unfollow",  //取消关注某人
-    postSearch_keyword: '/searchOriginByTag',
+    deleteFollow:"/unfollow",  //取消关注某人
+    postSearchKeyword: '/searchOriginByTag',
     getWorksById: '/relatedWork',
-    get_musicLibrary:"/UserProfile",    //获取用户曲库
-    update_user_image:"/updateUserImage",   //上传用户头像
-    update_password:"/updatePassword", //
+    getMusicLibrary:"/UserProfile",    //获取用户曲库
+    updateUserImage:"/updateUserImage",   //上传用户头像
+    updatePassword:"/updatePassword", //
     getMainPageWorks:'/mainPageWorks',  //获取首页作品
     getComment:'/getWorkCommentByWorkId',  //获取作品评论
     postComment:'/addWorkComment',//提交评论
 
     postPresent:'/addLikeToWork',//提交礼物数量
-    
+
     getRank:'/getWorkList', //获取榜单
     getUserImage:'/getUserImage',  //获取用户头像
     sendMessage: '/sendMessage',
@@ -41,7 +41,7 @@ const base = {
     postMusic:'/getScores',
     postWork:'/insertWork',//提交作品,
     getAiComment:'/getComments',
-    check_follow:'/check_follow',   //查看是否已经关注某人
+    checkFollow:'/check_follow',   //查看是否已经关注某人
     getOriginMusic:'/getOriginList',   //获取原创音乐
     getOriginMusicById:'/getOriginByOriginId',   //获取原创音乐
     deleteOriginMusic:'/deleteOrigin', //删除原创音乐

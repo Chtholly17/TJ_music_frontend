@@ -1,13 +1,13 @@
 <template>
     <el-form ref="baseForm"  :model="updatePasswordData.updatePasswordForm" label-width="120px" :rules="updatePasswordRule">
-        <el-form-item label="请输入新密码" prop="new_password">
-            <el-input v-model="updatePasswordData.updatePasswordForm.new_password"
+        <el-form-item label="请输入新密码" prop="newPassword">
+            <el-input v-model="updatePasswordData.updatePasswordForm.newPassword"
                       placeholder="新密码"
                       prefix-icon="Lock"
                       show-password></el-input>
         </el-form-item>
-        <el-form-item label="确认密码" prop="check_password">
-            <el-input v-model="updatePasswordData.updatePasswordForm.check_password"
+        <el-form-item label="确认密码" prop="checkPassword">
+            <el-input v-model="updatePasswordData.updatePasswordForm.checkPassword"
                       placeholder="确认密码"
                       prefix-icon="Lock"
                       show-password></el-input>
@@ -22,7 +22,7 @@
 import {baseForm,updatePasswordData,updatePasswordRule,commitUpdatePassword} from "@/utils/Texts/UpdatePassword";
 import {computed, onBeforeMount} from "vue";
 import {useStore} from "vuex";
-import {show_update_password} from "@/utils/DialogVisible";
+import {showUpdatePassword} from "@/utils/DialogVisible";
 
 export default {
     name: "UpdatePassword",
@@ -37,7 +37,7 @@ export default {
         onBeforeMount(()=>{
             const store = useStore()
             const count = computed(() => store.getters.getUserID)
-            updatePasswordData.updatePasswordForm.user_id=count.value
+            updatePasswordData.updatePasswordForm.userId=count.value
         })
 
         return{
