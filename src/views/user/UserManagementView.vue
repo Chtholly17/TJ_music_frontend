@@ -5,9 +5,9 @@
             <el-main class="user_main" >
                 <div class="user_top">
                     <div >
-                        <el-avatar :src="real_img_url " :size="280" fit="cover"></el-avatar>
+                        <el-avatar :src="realImgUrl " :size="280" fit="cover"></el-avatar>
                         <div style="height: 10px"></div>
-                        <el-button type="primary" @click="show_upload=true">更换头像</el-button>
+                        <el-button type="primary" @click="showUpload=true">更换头像</el-button>
                     </div>
                     <div >
                         <div style="height: 30px"></div>
@@ -15,39 +15,43 @@
                         <div style="height: 30px"></div>
                         <p style="text-align: left"> 学号: &nbsp; &nbsp;{{userId}}</p>
                         <div style="height: 30px"></div>
+<<<<<<< HEAD
                         <p style="text-align: left"> 个性签名: &nbsp; &nbsp;{{ userinfoData.userinfoForm.newSignature }}</p>
+=======
+                        <p style="text-align: left"> 个性签名: &nbsp; &nbsp;{{userInfoData.userinfoForm.new_signature}}</p>
+>>>>>>> e5d9cb31ec52f3b470277d410365bcac437bf419
                     </div>
                     <div >
                         <div style="height: 70px"></div>
                         <div style="color: darkgray;font-size: 25px;text-align: left">
-                            关注: {{ user_follow }}
+                            关注: {{ userFollow }}
                         </div>
                         <div style="height: 30px"></div>
                         <div style="color: darkgray;font-size: 25px;text-align: left">
-                            粉丝: {{user_fans}}
+                            粉丝: {{userFans}}
                         </div>
                         <div style="height: 30px"></div>
                     </div>
                     <div style="float: right">
                         <div style="height: 10px"></div>
-                        <el-button type="info" :icon="Edit" @click="show_info">个人资料</el-button>
+                        <el-button type="info" :icon="Edit" @click="showInfo">个人资料</el-button>
                         <div style="height: 30px"></div>
-                        <el-button type="primary" :icon="View" @click="follow_router">我的关注</el-button>
+                        <el-button type="primary" :icon="View" @click="followRouter">我的关注</el-button>
                         <div style="height: 30px"></div>
-                        <el-button type="primary" :icon="Search" @click="fan_router">我的粉丝</el-button>
+                        <el-button type="primary" :icon="Search" @click="fanRouter">我的粉丝</el-button>
                         <div style="height: 30px"></div>
-                        <el-button type="primary" :icon="Share" @click="music_router" >我的曲库</el-button>
+                        <el-button type="primary" :icon="Share" @click="musicRouter" >我的曲库</el-button>
                     </div>
                 </div>
-                <router-view @de_fan="de_fan" @de_follow="de_follow" class="child_page" v-if="show_router"></router-view>
+                <router-view @deFan="deFan" @deFollow="deFollow" class="child_page" v-if="showRouter"></router-view>
 <!--                <SongList></SongList>-->
             </el-main>
             <el-aside class="user_aside" :style="{width: aside_width + 'vh'}"></el-aside>
         </el-container>
 
-        <user-info-view @pass_nickname="get_nickname" @pass_signature="get_signature" ></user-info-view>
+        <user-info-view @pass_nickname="getNickname" @pass_signature="getSignature" ></user-info-view>
 
-        <el-dialog v-model="show_upload" title="修改头像">
+        <el-dialog v-model="showUpload" title="修改头像">
             <upload-pic></upload-pic>
         </el-dialog>
 
@@ -61,7 +65,7 @@ import {computed, onBeforeMount, provide, ref, nextTick, watch} from "vue";
 import { useStore } from 'vuex'
 import {userinfoData} from "@/utils/Texts/userinfoText";
 import uploadPic from "@/components/user/uploadPic.vue";
-import {user_fetchUserImage,fetchUserInfo} from "@/utils/Texts/userinfoText";
+import {userFetchUserImage,fetchUserInfo} from "@/utils/Texts/userinfoText";
 import {getCookie} from "@/service/cookie";
 import {user_nickname} from "@/utils/Texts/userinfoText";
 
@@ -79,19 +83,19 @@ export default {
         }
     },
     methods:{
-        music_router(){
-            this.$router.push('/user/music_library')
+        musicRouter(){
+            this.$router.push('/user/musicLibrary')
         },
-        fan_router(){
-            this.$router.push('/user/fan_list')
+        fanRouter(){
+            this.$router.push('/user/fanList')
         },
-        follow_router(){
-            this.$router.push('/user/follow_list')
+        followRouter(){
+            this.$router.push('/user/followList')
         },
-        get_nickname(data){
+        getNickname(data){
             this.nickname=data;
         },
-        get_signature(data){
+        getSignature(data){
             this.user_signature=data;
         }
     }
@@ -100,6 +104,7 @@ export default {
         const loading=ref(true);
 
         const userPhotoUrl=ref()   //用户头像
+<<<<<<< HEAD
         const show_router=ref(true)
         const show_upload=ref(false) //展示上传头像框
 
@@ -109,20 +114,31 @@ export default {
 
         watch(userPhotoUrl,()=>{
             show_upload.value=false;
+=======
+        const showRouter=ref(true)
+        const showUpload=ref(false) //展示上传头像框
+
+        const userFollow=ref(0)    //用户关注数
+        const userFans=ref(0)  //用户粉丝数
+        const userId=ref("")   //用户学号
+
+        watch(userPhotoUrl,()=>{
+            showUpload.value=false;
+>>>>>>> e5d9cb31ec52f3b470277d410365bcac437bf419
             })
         const reload=()=>{
-            show_router.value=false
+            showRouter.value=false
             nextTick(()=>{
-                show_router.value=true
+                showRouter.value=true
             })
         }
         provide('reload',reload)
         const store = useStore()
         const count = computed(() => store.getters.getUserID)
-        const user_info_control=ref(false)
-        provide("user_info_show",user_info_control);
+        const userInfoControl=ref(false)
+        provide("userInfoShow",userInfoControl);
 
-        const real_img_url=ref('');
+        const realImgUrl=ref('');
 
 
 
@@ -131,10 +147,17 @@ export default {
             ()=>{
                 //const userId=computed(()=>store.getters.getUserID)
                 const userNumber = getCookie("userNumber")
+<<<<<<< HEAD
                 user_fetchUserImage( userNumber).then(res=>{
                     userPhotoUrl.value=res
                     const random_num=Math.random()*100+1;
                     real_img_url.value=`${userPhotoUrl.value}?timestamp=${random_num}`;
+=======
+                userFetchUserImage( userNumber).then(res=>{
+                    userPhotoUrl.value=res
+                    const random_num=Math.random()*100+1;
+                    realImgUrl.value=`${userPhotoUrl.value}?timestamp=${random_num}`;
+>>>>>>> e5d9cb31ec52f3b470277d410365bcac437bf419
                 })
             }
         )
@@ -146,7 +169,11 @@ export default {
             const userNumber=ref();
             userNumber.value = getCookie("userNumber")
             // 先获取用户学号
+<<<<<<< HEAD
             userinfoData.userinfoForm.userStudentNumber = userNumber.value;
+=======
+            userinfoData.userinfoForm.user_student_number = userNumber.value;
+>>>>>>> e5d9cb31ec52f3b470277d410365bcac437bf419
             userId.value=userNumber.value;
 
             setTimeout(()=>{
@@ -160,31 +187,38 @@ export default {
                     userinfoData.userinfoForm.newGender=res.userGender
                     userinfoData.userinfoForm.newSignature=res.userSignature
                     user_nickname.value=res.userNickname;
-                    user_follow.value=res.userFollowCnt;
-                    user_fans.value=res.userFansCnt;
+                    userFollow.value=res.userFollowCnt;
+                    userFans.value=res.userFansCnt;
                 })
 
+<<<<<<< HEAD
                 user_fetchUserImage( userNumber.value).then(res=>{
                     userPhotoUrl.value=res
                     const random_num=Math.random()*100+1;
                     real_img_url.value= `${userPhotoUrl.value}?timestamp=${random_num}`;
+=======
+                userFetchUserImage( userNumber.value).then(res=>{
+                    userPhotoUrl.value=res
+                    const random_num=Math.random()*100+1;
+                    realImgUrl.value= `${userPhotoUrl.value}?timestamp=${random_num}`;
+>>>>>>> e5d9cb31ec52f3b470277d410365bcac437bf419
                 })
                 loading.value=false
             },1000)
 
         })
 
-        function de_follow(){
-            user_follow.value--;
+        function deFollow(){
+            userFollow.value--;
         }
 
-        function de_fan(){
-            user_fans.value--;
+        function deFan(){
+            userFans.value--;
         }
 
 
-        function show_info(){
-            user_info_control.value=user_info_control.value==true?false:true;
+        function showInfo(){
+            userInfoControl.value=userInfoControl.value==true?false:true;
         }
 
         return{
@@ -193,13 +227,20 @@ export default {
             Upload,
             View,
             Edit,
-            show_info,
+            showInfo,
             userinfoData,
             onBeforeMount,
+<<<<<<< HEAD
             show_router,
             reload,userPhotoUrl,show_upload,
             real_img_url,user_follow,user_fans,userId,
             loading,de_follow,de_fan,user_nickname
+=======
+            showRouter,
+            reload,userPhotoUrl,showUpload,
+            realImgUrl,userFollow,userFans,userId,
+            loading,deFollow: deFollow,deFan: deFan,user_nickname
+>>>>>>> e5d9cb31ec52f3b470277d410365bcac437bf419
         }
     }
 }

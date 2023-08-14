@@ -9,38 +9,43 @@
                            <img :src=userPhotoUrl class="user_photo" >
     <!--                        <el-image class="personal-img" fit="contain" :src=userPhotoUrl @click="dialogTableVisible = true" />-->
                             <div style="height: 10px"></div>
-                            <el-button type="primary" @click="show_upload=true">更换头像</el-button>
+                            <el-button type="primary" @click="showUpload=true">更换头像</el-button>
                         </el-col>
                         <el-col :span="6">
                             <div style="height: 30px"></div>
+<<<<<<< HEAD
                             <p style="font-size: 30px;text-align: left;font-family:SimHei;font-style: italic">{{ userinfoData.userinfoForm.newNickname }}</p>
                            <p style="text-align: left;font-size=20px;">Admin</p>
+=======
+                            <p style="font-size: 30px;text-align: left;font-family:SimHei;font-style: italic">{{userInfoData.userinfoForm.new_nickname}}</p>
+                           <p style="text-align: left;font-size:20px;">Admin</p>
+>>>>>>> e5d9cb31ec52f3b470277d410365bcac437bf419
 
                         </el-col>
                         <el-col :span="7">
                             <div style="height: 30px"></div>
-                            <el-button type="primary" :icon="View" @click="orign_music_router">曲库信息</el-button>
+                            <el-button type="primary" :icon="View" @click="orignMusicRouter">曲库信息</el-button>
                             <div style="height: 30px"></div>
-                            <el-button type="primary" :icon="Search" @click="user_inform_router">用户信息</el-button>
+                            <el-button type="primary" :icon="Search" @click="userInformRouter">用户信息</el-button>
                             <div style="height: 30px"></div>
-                            <el-button type="primary" :icon="Share" @click="user_list_router" >申诉信息</el-button>
+                            <el-button type="primary" :icon="Share" @click="userListRouter" >申诉信息</el-button>
                         </el-col>
                     </el-row>
                 </div>
 
-                <router-view class="child_page" v-if="show_router"></router-view>
+                <router-view class="child_page" v-if="showRouter"></router-view>
 <!--                <SongList></SongList>-->
             </el-main>
             <el-aside class="user_aside" :style="{width: aside_width + 'vh'}"></el-aside>
         </el-container>
 
-        <user-info-view @pass_nickname="get_nickname" @pass_signature="get_signature" ></user-info-view>
+        <user-info-view @pass_nickname="getNickname" @pass_signature="getSignature" ></user-info-view>
 
-        <el-dialog v-model="show_upload" title="修改头像">
+        <el-dialog v-model="showUpload" title="修改头像">
             <upload-pic></upload-pic>
         </el-dialog>
 
-        <el-dialog v-model="show_edit_music" title="修改音乐信息">
+        <el-dialog v-model="showEditMusic" title="修改音乐信息">
             <edit-music
             :originId="music.originId"
             :originName="music.originName"
@@ -49,24 +54,28 @@
             :originVoiceFilename="music.originVoiceFilename"
             :originPrefaceFilename="music.originPrefaceFilename"
             :originDescription="music.originDescription"
+<<<<<<< HEAD
             :key="show_edit_music"
+=======
+            :key="showEditMusic"
+>>>>>>> e5d9cb31ec52f3b470277d410365bcac437bf419
             ></edit-music>
         </el-dialog>
 
-        <el-dialog v-model="show_music_introduction" title="音乐介绍">
+        <el-dialog v-model="showMusicIntro" title="音乐介绍">
             <music-introduction
             :originName="music.originName"
             :originAuthor="music.originAuthor"
             :originPrefaceFilename="music.originPrefaceFilename"
             :originDescription="music.originDescription"
-            :key="show_music_introduction"
+            :key="showMusicIntro"
             ></music-introduction>
         </el-dialog>
 
-        <el-dialog v-model="show_post_user" title="添加用户">
+        <el-dialog v-model="showPostUserFlag" title="添加用户">
             <post-user
             :originName="user.username"
-            key="show_post_user"
+            key="showPostUserFlag"
             ></post-user>
         </el-dialog>
     </div>
@@ -85,7 +94,7 @@ import musicIntroduction from "@/components/user/musicIntroduction.vue";
 import { getCurrentInstance } from 'vue'
 import axios from "axios";
 import path from "@/service/path";
-import {user_fetchUserImage,fetchUserInfo} from "@/utils/Texts/userinfoText";
+import {userFetchUserImage,fetchUserInfo} from "@/utils/Texts/userinfoText";
 import {getCookie} from "@/service/cookie";
 
 // import {ElMessage} from "element-plus";
@@ -104,30 +113,38 @@ export default{
         }
     },
     methods:{
-        orign_music_router(){
+        orignMusicRouter(){
             this.$router.push({path:'/admin/orign_music'})
         },
-        user_inform_router(){
+        userInformRouter(){
             this.$router.push({path:'/admin/manager'})
         },
-        user_list_router(){
+        userListRouter(){
             this.$router.push({path:'/admin/inform'})
         },
-        get_nickname(data){
+        getNickname(data){
             this.nickname=data;
         },
-        get_signature(data){
+        getSignature(data){
             this.user_signature=data;
         }
     },
     setup(){
         const { proxy } = getCurrentInstance()
         const userPhotoUrl=ref()   //用户头像
+<<<<<<< HEAD
         const show_router=ref(true)
         let show_upload=ref(false)
         let show_edit_music=ref(false)
         let show_music_introduction=ref(false)
         let show_post_user=ref(false)
+=======
+        const showRouter=ref(true)
+        let showUpload=ref(false)
+        let showEditMusic=ref(false)
+        let showMusicIntro=ref(false)
+        let showPostUserFlag=ref(false)
+>>>>>>> e5d9cb31ec52f3b470277d410365bcac437bf419
         let user = ref({
             username: "",
         });
@@ -161,22 +178,22 @@ export default{
                 music.value.originVoiceFilename=res.data.data.originVoiceFilename;
                 music.value.originPrefaceFilename=res.data.data.originPrefaceFilename;
                 music.value.originDescription=res.data.data.originIntroduction;
-                console.log(music.value);
+                //console.log(music.value);
             }).catch((err) => {
                 console.log(err);
             })
         }
         async function editMusic(data){
             await getMusic(data);
-            show_edit_music.value=true;
+            showEditMusic.value=true;
         }
         async function showMusicIntroduction(data){
             await getMusic(data);
-            show_music_introduction.value=true;
+            showMusicIntro.value=true;
         }
         async function showPostUser(data){
             user.value.username = data.userStudentNumber;
-            show_post_user.value=true;
+            showPostUserFlag.value=true;
         }
         proxy.$EventBus.on('showDetails', data => {
             showMusicIntroduction(data);
@@ -191,21 +208,25 @@ export default{
         });
 
         watch(userPhotoUrl,()=>{
+<<<<<<< HEAD
             show_upload.value=false;
+=======
+            showUpload.value=false;
+>>>>>>> e5d9cb31ec52f3b470277d410365bcac437bf419
             })
         const reload=()=>{
-            show_router.value=false
+            showRouter.value=false
             nextTick(()=>{
-                show_router.value=true
+                showRouter.value=true
             })
         }
         provide('reload',reload)
         const store = useStore()
         const count = computed(() => store.getters.getUserID)
-        const user_info_control=ref(false)
-        provide("user_info_show",user_info_control);
+        const userInfoControl=ref(false)
+        provide("userInfoShow",userInfoControl);
 
-        const real_img_url=ref('');
+        const realImgUrl=ref('');
 
 
 
@@ -214,10 +235,17 @@ export default{
             ()=>{
                 //const userId=computed(()=>store.getters.getUserID)
                 const userNumber = getCookie("userNumber")
+<<<<<<< HEAD
                 user_fetchUserImage( userNumber).then(res=>{
                     userPhotoUrl.value=res
                     const random_num=Math.random()*100+1;
                     real_img_url.value=`${userPhotoUrl.value}?timestamp=${random_num}`;
+=======
+                userFetchUserImage( userNumber).then(res=>{
+                    userPhotoUrl.value=res
+                    const random_num=Math.random()*100+1;
+                    realImgUrl.value=`${userPhotoUrl.value}?timestamp=${random_num}`;
+>>>>>>> e5d9cb31ec52f3b470277d410365bcac437bf419
                 })
             }
         )
@@ -228,16 +256,23 @@ export default{
             // 先获取用户学号
             userinfoData.userinfoForm.userStudentNumber = userNumber.value;
 
+<<<<<<< HEAD
             user_fetchUserImage( userNumber.value).then(res=>{
                 userPhotoUrl.value=res
                 const random_num=Math.random()*100+1;
                 real_img_url.value= `${userPhotoUrl.value}?timestamp=${random_num}`;
+=======
+            userFetchUserImage( userNumber.value).then(res=>{
+                userPhotoUrl.value=res
+                const random_num=Math.random()*100+1;
+                realImgUrl.value= `${userPhotoUrl.value}?timestamp=${random_num}`;
+>>>>>>> e5d9cb31ec52f3b470277d410365bcac437bf419
             })
         })
 
 
-        function show_info(){
-            user_info_control.value=user_info_control.value==true?false:true;
+        function showInfo(){
+            userInfoControl.value=userInfoControl.value==true?false:true;
         }
 
         return{
@@ -246,15 +281,24 @@ export default{
             Upload,
             View,
             Edit,
-            show_info,
+            showInfo,
             userinfoData,
             onBeforeMount,
+<<<<<<< HEAD
             show_router,
             userPhotoUrl,
             show_upload,
             show_edit_music,
             show_music_introduction,
             show_post_user,
+=======
+            showRouter: showRouter,
+            userPhotoUrl,
+            showUpload: showUpload,
+            showEditMusic: showEditMusic,
+            showMusicIntro: showMusicIntro,
+            showPostUserFlag: showPostUserFlag,
+>>>>>>> e5d9cb31ec52f3b470277d410365bcac437bf419
             music,
             user,
         }

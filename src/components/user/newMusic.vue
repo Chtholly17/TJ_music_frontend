@@ -1,8 +1,8 @@
 <template>
-  <div class="upload">    
+  <div class="upload">
     <el-upload
         class="avatar-uploader"
-        limit="1"   
+        limit="1"
         action="#"
         :on-change="onChangeImage"
         :show-file-list="false"
@@ -11,18 +11,18 @@
       <img v-if="imageUrl" :src="imageUrl" class="avatar" style="width: 150px; height: 150px; border: 2px solid black;" />
       <i v-else class="el-icon-plus avatar-uploader-icon" style="border: 2px solid black;" ></i>
     </el-upload>
-    
+
     <el-form-item label="名称" prop="name" style="margin-top: 20px;">
       <el-input v-model="form.name" placeholder="请输入名称" style="width: 300px;"></el-input>
     </el-form-item>
-    
+
     <el-form-item label="作者" prop="author">
       <el-input v-model="form.author" placeholder="请输入作者" style="width: 300px;"></el-input>
     </el-form-item>
-    
+
     <el-upload label="背景音乐"
         class="avatar-uploader"
-        limit="1"   
+        limit="1"
         action="#"
         :on-change="onChangeMusic"
         :show-file-list="false"
@@ -32,10 +32,10 @@
         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         <div class="el-upload__text">Click to upload</div>
     </el-upload>
-    
+
     <el-upload label="原唱音乐"
         class="avatar-uploader"
-        limit="1"   
+        limit="1"
         action="#"
         :on-change="onChangeMusic"
         :show-file-list="false"
@@ -47,7 +47,7 @@
         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         <div class="el-upload__text">Click to upload</div>
     </el-upload>
-    
+
     <el-form-item label="音乐描述" prop="dis" style="margin-top: 10px;">
       <el-input
         v-model="form.author"
@@ -107,7 +107,7 @@ export default defineComponent({
         { required: true, message: '请输入时长', trigger: 'blur' },
       ],
     };
-    
+
     const imageUrl = ref('https://th.bing.com/th/id/R.466bb61cd7cf4e8b7d9cdf645add1d6e?rik=YRZKRLNWLutoZA&riu=http%3a%2f%2f222.186.12.239%3a10010%2fwmxs_161205%2f002.jpg&ehk=WEy01YhyfNzzQNe1oIqxwgbTnzY7dMfmZZHkqpZB5WI%3d&risl=&pid=ImgRaw&r=0');
     const audioUrl = ref('https://www.runoob.com/try/demo_source/horse.mp3')
     const onChangeImage = (file: any) => {
@@ -117,7 +117,7 @@ export default defineComponent({
       reader.onload = () => {
         imageUrl.value = reader.result as string;
       };
-    }; 
+    };
     const onChangeMusic = (file: any) => {
       console.log(file);
       const reader = new FileReader();
@@ -128,9 +128,9 @@ export default defineComponent({
     };
 
     const submit = () => {
-      console.log(form.value);
+      //console.log(form.value);
     };
- 
+
     return {
       form,
       rules,

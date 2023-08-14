@@ -41,8 +41,9 @@ export const commitUserInfo=async ()=>{
     await submitForm.validate( async (valid: any) => {
         if (valid) {
             try {
-                console.log("提交用户信息")
-                console.log(userinfoData.userinfoForm.newBirthday)
+
+                //console.log("提交用户信息")
+                console.log(userinfoData.userinfoForm.new_birthday)
                 const response = await api.postUserInfo(userinfoData.userinfoForm); // 不能传入submitForm！
                 // console.log(response.data);
             } catch (error: any) {
@@ -73,8 +74,10 @@ export const fetchUserInfo=async ()=>{
     }
 }
 
-export const user_fetchUserImage=async (userId:any)=>{
-    const  response=await api.getUserImage({userStudentNumber:userId})
+
+export const userFetchUserImage=async (user_id:any)=>{
+    const  response=await api.getUserImage({user_student_number:user_id})
+
     return response.data.data
 }
 

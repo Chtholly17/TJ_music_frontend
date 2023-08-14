@@ -50,21 +50,23 @@ export default defineComponent({
                 ElMessage.error(`图片只支持 ${uploadTypes.value.join("、")} 格式!`)
             }
 
-            let pic_form=new FormData();
+            let picForm=new FormData();
 
-            pic_form.append("user_student_number",userId.value);
-            pic_form.append("file",file);
+            picForm.append("user_student_number",userId.value);
+            picForm.append("file",file);
 
+<<<<<<< HEAD
             axios.post(path.baseUrl+path.updateUserImage,pic_form).then(res=>{
+=======
+            axios.post(path.baseUrl+path.update_user_image,picForm).then(res=>{
+>>>>>>> e5d9cb31ec52f3b470277d410365bcac437bf419
 
                delay();
                // console.log("用户头像修改")
                // console.log(res);
                store.state.bar_pic_change=!store.state.bar_pic_change;
             })
-
-
-
+            
             return isLt10M && isExistFileType;
         }
 

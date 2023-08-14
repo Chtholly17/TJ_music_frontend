@@ -20,8 +20,13 @@ public interface UserMapper {
     public User selectUserByStudentNumber(String userStudentNumber);
 
     // select id by student number
+<<<<<<< HEAD
     @Select("select userId from user where userStudentNumber=#{userStudentNumber}")
     public Integer selectIdByStudentNumber(String userStudentNumber);
+=======
+    @Select("select userId from user where user_student_number=#{user_student_number}")
+    public Integer selectIdByStudentNumber(String user_student_number);
+>>>>>>> e5d9cb31ec52f3b470277d410365bcac437bf419
 
     // select user by id
     @Select("select * from user where userId=#{userId}")
@@ -88,7 +93,11 @@ public interface UserMapper {
     public void updateUserPostsCntById(Integer user_posts_cnt, Integer userId);
 
     // get the fans cnt by id
+<<<<<<< HEAD
     @Select("select count(*) from user_follow where user_followed_id=#{userId}")
+=======
+    @Select("select count(*) from userFollow where user_followed_id=#{userId}")
+>>>>>>> e5d9cb31ec52f3b470277d410365bcac437bf419
     public Integer selectFansCntById(Integer userId);
 
     // delete the user by id

@@ -31,13 +31,16 @@ export default {
         function changePassword()
         {
             commitUpdatePassword()
-
         }
 
         onBeforeMount(()=>{
             const store = useStore()
             const count = computed(() => store.getters.getUserID)
+<<<<<<< HEAD
             updatePasswordData.updatePasswordForm.userId=count.value
+=======
+            updatePasswordData.updatePasswordForm.userId = count.value
+>>>>>>> e5d9cb31ec52f3b470277d410365bcac437bf419
         })
 
         return{

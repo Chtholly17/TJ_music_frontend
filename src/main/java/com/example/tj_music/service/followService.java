@@ -73,8 +73,13 @@ public class followService {
 
     // update the user follow cnt by id
     public void updateUserFollowCntById(Integer userId){
+<<<<<<< HEAD
         List<User> follow_list= selectFollowByOwner(userId);
         Integer follow_cnt = follow_list.size();
+=======
+        List<User> followList= selectFollowByOwner(userId);
+        Integer follow_cnt = followList.size();
+>>>>>>> e5d9cb31ec52f3b470277d410365bcac437bf419
         // then update the user follow cnt
         userMapper.updateUserFollowCntById(follow_cnt,userId);
     }
@@ -91,8 +96,13 @@ public class followService {
     // update the user posts cnt by id
     public void updateUserPostsCntById(Integer userId){
         // first get the true posts cnt
+<<<<<<< HEAD
         List<Follow> follow_list= followMapper.selectFollowByTarget(userId);
         Integer posts_cnt = follow_list.size();
+=======
+        List<Follow> followList= followMapper.selectFollowByTarget(userId);
+        Integer posts_cnt = followList.size();
+>>>>>>> e5d9cb31ec52f3b470277d410365bcac437bf419
         // then update the user posts cnt
         userMapper.updateUserPostsCntById( posts_cnt,userId);
     }

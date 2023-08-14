@@ -3,12 +3,12 @@
 
         <div class="cont">
             <div class="left"><!--歌曲图片、歌曲名称、歌手、翻唱-->
-                <el-image class="song-pic" fit="fill" :src="current_song.originPrefaceFilename"/>
+                <el-image class="song-pic" fit="fill" :src="currentSong.originPrefaceFilename"/>
                 <br/>
                 <div class="song-info">
-                    <p>歌手：{{current_song.originAuthor }}</p>
-                    <p>歌曲：{{current_song.originName }}</p>
-                    <!--                    <p>翻唱：{{current_song.cover }}</p>-->
+                    <p>歌手：{{currentSong.originAuthor }}</p>
+                    <p>歌曲：{{currentSong.originName }}</p>
+                    <!--                    <p>翻唱：{{currentSong.cover }}</p>-->
                 </div>
 <!--                <div class="wave">-->
 <!--                    <video loop muted width="250" height="200" id="video">-->
@@ -22,14 +22,14 @@
                 <div class="lyric">
                     <div v-for="(item, index) in lrcData" :key="index">
                         <!--大于当前索引的歌词才能被展示；当前播放的歌词才能被高亮-->
-                        <p v-if="index >=data_index" style="color:black">{{item.words}}</p>
+                        <p v-if="index >=dataIndex" style="color:black">{{item.words}}</p>
 
                     </div>
                 </div>
 
                 <div class="demo-progress">
                     <el-progress :percentage="percentage" striped >
-                        <span>{{time_to_string(duration)}}</span>
+                        <span>{{timeToString(duration)}}</span>
                     </el-progress>
                 </div>
 
@@ -39,7 +39,7 @@
                             <el-icon style="vertical-align: middle">
                                 <User />
                             </el-icon>
-                            <span style="vertical-align: middle">{{cur_mode_text}}</span>
+                            <span style="vertical-align: middle">{{curModeText}}</span>
                         </el-button>
                     </div>
                     <div class="btn">
@@ -51,7 +51,7 @@
                         </el-button>
                     </div>
                     <div class="btn">
-                        <el-button class="sub-btn" type="primary" :disabled=start_isDisabled @click="start">
+                        <el-button class="sub-btn" type="primary" :disabled=startIsDisabled @click="start">
                             <el-icon style="vertical-align: middle">
                                 <Microphone />
                             </el-icon>
@@ -59,7 +59,7 @@
                         </el-button>
                     </div>
                     <div class="btn">
-                        <el-button class="sub-btn" type="primary" :disabled=pause_isDisabled||!startPlaying @click="pause">
+                        <el-button class="sub-btn" type="primary" :disabled=pauseIsDisabled||!startPlaying @click="pause">
                             <el-icon style="vertical-align: middle">
                                 <VideoPause />
                             </el-icon>
@@ -67,7 +67,7 @@
                         </el-button>
                     </div>
                     <div class="btn">
-                        <el-button class="sub-btn" type="primary" @click="enter_song_preview" :disabled=!startPlaying>
+                        <el-button class="sub-btn" type="primary" @click="enterSongPreview" :disabled=!startPlaying>
                             <el-icon style="vertical-align: middle">
                                 <Headset />
                             </el-icon>
@@ -114,18 +114,18 @@ export default {
     setup(){
         const lrcData=ref([]);//歌词数据数组
         const dataWords=ref("");//当前歌词
-        const data_index=ref(0);//当前歌词索引
-        const cur_mode=ref(0);//当前模式（0为伴唱，1为原唱）
-        const cur_mode_text=ref("原唱");//当前模式按钮展示的文字
-        const cur_time=ref(0);//当前时间
+        const dataIndex=ref(0);//当前歌词索引
+        const curMode=ref(0);//当前模式（0为伴唱，1为原唱）
+        const curModeText=ref("原唱");//当前模式按钮展示的文字
+        const curTime=ref(0);//当前时间
         const audio=ref();//audio对象
-        const start_isDisabled=ref(false);//播放按钮是否禁用
-        const pause_isDisabled=ref(false);//暂停按钮是否禁用
+        const startIsDisabled=ref(false);//播放按钮是否禁用
+        const pauseIsDisabled=ref(false);//暂停按钮是否禁用
         const percentage=ref(0);//进度条属性
         const duration=ref(0);//当前歌曲时长
         const wave=ref();//波形图属性
-        const current_song=ref([]);
-        const LRC=ref("");
+        const currentSong=ref([]);
+        const lrc=ref("");
         const recoder = ref();
         const originId = ref(router.currentRoute.value.query.id);
         // console.log("originId",originId.value);
@@ -134,9 +134,9 @@ export default {
         const isPause = ref(false);
 //歌词数据转化为数组
         const formatLrc = () => {
-            if (current_song.value.originLrcFilename) {
+            if (currentSong.value.originLrcFilename) {
                 //在props.originPrefaceFilename去掉前面的path.baseUrl
-                let url = current_song.value.originLrcFilename.replace(path.serverUrl, "");
+                let url = currentSong.value.originLrcFilename.replace(path.serverUrl, "");
                 axios.get(path.baseUrl + url, {
                 }).then((res) => {
                     const strLrc = res.data.split("\n");
@@ -163,7 +163,7 @@ export default {
             return +parts[0] * 60 + +parts[1]; //计算秒
         };
         //秒数时间转换为字符串时间（分+秒）
-        const time_to_string=(time)=>
+        const timeToString=(time)=>
         {
             const minute=Math.floor(time/60);
             const second=Math.floor(time%60);
@@ -180,7 +180,7 @@ export default {
                 {
                     //循环歌词数组，当播放器当前时间第一次小于歌词时间时当前数组下标减一即为当前时间数组所对应歌词下标
                     dataWords.value = lrcData.value[i - 1].words;
-                    data_index.value=i-1;
+                    dataIndex.value=i-1;
                     return i - 1;
                 }
             }
@@ -189,20 +189,20 @@ export default {
 
 
         const chmod = async () => {
-            if(cur_mode.value) {
+            if(curMode.value) {
                 const temp=ref(audio.value.currentTime);
-                cur_mode.value = 0;//切换为伴唱
-                cur_mode_text.value="原唱";
-                audio.value.src = current_song.value.originBgmusicFilename;
+                curMode.value = 0;//切换为伴唱
+                curModeText.value="原唱";
+                audio.value.src = currentSong.value.originBgmusicFilename;
                 audio.value.currentTime=temp.value;
                 if(startPlaying.value)
                     audio.value.play()
             }
             else {
                 const temp=ref(audio.value.currentTime);
-                cur_mode.value = 1;//切换为原唱
-                cur_mode_text.value="伴唱";
-                audio.value.src = current_song.value.originVoiceFilename;
+                curMode.value = 1;//切换为原唱
+                curModeText.value="伴唱";
+                audio.value.src = currentSong.value.originVoiceFilename;
                 audio.value.currentTime=temp.value;
                 if(startPlaying.value)
                     audio.value.play()
@@ -211,9 +211,9 @@ export default {
 
 
         const start = async () => {
-            // console.log(start_isDisabled.value);
-            start_isDisabled.value=true;
-            pause_isDisabled.value=false;
+            // console.log(startIsDisabled.value);
+            startIsDisabled.value=true;
+            pauseIsDisabled.value=false;
             startPlaying.value=true;
             if(isPausing.value === false)
             {
@@ -240,8 +240,8 @@ export default {
             audio.value.pause();
             recoder.value.pause();
             isPausing.value = true;
-            start_isDisabled.value=false;
-            pause_isDisabled.value=true;
+            startIsDisabled.value=false;
+            pauseIsDisabled.value=true;
             wave.value.currentTime=0;
             wave.value.pause();
 
@@ -260,7 +260,7 @@ export default {
             });
         }
 
-        const enter_song_preview = () => {
+        const enterSongPreview = () => {
             //在等待时加载动画
             const loading = ElLoading.service({
                 lock: true,
@@ -318,28 +318,28 @@ export default {
             //form.append("originId","8")
             form.append("originId",router.currentRoute.value.query.id.toString())//获取从music_player来的原唱ID编号
             axios.post(path.baseUrl + path.getOriginByOriginId, form).then((res) => {
-                current_song.value = res.data.data;
+                currentSong.value = res.data.data;
                 formatLrc();
                 audio.value = document.getElementById("audio");
                 wave.value=document.getElementById("video");
-                audio.value.src = current_song.value.originBgmusicFilename;
-                originId.value = current_song.value.originId;
-                // console.log(current_song.value.originId)
+                audio.value.src = currentSong.value.originBgmusicFilename;
+                originId.value = currentSong.value.originId;
+                // console.log(currentSong.value.originId)
                 recoder.value = new Recoder();
             })
         })
 
         return {
-            current_song,
-            LRC,
+            currentSong: currentSong,
+            lrc,
             lrcData,
             dataWords,
-            data_index,
-            cur_mode,
-            cur_mode_text,
-            cur_time,
-            start_isDisabled,
-            pause_isDisabled,
+            dataIndex: dataIndex,
+            curMode: curMode,
+            curModeText: curModeText,
+            curTime: curTime,
+            startIsDisabled: startIsDisabled,
+            pauseIsDisabled: pauseIsDisabled,
             percentage,
             duration,
             startPlaying,
@@ -348,10 +348,10 @@ export default {
             formatLrc,
             formatTime,
             audioTime,
-            enter_song_preview,
+            enterSongPreview: enterSongPreview,
             start,
             pause,
-            time_to_string
+            timeToString: timeToString
         }
 
     }

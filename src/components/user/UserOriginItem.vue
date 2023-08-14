@@ -40,7 +40,7 @@ import {defineProps, ref, getCurrentInstance} from 'vue'
 import axios from "axios";
 import path from "@/service/path";
 const props = defineProps(['originName', 'originAuthor', 'originVoiceFilename', 'originBgmusicFilename', 'originIntroduction', 'originPrefaceFilename', 'originId', 'index'])
-console.log(props)
+// console.log(props)
 let isHover = ref(false)
 const { proxy } = getCurrentInstance()
 const itemMouseOverHandler = () => {

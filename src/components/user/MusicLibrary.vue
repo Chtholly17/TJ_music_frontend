@@ -20,9 +20,9 @@
               <el-text truncated size="large"> <h3> 创建时间</h3>  </el-text>
           </div>
       </div>
-      <music_library_item style="cursor: pointer" v-for="(item,index) in music_library" :key="item"
+      <music_library_item style="cursor: pointer" v-for="(item,index) in musicLibrary" :key="item"
                           :name="item.workName" :score="item.score_ave"
-                          :index="index" :like="item.workLike" :time="item.createTime.substr(0,10)" @click="player_router(item.workId)"></music_library_item>
+                          :index="index" :like="item.workLike" :time="item.createTime.substr(0,10)" @click="playerRouter(item.workId)"></music_library_item>
   </div>
 </template>
 
@@ -36,16 +36,16 @@ export default {
     name: "MusicLibrary",
     components:{music_library_item},
     methods:{
-        player_router(id){
+        playerRouter(id){
             router.push({path: '/music_player',query: {id: id}});
         }
     },
     setup(){
-        const music_library=ref();
+        const musicLibrary=ref();
         onBeforeMount(()=>{
             fetchMusicLibrary().then(res=>{
-                music_library.value=res
-                for (const item of music_library.value) {
+                musicLibrary.value=res
+                for (const item of musicLibrary.value) {
                     item.score_ave=(item.workQualityScore+item.workPreciseScore+item.workPitchScore)/3;
                     item.score_ave=item.score_ave.toFixed(2)
                 }
@@ -53,7 +53,7 @@ export default {
         })
 
         return {
-            music_library
+            musicLibrary: musicLibrary
         }
     }
 }
